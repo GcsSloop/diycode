@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-01 04:42:24
+ * Last modified 2017-02-10 01:22:49
  *
  */
 
@@ -24,7 +24,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.gcssloop.diycode"
+        applicationId "com.gcssloop.diycode_test"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
@@ -42,12 +42,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile project(':diycode-sdk')
 }

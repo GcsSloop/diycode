@@ -19,6 +19,10 @@
 
 package com.gcssloop.diycode_sdk.api;
 
+import android.support.annotation.Nullable;
+
+import com.gcssloop.diycode_sdk.api.bean.Token;
+
 /**
  * 各种 Event，基于 EventBus 3.0
  */
@@ -28,7 +32,25 @@ public class DiycodeEvent {
      * 登录
      */
     public static class LoginEvent {
-        public boolean ok;      // 是否登录成功
+        private boolean ok = false;      // 是否登录成功
+        private Token token;
+
+        public LoginEvent() {
+            this.ok = false;
+            this.token = null;
+        }
+
+        public LoginEvent(@Nullable Token token) {
+            this.ok = true;
+            this.token = token;
+        }
+
+        public boolean isOk() {
+            return ok;
+        }
+        public Token getToken() {
+            return token;
+        }
     }
 
 

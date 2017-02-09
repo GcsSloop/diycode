@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-03 06:28:45
+ * Last modified 2017-02-10 01:22:50
  *
  */
 
-package com.gcssloop.diycode_sdk;
+package com.gcssloop.diycode_test;
 
 import org.junit.Test;
 
@@ -31,11 +31,6 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
-
-    @Test
-    public void test_login_() throws Exception {
         assertEquals(4, 2 + 2);
     }
 }

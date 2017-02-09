@@ -13,19 +13,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-02-03 06:28:45
+  ~ Last modified 2017-02-10 01:22:50
   ~
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gcssloop.diycode_sdk">
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <application android:allowBackup="true" android:label="@string/app_name"
-        android:supportsRtl="true">
-
-    </application>
-
-</manifest>
+<resources>
+    <string name="app_name">diycode-test</string>
+</resources>

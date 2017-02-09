@@ -13,29 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-03 06:28:45
+ * Last modified 2017-02-09 23:33:43
  *
  */
 
-package com.gcssloop.diycode_sdk;
+package com.gcssloop.diycode_sdk.api.utils;
 
-import org.junit.Test;
+public class Constant {
 
-import static org.junit.Assert.*;
+    // 网络相关
+    public static final String baseUrl = "https://diycode.cc/api/v3/";
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
+    // Token
+    public static final String VALUE_CLIENT_ID = "7024a413";
+    public static final String VALUE_CLIENT_SECRET = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
+    public static final String VALUE_GRANT_TYPE = "password";
 
-    @Test
-    public void test_login_() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
 }
