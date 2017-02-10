@@ -31,14 +31,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.gcssloop.diycode_sdk.api.Diycode;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,25 +65,6 @@ public class MainActivity extends AppCompatActivity
 
         CrashHandler.getInstance().init(this);
 
-        final Diycode diycode = Diycode.getInstance()
-                .init(this, "7024a413", "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4");
-
-        Button login_right = (Button) findViewById(R.id.login_right);
-        Button login_error = (Button) findViewById(R.id.login_error);
-
-        login_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                diycode.login("diytest", "slooptest");
-            }
-        });
-
-        login_error.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                diycode.login("diytest", "slooptest1");
-            }
-        });
     }
 
     //--- EventBus ---------------------------------------------------------------------------------
@@ -105,14 +80,6 @@ public class MainActivity extends AppCompatActivity
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginEvent(DiycodeEvent.LoginEvent event) {
-        if (event.isOk()) {
-            Toast.makeText(this, "登录成功：token=" + event.getToken().getAccessToken(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(this, "登录失败：ok="+event.isOk(), Toast.LENGTH_LONG).show();
-        }
-    }
 
     //----------------------------------------------------------------------------------------------
 

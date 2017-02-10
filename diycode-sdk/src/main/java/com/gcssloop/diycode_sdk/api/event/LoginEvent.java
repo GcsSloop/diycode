@@ -38,7 +38,8 @@ import com.gcssloop.diycode_sdk.api.bean.Token;
 public class LoginEvent {
     private boolean ok = false;     // 是否登录成功
     private Token token;            // 令牌
-    private Integer state = -1;          // 状态码
+    private Integer state = -1;     // 状态码
+    private String state_msg = "";  // 状态信息
 
     /**
      * @param state 状态码
@@ -84,5 +85,32 @@ public class LoginEvent {
      */
     public Integer getState() {
         return state;
+    }
+
+    /**
+     * 获得当前状态对应对说明
+     *
+     * @return 说明
+     */
+    public String getStateMsg() {
+        switch (state) {
+            case -1:
+                return "可能是网络未连接";
+            case 200:
+            case 201:
+                return "请求成功，或执行成功。";
+            case 400:
+                return "参数不符合 API 的要求、或者数据格式验证没有通过";
+            case 401:
+                return "用户认证失败，或缺少认证信息，比如 access_token 过期，或没传，可以尝试用 refresh_token 方式获得新的 access_token";
+            case 403:
+                return "当前用户对资源没有操作权限";
+            case 404:
+                return "资源不存在";
+            case 500:
+                return "服务器异常";
+            default:
+                return "未知异常(" + state + ")";
+        }
     }
 }

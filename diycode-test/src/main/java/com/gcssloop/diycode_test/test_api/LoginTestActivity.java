@@ -74,6 +74,7 @@ public class LoginTestActivity extends BaseActivity {
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
             state = state + "成功\n"
                     + "state         = " + event.getState() + "\n"
+                    + "state message = " + event.getStateMsg() + "\n"
                     + "token type    = " + token.getTokenType() + "\n"
                     + "created at    = " + token.getCreatedAt() + "\n"
                     + "expires in    = " + token.getExpiresIn() + "\n"
@@ -83,7 +84,8 @@ public class LoginTestActivity extends BaseActivity {
             Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 
             state = state + "失败\n"
-                    + "state         = " + event.getState() + "\n";
+                    + "state         = " + event.getState() + "\n"
+                    + "state message = " + event.getStateMsg() + "\n";
         }
 
         text_state.setText(state);
