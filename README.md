@@ -1,2 +1,2 @@
 # diycode
-diycode开发记录
+Diycode 的 Android 客户端。
