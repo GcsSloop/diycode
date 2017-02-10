@@ -19,19 +19,29 @@
   ~
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.gcssloop.diycode_test.MainActivity">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/main_list"
-        android:divider="@null"
-        tools:listitem="@layout/item_main"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="5dp">
+
+        <TextView
+            android:id="@+id/item_main_text"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:textSize="20sp"
+            tools:text="测试" />
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

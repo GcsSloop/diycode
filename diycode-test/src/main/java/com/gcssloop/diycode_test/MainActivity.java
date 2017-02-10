@@ -13,20 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-10 01:22:50
+ * Last modified 2017-02-11 00:44:14
  *
  */
 
 package com.gcssloop.diycode_test;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.gcssloop.diycode_test.adapter.CommonAdapter;
+import com.gcssloop.diycode_test.adapter.ViewHolder;
+import com.gcssloop.diycode_test.base.BaseActivity;
+import com.gcssloop.diycode_test.date.MainMenu;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ListView listView = (ListView) findViewById(R.id.main_list);
+
+        assert listView != null;
+        listView.setAdapter(new CommonAdapter<MainMenu.MenuEntity>(this, MainMenu.menu, R.layout.item_main) {
+            @Override
+            public void convert(int position, ViewHolder holder, MainMenu.MenuEntity bean) {
+                TextView textView = holder.getView(R.id.item_main_text);
+                textView.setText(bean.info);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(MainActivity.this, MainMenu.menu.get(position).goClass));
+            }
+        });
     }
 }

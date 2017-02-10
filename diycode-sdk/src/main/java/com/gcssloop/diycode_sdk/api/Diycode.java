@@ -75,9 +75,9 @@ public class Diycode implements DiycodeAPI {
 
     //--- OAuth 认证相关 -------------------------------------------------------------------------
 
-    private static String CLIENT_ID = "";        // 应用 ID
-    private static String CLIENT_SECRET = "";    // 私钥
-    private static String GRANT_TYPE = "password";         // 认证类型(密码)
+    private static String CLIENT_ID = "";           // 应用 ID
+    private static String CLIENT_SECRET = "";       // 私钥
+    private static String GRANT_TYPE = "password";  // 认证类型(密码)
 
 
     //--- 登录相关内容 ----------------------------------------------------------------------------

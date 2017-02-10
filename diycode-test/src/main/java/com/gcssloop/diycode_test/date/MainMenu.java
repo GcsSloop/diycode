@@ -17,20 +17,26 @@
  *
  */
 
-package com.gcssloop.diycode_test;
+package com.gcssloop.diycode_test.date;
 
-import org.junit.Test;
+import com.gcssloop.diycode_test.test_api.LoginTestActivity;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+public class MainMenu {
+    public static List<MenuEntity> menu = new ArrayList<MenuEntity>();
+
+    static{
+        menu.add(new MenuEntity("登录测试(获取 Token )", LoginTestActivity.class)) ;
+    }
+
+    public static class MenuEntity{
+        public String info;
+        public Class<?> goClass;
+        public MenuEntity(String info, Class<?> goClass) {
+            this.info=info;
+            this.goClass=goClass;
+        }
     }
 }

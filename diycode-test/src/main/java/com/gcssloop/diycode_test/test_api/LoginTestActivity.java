@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-10 15:31:04
+ * Last modified 2017-02-11 00:44:14
  *
  */
 
-package com.gcssloop.diycode_sdk.api.utils;
+package com.gcssloop.diycode_test.test_api;
 
-import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-/**
- * 缓存工具类，用于缓存各类数据
- */
-public class CacheUtils {
+import com.gcssloop.diycode_test.R;
 
-    ACache cache;
+public class LoginTestActivity extends AppCompatActivity {
 
-    public CacheUtils(Context context) {
-        cache = ACache.get(context);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_test);
     }
-
-
-    //--- 用户相关 --------------------------------------------------------------------------------
 }
