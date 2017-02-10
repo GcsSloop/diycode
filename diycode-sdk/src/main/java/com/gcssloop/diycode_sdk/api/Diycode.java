@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
+import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
@@ -100,9 +101,9 @@ public class Diycode implements DiycodeAPI {
                 if (response.isSuccessful()) {
                     Token token = response.body();
                     Log.e(TAG, "token: " + token);
-                    EventBus.getDefault().post(new DiycodeEvent.LoginEvent(token));
+                    EventBus.getDefault().post(new  LoginEvent(response.code(), token));
                 } else {
-                    EventBus.getDefault().post(new DiycodeEvent.LoginEvent());
+                    EventBus.getDefault().post(new  LoginEvent(response.code()));
                     Log.e(TAG, "getToken STATUS: " + response.code());
                 }
 
@@ -111,7 +112,7 @@ public class Diycode implements DiycodeAPI {
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
-                EventBus.getDefault().post(new DiycodeEvent.LoginEvent());
+                EventBus.getDefault().post(new LoginEvent(-1));
             }
         });
 

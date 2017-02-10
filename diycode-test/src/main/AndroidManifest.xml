@@ -32,7 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".test_api.LoginTestActivity"></activity>
+        
+        <activity
+            android:name=".test_api.LoginTestActivity"
+            android:parentActivityName="com.gcssloop.diycode_test.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gcssloop.diycode_test.MainActivity" />
+
+        </activity>
     </application>
 
 </manifest>

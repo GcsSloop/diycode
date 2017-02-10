@@ -35,7 +35,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.Diycode;
-import com.gcssloop.diycode_sdk.api.DiycodeEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

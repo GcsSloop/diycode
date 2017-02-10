@@ -19,33 +19,70 @@
 
 package com.gcssloop.diycode_test.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_test.utils.CrashHandler;
 
 
 public class BaseActivity extends AppCompatActivity {
 
+    public static final String client_id = "7024a413";
+    public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
+
+    public Diycode mDiycode;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Title显示当前类名
-        this.setTitle(this.getClass().getSimpleName());
+
+        setTitle();
+
         CrashHandler.getInstance().init(this.getApplicationContext());
+
+        // 初始化 Diycode
+        Diycode.getInstance().init(this.getApplicationContext(), client_id, client_secret);
+
+        // 获取 Diycode
+        mDiycode = Diycode.getInstance();
+
     }
 
-    // 监听重载 ActionBar 左上角按钮事件。
+    /**
+     * 设置 title
+     * 如果 intent 传递了 title，就设置为这个 title
+     * 如果没有传递，则设置为当前类名
+     */
+    private void setTitle() {
+        Intent intent = getIntent();
+        String title = intent.getStringExtra("title");
+        if (null != title) {
+            this.setTitle(title);
+        } else {
+            this.setTitle(this.getClass().getSimpleName());
+        }
+    }
+
+    /**
+     * 监听重载 ActionBar 左上角按钮事件。
+     */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // TODO Auto-generated method stub
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 }

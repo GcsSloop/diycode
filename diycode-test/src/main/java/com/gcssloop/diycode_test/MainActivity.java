@@ -38,6 +38,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle("Diycode测试");
+
         ListView listView = (ListView) findViewById(R.id.main_list);
 
         assert listView != null;
@@ -52,7 +54,7 @@ public class MainActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(MainActivity.this, MainMenu.menu.get(position).goClass));
+                startActivity(new Intent(MainActivity.this, MainMenu.menu.get(position).goClass).putExtra("title", MainMenu.menu.get(position).info));
             }
         });
     }
