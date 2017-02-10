@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-09 23:33:43
+ * Last modified 2017-02-10 15:31:04
  *
  */
 
 package com.gcssloop.diycode_sdk.api.utils;
 
-public class Constant {
+import android.content.Context;
 
-    // 网络相关
-    public static final String baseUrl = "https://diycode.cc/api/v3/";
+/**
+ * 缓存工具类，用于缓存各类数据
+ */
+public class CacheUtils {
 
+
+    ACache cache;
+
+    public CacheUtils(Context context) {
+        cache = ACache.get(context);
+    }
+
+
+    //--- 用户相关 --------------------------------------------------------------------------------
 }

@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity
 
         CrashHandler.getInstance().init(this);
 
-        final Diycode diycode = Diycode.getInstance();
-        diycode.init();
+        final Diycode diycode = Diycode.getInstance()
+                .init(this, "7024a413", "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4");
 
         Button login_right = (Button) findViewById(R.id.login_right);
         Button login_error = (Button) findViewById(R.id.login_error);
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    //--- EventBus ---------------------------------------------------------------------------------
     @Override
     protected void onStart() {
         super.onStart();
@@ -107,12 +108,14 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(DiycodeEvent.LoginEvent event) {
-        if (event.isOk()){
-            Toast.makeText(this, "登录成功：token="+ event.getToken().getAccessToken(),Toast.LENGTH_LONG).show();
+        if (event.isOk()) {
+            Toast.makeText(this, "登录成功：token=" + event.getToken().getAccessToken(), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "登录失败",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "登录失败：ok="+event.isOk(), Toast.LENGTH_LONG).show();
         }
-    };
+    }
+
+    //----------------------------------------------------------------------------------------------
 
     @Override
     public void onBackPressed() {

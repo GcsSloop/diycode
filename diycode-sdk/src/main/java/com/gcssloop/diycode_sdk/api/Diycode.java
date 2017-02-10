@@ -19,11 +19,13 @@
 
 package com.gcssloop.diycode_sdk.api;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
+import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,21 +47,37 @@ public class Diycode implements DiycodeAPI {
 
     private static final Diycode mDiycode = new Diycode();
     private static DiycodeService mDiycodeService;
+    private CacheUtils cacheUtils;
 
-    private Diycode(){};
+    private Diycode() {
+    }
 
-    public void init(){
+    public static Diycode getInstance() {
+        return mDiycode;
+    }
+
+    public Diycode init(@NonNull Context context, @NonNull String client_id, @NonNull String client_secret) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         mDiycodeService = retrofit.create(DiycodeService.class);
+
+        // 缓存工具
+        cacheUtils = new CacheUtils(context);
+
+        // 存储
+        CLIENT_ID = client_id;
+        CLIENT_SECRET = client_secret;
+        return this;
     }
 
-    public static Diycode getInstance(){
-        return mDiycode;
-    }
+    //--- OAuth 认证相关 -------------------------------------------------------------------------
+
+    private static String CLIENT_ID = "";        // 应用 ID
+    private static String CLIENT_SECRET = "";    // 私钥
+    private static String GRANT_TYPE = "password";         // 认证类型(密码)
 
 
     //--- 登录相关内容 ----------------------------------------------------------------------------
@@ -73,8 +91,8 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public void login(@NonNull String user_name, @NonNull String password) {
-        Call<Token> call = mDiycodeService.getToken(Constant.VALUE_CLIENT_ID, Constant.VALUE_CLIENT_SECRET,
-                Constant.VALUE_GRANT_TYPE, user_name, password);
+        Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE,
+                user_name, password);
 
         call.enqueue(new Callback<Token>() {
             @Override
