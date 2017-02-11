@@ -9,10 +9,14 @@
 - [x] API 定义
 - [ ] 逐步实现 API 与 完成实体数据类
       - [x] 登录 API (token)
-      - [ ] token 存取和删除
+      - [x] token存取及清除
+      - [x] 登出API
+      - [ ] 通过 token 获取数据
 - [ ] API 测试
       - [x] 登录 API (token)
-      - [ ] token 存取和删除
+      - [x] token存取及清除
+      - [x] 登出API
+      - [ ] 通过 token 获取数据
 
 
 
