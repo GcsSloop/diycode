@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -40,6 +41,7 @@ import butterknife.OnClick;
 
 public class LoginTestActivity extends BaseActivity {
 
+    CacheUtils cacheUtils;
 
     @BindView(R.id.edit_name)
     EditText name;
@@ -65,6 +67,32 @@ public class LoginTestActivity extends BaseActivity {
         mDiycode.login("diytest", "slooptest1");
     }
 
+    @OnClick(R.id.logout)
+    public void logout(View view) {
+        mDiycode.logout();
+        text_state.setText("登出");
+    }
+
+    @OnClick(R.id.get_token)
+    public void get_token(View view) {
+        Token token = cacheUtils.getToke();
+
+        String state = "当前状态：";
+
+        if (null != token){
+            state = state + "获取缓存token成功\n"
+                    + "token type    = " + token.getTokenType() + "\n"
+                    + "created at    = " + token.getCreatedAt() + "\n"
+                    + "expires in    = " + token.getExpiresIn() + "\n"
+                    + "access token  = " + token.getAccessToken() + "\n"
+                    + "refresh token = " + token.getRefreshToken() + "\n";
+        } else {
+            state = state + "获取缓存token失败\n";
+        }
+
+        text_state.setText(state);
+
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(LoginEvent event) {
@@ -72,7 +100,7 @@ public class LoginTestActivity extends BaseActivity {
         if (event.isOk()) {
             Token token = event.getToken();
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
-            state = state + "成功\n"
+            state = state + "登录成功\n"
                     + "state         = " + event.getState() + "\n"
                     + "state message = " + event.getStateMsg() + "\n"
                     + "token type    = " + token.getTokenType() + "\n"
@@ -83,7 +111,7 @@ public class LoginTestActivity extends BaseActivity {
         } else {
             Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 
-            state = state + "失败\n"
+            state = state + "登录失败\n"
                     + "state         = " + event.getState() + "\n"
                     + "state message = " + event.getStateMsg() + "\n";
         }
@@ -97,6 +125,7 @@ public class LoginTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_test);
         ButterKnife.bind(this);
+        cacheUtils = new CacheUtils(this);
     }
 
     @Override

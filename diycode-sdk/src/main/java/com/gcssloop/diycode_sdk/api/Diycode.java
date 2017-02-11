@@ -91,7 +91,7 @@ public class Diycode implements DiycodeAPI {
      * @param password  密码
      */
     @Override
-    public void login(@NonNull String user_name, @NonNull String password) {
+    public void login(@NonNull final String user_name, @NonNull final String password) {
         Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE,
                 user_name, password);
 
@@ -101,6 +101,10 @@ public class Diycode implements DiycodeAPI {
                 if (response.isSuccessful()) {
                     Token token = response.body();
                     Log.e(TAG, "token: " + token);
+                    // 请求成功后数据缓存起来
+                    cacheUtils.saveLoginInfo(user_name, password);
+                    cacheUtils.saveToken(token);
+
                     EventBus.getDefault().post(new  LoginEvent(response.code(), token));
                 } else {
                     EventBus.getDefault().post(new  LoginEvent(response.code()));
@@ -115,7 +119,6 @@ public class Diycode implements DiycodeAPI {
                 EventBus.getDefault().post(new LoginEvent(-1));
             }
         });
-
     }
 
     /**
@@ -123,7 +126,10 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public void logout() {
-
+        // 清除用户信息
+        cacheUtils.clearLoginInfo();
+        // 清除token
+        cacheUtils.clearToken();
     }
 
 

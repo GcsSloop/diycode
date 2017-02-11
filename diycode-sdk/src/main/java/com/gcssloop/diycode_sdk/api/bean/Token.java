@@ -21,7 +21,9 @@ package com.gcssloop.diycode_sdk.api.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Token {
+import java.io.Serializable;
+
+public class Token implements Serializable {
   @SerializedName("access_token") private String accessToken;
   @SerializedName("token_type") private String tokenType;
   @SerializedName("expires_in") private int expiresIn;
