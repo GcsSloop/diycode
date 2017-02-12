@@ -74,20 +74,15 @@ public class Diycode implements DiycodeAPI {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request originalRequest = chain.request();
-                try {
-                    // 如果当前没有缓存 token 或者请求已经附带 token 了，就不再添加
-                    if (null == getToken() || alreadyHasAuthorizationHeader(originalRequest)) {
-                        return chain.proceed(originalRequest);
-                    }
-                    // 为请求附加 token
-                    Request authorised = originalRequest.newBuilder()
-                            .header(Constant.KEY_TOKEN, Constant.VALUE_TOKEN_PREFIX + getToken().getAccessToken())
-                            .build();
-                    return chain.proceed(authorised);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // 如果当前没有缓存 token 或者请求已经附带 token 了，就不再添加
+                if (null == getToken() || alreadyHasAuthorizationHeader(originalRequest)) {
+                    return chain.proceed(originalRequest);
                 }
-                return chain.proceed(originalRequest);
+                // 为请求附加 token
+                Request authorised = originalRequest.newBuilder()
+                        .header(Constant.KEY_TOKEN, Constant.VALUE_TOKEN_PREFIX + getToken().getAccessToken())
+                        .build();
+                return chain.proceed(authorised);
             }
         };
 
@@ -229,32 +224,27 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public void hello(@Nullable Integer limit) {
-        try {
-            Call<Hello> call = mDiycodeService.hello(limit);
+        Call<Hello> call = mDiycodeService.hello(limit);
 
-            call.enqueue(new Callback<Hello>() {
-                @Override
-                public void onResponse(Call<Hello> call, Response<Hello> response) {
-                    if (response.isSuccessful()) {
-                        Hello hello = response.body();
-                        Log.e(TAG, "hello: " + hello);
-                        EventBus.getDefault().post(new HelloEvent(response.code(), hello));
-                    } else {
-                        Log.e(TAG, "hello state: " + response.code());
-                        EventBus.getDefault().post(new HelloEvent(response.code()));
-                    }
+        call.enqueue(new Callback<Hello>() {
+            @Override
+            public void onResponse(Call<Hello> call, Response<Hello> response) {
+                if (response.isSuccessful()) {
+                    Hello hello = response.body();
+                    Log.e(TAG, "hello: " + hello);
+                    EventBus.getDefault().post(new HelloEvent(response.code(), hello));
+                } else {
+                    Log.e(TAG, "hello state: " + response.code());
+                    EventBus.getDefault().post(new HelloEvent(response.code()));
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Hello> call, Throwable t) {
-                    Log.e(TAG, "hello onFailure: ");
-                    EventBus.getDefault().post(new HelloEvent(-1));
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+            @Override
+            public void onFailure(Call<Hello> call, Throwable t) {
+                Log.e(TAG, "hello onFailure: ");
+                EventBus.getDefault().post(new HelloEvent(-1));
+            }
+        });
     }
 
 
