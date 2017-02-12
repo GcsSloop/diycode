@@ -2,7 +2,7 @@
 
 ## 架构设计
 
-![](https://ww3.sinaimg.cn/large/006tNc79ly1fclifkw7nyj309u06q3yp.jpg)
+![](https://ww2.sinaimg.cn/large/006tNc79ly1fcoclgo2rtj30cz076mxi.jpg)
 
 ## SDK 开发
 
@@ -11,12 +11,14 @@
       - [x] 登录 API (token)
       - [x] token存取及清除
       - [x] 登出API
-      - [ ] 通过 token 获取数据
+      - [x] 通过 token 获取数据
+      - [ ] 获取 topic 列表
 - [ ] API 测试
       - [x] 登录 API (token)
       - [x] token存取及清除
       - [x] 登出API
-      - [ ] 通过 token 获取数据
+      - [x] 通过 token 获取数据
+      - [ ] 获取 topic 列表
 
 
 
