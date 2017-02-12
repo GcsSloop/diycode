@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -40,8 +39,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginTestActivity extends BaseActivity {
-
-    CacheUtils cacheUtils;
 
     @BindView(R.id.edit_name)
     EditText name;
@@ -75,7 +72,7 @@ public class LoginTestActivity extends BaseActivity {
 
     @OnClick(R.id.get_token)
     public void get_token(View view) {
-        Token token = cacheUtils.getToke();
+        Token token = mDiycode.getToken();
 
         String state = "当前状态：";
 
@@ -125,7 +122,6 @@ public class LoginTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_test);
         ButterKnife.bind(this);
-        cacheUtils = new CacheUtils(this);
     }
 
     @Override

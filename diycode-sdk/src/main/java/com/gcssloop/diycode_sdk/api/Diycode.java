@@ -80,6 +80,18 @@ public class Diycode implements DiycodeAPI {
     private static String CLIENT_SECRET = "";       // 私钥
     private static String GRANT_TYPE = "password";  // 认证类型(密码)
 
+    /**
+     * 获取当前缓存的 token
+     * 在用户登录后，token 会缓存下来，用于请求数据。
+     * 在用户登出后，token 会被删除。
+     * (在正常使用情况下，该接口不应该被上层应用调用，可用于调试)
+     *
+     * @return 当前的 token
+     */
+    public Token getToken() {
+        return cacheUtils.getToke();
+    }
+
 
     //--- 登录相关内容 ----------------------------------------------------------------------------
 
@@ -105,9 +117,9 @@ public class Diycode implements DiycodeAPI {
                     cacheUtils.saveLoginInfo(user_name, password);
                     cacheUtils.saveToken(token);
 
-                    EventBus.getDefault().post(new  LoginEvent(response.code(), token));
+                    EventBus.getDefault().post(new LoginEvent(response.code(), token));
                 } else {
-                    EventBus.getDefault().post(new  LoginEvent(response.code()));
+                    EventBus.getDefault().post(new LoginEvent(response.code()));
                     Log.e(TAG, "getToken STATUS: " + response.code());
                 }
 
