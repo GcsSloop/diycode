@@ -54,7 +54,7 @@ public interface DiycodeAPI {
     /**
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉。
      */
-    void delateDevices();
+    void deleteDevices();
 
 
     //--- 测试接口 -------------------------------------------------------------------------------

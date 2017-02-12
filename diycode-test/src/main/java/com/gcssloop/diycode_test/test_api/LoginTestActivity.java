@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.utils.StateDescribe;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -38,6 +39,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+/**
+ * 测试登录以及 token 获取
+ */
 public class LoginTestActivity extends BaseActivity {
 
     @BindView(R.id.edit_name)
@@ -99,7 +104,7 @@ public class LoginTestActivity extends BaseActivity {
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
             state = state + "登录成功\n"
                     + "state         = " + event.getState() + "\n"
-                    + "state message = " + event.getStateMsg() + "\n"
+                    + "state message = " + StateDescribe.getDescribe(event.getState()) + "\n"
                     + "token type    = " + token.getTokenType() + "\n"
                     + "created at    = " + token.getCreatedAt() + "\n"
                     + "expires in    = " + token.getExpiresIn() + "\n"
@@ -110,7 +115,7 @@ public class LoginTestActivity extends BaseActivity {
 
             state = state + "登录失败\n"
                     + "state         = " + event.getState() + "\n"
-                    + "state message = " + event.getStateMsg() + "\n";
+                    + "state message = " + StateDescribe.getDescribe(event.getState()) + "\n";
         }
 
         text_state.setText(state);

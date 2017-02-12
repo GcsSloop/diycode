@@ -20,6 +20,7 @@
 package com.gcssloop.diycode_test.date;
 
 import com.gcssloop.diycode_test.test_api.LoginTestActivity;
+import com.gcssloop.diycode_test.test_api.TokenTestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MainMenu {
 
     static{
         menu.add(new MenuEntity("登录测试(获取 Token )", LoginTestActivity.class)) ;
+        menu.add(new MenuEntity("获取数据测试(Token)", TokenTestActivity.class)) ;
     }
 
     public static class MenuEntity{

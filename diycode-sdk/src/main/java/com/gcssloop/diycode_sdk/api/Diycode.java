@@ -24,7 +24,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
+import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
@@ -32,17 +34,22 @@ import com.gcssloop.diycode_sdk.api.utils.Constant;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static android.content.ContentValues.TAG;
-
 public class Diycode implements DiycodeAPI {
+    public static final String TAG = "GcsDiy";
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
@@ -58,8 +65,42 @@ public class Diycode implements DiycodeAPI {
     }
 
     public Diycode init(@NonNull Context context, @NonNull String client_id, @NonNull String client_secret) {
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        // 为所有请求自动添加 token
+        Interceptor mTokenInterceptor = new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request originalRequest = chain.request();
+                try {
+                    // 如果当前没有缓存 token 或者请求已经附带 token 了，就不再添加
+                    if (null == getToken() || alreadyHasAuthorizationHeader(originalRequest)) {
+                        return chain.proceed(originalRequest);
+                    }
+                    // 为请求附加 token
+                    Request authorised = originalRequest.newBuilder()
+                            .header(Constant.KEY_TOKEN, Constant.VALUE_TOKEN_PREFIX + getToken().getAccessToken())
+                            .build();
+                    return chain.proceed(authorised);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return chain.proceed(originalRequest);
+            }
+        };
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .retryOnConnectionFailure(true)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .addNetworkInterceptor(mTokenInterceptor)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.baseUrl)
+                .baseUrl(Constant.BASE_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -72,6 +113,19 @@ public class Diycode implements DiycodeAPI {
         CLIENT_ID = client_id;
         CLIENT_SECRET = client_secret;
         return this;
+    }
+
+    /**
+     * 判断请求中是否已经有 token 了
+     *
+     * @param originalRequest request
+     * @return 是否有token
+     */
+    private boolean alreadyHasAuthorizationHeader(Request originalRequest) {
+        String token = originalRequest.header(Constant.KEY_TOKEN);
+        // 如果本身是请求 token 的 URL，直接返回 true
+        // 如果不是，则判断 header 中是否已经添加过 Authorization 这个字段，以及是否为空
+        return !(null == token || token.isEmpty() || originalRequest.url().toString().contains(Constant.OAUTH_URL));
     }
 
     //--- OAuth 认证相关 -------------------------------------------------------------------------
@@ -119,8 +173,8 @@ public class Diycode implements DiycodeAPI {
 
                     EventBus.getDefault().post(new LoginEvent(response.code(), token));
                 } else {
+                    Log.e(TAG, "getToken state: " + response.code());
                     EventBus.getDefault().post(new LoginEvent(response.code()));
-                    Log.e(TAG, "getToken STATUS: " + response.code());
                 }
 
             }
@@ -160,7 +214,7 @@ public class Diycode implements DiycodeAPI {
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉。
      */
     @Override
-    public void delateDevices() {
+    public void deleteDevices() {
 
     }
 
@@ -175,6 +229,31 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public void hello(@Nullable Integer limit) {
+        try {
+            Call<Hello> call = mDiycodeService.hello(limit);
+
+            call.enqueue(new Callback<Hello>() {
+                @Override
+                public void onResponse(Call<Hello> call, Response<Hello> response) {
+                    if (response.isSuccessful()) {
+                        Hello hello = response.body();
+                        Log.e(TAG, "hello: " + hello);
+                        EventBus.getDefault().post(new HelloEvent(response.code(), hello));
+                    } else {
+                        Log.e(TAG, "hello state: " + response.code());
+                        EventBus.getDefault().post(new HelloEvent(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Hello> call, Throwable t) {
+                    Log.e(TAG, "hello onFailure: ");
+                    EventBus.getDefault().post(new HelloEvent(-1));
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
