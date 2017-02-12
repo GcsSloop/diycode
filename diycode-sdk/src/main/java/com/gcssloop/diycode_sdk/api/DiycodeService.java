@@ -20,6 +20,7 @@
 package com.gcssloop.diycode_sdk.api;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
+import com.gcssloop.diycode_sdk.api.utils.Constant;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -29,9 +30,12 @@ import retrofit2.http.POST;
 public interface DiycodeService {
 
     /**
-     * 登录获取 Token
+     * 获取 Token
+     * 在登录时调用
      */
-    @POST("https://www.diycode.cc/oauth/token") @FormUrlEncoded Call<Token> getToken(
+    @POST(Constant.OAuthUrl)
+    @FormUrlEncoded
+    Call<Token> getToken(
             @Field("client_id") String client_id, @Field("client_secret") String client_secret,
             @Field("grant_type") String grant_type, @Field("username") String username,
             @Field("password") String password);

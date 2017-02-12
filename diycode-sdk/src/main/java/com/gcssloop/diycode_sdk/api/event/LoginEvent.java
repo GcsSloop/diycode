@@ -61,7 +61,7 @@ public class LoginEvent {
     }
 
     /**
-     * 判断是否请求成功
+     * 判断是否成功
      *
      * @return 是否成功
      */

@@ -23,5 +23,6 @@ public class Constant {
 
     // 网络相关
     public static final String baseUrl = "https://diycode.cc/api/v3/";
+    public static final String OAuthUrl = "https://www.diycode.cc/oauth/token";
 
 }
