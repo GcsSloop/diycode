@@ -13,69 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-11 02:24:31
+ * Last modified 2017-02-13 01:55:05
  *
  */
 
 package com.gcssloop.diycode_sdk.api.event;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import com.gcssloop.diycode_sdk.api.bean.Topic;
 
-import com.gcssloop.diycode_sdk.api.bean.Token;
+import java.util.List;
 
-/**
- * 登录
- */
-public class LoginEvent {
+public class TopicListsEvent {
     private boolean ok = false;     // 是否登录成功
     private Integer state = -1;     // 状态码
-    private Token token;            // 令牌
+    private List<Topic> topics;     // 话题列表
 
-    /**
-     * @param state 状态码
-     */
-    public LoginEvent(@NonNull Integer state) {
+    public TopicListsEvent(Integer state) {
         this.ok = false;
-        this.token = null;
         this.state = state;
     }
 
-    /**
-     * @param state 状态码
-     * @param token 令牌 token
-     */
-    public LoginEvent(@NonNull Integer state, @Nullable Token token) {
+    public TopicListsEvent(Integer state, List<Topic> topics) {
         this.ok = true;
-        this.token = token;
         this.state = state;
+        this.topics = topics;
     }
 
-    /**
-     * 判断是否成功
-     *
-     * @return 是否成功
-     */
     public boolean isOk() {
         return ok;
     }
 
-    /**
-     * 获取 token
-     *
-     * @return token
-     */
-    public Token getToken() {
-        return token;
-    }
-
-    /**
-     * 获取请求状态
-     *
-     * @return 请求状态
-     */
     public Integer getState() {
         return state;
     }
 
+    public List<Topic> getTopics() {
+        return topics;
+    }
 }

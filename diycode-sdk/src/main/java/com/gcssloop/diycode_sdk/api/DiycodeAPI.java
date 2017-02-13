@@ -22,9 +22,16 @@ package com.gcssloop.diycode_sdk.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.event.HelloEvent;
+import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.event.TopicListsEvent;
+
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * API 列表，所有用户可以使用的方法接口
+ */
 public interface DiycodeAPI {
 
     //--- 登录相关内容 ----------------------------------------------------------------------------
@@ -35,6 +42,7 @@ public interface DiycodeAPI {
      *
      * @param user_name 用户名
      * @param password  密码
+     * @see LoginEvent
      */
     void login(@NonNull String user_name, @NonNull String password);
 
@@ -64,6 +72,7 @@ public interface DiycodeAPI {
      * 使用 HelloEvent 接收结果。
      *
      * @param limit 数量极限，值范围[0..100]
+     * @see HelloEvent
      */
     void hello(@Nullable Integer limit);
 
@@ -145,11 +154,13 @@ public interface DiycodeAPI {
     /**
      * 获取 Topics 列表
      *
+     * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
+     * @see TopicListsEvent
      */
-    void getTopics(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
+    void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
 
 
     /**

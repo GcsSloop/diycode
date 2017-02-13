@@ -13,21 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-12 17:39:52
+ * Last modified 2017-02-13 01:07:02
  *
  */
 
 package com.gcssloop.diycode_sdk.api.bean;
 
 /**
- * 测试(测试 token 是否管用)
+ * 用户信息
  */
-public class Hello {
-
-    private int id;             // 当前用户唯一 id
-    private String login;       // 当前用户登录用户名
-    private String name;        // 当前用户昵称
-    private String avatar_url;  // 当前用户的头像链接
+public class User {
+    private int id;             // 唯一 id
+    private String login;       // 登录用户名
+    private String name;        // 昵称
+    private String avatar_url;  // 头像链接
 
     public void setId(int id) {
         this.id = id;
@@ -61,13 +60,4 @@ public class Hello {
         return this.avatar_url;
     }
 
-    @Override
-    public String toString() {
-        return "Hello{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", avatar_url='" + avatar_url + '\'' +
-                '}';
-    }
 }

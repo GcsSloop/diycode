@@ -26,8 +26,10 @@ import android.util.Log;
 
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
+import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.event.TopicListsEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
@@ -36,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -48,6 +51,9 @@ import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+/**
+ * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
+ */
 public class Diycode implements DiycodeAPI {
     public static final String TAG = "GcsDiy";
 
@@ -146,10 +152,11 @@ public class Diycode implements DiycodeAPI {
 
     /**
      * 登录时调用
-     * 返回一个 token，用于获取各类私有信息使用，该 token 用 LoginEvent 接收。
+     * 返回一个 token，用于获取各类私有信息使用
      *
      * @param user_name 用户名
      * @param password  密码
+     * @see LoginEvent
      */
     @Override
     public void login(@NonNull final String user_name, @NonNull final String password) {
@@ -221,6 +228,7 @@ public class Diycode implements DiycodeAPI {
      * 使用 HelloEvent 接收结果。
      *
      * @param limit 数量极限，值范围[0..100]
+     * @see HelloEvent
      */
     @Override
     public void hello(@Nullable Integer limit) {
@@ -342,19 +350,36 @@ public class Diycode implements DiycodeAPI {
 
     }
 
-
     //--- topic ------------------------------------------------------------------------------------
 
     /**
      * 获取 Topics 列表
      *
+     * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
+     * @see TopicListsEvent
      */
     @Override
-    public void getTopics(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+    public void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+        Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
 
+        call.enqueue(new Callback<List<Topic>>() {
+            @Override
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+                if (response.isSuccessful()) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
+
+            }
+        });
     }
 
     /**

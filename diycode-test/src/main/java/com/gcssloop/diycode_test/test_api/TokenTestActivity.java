@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
-import com.gcssloop.diycode_sdk.api.utils.StateDescribe;
+import com.gcssloop.diycode_sdk.api.utils.CodeDescribe;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -57,12 +57,12 @@ public class TokenTestActivity extends BaseActivity {
             toast(hello.toString());
             text_state.setText("当前状态：成功\n"
                     + "state         = " + event.getState() + "\n"
-                    + "state message = " + StateDescribe.getDescribe(event.getState()) + "\n"
+                    + "state message = " + CodeDescribe.getDescribe(event.getState()) + "\n"
                     + hello.toString());
         } else {
             text_state.setText("当前状态：失败\n"
                     + "state         = " + event.getState() + "\n"
-                    + "state message = " + StateDescribe.getDescribe(event.getState()) + "\n");
+                    + "state message = " + CodeDescribe.getDescribe(event.getState()) + "\n");
         }
     }
 

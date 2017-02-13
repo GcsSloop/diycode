@@ -19,64 +19,66 @@
 
 package com.gcssloop.diycode_sdk.api.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
+/**
+ * 令牌
+ */
 public class Token implements Serializable {
-  @SerializedName("access_token") private String accessToken;
-  @SerializedName("token_type") private String tokenType;
-  @SerializedName("expires_in") private int expiresIn;
-  @SerializedName("refresh_token") private String refreshToken;
-  @SerializedName("created_at") private int createdAt;
+    private String accessToken;     // 用户令牌(获取相关数据使用)
+    private String tokenType;       // 令牌类型
+    private int expiresIn;          // 过期时间
+    private String refreshToken;    // 刷新令牌(获取新的令牌)
+    private int createdAt;          // 创建时间
 
-  public String getAccessToken() {
-    return accessToken;
-  }
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-  public String getTokenType() {
-    return tokenType;
-  }
+    public String getTokenType() {
+        return tokenType;
+    }
 
-  public void setTokenType(String tokenType) {
-    this.tokenType = tokenType;
-  }
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
+    }
 
-  public int getExpiresIn() {
-    return expiresIn;
-  }
+    public int getExpiresIn() {
+        return expiresIn;
+    }
 
-  public void setExpiresIn(int expiresIn) {
-    this.expiresIn = expiresIn;
-  }
+    public void setExpiresIn(int expiresIn) {
+        this.expiresIn = expiresIn;
+    }
 
-  public String getRefreshToken() {
-    return refreshToken;
-  }
+    public String getRefreshToken() {
+        return refreshToken;
+    }
 
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
-  public int getCreatedAt() {
-    return createdAt;
-  }
+    public int getCreatedAt() {
+        return createdAt;
+    }
 
-  public void setCreatedAt(int createdAt) {
-    this.createdAt = createdAt;
-  }
+    public void setCreatedAt(int createdAt) {
+        this.createdAt = createdAt;
+    }
 
-  @Override public String toString() {
-    return "Token{" +
-        "accessToken='" + accessToken + '\'' +
-        ", tokenType='" + tokenType + '\'' +
-        ", expiresIn=" + expiresIn +
-        ", refreshToken='" + refreshToken + '\'' +
-        ", createdAt=" + createdAt +
-        '}';
-  }
+    @Override
+    public String toString() {
+        return "Token{" +
+                "accessToken='" + accessToken + '\'' +
+                ", tokenType='" + tokenType + '\'' +
+                ", expiresIn=" + expiresIn +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
