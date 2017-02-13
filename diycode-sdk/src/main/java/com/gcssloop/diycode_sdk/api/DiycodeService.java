@@ -36,8 +36,14 @@ import retrofit2.http.Query;
 public interface DiycodeService {
 
     /**
-     * 获取 Token
-     * 在登录时调用
+     * 获取 Token (一般在登录时调用)
+     *
+     * @param client_id     客户端 id
+     * @param client_secret 客户端私钥
+     * @param grant_type    授权方式
+     * @param username      用户名
+     * @param password      密码
+     * @return Token 实体类
      */
     @POST(Constant.OAUTH_URL)
     @FormUrlEncoded
@@ -48,8 +54,9 @@ public interface DiycodeService {
 
     /**
      * 测试 token 是否正常
+     *
      * @param limit 极限值
-     * @return
+     * @return Hello 实体类
      */
     @GET("hello.json")
     Call<Hello> hello(@Query("limit") Integer limit);
@@ -57,11 +64,12 @@ public interface DiycodeService {
 
     /**
      * 获取 topic 列表
+     *
      * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
-     * @return
+     * @return topic 列表
      */
     @GET("topics.json")
     Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,

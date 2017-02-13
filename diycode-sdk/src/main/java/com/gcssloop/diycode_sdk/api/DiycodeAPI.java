@@ -24,7 +24,7 @@ import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.event.TopicListsEvent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -158,7 +158,7 @@ public interface DiycodeAPI {
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
-     * @see TopicListsEvent
+     * @see GetTopicsEvent
      */
     void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
 

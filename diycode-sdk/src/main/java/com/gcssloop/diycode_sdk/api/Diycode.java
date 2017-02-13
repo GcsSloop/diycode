@@ -29,7 +29,7 @@ import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.event.TopicListsEvent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
@@ -361,7 +361,7 @@ public class Diycode implements DiycodeAPI {
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
-     * @see TopicListsEvent
+     * @see GetTopicsEvent
      */
     @Override
     public void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {

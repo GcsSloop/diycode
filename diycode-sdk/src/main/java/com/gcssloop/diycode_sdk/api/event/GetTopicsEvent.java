@@ -23,17 +23,17 @@ import com.gcssloop.diycode_sdk.api.bean.Topic;
 
 import java.util.List;
 
-public class TopicListsEvent {
+public class GetTopicsEvent {
     private boolean ok = false;     // 是否登录成功
     private Integer state = -1;     // 状态码
     private List<Topic> topics;     // 话题列表
 
-    public TopicListsEvent(Integer state) {
+    public GetTopicsEvent(Integer state) {
         this.ok = false;
         this.state = state;
     }
 
-    public TopicListsEvent(Integer state, List<Topic> topics) {
+    public GetTopicsEvent(Integer state, List<Topic> topics) {
         this.ok = true;
         this.state = state;
         this.topics = topics;
