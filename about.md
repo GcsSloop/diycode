@@ -25,9 +25,11 @@ sdk 的结构非常简单，并没有复杂的结构，主要需要关注以下�
 | bean             | Package (包)    | 实体类合集                                  |
 | event            | Package (包)    | 事件合集(EventBus 3.0)                     |
 
-**为了让逻辑更加清晰，也更方便，sdk 没有设置回调接口(避免多层回调的情况)，所有返回数据均使用 Event 来接收，使用起来非常简单，下面用登录逻辑作为示例：**
+**为了让逻辑更加清晰，也更方便，sdk 没有设置回调接口(避免多层回调的情况)，所有返回数据均使用 Event 来接收，使用起来非常简单，下面用登录逻辑作为示例。**
 
-1. 注册 EventBus
+### 1. 使用示例
+
+1.1 注册 EventBus
 
 ```java
 @Override
@@ -43,7 +45,7 @@ protected void onStop() {
 }
 ```
 
-2. 添加接收事件的方法
+1.2 添加接收事件的方法
 
 ```java
 @Subscribe(threadMode = ThreadMode.MAIN)
@@ -57,7 +59,7 @@ public void onLoginEvent(LoginEvent event) {
 }
 ```
 
-3. 调用登录逻辑
+1.3 调用登录逻辑
 
 ```java
 // 初始化 Diycode, 初始化仅需执行一次，client_id 请到 https://www.diycode.cc/oauth/applications/new 自行申请
@@ -71,9 +73,9 @@ mDiycode.login(name, password);
 
 整个逻辑非常简单，核心代码不到 20 行就能实现登录登录，登录完成后，用户的 token 会被 sdk 缓存起来，在请求其他数据的时候，会自动附加上 token。
 
-### 接口 和 事件
+### 2 事件(Event)
 
-**1. 接口对应的事件命名规则**
+**2.1 接口对应的事件命名规则**
 
 由于所有信息回调都是基于 EventBus 的，为了方便用户知道哪个方法对应的那个事件的回调，所有事件的命名都是非常有规律的，例如：
 
@@ -99,7 +101,7 @@ mDiycode.login(name, password);
 void login(@NonNull String user_name, @NonNull String password);
 ```
 
-**2.事件(Event)的一些特点**
+**2.2 事件(Event)的一些特点**
 
 因为涉及到了网络请求，因此不可能所有的请求都会成功，某些请求会失败，而且失败的情况有很多种，例如：网络没有连接、没有权限，服务器异常等。
 
@@ -111,4 +113,27 @@ void login(@NonNull String user_name, @NonNull String password);
 | event.getCode();         | 获取随着网络传回来的请求码，可以根据请求码判断是哪种情况。  |
 | event.getCodeDescribe(); | 获取该请求码的描述信息。                   |
 
-另外，在网络不好的情况下，可能会出现多次重复请求，之后一次性返回多次请求结果情况，对于这种情况，会为每一次请求添加一个id，用以区分是哪一次的请求的返回结果。
+**2.3 UUID**
+
+> UUID含义是通用唯一识别码 (Universally Unique Identifier)
+
+在网络不好的情况下，可能会出现多次重复请求，之后一次性返回多次请求结果情况，为了应付这种情况，我为每一次请求都添加一个 UUID，以区分是哪一次的请求的返回结果。
+
+你可以在调用方法等同时立即获得 uuid 的数值，同时在接收到的 event 中也能获得，通过对比这两个数值来判断请求结果是否是自己之前的请求。
+
+```java
+// 调用方法时获得的 uuid
+String uuid = mDiycode.hello(null);
+```
+
+```java
+@Subscribe(threadMode = ThreadMode.MAIN)
+public void onHelloEvent(HelloEvent event) {
+  String uuid = event.getUUID();
+}
+```
+
+通过对比这两个 uuid 来判断是哪次的请求结果，防止出现错乱结果，当然了，如果不需要的话，完全可以忽略这个 UUID。
+
+**注意：所有返回值为 String 的方法，返回的内容都是 UUID。**
+
