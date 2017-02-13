@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.utils.CodeDescribe;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -100,11 +99,11 @@ public class LoginTestActivity extends BaseActivity {
     public void onLoginEvent(LoginEvent event) {
         String state = "当前状态：";
         if (event.isOk()) {
-            Token token = event.getToken();
+            Token token = event.getBean();
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
             state = state + "登录成功\n"
-                    + "state         = " + event.getState() + "\n"
-                    + "state message = " + CodeDescribe.getDescribe(event.getState()) + "\n"
+                    + "state         = " + event.getCode() + "\n"
+                    + "state message = " + event.getCodeDescribe() + "\n"
                     + "token type    = " + token.getToken_type() + "\n"
                     + "created at    = " + token.getCreated_at() + "\n"
                     + "expires in    = " + token.getExpires_in() + "\n"
@@ -114,8 +113,8 @@ public class LoginTestActivity extends BaseActivity {
             Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 
             state = state + "登录失败\n"
-                    + "state         = " + event.getState() + "\n"
-                    + "state message = " + CodeDescribe.getDescribe(event.getState()) + "\n";
+                    + "state         = " + event.getCode() + "\n"
+                    + "state message = " + event.getCodeDescribe()+ "\n";
         }
 
         text_state.setText(state);

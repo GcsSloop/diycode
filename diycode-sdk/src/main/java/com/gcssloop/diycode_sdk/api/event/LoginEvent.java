@@ -22,60 +22,14 @@ package com.gcssloop.diycode_sdk.api.event;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 
 /**
  * 登录
  */
-public class LoginEvent {
-    private boolean ok = false;     // 是否登录成功
-    private Integer state = -1;     // 状态码
-    private Token token;            // 令牌
-
-    /**
-     * @param state 状态码
-     */
-    public LoginEvent(@NonNull Integer state) {
-        this.ok = false;
-        this.token = null;
-        this.state = state;
+public class LoginEvent extends BaseEvent<Token> {
+    public LoginEvent(@NonNull Integer code, @Nullable Token token) {
+        super(code, token);
     }
-
-    /**
-     * @param state 状态码
-     * @param token 令牌 token
-     */
-    public LoginEvent(@NonNull Integer state, @Nullable Token token) {
-        this.ok = true;
-        this.token = token;
-        this.state = state;
-    }
-
-    /**
-     * 判断是否成功
-     *
-     * @return 是否成功
-     */
-    public boolean isOk() {
-        return ok;
-    }
-
-    /**
-     * 获取 token
-     *
-     * @return token
-     */
-    public Token getToken() {
-        return token;
-    }
-
-    /**
-     * 获取请求状态
-     *
-     * @return 请求状态
-     */
-    public Integer getState() {
-        return state;
-    }
-
 }

@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-12 17:49:02
+ * Last modified 2017-02-13 23:24:45
  *
  */
 
-package com.gcssloop.diycode_sdk.api.utils;
+package com.gcssloop.diycode_sdk.api.base;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
- * 获取返回码的描述信息
+ * 所有 Event 的基类
+ *
+ * T 为对应的实体类
+ *
  * HTTP Status
  * -1 - 可能是网络未连接
  * 200, 201 - 请求成功，或执行成功
@@ -30,14 +36,49 @@ package com.gcssloop.diycode_sdk.api.utils;
  * 404 - 资源不存在。
  * 500 - 服务器异常
  */
-public class CodeDescribe {
+public class BaseEvent<T> {
+    protected boolean ok = false;       // 是否获取实体类(T)成功
+    protected Integer code = -1;        // 状态码
+    protected T t;                      // 实体类
+
+    public BaseEvent(@NonNull Integer code, @Nullable T t) {
+        ok = null != t;
+        this.code = code;
+        this.t = t;
+    }
+
+    /**
+     * 判断是否获取实体类成功
+     *
+     * @return ok
+     */
+    public boolean isOk() {
+        return ok;
+    }
+
+    /**
+     * 获取实体类
+     * @return 实体类数据(可能为null)
+     */
+    public T getBean(){
+        return t;
+    }
+
+    /**
+     * 判断状态
+     *
+     * @return 状态吗
+     */
+    public Integer getCode() {
+        return code;
+    }
+
     /**
      * 获取返回码详情
      *
-     * @param code 返回码
      * @return 描述信息
      */
-    public static String getDescribe(Integer code) {
+    public String getCodeDescribe() {
         switch (code) {
             case -1:
                 return "可能是网络未连接";

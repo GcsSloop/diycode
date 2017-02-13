@@ -19,33 +19,16 @@
 
 package com.gcssloop.diycode_sdk.api.event;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 
-public class HelloEvent {
-    private boolean ok = false;     // 是否登录成功
-    private Hello hello;            // Hello bean
-    private Integer state = -1;     // 状态码
+public class HelloEvent extends BaseEvent<Hello> {
 
-    public HelloEvent(Integer state) {
-        this.ok = false;
-        this.state = state;
+    public HelloEvent(@NonNull Integer code, @Nullable Hello hello) {
+        super(code, hello);
     }
 
-    public HelloEvent(Integer state, Hello hello) {
-        this.ok = true;
-        this.state = state;
-        this.hello = hello;
-    }
-
-    public boolean isOk() {
-        return ok;
-    }
-
-    public Hello getHello() {
-        return hello;
-    }
-
-    public Integer getState() {
-        return state;
-    }
 }

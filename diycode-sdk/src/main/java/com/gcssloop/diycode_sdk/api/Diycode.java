@@ -178,7 +178,7 @@ public class Diycode implements DiycodeAPI {
                     EventBus.getDefault().post(new LoginEvent(response.code(), token));
                 } else {
                     Log.e(TAG, "getToken state: " + response.code());
-                    EventBus.getDefault().post(new LoginEvent(response.code()));
+                    EventBus.getDefault().post(new LoginEvent(response.code(), null));
                 }
 
             }
@@ -186,7 +186,7 @@ public class Diycode implements DiycodeAPI {
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
-                EventBus.getDefault().post(new LoginEvent(-1));
+                EventBus.getDefault().post(new LoginEvent(-1, null));
             }
         });
     }
@@ -245,14 +245,14 @@ public class Diycode implements DiycodeAPI {
                     EventBus.getDefault().post(new HelloEvent(response.code(), hello));
                 } else {
                     Log.e(TAG, "hello state: " + response.code());
-                    EventBus.getDefault().post(new HelloEvent(response.code()));
+                    EventBus.getDefault().post(new HelloEvent(response.code(), null));
                 }
             }
 
             @Override
             public void onFailure(Call<Hello> call, Throwable t) {
                 Log.e(TAG, "hello onFailure: ");
-                EventBus.getDefault().post(new HelloEvent(-1));
+                EventBus.getDefault().post(new HelloEvent(-1, null));
             }
         });
     }

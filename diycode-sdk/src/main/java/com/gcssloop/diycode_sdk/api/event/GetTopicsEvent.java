@@ -19,35 +19,16 @@
 
 package com.gcssloop.diycode_sdk.api.event;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
 
 import java.util.List;
 
-public class GetTopicsEvent {
-    private boolean ok = false;     // 是否登录成功
-    private Integer state = -1;     // 状态码
-    private List<Topic> topics;     // 话题列表
-
-    public GetTopicsEvent(Integer state) {
-        this.ok = false;
-        this.state = state;
-    }
-
-    public GetTopicsEvent(Integer state, List<Topic> topics) {
-        this.ok = true;
-        this.state = state;
-        this.topics = topics;
-    }
-
-    public boolean isOk() {
-        return ok;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public List<Topic> getTopics() {
-        return topics;
+public class GetTopicsEvent extends BaseEvent<List<Topic>> {
+    public GetTopicsEvent(@NonNull Integer code, @Nullable List<Topic> topics) {
+        super(code, topics);
     }
 }
