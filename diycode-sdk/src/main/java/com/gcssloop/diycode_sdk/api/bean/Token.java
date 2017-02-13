@@ -25,60 +25,61 @@ import java.io.Serializable;
  * 令牌
  */
 public class Token implements Serializable {
-    private String accessToken;     // 用户令牌(获取相关数据使用)
-    private String tokenType;       // 令牌类型
-    private int expiresIn;          // 过期时间
-    private String refreshToken;    // 刷新令牌(获取新的令牌)
-    private int createdAt;          // 创建时间
 
-    public String getAccessToken() {
-        return accessToken;
+    private String access_token;     // 用户令牌(获取相关数据使用)
+    private String token_type;       // 令牌类型
+    private int expires_in;          // 过期时间
+    private String refresh_token;    // 刷新令牌(获取新的令牌)
+    private int created_at;          // 创建时间
+
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
-    public String getTokenType() {
-        return tokenType;
+    public String getToken_type() {
+        return token_type;
     }
 
-    public void setTokenType(String tokenType) {
-        this.tokenType = tokenType;
+    public void setToken_type(String token_type) {
+        this.token_type = token_type;
     }
 
-    public int getExpiresIn() {
-        return expiresIn;
+    public int getExpires_in() {
+        return expires_in;
     }
 
-    public void setExpiresIn(int expiresIn) {
-        this.expiresIn = expiresIn;
+    public void setExpires_in(int expires_in) {
+        this.expires_in = expires_in;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getRefresh_token() {
+        return refresh_token;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
     }
 
-    public int getCreatedAt() {
-        return createdAt;
+    public int getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedAt(int createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(int created_at) {
+        this.created_at = created_at;
     }
 
     @Override
     public String toString() {
         return "Token{" +
-                "accessToken='" + accessToken + '\'' +
-                ", tokenType='" + tokenType + '\'' +
-                ", expiresIn=" + expiresIn +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", createdAt=" + createdAt +
+                "access_token='" + access_token + '\'' +
+                ", token_type='" + token_type + '\'' +
+                ", expires_in=" + expires_in +
+                ", refresh_token='" + refresh_token + '\'' +
+                ", created_at=" + created_at +
                 '}';
     }
 }

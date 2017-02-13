@@ -83,11 +83,11 @@ public class LoginTestActivity extends BaseActivity {
 
         if (null != token){
             state = state + "获取缓存token成功\n"
-                    + "token type    = " + token.getTokenType() + "\n"
-                    + "created at    = " + token.getCreatedAt() + "\n"
-                    + "expires in    = " + token.getExpiresIn() + "\n"
-                    + "access token  = " + token.getAccessToken() + "\n"
-                    + "refresh token = " + token.getRefreshToken() + "\n";
+                    + "token type    = " + token.getToken_type() + "\n"
+                    + "created at    = " + token.getCreated_at() + "\n"
+                    + "expires in    = " + token.getExpires_in() + "\n"
+                    + "access token  = " + token.getAccess_token() + "\n"
+                    + "refresh token = " + token.getRefresh_token() + "\n";
         } else {
             state = state + "获取缓存token失败\n";
         }
@@ -105,11 +105,11 @@ public class LoginTestActivity extends BaseActivity {
             state = state + "登录成功\n"
                     + "state         = " + event.getState() + "\n"
                     + "state message = " + CodeDescribe.getDescribe(event.getState()) + "\n"
-                    + "token type    = " + token.getTokenType() + "\n"
-                    + "created at    = " + token.getCreatedAt() + "\n"
-                    + "expires in    = " + token.getExpiresIn() + "\n"
-                    + "access token  = " + token.getAccessToken() + "\n"
-                    + "refresh token = " + token.getRefreshToken() + "\n";
+                    + "token type    = " + token.getToken_type() + "\n"
+                    + "created at    = " + token.getCreated_at() + "\n"
+                    + "expires in    = " + token.getExpires_in() + "\n"
+                    + "access token  = " + token.getAccess_token() + "\n"
+                    + "refresh token = " + token.getRefresh_token() + "\n";
         } else {
             Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 

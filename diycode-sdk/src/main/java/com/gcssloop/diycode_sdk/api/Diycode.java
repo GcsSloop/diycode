@@ -84,9 +84,11 @@ public class Diycode implements DiycodeAPI {
                 if (null == getToken() || alreadyHasAuthorizationHeader(originalRequest)) {
                     return chain.proceed(originalRequest);
                 }
+                String token = Constant.VALUE_TOKEN_PREFIX + getToken().getAccess_token();
+                Log.e("Header", token);
                 // 为请求附加 token
                 Request authorised = originalRequest.newBuilder()
-                        .header(Constant.KEY_TOKEN, Constant.VALUE_TOKEN_PREFIX + getToken().getAccessToken())
+                        .header(Constant.KEY_TOKEN, token)
                         .build();
                 return chain.proceed(authorised);
             }

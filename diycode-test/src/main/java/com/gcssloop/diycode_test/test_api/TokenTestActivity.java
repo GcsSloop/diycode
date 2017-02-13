@@ -47,7 +47,7 @@ public class TokenTestActivity extends BaseActivity {
 
     @OnClick(R.id.get_hello)
     public void getHello(View view){
-        mDiycode.hello(1);
+        mDiycode.hello(null);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

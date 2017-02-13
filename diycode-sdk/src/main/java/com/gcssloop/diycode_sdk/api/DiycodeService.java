@@ -51,7 +51,7 @@ public interface DiycodeService {
      * @param limit 极限值
      * @return
      */
-    @GET("/hello.json")
+    @GET("hello.json")
     Call<Hello> hello(@Query("limit") Integer limit);
 
 
@@ -63,7 +63,7 @@ public interface DiycodeService {
      * @param limit   数量极限，默认值 20，值范围 1..150
      * @return
      */
-    @GET("/topics.json")
+    @GET("topics.json")
     Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,
                                 @Query("offset") Integer offset, @Query("limit") Integer limit);
 }
