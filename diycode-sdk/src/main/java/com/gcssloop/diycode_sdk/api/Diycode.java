@@ -32,6 +32,7 @@ import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
+import com.gcssloop.diycode_sdk.api.utils.UUIDGenerator;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -161,7 +162,8 @@ public class Diycode implements DiycodeAPI {
      * @see LoginEvent
      */
     @Override
-    public void login(@NonNull final String user_name, @NonNull final String password) {
+    public String login(@NonNull final String user_name, @NonNull final String password) {
+        final String uuid = UUIDGenerator.getUUID();
         Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE,
                 user_name, password);
 
@@ -175,10 +177,10 @@ public class Diycode implements DiycodeAPI {
                     cacheUtils.saveLoginInfo(user_name, password);
                     cacheUtils.saveToken(token);
 
-                    EventBus.getDefault().post(new LoginEvent(response.code(), token));
+                    EventBus.getDefault().post(new LoginEvent(uuid, response.code(), token));
                 } else {
                     Log.e(TAG, "getToken state: " + response.code());
-                    EventBus.getDefault().post(new LoginEvent(response.code(), null));
+                    EventBus.getDefault().post(new LoginEvent(uuid, response.code(), null));
                 }
 
             }
@@ -186,22 +188,24 @@ public class Diycode implements DiycodeAPI {
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
-                EventBus.getDefault().post(new LoginEvent(-1, null));
+                EventBus.getDefault().post(new LoginEvent(uuid, -1, null));
             }
         });
+
+        return uuid;
     }
 
     /**
      * 用户登出
      */
     @Override
-    public void logout() {
+    public String logout() {
         // 清除用户信息
         cacheUtils.clearLoginInfo();
         // 清除token
         cacheUtils.clearToken();
+        return null;
     }
-
 
     /**
      * 更新设备信息
@@ -210,16 +214,18 @@ public class Diycode implements DiycodeAPI {
      * Push 将会忽略那些超过两周的未更新的设备。
      */
     @Override
-    public void updateDevices() {
-
+    public String updateDevices() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉。
      */
     @Override
-    public void deleteDevices() {
-
+    public String deleteDevices() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -233,7 +239,9 @@ public class Diycode implements DiycodeAPI {
      * @see HelloEvent
      */
     @Override
-    public void hello(@Nullable Integer limit) {
+    public String hello(@Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+
         Call<Hello> call = mDiycodeService.hello(limit);
 
         call.enqueue(new Callback<Hello>() {
@@ -242,115 +250,22 @@ public class Diycode implements DiycodeAPI {
                 if (response.isSuccessful()) {
                     Hello hello = response.body();
                     Log.e(TAG, "hello: " + hello);
-                    EventBus.getDefault().post(new HelloEvent(response.code(), hello));
+                    EventBus.getDefault().post(new HelloEvent(uuid, response.code(), hello));
                 } else {
                     Log.e(TAG, "hello state: " + response.code());
-                    EventBus.getDefault().post(new HelloEvent(response.code(), null));
+                    EventBus.getDefault().post(new HelloEvent(uuid, response.code(), null));
                 }
             }
 
             @Override
             public void onFailure(Call<Hello> call, Throwable t) {
                 Log.e(TAG, "hello onFailure: ");
-                EventBus.getDefault().post(new HelloEvent(-1, null));
+                EventBus.getDefault().post(new HelloEvent(uuid, -1, null));
             }
         });
+        return uuid;
     }
 
-
-    //--- like -------------------------------------------------------------------------------------
-
-    /**
-     * 赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     */
-    @Override
-    public void like(@NonNull String obj_type, @NonNull Integer obj_id) {
-
-    }
-
-    /**
-     * 取消之前的赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     */
-    @Override
-    public void unLike(@NonNull String obj_type, @NonNull Integer obj_id) {
-
-    }
-
-
-    //--- news -------------------------------------------------------------------------------------
-
-    /**
-     * 获取 News 列表
-     *
-     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
-     * @param offset  偏移数值，默认值 0
-     * @param limit   数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public void getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
-
-    }
-
-    /**
-     * 创建 News
-     *
-     * @param title   News 标题
-     * @param address News 链接
-     * @param node_id News 节点编号
-     */
-    @Override
-    public void createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id) {
-
-    }
-
-    /**
-     * 获取 News 评论列表
-     *
-     * @param obj_id 编号
-     * @param offset 偏移数值，默认值 0
-     * @param limit  数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public void getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit) {
-
-    }
-
-    /**
-     * 获取 News 评论详情
-     *
-     * @param obj_id 编号
-     */
-    @Override
-    public void getNewsReplyContent(@NonNull Integer obj_id) {
-
-    }
-
-    /**
-     * 更新 News 评论
-     *
-     * @param obj_id 编号
-     * @param body   详情
-     */
-    @Override
-    public void updateNewsReply(@NonNull Integer obj_id, @NonNull String body) {
-
-    }
-
-    /**
-     * 删除 News 评论
-     *
-     * @param obj_id 编号
-     */
-    @Override
-    public void deleteNewsReply(@NonNull Integer obj_id) {
-
-    }
 
     //--- topic ------------------------------------------------------------------------------------
 
@@ -364,7 +279,8 @@ public class Diycode implements DiycodeAPI {
      * @see GetTopicsEvent
      */
     @Override
-    public void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
         Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
 
         call.enqueue(new Callback<List<Topic>>() {
@@ -382,6 +298,7 @@ public class Diycode implements DiycodeAPI {
 
             }
         });
+        return uuid;
     }
 
     /**
@@ -392,8 +309,9 @@ public class Diycode implements DiycodeAPI {
      * @param node_id Topic 节点编号
      */
     @Override
-    public void createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-
+    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -402,8 +320,9 @@ public class Diycode implements DiycodeAPI {
      * @param obj_id
      */
     @Override
-    public void getTopicContent(@NonNull Integer obj_id) {
-
+    public String getTopicContent(@NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -414,8 +333,9 @@ public class Diycode implements DiycodeAPI {
      * @param node_id 节点编号
      */
     @Override
-    public void updateTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-
+    public String updateTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -424,8 +344,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void deleteTopic(@NonNull Integer id) {
-
+    public String deleteTopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -434,8 +355,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void banTopic(@NonNull Integer id) {
-
+    public String banTopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -444,8 +366,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void followTopic(@NonNull Integer id) {
-
+    public String followTopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -454,8 +377,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void unFollowRopic(@NonNull Integer id) {
-
+    public String unFollowRopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -464,8 +388,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void collectionTopic(@NonNull Integer id) {
-
+    public String collectionTopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -474,8 +399,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void unCollectionTopic(@NonNull Integer id) {
-
+    public String unCollectionTopic(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -486,8 +412,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit) {
-
+    public String getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -497,8 +424,9 @@ public class Diycode implements DiycodeAPI {
      * @param body 内容 Markdown 格式
      */
     @Override
-    public void createTopicReplies(@NonNull Integer id, @NonNull String body) {
-
+    public String createTopicReplies(@NonNull Integer id, @NonNull String body) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -510,8 +438,9 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void getReply(@NonNull Integer id) {
-
+    public String getReply(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -521,8 +450,9 @@ public class Diycode implements DiycodeAPI {
      * @param body 帖子详情
      */
     @Override
-    public void postReply(@NonNull Integer id, @NonNull String body) {
-
+    public String postReply(@NonNull Integer id, @NonNull String body) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -531,8 +461,112 @@ public class Diycode implements DiycodeAPI {
      * @param id 编号
      */
     @Override
-    public void deleteReply(@NonNull Integer id) {
+    public String deleteReply(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
+
+    //--- like -------------------------------------------------------------------------------------
+
+    /**
+     * 赞
+     *
+     * @param obj_type 值范围["topic", "reply", "news"]
+     * @param obj_id   唯一id
+     */
+    @Override
+    public String like(@NonNull String obj_type, @NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 取消之前的赞
+     *
+     * @param obj_type 值范围["topic", "reply", "news"]
+     * @param obj_id   唯一id
+     */
+    @Override
+    public String unLike(@NonNull String obj_type, @NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+
+    //--- news -------------------------------------------------------------------------------------
+
+    /**
+     * 获取 News 列表
+     *
+     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
+     * @param offset  偏移数值，默认值 0
+     * @param limit   数量极限，默认值 20，值范围 1..150
+     */
+    @Override
+    public String getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 创建 News
+     *
+     * @param title   News 标题
+     * @param address News 链接
+     * @param node_id News 节点编号
+     */
+    @Override
+    public String createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 获取 News 评论列表
+     *
+     * @param obj_id 编号
+     * @param offset 偏移数值，默认值 0
+     * @param limit  数量极限，默认值 20，值范围 1..150
+     */
+    @Override
+    public String getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 获取 News 评论详情
+     *
+     * @param obj_id 编号
+     */
+    @Override
+    public String getNewsReplyContent(@NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 更新 News 评论
+     *
+     * @param obj_id 编号
+     * @param body   详情
+     */
+    @Override
+    public String updateNewsReply(@NonNull Integer obj_id, @NonNull String body) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
+
+    /**
+     * 删除 News 评论
+     *
+     * @param obj_id 编号
+     */
+    @Override
+    public String deleteNewsReply(@NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -544,8 +578,9 @@ public class Diycode implements DiycodeAPI {
      * @param img_file 图片文件
      */
     @Override
-    public void uploadPhoto(@NonNull File img_file) {
-
+    public String uploadPhoto(@NonNull File img_file) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -555,8 +590,9 @@ public class Diycode implements DiycodeAPI {
      * 获取 sites 列表
      */
     @Override
-    public void getSites() {
-
+    public String getSites() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -568,8 +604,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit 数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getUsers(@NonNull Integer limit) {
-
+    public String getUsers(@NonNull Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -578,8 +615,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 用户名
      */
     @Override
-    public void getUserInfo(@NonNull String username) {
-
+    public String getUserInfo(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -588,8 +626,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 被屏蔽的用户名
      */
     @Override
-    public void blockUser(@NonNull String username) {
-
+    public String blockUser(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -598,8 +637,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 被屏蔽的用户名
      */
     @Override
-    public void unBlockUser(@NonNull String username) {
-
+    public String unBlockUser(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -608,8 +648,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 自己用户名
      */
     @Override
-    public void getBlocked(@NonNull String username) {
-
+    public String getBlocked(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -618,8 +659,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 关注的用户名
      */
     @Override
-    public void followUser(@NonNull String username) {
-
+    public String followUser(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -628,8 +670,9 @@ public class Diycode implements DiycodeAPI {
      * @param username 取消关注的用户名
      */
     @Override
-    public void unFollowUser(@NonNull String username) {
-
+    public String unFollowUser(@NonNull String username) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -640,8 +683,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getFollowers(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
-
+    public String getFollowers(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -652,8 +696,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getFollowing(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
-
+    public String getFollowing(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -665,8 +710,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit    数量极限，默值 20，值范围 1..150
      */
     @Override
-    public void getUserReplies(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
-
+    public String getUserReplies(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -678,8 +724,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getUserTopics(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
-
+    public String getUserTopics(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -690,16 +737,18 @@ public class Diycode implements DiycodeAPI {
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getCollection(@NonNull String username, @Nullable Integer offset, @Nullable String limit) {
-
+    public String getCollection(@NonNull String username, @Nullable Integer offset, @Nullable String limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
      * 获取当前登录者资料
      */
     @Override
-    public void getMe() {
-
+    public String getMe() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
 
@@ -712,8 +761,9 @@ public class Diycode implements DiycodeAPI {
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public void getNotifications(@NonNull Integer offset, @NonNull Integer limit) {
-
+    public String getNotifications(@NonNull Integer offset, @NonNull Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -722,16 +772,18 @@ public class Diycode implements DiycodeAPI {
      * @param id
      */
     @Override
-    public void deleteNotionfition(@NonNull Integer id) {
-
+    public String deleteNotionfition(@NonNull Integer id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
      * 删除当前用户的所有通知
      */
     @Override
-    public void deleteAllNotification() {
-
+    public String deleteAllNotification() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
@@ -740,17 +792,20 @@ public class Diycode implements DiycodeAPI {
      * @param ids id集合
      */
     @Override
-    public void markNotificationAsRead(ArrayList<Integer> ids) {
-
+    public String markNotificationAsRead(ArrayList<Integer> ids) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
 
     /**
      * 获得未读通知的数量
      */
     @Override
-    public void getUnreadNotificationCount() {
-
+    public String getUnreadNotificationCount() {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
     }
+
 
     //--- nodes ------------------------------------------------------------------------------------
     //--- project ----------------------------------------------------------------------------------

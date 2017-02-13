@@ -20,6 +20,7 @@
 package com.gcssloop.diycode_test.test_api;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,7 +47,8 @@ public class TokenTestActivity extends BaseActivity {
 
     @OnClick(R.id.get_hello)
     public void getHello(View view){
-        mDiycode.hello(null);
+        String uuid = mDiycode.hello(null);
+        Log.e("UUDI-hello", uuid);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -55,11 +57,13 @@ public class TokenTestActivity extends BaseActivity {
         if (event.isOk() && null != hello){
             toast(hello.toString());
             text_state.setText("当前状态：成功\n"
+                    + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
                     + "state message = " + event.getCodeDescribe() + "\n"
                     + hello.toString());
         } else {
             text_state.setText("当前状态：失败\n"
+                    + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
                     + "state message = " + event.getCodeDescribe() + "\n");
         }

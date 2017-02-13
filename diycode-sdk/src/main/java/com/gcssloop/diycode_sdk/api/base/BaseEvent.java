@@ -24,9 +24,9 @@ import android.support.annotation.Nullable;
 
 /**
  * 所有 Event 的基类
- *
+ * <p>
  * T 为对应的实体类
- *
+ * <p>
  * HTTP Status
  * -1 - 可能是网络未连接
  * 200, 201 - 请求成功，或执行成功
@@ -37,12 +37,19 @@ import android.support.annotation.Nullable;
  * 500 - 服务器异常
  */
 public class BaseEvent<T> {
-    protected boolean ok = false;       // 是否获取实体类(T)成功
+    protected String uuid = "";         // 通用唯一识别码 (Universally Unique Identifier)
+    protected boolean ok = false;       // 是否获取实体数据(T)成功
     protected Integer code = -1;        // 状态码
     protected T t;                      // 实体类
 
-    public BaseEvent(@NonNull Integer code, @Nullable T t) {
-        ok = null != t;
+    /**
+     * @param uuid 唯一识别码
+     * @param code 网络返回码
+     * @param t    实体数据
+     */
+    public BaseEvent(@Nullable String uuid, @NonNull Integer code, @Nullable T t) {
+        this.ok = null != t;
+        this.uuid = uuid;
         this.code = code;
         this.t = t;
     }
@@ -58,10 +65,21 @@ public class BaseEvent<T> {
 
     /**
      * 获取实体类
+     *
      * @return 实体类数据(可能为null)
      */
-    public T getBean(){
+    public T getBean() {
         return t;
+    }
+
+
+    /**
+     * 获取当前 Event 的 uuid
+     *
+     * @return uuid
+     */
+    public String getUUID() {
+        return uuid;
     }
 
     /**

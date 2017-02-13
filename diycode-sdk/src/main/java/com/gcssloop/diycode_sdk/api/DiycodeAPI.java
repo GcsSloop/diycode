@@ -44,12 +44,12 @@ public interface DiycodeAPI {
      * @param password  密码
      * @see LoginEvent
      */
-    void login(@NonNull String user_name, @NonNull String password);
+    String login(@NonNull String user_name, @NonNull String password);
 
     /**
      * 用户登出
      */
-    void logout();
+    String logout();
 
     /**
      * 更新设备信息
@@ -57,12 +57,12 @@ public interface DiycodeAPI {
      * 请在每次用户打开 App 的时候调用此 API 以便更新 Token 的 last_actived_at 让服务端知道这个设备还活着。
      * Push 将会忽略那些超过两周的未更新的设备。
      */
-    void updateDevices();
+    String updateDevices();
 
     /**
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉。
      */
-    void deleteDevices();
+    String deleteDevices();
 
 
     //--- 测试接口 -------------------------------------------------------------------------------
@@ -74,79 +74,7 @@ public interface DiycodeAPI {
      * @param limit 数量极限，值范围[0..100]
      * @see HelloEvent
      */
-    void hello(@Nullable Integer limit);
-
-
-    //--- like -------------------------------------------------------------------------------------
-
-    /**
-     * 赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     */
-    void like(@NonNull String obj_type, @NonNull Integer obj_id);
-
-
-    /**
-     * 取消之前的赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     */
-    void unLike(@NonNull String obj_type, @NonNull Integer obj_id);
-
-
-    //--- news -------------------------------------------------------------------------------------
-
-    /**
-     * 获取 News 列表
-     *
-     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
-     * @param offset  偏移数值，默认值 0
-     * @param limit   数量极限，默认值 20，值范围 1..150
-     */
-    void getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
-
-    /**
-     * 创建 News
-     *
-     * @param title   News 标题
-     * @param address News 链接
-     * @param node_id News 节点编号
-     */
-    void createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id);
-
-    /**
-     * 获取 News 评论列表
-     *
-     * @param obj_id 编号
-     * @param offset 偏移数值，默认值 0
-     * @param limit  数量极限，默认值 20，值范围 1..150
-     */
-    void getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit);
-
-    /**
-     * 获取 News 评论详情
-     *
-     * @param obj_id 编号
-     */
-    void getNewsReplyContent(@NonNull Integer obj_id);
-
-    /**
-     * 更新 News 评论
-     *
-     * @param obj_id 编号
-     * @param body   详情
-     */
-    void updateNewsReply(@NonNull Integer obj_id, @NonNull String body);
-
-    /**
-     * 删除 News 评论
-     *
-     * @param obj_id 编号
-     */
-    void deleteNewsReply(@NonNull Integer obj_id);
+    String hello(@Nullable Integer limit);
 
 
     //--- topic ------------------------------------------------------------------------------------
@@ -160,7 +88,7 @@ public interface DiycodeAPI {
      * @param limit   数量极限，默认值 20，值范围 1..150
      * @see GetTopicsEvent
      */
-    void getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
+    String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
 
 
     /**
@@ -170,12 +98,12 @@ public interface DiycodeAPI {
      * @param body    Topic 内容
      * @param node_id Topic 节点编号
      */
-    void createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
 
     /**
      * 获取 topic 内容
      */
-    void getTopicContent(@NonNull Integer obj_id);
+    String getTopicContent(@NonNull Integer obj_id);
 
     /**
      * 更新 topic
@@ -184,49 +112,49 @@ public interface DiycodeAPI {
      * @param body    话题内容 Markdown 格式
      * @param node_id 节点编号
      */
-    void updateTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    String updateTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
 
     /**
      * 删除 topic 仅支持删除自己创建的 topic
      *
      * @param id 编号
      */
-    void deleteTopic(@NonNull Integer id);
+    String deleteTopic(@NonNull Integer id);
 
     /**
      * 屏蔽话题，移到 NoPoint 节点 (Admin only)
      *
      * @param id 编号
      */
-    void banTopic(@NonNull Integer id);
+    String banTopic(@NonNull Integer id);
 
     /**
      * 关注话题
      *
      * @param id 编号
      */
-    void followTopic(@NonNull Integer id);
+    String followTopic(@NonNull Integer id);
 
     /**
      * 取消关注话题
      *
      * @param id 编号
      */
-    void unFollowRopic(@NonNull Integer id);
+    String unFollowRopic(@NonNull Integer id);
 
     /**
      * 收藏一个话题
      *
      * @param id 编号
      */
-    void collectionTopic(@NonNull Integer id);
+    String collectionTopic(@NonNull Integer id);
 
     /**
      * 取消收藏一个话题
      *
      * @param id 编号
      */
-    void unCollectionTopic(@NonNull Integer id);
+    String unCollectionTopic(@NonNull Integer id);
 
     /**
      * 获取话题评论列表
@@ -235,7 +163,7 @@ public interface DiycodeAPI {
      * @param offset 偏移数值，默认值 0
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
-    void getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit);
+    String getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit);
 
     /**
      * 创建话题
@@ -243,7 +171,7 @@ public interface DiycodeAPI {
      * @param id   编号
      * @param body 内容 Markdown 格式
      */
-    void createTopicReplies(@NonNull Integer id, @NonNull String body);
+    String createTopicReplies(@NonNull Integer id, @NonNull String body);
 
 
     //--- reply ------------------------------------------------------------------------------------
@@ -253,7 +181,7 @@ public interface DiycodeAPI {
      *
      * @param id 编号
      */
-    void getReply(@NonNull Integer id);
+    String getReply(@NonNull Integer id);
 
     /**
      * 更新回帖
@@ -261,14 +189,86 @@ public interface DiycodeAPI {
      * @param id   编号
      * @param body 帖子详情
      */
-    void postReply(@NonNull Integer id, @NonNull String body);
+    String postReply(@NonNull Integer id, @NonNull String body);
 
     /**
      * 删除回帖
      *
      * @param id 编号
      */
-    void deleteReply(@NonNull Integer id);
+    String deleteReply(@NonNull Integer id);
+
+
+    //--- like -------------------------------------------------------------------------------------
+
+    /**
+     * 赞
+     *
+     * @param obj_type 值范围["topic", "reply", "news"]
+     * @param obj_id   唯一id
+     */
+    String like(@NonNull String obj_type, @NonNull Integer obj_id);
+
+
+    /**
+     * 取消之前的赞
+     *
+     * @param obj_type 值范围["topic", "reply", "news"]
+     * @param obj_id   唯一id
+     */
+    String unLike(@NonNull String obj_type, @NonNull Integer obj_id);
+
+
+    //--- news -------------------------------------------------------------------------------------
+
+    /**
+     * 获取 News 列表
+     *
+     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
+     * @param offset  偏移数值，默认值 0
+     * @param limit   数量极限，默认值 20，值范围 1..150
+     */
+    String getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
+
+    /**
+     * 创建 News
+     *
+     * @param title   News 标题
+     * @param address News 链接
+     * @param node_id News 节点编号
+     */
+    String createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id);
+
+    /**
+     * 获取 News 评论列表
+     *
+     * @param obj_id 编号
+     * @param offset 偏移数值，默认值 0
+     * @param limit  数量极限，默认值 20，值范围 1..150
+     */
+    String getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit);
+
+    /**
+     * 获取 News 评论详情
+     *
+     * @param obj_id 编号
+     */
+    String getNewsReplyContent(@NonNull Integer obj_id);
+
+    /**
+     * 更新 News 评论
+     *
+     * @param obj_id 编号
+     * @param body   详情
+     */
+    String updateNewsReply(@NonNull Integer obj_id, @NonNull String body);
+
+    /**
+     * 删除 News 评论
+     *
+     * @param obj_id 编号
+     */
+    String deleteNewsReply(@NonNull Integer obj_id);
 
 
     //--- photo ------------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ public interface DiycodeAPI {
      *
      * @param img_file 图片文件
      */
-    void uploadPhoto(@NonNull File img_file);
+    String uploadPhoto(@NonNull File img_file);
 
 
     //--- sites ------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ public interface DiycodeAPI {
     /**
      * 获取 sites 列表
      */
-    void getSites();
+    String getSites();
 
 
     //--- user -------------------------------------------------------------------------------------
@@ -296,49 +296,49 @@ public interface DiycodeAPI {
      *
      * @param limit 数量极限，默认值 20，值范围 1..150
      */
-    void getUsers(@NonNull Integer limit);
+    String getUsers(@NonNull Integer limit);
 
     /**
      * 获取用户信息
      *
      * @param username 用户名
      */
-    void getUserInfo(@NonNull String username);
+    String getUserInfo(@NonNull String username);
 
     /**
      * 屏蔽某个用户
      *
      * @param username 被屏蔽的用户名
      */
-    void blockUser(@NonNull String username);
+    String blockUser(@NonNull String username);
 
     /**
      * 取消屏蔽某个用户
      *
      * @param username 被屏蔽的用户名
      */
-    void unBlockUser(@NonNull String username);
+    String unBlockUser(@NonNull String username);
 
     /**
      * 获得被屏蔽的用户列表
      *
      * @param username 自己用户名
      */
-    void getBlocked(@NonNull String username);
+    String getBlocked(@NonNull String username);
 
     /**
      * 关注某个用户
      *
      * @param username 关注的用户名
      */
-    void followUser(@NonNull String username);
+    String followUser(@NonNull String username);
 
     /**
      * 取消关注某个用户
      *
      * @param username 取消关注的用户名
      */
-    void unFollowUser(@NonNull String username);
+    String unFollowUser(@NonNull String username);
 
     /**
      * 获取关注者列表
@@ -346,7 +346,7 @@ public interface DiycodeAPI {
      * @param offset 偏移数值，默认值 0
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
-    void getFollowers(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit);
+    String getFollowers(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit);
 
     /**
      * 获取正在关注的列表
@@ -354,7 +354,7 @@ public interface DiycodeAPI {
      * @param offset 偏移数值，默认值 0
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
-    void getFollowing(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit);
+    String getFollowing(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit);
 
     /**
      * 获取用户创建的回帖列表
@@ -364,7 +364,7 @@ public interface DiycodeAPI {
      * @param offset   偏移数值，默认值 0
      * @param limit    数量极限，默值 20，值范围 1..150
      */
-    void getUserReplies(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit);
+    String getUserReplies(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit);
 
     /**
      * 获取用户相关的话题列表
@@ -374,7 +374,7 @@ public interface DiycodeAPI {
      * @param offset   偏移数值，默认值 0
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
-    void getUserTopics(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit);
+    String getUserTopics(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit);
 
     /**
      * 获取用户收藏的话题列表
@@ -383,12 +383,12 @@ public interface DiycodeAPI {
      * @param offset   偏移数值，默认值 0
      * @param limit    数量极限，默认值 20，值范围 1..150
      */
-    void getCollection(@NonNull String username, @Nullable Integer offset, @Nullable String limit);
+    String getCollection(@NonNull String username, @Nullable Integer offset, @Nullable String limit);
 
     /**
      * 获取当前登录者资料
      */
-    void getMe();
+    String getMe();
 
     //--- notification -----------------------------------------------------------------------------
 
@@ -398,31 +398,31 @@ public interface DiycodeAPI {
      * @param offset 偏移数值，默认值 0
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
-    void getNotifications(@NonNull Integer offset, @NonNull Integer limit);
+    String getNotifications(@NonNull Integer offset, @NonNull Integer limit);
 
     /**
      * 删除用户的某条通知
      *
      * @param id
      */
-    void deleteNotionfition(@NonNull Integer id);
+    String deleteNotionfition(@NonNull Integer id);
 
     /**
      * 删除当前用户的所有通知
      */
-    void deleteAllNotification();
+    String deleteAllNotification();
 
     /**
      * 将某些通知标记为已读
      *
      * @param ids id集合
      */
-    void markNotificationAsRead(ArrayList<Integer> ids);
+    String markNotificationAsRead(ArrayList<Integer> ids);
 
     /**
      * 获得未读通知的数量
      */
-    void getUnreadNotificationCount();
+    String getUnreadNotificationCount();
 
 
     //--- nodes ------------------------------------------------------------------------------------

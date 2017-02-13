@@ -13,28 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-11 02:24:31
+ * Last modified 2017-02-14 00:06:04
  *
  */
 
-package com.gcssloop.diycode_sdk.api.event;
+package com.gcssloop.diycode_sdk.api.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import com.gcssloop.diycode_sdk.api.base.BaseEvent;
-import com.gcssloop.diycode_sdk.api.bean.Token;
+import java.util.UUID;
 
 /**
- * 登录
+ * uud 生成器
  */
-public class LoginEvent extends BaseEvent<Token> {
-    /**
-     * @param uuid  唯一识别码
-     * @param code  网络返回码
-     * @param token 实体数据
-     */
-    public LoginEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
-        super(uuid, code, token);
+public class UUIDGenerator {
+    private UUIDGenerator() {
     }
-}
+
+    public static String getUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    //获得指定数量的UUID  
+    public static String[] getUUID(int number) {
+        if (number < 1) {
+            return null;
+        }
+        String[] ss = new String[number];
+        for (int i = 0; i < number; i++) {
+            ss[i] = getUUID();
+        }
+        return ss;
+    }
+}  

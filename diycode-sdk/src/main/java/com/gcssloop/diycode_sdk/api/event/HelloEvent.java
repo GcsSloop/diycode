@@ -26,9 +26,12 @@ import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 
 public class HelloEvent extends BaseEvent<Hello> {
-
-    public HelloEvent(@NonNull Integer code, @Nullable Hello hello) {
-        super(code, hello);
+    /**
+     * @param uuid  唯一识别码
+     * @param code  网络返回码
+     * @param hello 实体数据
+     */
+    public HelloEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Hello hello) {
+        super(uuid, code, hello);
     }
-
 }

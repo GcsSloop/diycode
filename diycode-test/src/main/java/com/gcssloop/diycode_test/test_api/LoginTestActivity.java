@@ -102,6 +102,7 @@ public class LoginTestActivity extends BaseActivity {
             Token token = event.getBean();
             Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
             state = state + "登录成功\n"
+                    + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
                     + "state message = " + event.getCodeDescribe() + "\n"
                     + "token type    = " + token.getToken_type() + "\n"
@@ -113,6 +114,7 @@ public class LoginTestActivity extends BaseActivity {
             Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 
             state = state + "登录失败\n"
+                    + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
                     + "state message = " + event.getCodeDescribe()+ "\n";
         }
