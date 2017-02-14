@@ -110,8 +110,8 @@ void login(@NonNull String user_name, @NonNull String password);
 | 方法                       | 简介                             |
 | ------------------------ | ------------------------------ |
 | event.isOk();            | 判断是否请求成功，如果事件中包括有实体类，说明实体类不为空。 |
-| event.getCode();         | 获取随着网络传回来的请求码，可以根据请求码判断是哪种情况。  |
-| event.getCodeDescribe(); | 获取该请求码的描述信息。                   |
+| event.getCode();         | 获取随着网络传回来的返回码，可以根据请求码判断是哪种情况。  |
+| event.getCodeDescribe(); | 获取当前返回码的描述信息。                  |
 
 **2.3 UUID**
 
@@ -127,6 +127,7 @@ String uuid = mDiycode.hello(null);
 ```
 
 ```java
+// 接收事件时获取 uuid
 @Subscribe(threadMode = ThreadMode.MAIN)
 public void onHelloEvent(HelloEvent event) {
   String uuid = event.getUUID();
