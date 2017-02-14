@@ -42,6 +42,8 @@ public class BaseEvent<T> {
     protected Integer code = -1;        // 状态码
     protected T t;                      // 实体类
 
+
+
     /**
      * @param uuid 唯一识别码
      * @param code 网络返回码
@@ -52,6 +54,25 @@ public class BaseEvent<T> {
         this.uuid = uuid;
         this.code = code;
         this.t = t;
+    }
+
+    /**
+     * @param uuid 唯一识别码
+     */
+    public BaseEvent(@Nullable String uuid) {
+        this.ok = false;
+        this.uuid = uuid;
+    }
+
+    /**
+     * @param code 网络返回码
+     * @param t    实体数据
+     */
+    public BaseEvent setEvent(@NonNull Integer code, @Nullable T t) {
+        this.ok = null != t;
+        this.code = code;
+        this.t = t;
+        return this;
     }
 
     /**

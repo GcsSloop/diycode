@@ -29,6 +29,14 @@ import com.gcssloop.diycode_sdk.api.bean.Token;
  * 登录
  */
 public class LoginEvent extends BaseEvent<Token> {
+
+    /**
+     * @param uuid 唯一识别码
+     */
+    public LoginEvent(@Nullable String uuid) {
+        super(uuid);
+    }
+
     /**
      * @param uuid  唯一识别码
      * @param code  网络返回码

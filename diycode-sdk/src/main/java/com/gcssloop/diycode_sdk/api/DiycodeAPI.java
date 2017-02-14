@@ -49,7 +49,7 @@ public interface DiycodeAPI {
     /**
      * 用户登出
      */
-    String logout();
+    void logout();
 
     /**
      * 更新设备信息

@@ -26,6 +26,14 @@ import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 
 public class HelloEvent extends BaseEvent<Hello> {
+
+    /**
+     * @param uuid 唯一识别码
+     */
+    public HelloEvent(@Nullable String uuid) {
+        super(uuid);
+    }
+
     /**
      * @param uuid  唯一识别码
      * @param code  网络返回码

@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.gcssloop.diycode_sdk.api.base.BaseCallback;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
@@ -199,12 +200,11 @@ public class Diycode implements DiycodeAPI {
      * 用户登出
      */
     @Override
-    public String logout() {
+    public void logout() {
         // 清除用户信息
         cacheUtils.clearLoginInfo();
         // 清除token
         cacheUtils.clearToken();
-        return null;
     }
 
     /**
@@ -241,28 +241,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String hello(@Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-
         Call<Hello> call = mDiycodeService.hello(limit);
-
-        call.enqueue(new Callback<Hello>() {
-            @Override
-            public void onResponse(Call<Hello> call, Response<Hello> response) {
-                if (response.isSuccessful()) {
-                    Hello hello = response.body();
-                    Log.e(TAG, "hello: " + hello);
-                    EventBus.getDefault().post(new HelloEvent(uuid, response.code(), hello));
-                } else {
-                    Log.e(TAG, "hello state: " + response.code());
-                    EventBus.getDefault().post(new HelloEvent(uuid, response.code(), null));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Hello> call, Throwable t) {
-                Log.e(TAG, "hello onFailure: ");
-                EventBus.getDefault().post(new HelloEvent(uuid, -1, null));
-            }
-        });
+        call.enqueue(new BaseCallback<HelloEvent, Hello>(new HelloEvent(uuid)));
         return uuid;
     }
 
@@ -282,22 +262,7 @@ public class Diycode implements DiycodeAPI {
     public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
-
-        call.enqueue(new Callback<List<Topic>>() {
-            @Override
-            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
-                if (response.isSuccessful()) {
-
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Topic>> call, Throwable t) {
-
-            }
-        });
+        call.enqueue(new BaseCallback<GetTopicsEvent,List<Topic>>(new GetTopicsEvent(uuid)));
         return uuid;
     }
 

@@ -28,6 +28,14 @@ import com.gcssloop.diycode_sdk.api.bean.Topic;
 import java.util.List;
 
 public class GetTopicsEvent extends BaseEvent<List<Topic>> {
+
+    /**
+     * @param uuid 唯一识别码
+     */
+    public GetTopicsEvent(@Nullable String uuid) {
+        super(uuid);
+    }
+
     /**
      * @param uuid   唯一识别码
      * @param code   网络返回码

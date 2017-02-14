@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.api.utils;
 import java.util.UUID;
 
 /**
- * uud 生成器
+ * UUID 生成器
  */
 public class UUIDGenerator {
     private UUIDGenerator() {
