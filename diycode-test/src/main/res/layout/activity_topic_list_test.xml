@@ -62,7 +62,7 @@
                         android:layout_height="36dp"
                         android:background="@null"
                         android:hint="type"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textSize="16sp" />
 
                     <View

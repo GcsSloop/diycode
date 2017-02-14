@@ -19,7 +19,6 @@
 
 package com.gcssloop.diycode_test.test_api;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,10 +33,6 @@ import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.adapter.CommonAdapter;
 import com.gcssloop.diycode_test.adapter.ViewHolder;
 import com.gcssloop.diycode_test.base.BaseActivity;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,20 +45,47 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TopicListTestActivity extends BaseActivity {
+    String[] types = {"last_actived", "recent", "no_reply", "popular", "excellent"};
 
     @BindView(R.id.topic_list)
     ListView topic_list;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+    @BindView(R.id.text_type)
+    TextView text_type;
+
+    @BindView(R.id.text_node_id)
+    TextView text_node_id;
+
+    @BindView(R.id.text_offset)
+    TextView text_offset;
+
+    @BindView(R.id.text_limit)
+    TextView text_limit;
+
 
     @OnClick(R.id.get_topic_list)
     public void GetTopicList(View view) {
-        mDiycode.getTopics(null, null, null, null);
+
+        String type = null;
+        Integer type_id = getIntegetByString(text_type.getText().toString());
+        if (null != type_id && type_id >= 0 && type_id < 5){
+            type = types[type_id];
+        }
+
+        Integer node_id = getIntegetByString(text_node_id.getText().toString());
+        Integer offset = getIntegetByString(text_offset.getText().toString());
+        Integer limit = getIntegetByString(text_limit.getText().toString());
+
+
+        mDiycode.getTopics(type, node_id, offset, limit);
     }
 
+    private Integer getIntegetByString(String str){
+        if (null == str || str.isEmpty()){
+            return null;
+        }
+        return Integer.parseInt(str);
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicList(GetTopicsEvent event) {
@@ -102,46 +124,18 @@ public class TopicListTestActivity extends BaseActivity {
         setContentView(R.layout.activity_topic_list_test);
         ButterKnife.bind(this);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     protected void onStart() {
-        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
+        super.onStart();
         EventBus.getDefault().register(this);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
     protected void onStop() {
-        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        super.onStop();
         EventBus.getDefault().unregister(this);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.disconnect();
-    }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("TopicListTest Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
     }
 }
