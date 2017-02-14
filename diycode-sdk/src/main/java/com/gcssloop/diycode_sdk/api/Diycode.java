@@ -31,7 +31,7 @@ import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
-import com.gcssloop.diycode_sdk.api.utils.CacheUtils;
+import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 import com.gcssloop.diycode_sdk.api.utils.UUIDGenerator;
 
@@ -63,7 +63,7 @@ public class Diycode implements DiycodeAPI {
 
     private static final Diycode mDiycode = new Diycode();
     private static DiycodeService mDiycodeService;
-    private CacheUtils cacheUtils;
+    private CacheUtil cacheUtils;
 
     private Diycode() {
     }
@@ -112,7 +112,7 @@ public class Diycode implements DiycodeAPI {
         mDiycodeService = retrofit.create(DiycodeService.class);
 
         // 缓存工具
-        cacheUtils = new CacheUtils(context);
+        cacheUtils = new CacheUtil(context);
 
         // 存储
         CLIENT_ID = client_id;

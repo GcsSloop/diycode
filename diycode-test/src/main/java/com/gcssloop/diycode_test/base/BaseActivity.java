@@ -19,6 +19,7 @@
 
 package com.gcssloop.diycode_test.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,6 +32,7 @@ import com.gcssloop.diycode_test.utils.CrashHandler;
 
 
 public class BaseActivity extends AppCompatActivity {
+    protected Context mContext;
 
     public static final String client_id = "7024a413";
     public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
@@ -51,6 +53,7 @@ public class BaseActivity extends AppCompatActivity {
         // 获取 Diycode
         mDiycode = Diycode.getInstance();
 
+        mContext = this;
     }
 
     /**

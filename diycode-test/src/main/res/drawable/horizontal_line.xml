@@ -14,15 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-02-11 00:44:14
+  ~ Last modified 2017-02-14 23:39:56
   ~
   -->
 
-<resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#DB3937</color>
-    <color name="colorGray">#666666</color>
-    <color name="colorBlack">#222222</color>
-
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <solid android:color="#222222"/>
+  <corners android:radius="1dp"/>
+</shape>
