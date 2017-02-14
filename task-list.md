@@ -12,13 +12,20 @@
       - [x] token存取及清除
       - [x] 登出API
       - [x] 通过 token 获取数据
-      - [ ] 获取 topic 列表
+      - [x] 获取 topic 列表
+      - [ ] 获取 topic 详情
 - [ ] API 测试
       - [x] 登录 API (token)
       - [x] token存取及清除
       - [x] 登出API
       - [x] 通过 token 获取数据
-      - [ ] 获取 topic 列表
+      - [x] 获取 topic 列表
+      - [ ] 获取 topic 详情
+- [ ] 相关工具
+      - [ ] log 工具
+      - [x] 缓存工具
+      - [x] 时间转换工具
+      - [ ] 完善 Adapter Holder
 
 
 
