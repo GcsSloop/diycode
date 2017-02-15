@@ -26,6 +26,7 @@
       - [ ] log 工具
       - [x] 缓存工具
       - [x] 时间转换工具
+      - [x] UUID生成工具
       - [ ] 完善 Adapter Holder
 
 
