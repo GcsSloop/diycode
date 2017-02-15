@@ -22,6 +22,7 @@ package com.gcssloop.diycode_sdk.api;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
+import com.gcssloop.diycode_sdk.api.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
 import java.util.List;
@@ -31,6 +32,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface DiycodeService {
@@ -74,4 +76,6 @@ public interface DiycodeService {
     @GET("topics.json")
     Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,
                                 @Query("offset") Integer offset, @Query("limit") Integer limit);
+
+    @GET("topics/{id}.json") Call<TopicContent> getTopic(@Path("id") int id);
 }

@@ -28,6 +28,8 @@ import com.gcssloop.diycode_sdk.api.base.BaseCallback;
 import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
+import com.gcssloop.diycode_sdk.api.bean.TopicContent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
@@ -262,7 +264,20 @@ public class Diycode implements DiycodeAPI {
     public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
-        call.enqueue(new BaseCallback<GetTopicsEvent,List<Topic>>(new GetTopicsEvent(uuid)));
+        call.enqueue(new BaseCallback<GetTopicsEvent, List<Topic>>(new GetTopicsEvent(uuid)));
+        return uuid;
+    }
+
+    /**
+     * 获取 topic 内容
+     *
+     * @param obj_id
+     */
+    @Override
+    public String getTopicContent(@NonNull Integer obj_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        Call<TopicContent> call = mDiycodeService.getTopic(obj_id);
+        call.enqueue(new BaseCallback<GetTopicContentEvent, TopicContent>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
 
@@ -275,17 +290,6 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取 topic 内容
-     *
-     * @param obj_id
-     */
-    @Override
-    public String getTopicContent(@NonNull Integer obj_id) {
         final String uuid = UUIDGenerator.getUUID();
         return uuid;
     }

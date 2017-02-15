@@ -62,13 +62,12 @@ public class TopicListTestActivity extends BaseActivity {
     @BindView(R.id.text_limit)
     TextView text_limit;
 
-
     @OnClick(R.id.get_topic_list)
     public void GetTopicList(View view) {
 
         String type = null;
         Integer type_id = getIntegetByString(text_type.getText().toString());
-        if (null != type_id && type_id >= 0 && type_id < 5){
+        if (null != type_id && type_id >= 0 && type_id < 5) {
             type = types[type_id];
         }
 
@@ -76,45 +75,49 @@ public class TopicListTestActivity extends BaseActivity {
         Integer offset = getIntegetByString(text_offset.getText().toString());
         Integer limit = getIntegetByString(text_limit.getText().toString());
 
-
         mDiycode.getTopics(type, node_id, offset, limit);
     }
 
-    private Integer getIntegetByString(String str){
-        if (null == str || str.isEmpty()){
+    private Integer getIntegetByString(String str) {
+        if (null == str || str.isEmpty()) {
             return null;
         }
-        return Integer.parseInt(str);
+        try {
+            return Integer.parseInt(str);
+        } catch (Exception e) {
+            return null;
+        }
     }
+
+    private CommonAdapter<Topic> mAdapter;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicList(GetTopicsEvent event) {
         if (event.isOk()) {
             List<Topic> topics = event.getBean();
-            topic_list.setAdapter(new CommonAdapter<Topic>(this, topics, R.layout.item_topic) {
-                /**
-                 * 需要处理的部分，在这里给View设置值
-                 *
-                 * @param position
-                 * @param holder   ViewHolder
-                 * @param bean     数据集
-                 */
-                @Override
-                public void convert(int position, ViewHolder holder, Topic bean) {
-                    ImageView img_avatar = holder.getView(R.id.img_avatar);
-                    Glide.with(mContext).load(bean.getUser().getAvatar_url()).into(img_avatar);
+            if (null == mAdapter){
+                mAdapter = new CommonAdapter<Topic>(this, topics, R.layout.item_topic) {
+                    @Override
+                    public void convert(int position, ViewHolder holder, Topic bean) {
+                        ImageView img_avatar = holder.getView(R.id.img_avatar);
+                        Glide.with(mContext).load(bean.getUser().getAvatar_url()).into(img_avatar);
 
-                    TextView text_username = holder.getView(R.id.text_username);
-                    text_username.setText(bean.getUser().getLogin());
+                        TextView text_username = holder.getView(R.id.text_username);
+                        text_username.setText(bean.getUser().getLogin());
 
-                    TextView text_time = holder.getView(R.id.text_time);
-                    String time = TimeUtil.computePastTime(bean.getUpdated_at());
-                    text_time.setText(time);
+                        TextView text_time = holder.getView(R.id.text_time);
+                        String time = TimeUtil.computePastTime(bean.getUpdated_at());
+                        text_time.setText(time);
 
-                    TextView text_title = holder.getView(R.id.text_title);
-                    text_title.setText(bean.getTitle());
-                }
-            });
+                        TextView text_title = holder.getView(R.id.text_title);
+                        text_title.setText(bean.getTitle());
+                    }
+
+                };
+                topic_list.setAdapter(mAdapter);
+            } else {
+                mAdapter.addDatas(topics);
+            }
         }
     }
 
@@ -136,6 +139,5 @@ public class TopicListTestActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-
     }
 }

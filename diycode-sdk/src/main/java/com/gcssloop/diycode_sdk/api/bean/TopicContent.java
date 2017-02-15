@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-13 01:08:43
+ * Last modified 2017-02-15 09:41:40
  *
  */
 
 package com.gcssloop.diycode_sdk.api.bean;
 
 /**
- * topic 简略信息
+ * Topic 详情
  */
-public class Topic {
+public class TopicContent {
     private int id;                         // 唯一 id
     private String title;                   // 标题
     private String created_at;              // 创建时间
@@ -37,6 +37,12 @@ public class Topic {
     private boolean deleted;                // 是否是被删除的
     private boolean excellent;              // 是否是加精的
     private Abilities abilities;            // 当前用户对该话题拥有的权限
+    private String body;                    // 话题详情(Markdown格式)
+    private String body_html;               // 话题详情(HTML 格式)
+    private int hits;                       // 浏览次数
+    private int likes_count;                // 喜欢的人数
+    private String suggested_at;            // 置顶(推荐)时间
+
 
     public void setId(int id) {
         this.id = id;
@@ -148,6 +154,46 @@ public class Topic {
 
     public Abilities getAbilities() {
         return this.abilities;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getBody() {
+        return this.body;
+    }
+
+    public void setBody_html(String body_html) {
+        this.body_html = body_html;
+    }
+
+    public String getBody_html() {
+        return this.body_html;
+    }
+
+    public void setHits(int hits) {
+        this.hits = hits;
+    }
+
+    public int getHits() {
+        return this.hits;
+    }
+
+    public void setLikes_count(int likes_count) {
+        this.likes_count = likes_count;
+    }
+
+    public int getLikes_count() {
+        return this.likes_count;
+    }
+
+    public void setSuggested_at(String suggested_at) {
+        this.suggested_at = suggested_at;
+    }
+
+    public String getSuggested_at() {
+        return this.suggested_at;
     }
 
 }

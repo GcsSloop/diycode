@@ -90,6 +90,10 @@ public interface DiycodeAPI {
      */
     String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
 
+    /**
+     * 获取 topic 内容
+     */
+    String getTopicContent(@NonNull Integer obj_id);
 
     /**
      * 创建 Topic
@@ -100,10 +104,6 @@ public interface DiycodeAPI {
      */
     String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
 
-    /**
-     * 获取 topic 内容
-     */
-    String getTopicContent(@NonNull Integer obj_id);
 
     /**
      * 更新 topic
