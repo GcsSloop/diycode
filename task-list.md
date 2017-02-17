@@ -21,7 +21,8 @@
       - [x] 登出API
       - [x] 通过 token 获取数据
       - [x] 获取 topic 列表
-      - [ ] 获取 topic 详情
+      - [x] 获取 topic 详情
+      - [ ] 创建 topic
 - [ ] 相关工具
       - [ ] log 工具
       - [x] 缓存工具
