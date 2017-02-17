@@ -22,6 +22,7 @@ package com.gcssloop.diycode_sdk.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
@@ -92,8 +93,11 @@ public interface DiycodeAPI {
 
     /**
      * 获取 topic 内容
+     *
+     * @param id topic 的 id
+     * @see GetTopicContentEvent
      */
-    String getTopicContent(@NonNull Integer obj_id);
+    String getTopicContent(@NonNull Integer id);
 
     /**
      * 创建 Topic

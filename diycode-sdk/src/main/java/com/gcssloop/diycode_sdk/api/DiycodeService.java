@@ -77,5 +77,10 @@ public interface DiycodeService {
     Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,
                                 @Query("offset") Integer offset, @Query("limit") Integer limit);
 
+    /**
+     * 获取 topic 内容
+     * @param id topic 的 id
+     * @return 内容详情
+     */
     @GET("topics/{id}.json") Call<TopicContent> getTopic(@Path("id") int id);
 }

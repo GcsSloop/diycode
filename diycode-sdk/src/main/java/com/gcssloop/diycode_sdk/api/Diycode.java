@@ -271,12 +271,13 @@ public class Diycode implements DiycodeAPI {
     /**
      * 获取 topic 内容
      *
-     * @param obj_id
+     * @param id topic 的 id
+     * @see GetTopicContentEvent
      */
     @Override
-    public String getTopicContent(@NonNull Integer obj_id) {
+    public String getTopicContent(@NonNull Integer id) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mDiycodeService.getTopic(obj_id);
+        Call<TopicContent> call = mDiycodeService.getTopic(id);
         call.enqueue(new BaseCallback<GetTopicContentEvent, TopicContent>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
@@ -777,5 +778,7 @@ public class Diycode implements DiycodeAPI {
 
 
     //--- nodes ------------------------------------------------------------------------------------
+
+
     //--- project ----------------------------------------------------------------------------------
 }
