@@ -37,10 +37,10 @@
         <EditText
             android:id="@+id/edit_id"
             android:layout_width="0dp"
-            android:inputType="number"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btn_get_content"
@@ -60,8 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="8dp">
 
             <ImageView
@@ -100,21 +98,21 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
-            <us.feras.mdv.MarkdownView
+            <com.mukesh.MarkdownView
                 android:id="@+id/markdown_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/text_title"
-                android:layout_marginTop="10dp" />
+                android:layout_below="@id/text_title" />
 
             <TextView
                 android:id="@+id/text_reply_count"
-                tools:text="共收到0条回复"
-                android:textColor="@color/colorGray"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/markdown_body"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/markdown_body"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorGray"
+                tools:text="共收到0条回复" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

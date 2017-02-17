@@ -31,6 +31,7 @@ import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
+import com.mukesh.MarkdownView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +40,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import us.feras.mdv.MarkdownView;
 
 public class TopicContentTestActivity extends BaseActivity {
 
@@ -65,7 +65,7 @@ public class TopicContentTestActivity extends BaseActivity {
     TextView text_reply_count;
 
     @OnClick(R.id.btn_get_content)
-    public void getContent(View view){
+    public void getContent(View view) {
         String id = edit_id.getText().toString();
         mDiycode.getTopicContent(getIntegetByString(id, 604));
     }
@@ -90,9 +90,9 @@ public class TopicContentTestActivity extends BaseActivity {
             text_username.setText(topicContent.getUser().getLogin());
             text_time.setText(TimeUtil.computePastTime(topicContent.getUpdated_at()));
             text_title.setText(topicContent.getTitle());
-            text_reply_count.setText("共收到"+topicContent.getReplies_count()+"条回复");
-
-            markdown_body.loadMarkdown(topicContent.getBody(),"file:///android_asset/classic.css");
+            text_reply_count.setText("共收到" + topicContent.getReplies_count() + "条回复");
+            markdown_body.setMarkDownText(topicContent.getBody());
+            // web_body.loadDataWithBaseURL(null, topicContent.getBody_html(), "text/html", "utf-8", null);
         } else {
             toast("获取失败");
         }
