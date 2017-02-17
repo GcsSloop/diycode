@@ -1,4 +1,5 @@
-# diycode
+<h1 align="center">diycode</h1>
+
 Diycode 开发计划，围绕 Diycode Android 客户端进行的开发计划，该计划包括：
 
 ### diycode-sdk 的开发
