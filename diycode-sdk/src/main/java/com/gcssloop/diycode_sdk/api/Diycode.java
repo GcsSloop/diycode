@@ -29,7 +29,9 @@ import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.bean.TopicContent;
+import com.gcssloop.diycode_sdk.api.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicRepliesEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
@@ -382,8 +384,10 @@ public class Diycode implements DiycodeAPI {
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
     @Override
-    public String getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit) {
+    public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
+        Call<TopicReply> call = mDiycodeService.getTopicReplies(id, offset, limit);
+        call.enqueue(new BaseCallback<GetTopicRepliesEvent, TopicReply>(new GetTopicRepliesEvent(uuid)));
         return uuid;
     }
 

@@ -23,6 +23,7 @@ import com.gcssloop.diycode_sdk.api.bean.Hello;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.bean.TopicContent;
+import com.gcssloop.diycode_sdk.api.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 
 import java.util.List;
@@ -79,8 +80,23 @@ public interface DiycodeService {
 
     /**
      * 获取 topic 内容
+     *
      * @param id topic 的 id
      * @return 内容详情
      */
-    @GET("topics/{id}.json") Call<TopicContent> getTopic(@Path("id") int id);
+    @GET("topics/{id}.json")
+    Call<TopicContent> getTopic(@Path("id") int id);
+
+
+    /**
+     * 获取 topic 回复列表
+     *
+     * @param id     topic 的 id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
+     * @return 回复列表
+     */
+    @GET("topics/{id}/replies.json")
+    Call<TopicReply> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
+                                     @Query("limit") Integer limit);
 }
