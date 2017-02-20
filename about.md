@@ -8,7 +8,15 @@
 | diycode-test | 测试，对sdk中各类方法进行测试，同时也是简单的调用示例。 |
 | diycode-app  | 应用，完整的应用，主要负责UI方面内容。          |
 
+## 架构设计
 
+**整体结构：**
+
+![](https://ww2.sinaimg.cn/large/006tNc79ly1fcoclgo2rtj30cz076mxi.jpg)
+
+**diycoode-sdk结构：**
+
+![](https://ww2.sinaimg.cn/large/006tKfTcly1fcvoedie5vj30ea0aamxj.jpg)
 
 ## diycode-sdk 
 

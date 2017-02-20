@@ -1,14 +1,5 @@
 # 任务列表
 
-## 架构设计
-
-**整体结构：**
-
-![](https://ww2.sinaimg.cn/large/006tNc79ly1fcoclgo2rtj30cz076mxi.jpg)
-
-**diycoode-sdk结构：**
-
-![](https://ww2.sinaimg.cn/large/006tKfTcly1fcvoedie5vj30ea0aamxj.jpg)
 
 ## SDK 开发
 
