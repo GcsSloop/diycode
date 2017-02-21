@@ -246,7 +246,7 @@ public class Diycode implements DiycodeAPI {
     public String hello(@Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<Hello> call = mDiycodeService.hello(limit);
-        call.enqueue(new BaseCallback<HelloEvent, Hello>(new HelloEvent(uuid)));
+        call.enqueue(new BaseCallback<Hello>(new HelloEvent(uuid)));
         return uuid;
     }
 
@@ -266,7 +266,7 @@ public class Diycode implements DiycodeAPI {
     public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
-        call.enqueue(new BaseCallback<GetTopicsEvent, List<Topic>>(new GetTopicsEvent(uuid)));
+        call.enqueue(new BaseCallback<List<Topic>>(new GetTopicsEvent(uuid)));
         return uuid;
     }
 
@@ -280,7 +280,7 @@ public class Diycode implements DiycodeAPI {
     public String getTopicContent(@NonNull Integer id) {
         final String uuid = UUIDGenerator.getUUID();
         Call<TopicContent> call = mDiycodeService.getTopic(id);
-        call.enqueue(new BaseCallback<GetTopicContentEvent, TopicContent>(new GetTopicContentEvent(uuid)));
+        call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
 
@@ -387,7 +387,7 @@ public class Diycode implements DiycodeAPI {
     public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
-        call.enqueue(new BaseCallback<GetTopicRepliesEvent, List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
+        call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
         return uuid;
     }
 

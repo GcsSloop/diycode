@@ -27,10 +27,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BaseCallback<Event extends BaseEvent<T>, T> implements Callback<T> {
-    Event event;
+public class BaseCallback<T> implements Callback<T> {
+    BaseEvent<T> event;
 
-    public BaseCallback(@NonNull Event event) {
+    public <Event extends BaseEvent<T>> BaseCallback(@NonNull Event event) {
         this.event = event;
     }
 
