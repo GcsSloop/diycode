@@ -20,10 +20,12 @@
 package com.gcssloop.diycode_test.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class ViewHolder {
 
@@ -81,5 +83,22 @@ public class ViewHolder {
      */
     public View getConvertView() {
         return mConvertView;
+    }
+
+    /**
+     * 设置文本
+     *
+     * @param res_id view 的 id
+     * @param text   文本内容
+     * @return 是否成功
+     */
+    public boolean setText(@NonNull int res_id, String text) {
+        try {
+            TextView textView = getView(res_id);
+            textView.setText(text);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

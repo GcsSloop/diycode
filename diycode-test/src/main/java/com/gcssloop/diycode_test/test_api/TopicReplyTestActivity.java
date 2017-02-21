@@ -36,7 +36,7 @@ public class TopicReplyTestActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicReplies(GetTopicRepliesEvent event) {
-        
+
     }
 
     @Override
