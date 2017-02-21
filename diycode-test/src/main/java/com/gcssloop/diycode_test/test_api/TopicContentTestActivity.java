@@ -31,6 +31,7 @@ import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
+import com.gcssloop.diycode_test.utils.ConvertUtil;
 import com.mukesh.MarkdownView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -66,20 +67,10 @@ public class TopicContentTestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_get_content)
     public void getContent(View view) {
-        String id = edit_id.getText().toString();
-        mDiycode.getTopicContent(getIntegetByString(id, 604));
+        mDiycode.getTopicContent(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604));
     }
 
-    private Integer getIntegetByString(String str, Integer default_value) {
-        if (null == str || str.isEmpty()) {
-            return default_value;
-        }
-        try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return default_value;
-        }
-    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicContent(GetTopicContentEvent event) {

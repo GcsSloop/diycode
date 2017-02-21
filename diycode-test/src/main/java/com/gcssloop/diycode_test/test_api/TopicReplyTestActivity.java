@@ -20,23 +20,82 @@
 package com.gcssloop.diycode_test.test_api;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.gcssloop.diycode_sdk.api.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.event.GetTopicRepliesEvent;
+import com.gcssloop.diycode_sdk.api.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
+import com.gcssloop.diycode_test.adapter.CommonAdapter;
+import com.gcssloop.diycode_test.adapter.ViewHolder;
+import com.gcssloop.diycode_test.base.BaseActivity;
+import com.gcssloop.diycode_test.utils.ConvertUtil;
+import com.mukesh.MarkdownView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.ButterKnife;
+import java.util.List;
 
-public class TopicReplyTestActivity extends AppCompatActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class TopicReplyTestActivity extends BaseActivity {
+
+    @BindView(R.id.list_topic_reply)
+    ListView list_topic_reply;
+
+    @BindView(R.id.edit_id)
+    EditText edit_id;
+
+    @OnClick(R.id.btn_get_reply)
+    public void getReply(View view) {
+        mDiycode.getTopicReplies(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604), null, null);
+    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicReplies(GetTopicRepliesEvent event) {
 
+        if (event.isOk()) {
+            Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();
+            final List<TopicReply> replies = event.getBean();
+            list_topic_reply.setAdapter(new CommonAdapter<TopicReply>(mContext, replies, R.layout.item_topic_reply) {
+
+                /**
+                 * 需要处理的部分，在这里给View设置值
+                 *
+                 * @param position
+                 * @param holder   ViewHolder
+                 * @param bean     数据集
+                 */
+                @Override
+                public void convert(int position, ViewHolder holder, TopicReply bean) {
+
+                    ImageView img_avatar = holder.getView(R.id.img_avatar);
+                    Glide.with(mContext).load(bean.getUser().getAvatar_url()).into(img_avatar);
+
+                    holder.setText(R.id.text_username, bean.getUser().getLogin());
+                    holder.setText(R.id.text_reply_floor, (position + 1) + "楼");
+                    holder.setText(R.id.text_time, TimeUtil.computePastTime(bean.getUpdated_at()));
+
+                    MarkdownView markdownView = holder.getView(R.id.markdown_reply_content);
+                   // markdownView.loadData(bean.getBody_html(),"text/html;charset=UTF-8", null);
+                    markdownView.setMarkDownText(bean.getBody_html());
+
+                    // holder.setText(R.id.text_reply_content, Html.fromHtml(bean.getBody_html()));
+                }
+            });
+        } else {
+            Toast.makeText(this, "失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -44,6 +103,7 @@ public class TopicReplyTestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_reply_test);
         ButterKnife.bind(this);
+
 
     }
 

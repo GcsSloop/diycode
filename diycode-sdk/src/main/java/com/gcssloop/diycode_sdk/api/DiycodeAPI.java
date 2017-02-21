@@ -23,9 +23,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -167,7 +167,7 @@ public interface DiycodeAPI {
      * @param offset 偏移数值，默认值 0
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
-    String getTopicReplies(@NonNull Integer id, @NonNull Integer offset, @NonNull Integer limit);
+   String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit);
 
     /**
      * 创建话题

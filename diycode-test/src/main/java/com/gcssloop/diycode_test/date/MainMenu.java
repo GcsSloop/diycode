@@ -23,6 +23,7 @@ import com.gcssloop.diycode_test.test_api.LoginTestActivity;
 import com.gcssloop.diycode_test.test_api.TokenTestActivity;
 import com.gcssloop.diycode_test.test_api.TopicContentTestActivity;
 import com.gcssloop.diycode_test.test_api.TopicListTestActivity;
+import com.gcssloop.diycode_test.test_api.TopicReplyTestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class MainMenu {
         menu.add(new MenuEntity("获取数据测试(Token)", TokenTestActivity.class)) ;
         menu.add(new MenuEntity("获取 topic 列表测试", TopicListTestActivity.class)) ;
         menu.add(new MenuEntity("获取 topic 内容测试", TopicContentTestActivity.class)) ;
+        menu.add(new MenuEntity("获取 topic 回复测试", TopicReplyTestActivity.class)) ;
     }
 
     public static class MenuEntity{

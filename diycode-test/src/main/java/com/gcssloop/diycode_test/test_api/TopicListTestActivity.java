@@ -33,6 +33,7 @@ import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.adapter.CommonAdapter;
 import com.gcssloop.diycode_test.adapter.ViewHolder;
 import com.gcssloop.diycode_test.base.BaseActivity;
+import com.gcssloop.diycode_test.utils.ConvertUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,28 +67,18 @@ public class TopicListTestActivity extends BaseActivity {
     public void GetTopicList(View view) {
 
         String type = null;
-        Integer type_id = getIntegetByString(text_type.getText().toString());
+        Integer type_id = ConvertUtil.StringToInteger(text_type.getText().toString());
         if (null != type_id && type_id >= 0 && type_id < 5) {
             type = types[type_id];
         }
 
-        Integer node_id = getIntegetByString(text_node_id.getText().toString());
-        Integer offset = getIntegetByString(text_offset.getText().toString());
-        Integer limit = getIntegetByString(text_limit.getText().toString());
+        Integer node_id = ConvertUtil.StringToInteger(text_node_id.getText().toString());
+        Integer offset = ConvertUtil.StringToInteger(text_offset.getText().toString());
+        Integer limit = ConvertUtil.StringToInteger(text_limit.getText().toString());
 
         mDiycode.getTopics(type, node_id, offset, limit);
     }
 
-    private Integer getIntegetByString(String str) {
-        if (null == str || str.isEmpty()) {
-            return null;
-        }
-        try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     private CommonAdapter<Topic> mAdapter;
 

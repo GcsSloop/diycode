@@ -97,6 +97,6 @@ public interface DiycodeService {
      * @return 回复列表
      */
     @GET("topics/{id}/replies.json")
-    Call<TopicReply> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
+    Call<List<TopicReply>> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
                                      @Query("limit") Integer limit);
 }

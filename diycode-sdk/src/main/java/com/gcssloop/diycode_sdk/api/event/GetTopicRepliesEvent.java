@@ -25,14 +25,16 @@ import android.support.annotation.Nullable;
 import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.TopicReply;
 
-public class GetTopicRepliesEvent extends BaseEvent<TopicReply> {
+import java.util.List;
+
+public class GetTopicRepliesEvent extends BaseEvent<List<TopicReply>> {
     /**
-     * @param uuid       唯一识别码
-     * @param code       网络返回码
-     * @param topicReply 实体数据
+     * @param uuid         唯一识别码
+     * @param code         网络返回码
+     * @param topicReplies 实体数据
      */
-    public GetTopicRepliesEvent(@Nullable String uuid, @NonNull Integer code, @Nullable TopicReply topicReply) {
-        super(uuid, code, topicReply);
+    public GetTopicRepliesEvent(@Nullable String uuid, @NonNull Integer code, @Nullable List<TopicReply> topicReplies) {
+        super(uuid, code, topicReplies);
     }
 
     /**

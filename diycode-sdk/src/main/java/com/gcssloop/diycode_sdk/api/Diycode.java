@@ -386,8 +386,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<TopicReply> call = mDiycodeService.getTopicReplies(id, offset, limit);
-        call.enqueue(new BaseCallback<GetTopicRepliesEvent, TopicReply>(new GetTopicRepliesEvent(uuid)));
+        Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
+        call.enqueue(new BaseCallback<GetTopicRepliesEvent, List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
         return uuid;
     }
 
