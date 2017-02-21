@@ -28,18 +28,18 @@ import com.gcssloop.diycode_sdk.api.bean.TopicContent;
 public class GetTopicContentEvent extends BaseEvent<TopicContent> {
 
     /**
+     * @param uuid 唯一识别码
+     */
+    public GetTopicContentEvent(@Nullable String uuid) {
+        super(uuid);
+    }
+
+    /**
      * @param uuid         唯一识别码
      * @param code         网络返回码
      * @param topicContent 实体数据
      */
     public GetTopicContentEvent(@Nullable String uuid, @NonNull Integer code, @Nullable TopicContent topicContent) {
         super(uuid, code, topicContent);
-    }
-
-    /**
-     * @param uuid 唯一识别码
-     */
-    public GetTopicContentEvent(@Nullable String uuid) {
-        super(uuid);
     }
 }

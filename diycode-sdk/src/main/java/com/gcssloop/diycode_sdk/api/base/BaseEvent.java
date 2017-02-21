@@ -43,6 +43,13 @@ public class BaseEvent<T> {
     protected T t;                      // 实体类
 
 
+    /**
+     * @param uuid 唯一识别码
+     */
+    public BaseEvent(@Nullable String uuid) {
+        this.ok = false;
+        this.uuid = uuid;
+    }
 
     /**
      * @param uuid 唯一识别码
@@ -56,13 +63,6 @@ public class BaseEvent<T> {
         this.t = t;
     }
 
-    /**
-     * @param uuid 唯一识别码
-     */
-    public BaseEvent(@Nullable String uuid) {
-        this.ok = false;
-        this.uuid = uuid;
-    }
 
     /**
      * @param code 网络返回码

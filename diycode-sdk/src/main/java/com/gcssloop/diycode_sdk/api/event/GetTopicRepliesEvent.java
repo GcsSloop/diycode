@@ -29,18 +29,18 @@ import java.util.List;
 
 public class GetTopicRepliesEvent extends BaseEvent<List<TopicReply>> {
     /**
+     * @param uuid 唯一识别码
+     */
+    public GetTopicRepliesEvent(@Nullable String uuid) {
+        super(uuid);
+    }
+
+    /**
      * @param uuid         唯一识别码
      * @param code         网络返回码
      * @param topicReplies 实体数据
      */
     public GetTopicRepliesEvent(@Nullable String uuid, @NonNull Integer code, @Nullable List<TopicReply> topicReplies) {
         super(uuid, code, topicReplies);
-    }
-
-    /**
-     * @param uuid 唯一识别码
-     */
-    public GetTopicRepliesEvent(@Nullable String uuid) {
-        super(uuid);
     }
 }
