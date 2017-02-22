@@ -21,6 +21,7 @@ package com.gcssloop.diycode_sdk.api.callback;
 
 import android.support.annotation.NonNull;
 
+import com.gcssloop.diycode_sdk.api.base.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
@@ -28,18 +29,16 @@ import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
  * 为 token 设置的 callback，相比于 BaseCallback，多了一个缓存。
  */
-public class TokenCallback implements Callback<Token> {
-    protected BaseEvent<Token> event;
+public class TokenCallback extends BaseCallback<Token> {
     private CacheUtil cacheUtil;
 
     public <Event extends BaseEvent<Token>> TokenCallback(@NonNull CacheUtil cacheUtil, @NonNull Event event) {
-        this.event = event;
+        super(event);
         this.cacheUtil = cacheUtil;
     }
 
@@ -47,16 +46,10 @@ public class TokenCallback implements Callback<Token> {
     public void onResponse(Call<Token> call, Response<Token> response) {
         if (response.isSuccessful()) {
             Token token = response.body();
-            // 请求成功后token缓存起来
-            cacheUtil.saveToken(token);
+            cacheUtil.saveToken(token);     // 请求成功后token缓存起来
             EventBus.getDefault().post(event.setEvent(response.code(), token));
         } else {
             EventBus.getDefault().post(event.setEvent(response.code(), null));
         }
-    }
-
-    @Override
-    public void onFailure(Call<Token> call, Throwable t) {
-        EventBus.getDefault().post(event.setEvent(-1, null));
     }
 }
