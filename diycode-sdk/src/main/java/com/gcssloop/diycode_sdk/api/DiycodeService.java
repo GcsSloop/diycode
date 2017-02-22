@@ -43,7 +43,7 @@ public interface DiycodeService {
      *
      * @param client_id     客户端 id
      * @param client_secret 客户端私钥
-     * @param grant_type    授权方式
+     * @param grant_type    授权方式 - 密码
      * @param username      用户名
      * @param password      密码
      * @return Token 实体类
@@ -54,6 +54,20 @@ public interface DiycodeService {
             @Field("client_id") String client_id, @Field("client_secret") String client_secret,
             @Field("grant_type") String grant_type, @Field("username") String username,
             @Field("password") String password);
+
+    /**
+     * 刷新 token
+     *
+     * @param client_id     客户端 id
+     * @param client_secret 客户端私钥
+     * @param grant_type    授权方式 - Refresh Token
+     * @param refresh_token token 信息
+     * @return Token 实体类
+     */
+    @POST(Constant.OAUTH_URL)
+    @FormUrlEncoded
+    Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
+                             @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
 
     /**
      * 测试 token 是否正常
@@ -98,5 +112,5 @@ public interface DiycodeService {
      */
     @GET("topics/{id}/replies.json")
     Call<List<TopicReply>> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
-                                     @Query("limit") Integer limit);
+                                           @Query("limit") Integer limit);
 }

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.event.RefreshTokenEvent;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -80,7 +81,7 @@ public class LoginTestActivity extends BaseActivity {
 
         String state = "当前状态：";
 
-        if (null != token){
+        if (null != token) {
             state = state + "获取缓存token成功\n"
                     + "token type    = " + token.getToken_type() + "\n"
                     + "created at    = " + token.getCreated_at() + "\n"
@@ -92,7 +93,6 @@ public class LoginTestActivity extends BaseActivity {
         }
 
         text_state.setText(state);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -116,10 +116,45 @@ public class LoginTestActivity extends BaseActivity {
             state = state + "登录失败\n"
                     + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
-                    + "state message = " + event.getCodeDescribe()+ "\n";
+                    + "state message = " + event.getCodeDescribe() + "\n";
         }
 
         text_state.setText(state);
+    }
+
+
+    @OnClick(R.id.refresh_token)
+    public void resresh_token(View view) {
+        mDiycode.refreshToken();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshTokenEvent(RefreshTokenEvent event) {
+        String state = "当前状态：";
+
+        if (event.isOk()) {
+            Token token = event.getBean();
+
+            if (null != token) {
+                state = state + "获取缓存token成功\n"
+                        + "token type    = " + token.getToken_type() + "\n"
+                        + "created at    = " + token.getCreated_at() + "\n"
+                        + "expires in    = " + token.getExpires_in() + "\n"
+                        + "access token  = " + token.getAccess_token() + "\n"
+                        + "refresh token = " + token.getRefresh_token() + "\n";
+            } else {
+                state = state + "获取缓存token失败\n";
+            }
+
+        } else {
+            state = state + "刷新失败\n"
+                    + "uuid          = " + event.getUUID() + "\n"
+                    + "state         = " + event.getCode() + "\n"
+                    + "state message = " + event.getCodeDescribe() + "\n";
+        }
+        text_state.setText(state);
+
+        // text_state.setText("当前状态：刷新失败");
     }
 
 

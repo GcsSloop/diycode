@@ -71,6 +71,7 @@
             android:layout_weight="1"
             android:text="错误账号" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,6 +91,12 @@
             android:layout_weight="1"
             android:text="当前token" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/refresh_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="刷新 token" />
 
     <TextView
         android:layout_width="match_parent"

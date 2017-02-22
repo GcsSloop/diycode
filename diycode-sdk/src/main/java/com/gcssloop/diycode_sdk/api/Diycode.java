@@ -32,9 +32,10 @@ import com.gcssloop.diycode_sdk.api.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicRepliesEvent;
+import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
+import com.gcssloop.diycode_sdk.api.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 import com.gcssloop.diycode_sdk.api.utils.UUIDGenerator;
@@ -69,6 +70,9 @@ public class Diycode implements DiycodeAPI {
     private static DiycodeService mDiycodeService;
     private CacheUtil cacheUtils;
 
+    private String client_id;       // 应用 id
+    private String client_secret;   // 应用秘钥
+
     private Diycode() {
     }
 
@@ -76,8 +80,11 @@ public class Diycode implements DiycodeAPI {
         return mDiycode;
     }
 
-    public Diycode init(@NonNull Context context, @NonNull String client_id, @NonNull String client_secret) {
+    public Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
+        this.client_id = client_id;
+        this.client_secret = client_secret;
 
+        // 设置 Log 拦截器，可以用于以后处理一些异常情况
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -100,19 +107,22 @@ public class Diycode implements DiycodeAPI {
             }
         };
 
+        // 配置 client
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .retryOnConnectionFailure(true)
-                .connectTimeout(5, TimeUnit.SECONDS)
-                .addNetworkInterceptor(mTokenInterceptor)
+                .addInterceptor(interceptor)                // 设置拦截器
+                .retryOnConnectionFailure(true)             // 是否重试
+                .connectTimeout(5, TimeUnit.SECONDS)        // 连接超时事件
+                .addNetworkInterceptor(mTokenInterceptor)   // 自动附加 token (附加和不附加请求结果可能会有差别)
                 .build();
 
+        // 配置 Retrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(Constant.BASE_URL)                         // 设置 base url
+                .client(client)                                     // 设置 client
+                .addConverterFactory(GsonConverterFactory.create()) // 设置 Json 转换工具
                 .build();
 
+        // 使用 Retrofit2 将定义的网络接口转化为实际的请求方式
         mDiycodeService = retrofit.create(DiycodeService.class);
 
         // 缓存工具
@@ -139,9 +149,10 @@ public class Diycode implements DiycodeAPI {
 
     //--- OAuth 认证相关 -------------------------------------------------------------------------
 
-    private static String CLIENT_ID = "";           // 应用 ID
-    private static String CLIENT_SECRET = "";       // 私钥
-    private static String GRANT_TYPE = "password";  // 认证类型(密码)
+    private static String CLIENT_ID = "";                       // 应用 ID
+    private static String CLIENT_SECRET = "";                   // 私钥
+    private static String GRANT_TYPE_GET = "password";          // 认证类型(密码)
+    private static String GRANT_TYPE_REFRESH = "refresh_token"; // 认证类型(Token)
 
     /**
      * 获取当前缓存的 token
@@ -153,6 +164,42 @@ public class Diycode implements DiycodeAPI {
      */
     public Token getToken() {
         return cacheUtils.getToke();
+    }
+
+    /**
+     * 刷新 token
+     */
+    public String refreshToken() {
+        final String uuid = UUIDGenerator.getUUID();
+        // 如果本地没有缓存的 token，则直接返回一个 401 异常
+        if (null == cacheUtils.getToke()) {
+            EventBus.getDefault().post(new RefreshTokenEvent(uuid, 401, null));
+            return null;
+        }
+
+        // 如果本地有缓存的 token，尝试刷新 token 信息，并
+        Call<Token> call = mDiycodeService.refreshToken(client_id, client_secret,
+                GRANT_TYPE_REFRESH, cacheUtils.getToke().getRefresh_token());
+        call.enqueue(new Callback<Token>() {
+            @Override
+            public void onResponse(Call<Token> call, Response<Token> response) {
+                if (response.isSuccessful()) {
+                    Token token = response.body();
+                    // 请求成功后token缓存起来
+                    cacheUtils.saveToken(token);
+                    EventBus.getDefault().post(new RefreshTokenEvent(uuid, response.code(), token));
+                } else {
+                    EventBus.getDefault().post(new RefreshTokenEvent(uuid, response.code(), null));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+                EventBus.getDefault().post(new RefreshTokenEvent(uuid, -1, null));
+            }
+        });
+        return uuid;
     }
 
 
@@ -169,7 +216,7 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String login(@NonNull final String user_name, @NonNull final String password) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE,
+        Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE_GET,
                 user_name, password);
 
         call.enqueue(new Callback<Token>() {
@@ -177,17 +224,16 @@ public class Diycode implements DiycodeAPI {
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
                     Token token = response.body();
-                    Log.e(TAG, "token: " + token);
+                    // Log.e(TAG, "token_get: " + token);
                     // 请求成功后数据缓存起来
-                    cacheUtils.saveLoginInfo(user_name, password);
+                    // cacheUtils.saveLoginInfo(user_name, password); // 取消缓存用户名和密码，更加安全
                     cacheUtils.saveToken(token);
 
                     EventBus.getDefault().post(new LoginEvent(uuid, response.code(), token));
                 } else {
-                    Log.e(TAG, "getToken state: " + response.code());
+                    // Log.e(TAG, "getToken state: " + response.code());
                     EventBus.getDefault().post(new LoginEvent(uuid, response.code(), null));
                 }
-
             }
 
             @Override
@@ -205,8 +251,6 @@ public class Diycode implements DiycodeAPI {
      */
     @Override
     public void logout() {
-        // 清除用户信息
-        cacheUtils.clearLoginInfo();
         // 清除token
         cacheUtils.clearToken();
     }

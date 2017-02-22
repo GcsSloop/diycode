@@ -13,39 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-10 15:31:04
+ * Last modified 2017-02-23 02:34:35
  *
  */
 
-package com.gcssloop.diycode_sdk.api.utils;
+package com.gcssloop.diycode_sdk.api.event;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.BaseEvent;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 
-/**
- * 缓存工具类，用于缓存各类数据
- */
-public class CacheUtil {
-
-    ACache cache;
-
-    public CacheUtil(Context context) {
-        cache = ACache.get(context);
+public class RefreshTokenEvent extends BaseEvent<Token> {
+    /**
+     * @param uuid 唯一识别码
+     */
+    public RefreshTokenEvent(@Nullable String uuid) {
+        super(uuid);
     }
 
-    //--- token ------------------------------------------------------------------------------------
-
-    public void saveToken(@NonNull Token token){
-        cache.put("token", token);
-    }
-
-    public Token getToke(){
-        return (Token) cache.getAsObject("token");
-    }
-
-    public void clearToken(){
-        cache.remove("token");
+    /**
+     * @param uuid  唯一识别码
+     * @param code  网络返回码
+     * @param token 实体数据
+     */
+    public RefreshTokenEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
+        super(uuid, code, token);
     }
 }
