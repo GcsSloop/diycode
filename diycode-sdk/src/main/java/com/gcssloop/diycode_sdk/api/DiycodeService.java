@@ -38,6 +38,8 @@ import retrofit2.http.Query;
 
 public interface DiycodeService {
 
+    //--- Token ------------------------------------------------------------------------------------
+
     /**
      * 获取 Token (一般在登录时调用)
      *
@@ -69,6 +71,8 @@ public interface DiycodeService {
     Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
                              @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
 
+    //--- 测试接口 -------------------------------------------------------------------------------
+
     /**
      * 测试 token 是否正常
      *
@@ -78,6 +82,8 @@ public interface DiycodeService {
     @GET("hello.json")
     Call<Hello> hello(@Query("limit") Integer limit);
 
+
+    //--- topic -------------------------------------------------------------------------------
 
     /**
      * 获取 topic 列表
