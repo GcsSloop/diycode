@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BaseCallback<T> implements Callback<T> {
-    BaseEvent<T> event;
+    protected BaseEvent<T> event;
 
     public <Event extends BaseEvent<T>> BaseCallback(@NonNull Event event) {
         this.event = event;

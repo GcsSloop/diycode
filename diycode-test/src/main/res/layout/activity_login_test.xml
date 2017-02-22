@@ -104,9 +104,13 @@
         android:text="状态信息:"
         android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/text_state"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="当前状态：无" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="当前状态：无" />
+    </ScrollView>
 </LinearLayout>
