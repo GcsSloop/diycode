@@ -42,6 +42,9 @@ public class TopicContent {
     private int hits;                       // 浏览次数
     private int likes_count;                // 喜欢的人数
     private String suggested_at;            // 置顶(推荐)时间
+    private Boolean followed;               // 是否关注
+    private Boolean liked;                  // 是否喜欢
+    private Boolean favorited;              // 是否收藏
 
 
     public void setId(int id) {
@@ -196,4 +199,27 @@ public class TopicContent {
         return this.suggested_at;
     }
 
+    public Object getFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(Boolean followed) {
+        this.followed = followed;
+    }
+
+    public Object getLiked() {
+        return liked;
+    }
+
+    public void setLiked(Boolean liked) {
+        this.liked = liked;
+    }
+
+    public Object getFavorited() {
+        return favorited;
+    }
+
+    public void setFavorited(Boolean favorited) {
+        this.favorited = favorited;
+    }
 }
