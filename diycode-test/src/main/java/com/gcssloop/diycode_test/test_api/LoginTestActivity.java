@@ -82,14 +82,14 @@ public class LoginTestActivity extends BaseActivity {
         String state = "当前状态：";
 
         if (null != token) {
-            state = state + "获取缓存token成功\n"
+            state = state + "获取缓存 token 成功\n"
                     + "token type    = " + token.getToken_type() + "\n"
                     + "created at    = " + token.getCreated_at() + "\n"
                     + "expires in    = " + token.getExpires_in() + "\n"
                     + "access token  = " + token.getAccess_token() + "\n"
                     + "refresh token = " + token.getRefresh_token() + "\n";
         } else {
-            state = state + "获取缓存token失败\n";
+            state = state + "获取缓存 token 失败\n";
         }
 
         text_state.setText(state);
@@ -136,7 +136,7 @@ public class LoginTestActivity extends BaseActivity {
             Token token = event.getBean();
 
             if (null != token) {
-                state = state + "获取缓存token成功\n"
+                state = state + "刷新 token 成功\n"
                         + "token type    = " + token.getToken_type() + "\n"
                         + "created at    = " + token.getCreated_at() + "\n"
                         + "expires in    = " + token.getExpires_in() + "\n"
@@ -147,7 +147,7 @@ public class LoginTestActivity extends BaseActivity {
             }
 
         } else {
-            state = state + "刷新失败\n"
+            state = state + "刷新 token 失败\n"
                     + "uuid          = " + event.getUUID() + "\n"
                     + "state         = " + event.getCode() + "\n"
                     + "state message = " + event.getCodeDescribe() + "\n";
