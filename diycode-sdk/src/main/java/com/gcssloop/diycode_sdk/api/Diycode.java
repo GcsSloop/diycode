@@ -39,6 +39,7 @@ import com.gcssloop.diycode_sdk.api.event.NewTopicEvent;
 import com.gcssloop.diycode_sdk.api.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
+import com.gcssloop.diycode_sdk.api.utils.DebugUtil;
 import com.gcssloop.diycode_sdk.api.utils.UUIDGenerator;
 import com.gcssloop.gcs_log.Config;
 import com.gcssloop.gcs_log.Logger;
@@ -75,8 +76,6 @@ public class Diycode implements DiycodeAPI {
     private String client_secret;   // 应用秘钥
 
     private Diycode() {
-        // 初始化 log 工具
-        Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
     }
 
     public static Diycode getInstance() {
@@ -84,7 +83,10 @@ public class Diycode implements DiycodeAPI {
     }
 
     public Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
+        // 初始化 log 工具
+        initLogger(context);
         Logger.i("初始化 diycode");
+
         this.client_id = client_id;
         this.client_secret = client_secret;
 
@@ -136,6 +138,18 @@ public class Diycode implements DiycodeAPI {
         CLIENT_ID = client_id;
         CLIENT_SECRET = client_secret;
         return this;
+    }
+
+    /**
+     * 初始化 log 工具，在 debug 模式输出日志， release 模式自动移除
+     * @param context
+     */
+    private void initLogger(@NonNull Context context) {
+        if (DebugUtil.isInDebug(context)) {
+            Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
+        } else {
+            Logger.init("Diycode").setLevel(Config.LEVEL_NONE);
+        }
     }
 
     /**
