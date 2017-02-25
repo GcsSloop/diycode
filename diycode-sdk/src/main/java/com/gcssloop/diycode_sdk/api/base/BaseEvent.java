@@ -134,6 +134,8 @@ public class BaseEvent<T> {
                 return "资源不存在";
             case 500:
                 return "服务器异常";
+            case 402:
+                return "用户尚未登录";
             default:
                 return "未知异常(" + code + ")";
         }

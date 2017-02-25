@@ -35,10 +35,13 @@ import com.gcssloop.diycode_sdk.api.event.GetTopicRepliesEvent;
 import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.event.NewTopicEvent;
 import com.gcssloop.diycode_sdk.api.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.api.utils.Constant;
 import com.gcssloop.diycode_sdk.api.utils.UUIDGenerator;
+import com.gcssloop.gcs_log.Config;
+import com.gcssloop.gcs_log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -72,6 +75,8 @@ public class Diycode implements DiycodeAPI {
     private String client_secret;   // 应用秘钥
 
     private Diycode() {
+        // 初始化 log 工具
+        Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
     }
 
     public static Diycode getInstance() {
@@ -79,6 +84,7 @@ public class Diycode implements DiycodeAPI {
     }
 
     public Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
+        Logger.i("初始化 diycode");
         this.client_id = client_id;
         this.client_secret = client_secret;
 
@@ -285,15 +291,17 @@ public class Diycode implements DiycodeAPI {
     }
 
     /**
-     * 创建 Topic
+     * 创建一个新的 Topic
      *
      * @param title   Topic 标题
      * @param body    Topic 内容
      * @param node_id Topic 节点编号
      */
     @Override
-    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+    public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
+        Call<TopicContent> call = mDiycodeService.newTopic(title,body,node_id);
+        call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
         return uuid;
     }
 

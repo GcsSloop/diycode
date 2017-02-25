@@ -20,6 +20,7 @@
 package com.gcssloop.diycode_sdk.api;
 
 import com.gcssloop.diycode_sdk.api.bean.Hello;
+import com.gcssloop.diycode_sdk.api.bean.State;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
 import com.gcssloop.diycode_sdk.api.bean.TopicContent;
@@ -29,6 +30,7 @@ import com.gcssloop.diycode_sdk.api.utils.Constant;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -83,7 +85,7 @@ public interface DiycodeService {
     Call<Hello> hello(@Query("limit") Integer limit);
 
 
-    //--- topic -------------------------------------------------------------------------------
+    //--- topic ------------------------------------------------------------------------------------
 
     /**
      * 获取 topic 列表
@@ -98,6 +100,19 @@ public interface DiycodeService {
     Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,
                                 @Query("offset") Integer offset, @Query("limit") Integer limit);
 
+
+    /**
+     * 创建一个新的 topic
+     *
+     * @param title   话题标题
+     * @param body    话题内容, Markdown 格式
+     * @param node_id 节点编号
+     * @return 新话题的内容详情
+     */
+    @POST("topics.json")
+    Call<TopicContent> newTopic(@Field("title") String title, @Field("body") String body,
+                                @Field("node_id") Integer node_id);
+
     /**
      * 获取 topic 内容
      *
@@ -107,6 +122,75 @@ public interface DiycodeService {
     @GET("topics/{id}.json")
     Call<TopicContent> getTopic(@Path("id") int id);
 
+
+    /**
+     * 更新(修改) topic
+     *
+     * @param id      要修改的话题 id
+     * @param title   话题标题
+     * @param body    话题内容, Markdown 格式
+     * @param node_id 节点编号
+     * @return 更新后的话题内容详情
+     */
+    @POST("topics/{id}.json")
+    Call<TopicContent> updateTopic(@Path("id") int id, @Field("title") String title,
+                                   @Field("body") String body, @Field("node_id") Integer node_id);
+
+    /**
+     * 删除一个话题
+     *
+     * @param id 要删除的话题 id
+     * @return
+     */
+    @DELETE("topics/{id}.json")
+    Call<State> deleteTopic(@Path("id") int id);
+
+    /**
+     * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
+     *
+     * @param id 要屏蔽的话题 id
+     * @return
+     */
+    @POST("topics/{id}/ban.json")
+    Call<State> banTopic(@Path("id") int id);
+
+    /**
+     * 取消收藏话题
+     *
+     * @param id 被收藏的话题 id
+     * @return 状态信息
+     */
+    @POST("topics/{id}/unfavorite.json")
+    Call<State> unCollectionTopic(@Path("id") int id);
+
+    /**
+     * 收藏话题
+     *
+     * @param id 被收藏的话题 id
+     * @return 状态信息
+     */
+    @POST("topics/{id}/favorite.json")
+    Call<State> collectionTopic(@Path("id") int id);
+
+    /**
+     * 关注话题
+     *
+     * @param id 话题 id
+     * @return 状态
+     */
+    @POST("topics/{id}/follow.json")
+    Call<State> watchTopic(@Path("id") int id);
+
+    /**
+     * 取消关注话题
+     *
+     * @param id 话题 id
+     * @return 状态
+     */
+    @POST("topics/{id}/unfollow.json")
+    Call<State> unWatchTopic(@Path("id") int id);
+
+    //--- topic  reply -----------------------------------------------------------------------------
 
     /**
      * 获取 topic 回复列表
@@ -120,6 +204,15 @@ public interface DiycodeService {
     Call<List<TopicReply>> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
                                            @Query("limit") Integer limit);
 
+    /**
+     * 创建 topic 回帖(回复，评论)
+     *
+     * @param id   话题列表
+     * @param body 回帖内容, Markdown 格式
+     * @return
+     */
+    @POST("topics/{id}/replies.json")
+    Call<List<TopicReply>> newTopicReplies(@Path("id") int id, @Query("body") String body);
 
-    
+
 }

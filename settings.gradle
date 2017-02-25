@@ -1,1 +1,1 @@
-include ':diycode-app', ':diycode-sdk', ':diycode-test'
+include ':diycode-app', ':diycode-sdk', ':diycode-test', ':gcs-log'

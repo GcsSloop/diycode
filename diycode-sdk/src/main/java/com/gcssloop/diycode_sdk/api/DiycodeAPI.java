@@ -106,7 +106,7 @@ public interface DiycodeAPI {
      * @param body    Topic 内容
      * @param node_id Topic 节点编号
      */
-    String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
 
 
     /**

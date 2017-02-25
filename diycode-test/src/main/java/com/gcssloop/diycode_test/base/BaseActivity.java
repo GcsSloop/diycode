@@ -34,9 +34,6 @@ import com.gcssloop.diycode_test.utils.CrashHandler;
 public class BaseActivity extends AppCompatActivity {
     protected Context mContext;
 
-    public static final String client_id = "7024a413";
-    public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
-
     public Diycode mDiycode;
 
     @Override
@@ -46,9 +43,6 @@ public class BaseActivity extends AppCompatActivity {
         setTitle();
 
         CrashHandler.getInstance().init(this.getApplicationContext());
-
-        // 初始化 Diycode
-        Diycode.getInstance().init(this.getApplicationContext(), client_id, client_secret);
 
         // 获取 Diycode
         mDiycode = Diycode.getInstance();
