@@ -62,6 +62,26 @@ public class Logger {
         log(Config.LEVEL_ERROR, mConfig.getTag(), message);
     }
 
+    public static void v(String tag, String message) {
+        log(Config.LEVEL_VERBOSE, tag, message);
+    }
+
+    public static void d(String tag, String message) {
+        log(Config.LEVEL_DEBUG, tag, message);
+    }
+
+    public static void i(String tag, String message) {
+        log(Config.LEVEL_INFO, tag, message);
+    }
+
+    public static void w(String tag, String message) {
+        log(Config.LEVEL_WARN, tag, message);
+    }
+
+    public static void e(String tag, String message) {
+        log(Config.LEVEL_ERROR, tag, message);
+    }
+
     private static void log(int level, String tag, String message) {
         if (mConfig.getLevel() == Config.LEVEL_NONE) {
             return;

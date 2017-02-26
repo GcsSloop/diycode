@@ -104,7 +104,7 @@ public class Diycode implements DiycodeAPI {
                     return chain.proceed(originalRequest);
                 }
                 String token = Constant.VALUE_TOKEN_PREFIX + getToken().getAccess_token();
-                // Log.e("Header", token);
+                Logger.i("AutoToken:" + token); // 查看 token 是否异常
                 // 为请求附加 token
                 Request authorised = originalRequest.newBuilder()
                         .header(Constant.KEY_TOKEN, token)
