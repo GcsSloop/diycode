@@ -73,6 +73,33 @@ public interface DiycodeService {
     Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
                              @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
 
+
+    //--- devices -------------------------------------------------------------------------------
+
+    /**
+     * 记录用户 Device 信息，用于 Push 通知。
+     * 请在每次用户打开 App 的时候调用此 API 以便更新 Token 的 last_actived_at 让服务端知道这个设备还活着。
+     * Push 将会忽略那些超过两周的未更新的设备。
+     * @param platform 平台 ["ios", "android"]
+     * @param token 令牌 token
+     * @return 是否成功
+     */
+    @POST("devices.json")
+    @FormUrlEncoded
+    Call<State> registerDevices(@Field("platform") String platform, @Field("token") String token);
+
+    /**
+     * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉
+     * @param platform
+     * @param platform 平台 ["ios", "android"]
+     * @param token 令牌 token
+     * @return 是否成功
+     */
+    @DELETE("devices.json")
+    @FormUrlEncoded
+    Call<State> unRegisterDevices(@Field("platform") String platform, @Field("token") String token);
+
+
     //--- 测试接口 -------------------------------------------------------------------------------
 
     /**

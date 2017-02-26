@@ -70,10 +70,10 @@ public class Diycode implements DiycodeAPI {
 
     private static final Diycode mDiycode = new Diycode();
     private static DiycodeService mDiycodeService;
-    private CacheUtil mCacheUtil;
+    private static CacheUtil mCacheUtil;
 
-    private String client_id;       // 应用 id
-    private String client_secret;   // 应用秘钥
+    private static String client_id;       // 应用 id
+    private static String client_secret;   // 应用秘钥
 
     private Diycode() {
     }
@@ -137,14 +137,16 @@ public class Diycode implements DiycodeAPI {
         // 存储
         CLIENT_ID = client_id;
         CLIENT_SECRET = client_secret;
+
         return this;
     }
 
     /**
      * 初始化 log 工具，在 debug 模式输出日志， release 模式自动移除
-     * @param context
+     *
+     * @param context 上下文
      */
-    private void initLogger(@NonNull Context context) {
+    private static void initLogger(@NonNull Context context) {
         if (DebugUtil.isInDebug(context)) {
             Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
         } else {
@@ -314,7 +316,7 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mDiycodeService.newTopic(title,body,node_id);
+        Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
         call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
         return uuid;
     }

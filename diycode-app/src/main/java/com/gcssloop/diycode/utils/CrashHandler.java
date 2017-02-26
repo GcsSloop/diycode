@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-10 00:46:34
+ * Last modified 2017-02-26 03:07:24
  *
  */
 
-package com.gcssloop.diycode;
+package com.gcssloop.diycode.utils;
 
 import android.content.Context;
 
