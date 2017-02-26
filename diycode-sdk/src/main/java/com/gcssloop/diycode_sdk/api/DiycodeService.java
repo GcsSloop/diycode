@@ -20,6 +20,9 @@
 package com.gcssloop.diycode_sdk.api;
 
 import com.gcssloop.diycode_sdk.api.bean.Hello;
+import com.gcssloop.diycode_sdk.api.bean.New;
+import com.gcssloop.diycode_sdk.api.bean.NewReply;
+import com.gcssloop.diycode_sdk.api.bean.Node;
 import com.gcssloop.diycode_sdk.api.bean.State;
 import com.gcssloop.diycode_sdk.api.bean.Token;
 import com.gcssloop.diycode_sdk.api.bean.Topic;
@@ -80,8 +83,9 @@ public interface DiycodeService {
      * 记录用户 Device 信息，用于 Push 通知。
      * 请在每次用户打开 App 的时候调用此 API 以便更新 Token 的 last_actived_at 让服务端知道这个设备还活着。
      * Push 将会忽略那些超过两周的未更新的设备。
+     *
      * @param platform 平台 ["ios", "android"]
-     * @param token 令牌 token
+     * @param token    令牌 token
      * @return 是否成功
      */
     @POST("devices.json")
@@ -90,9 +94,10 @@ public interface DiycodeService {
 
     /**
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉
+     *
      * @param platform
      * @param platform 平台 ["ios", "android"]
-     * @param token 令牌 token
+     * @param token    令牌 token
      * @return 是否成功
      */
     @DELETE("devices.json")
@@ -110,6 +115,82 @@ public interface DiycodeService {
      */
     @GET("hello.json")
     Call<Hello> hello(@Query("limit") Integer limit);
+
+
+    //--- likes ------------------------------------------------------------------------------------
+
+    /**
+     * 赞
+     *
+     * @param obj_type ["topic", "reply", "news"]
+     * @param obj_id   id
+     * @return 是否成功
+     */
+    @POST("likes.json")
+    @FormUrlEncoded
+    Call<State> like(@Field("obj_type") String obj_type, @Field("obj_id") Integer obj_id);
+
+    /**
+     * 取消赞
+     *
+     * @param obj_type ["topic", "reply", "news"]
+     * @param obj_id   id
+     * @return 是否成功
+     */
+    @DELETE("likes.json")
+    @FormUrlEncoded
+    Call<State> unLike(@Field("obj_type") String obj_type, @Field("obj_id") Integer obj_id);
+
+
+    //--- news -------------------------------------------------------------------------------------
+
+    /**
+     * 获取 news 列表
+     *
+     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
+     * @param offset  偏移数值，默认值 0
+     * @param limit   数量极限，默认值 20，值范围 1..150
+     * @return news 列表
+     */
+    @GET("news.json")
+    Call<List<New>> getNews(@Query("node_id") Integer node_id, @Query("offset") Integer offset,
+                            @Query("limit") Integer limit);
+
+    /**
+     * 创建一个 new (分享)
+     *
+     * @param title   标题
+     * @param address 地址(网址链接)
+     * @param node_id 节点 id
+     * @return 结果
+     */
+    @POST("news.json")
+    @FormUrlEncoded
+    Call<New> newNew(@Query("title") Integer title, @Query("address") Integer address,
+                     @Query("node_id") Integer node_id);
+
+    /**
+     * 获取 news 回帖列表
+     *
+     * @param id     topic 的 id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
+     * @return 回复列表
+     */
+    @GET("news/{id}/replies.json")
+    Call<List<NewReply>> getNewsReplies(@Path("id") int id, @Query("offset") Integer offset,
+                                        @Query("limit") Integer limit);
+
+    /**
+     * 获取 news 分类列表
+     *
+     * @return 分类列表
+     */
+    @GET("news/nodes.json")
+    Call<List<Node>> getNewsNodes();
+
+
+    //--- news replies -----------------------------------------------------------------------------
 
 
     //--- topic ------------------------------------------------------------------------------------
