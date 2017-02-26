@@ -27,7 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.gcssloop.diycode_sdk.api.diycode.Diycode;
+import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_test.utils.CrashHandler;
 
 

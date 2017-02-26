@@ -22,7 +22,7 @@ package com.gcssloop.diycode.base;
 import android.app.Application;
 
 import com.gcssloop.diycode.utils.CrashHandler;
-import com.gcssloop.diycode_sdk.api.diycode.Diycode;
+import com.gcssloop.diycode_sdk.api.Diycode;
 
 public class BaseApplication extends Application {
 

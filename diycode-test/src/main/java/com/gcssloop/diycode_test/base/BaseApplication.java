@@ -21,7 +21,8 @@ package com.gcssloop.diycode_test.base;
 
 import android.app.Application;
 
-import com.gcssloop.diycode_sdk.api.diycode.Diycode;
+import com.gcssloop.diycode_sdk.api.Diycode;
+import com.squareup.leakcanary.LeakCanary;
 
 public class BaseApplication extends Application {
 
@@ -31,6 +32,11 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
+
         // 初始化 Diycode
         Diycode.init(this.getApplicationContext(), client_id, client_secret);
     }

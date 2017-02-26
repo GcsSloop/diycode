@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:33:52
+ * Last modified 2017-02-27 04:43:54
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode;
+package com.gcssloop.diycode_sdk.api;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
+import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.api.diycode.api.DiycodeAPI;
 import com.gcssloop.diycode_sdk.api.diycode.api.DiycodeService;
-import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
 import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
-import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.NewTopicEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
@@ -69,28 +66,57 @@ public class Diycode implements DiycodeAPI {
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
-    private static final Diycode mDiycode = new Diycode();
+    private volatile static Diycode mDiycode;
+
+    private Diycode(Context context) {
+    }
+
+    public static Diycode getInstance(Context context) {
+        if (null == mDiycode) {
+            synchronized (Diycode.class) {
+                if (null == mDiycode) {
+                    mDiycode = new Diycode(context);
+                }
+            }
+        }
+        return mDiycode;
+    }
+
     private static DiycodeService mDiycodeService;
-    private static CacheUtil mCacheUtil;
+    private static TopicService mTopicService;
+
+
+    protected static Retrofit mRetrofit;
+    protected static CacheUtil mCacheUtil; // 缓存工具
 
     private static String mClientId;       // 应用 id
     private static String mClientSecret;   // 应用秘钥
 
-    protected Diycode() {
-    }
-
-    public static Diycode getInstance() {
-        return mDiycode;
-    }
-
     public static Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
-        // 初始化 log 工具
-        initLogger(context);
         Logger.i("初始化 diycode");
+        initRetrofit(); // 配置 retrofit
+        initLogger(context);
 
+        // 缓存工具
+        mCacheUtil = new CacheUtil(context.getApplicationContext());
         mClientId = client_id;
         mClientSecret = client_secret;
 
+        // 使用 Retrofit2 将定义的网络接口转化为实际的请求方式
+        mDiycodeService = mRetrofit.create(DiycodeService.class);
+        mTopicService = mRetrofit.create(TopicService.class);
+
+        // 存储
+        CLIENT_ID = client_id;
+        CLIENT_SECRET = client_secret;
+
+        return getInstance(context);
+    }
+
+    /**
+     * 初始化 retrofit
+     */
+    private static void initRetrofit() {
         // 设置 Log 拦截器，可以用于以后处理一些异常情况
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -123,36 +149,11 @@ public class Diycode implements DiycodeAPI {
                 .build();
 
         // 配置 Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
+        mRetrofit = new Retrofit.Builder()
                 .baseUrl(Constant.BASE_URL)                         // 设置 base url
                 .client(client)                                     // 设置 client
                 .addConverterFactory(GsonConverterFactory.create()) // 设置 Json 转换工具
                 .build();
-
-        // 使用 Retrofit2 将定义的网络接口转化为实际的请求方式
-        mDiycodeService = retrofit.create(DiycodeService.class);
-
-        // 缓存工具
-        mCacheUtil = new CacheUtil(context);
-
-        // 存储
-        CLIENT_ID = client_id;
-        CLIENT_SECRET = client_secret;
-
-        return mDiycode;
-    }
-
-    /**
-     * 初始化 log 工具，在 debug 模式输出日志， release 模式自动移除
-     *
-     * @param context 上下文
-     */
-    private static void initLogger(@NonNull Context context) {
-        if (DebugUtil.isInDebug(context)) {
-            Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
-        } else {
-            Logger.init("Diycode").setLevel(Config.LEVEL_NONE);
-        }
     }
 
     /**
@@ -168,12 +169,46 @@ public class Diycode implements DiycodeAPI {
         return !(null == token || token.isEmpty() || originalRequest.url().toString().contains(Constant.OAUTH_URL));
     }
 
+    /**
+     * 初始化 log 工具，在 debug 模式输出日志， release 模式自动移除
+     *
+     * @param context 上下文
+     */
+    private static void initLogger(@NonNull Context context) {
+        if (DebugUtil.isInDebug(context)) {
+            Logger.init("Diycode").setLevel(Config.LEVEL_FULL);
+        } else {
+            Logger.init("Diycode").setLevel(Config.LEVEL_NONE);
+        }
+    }
+
+
+
+
     //--- OAuth 认证相关 -------------------------------------------------------------------------
 
     private static String CLIENT_ID = "";                       // 应用 ID
     private static String CLIENT_SECRET = "";                   // 私钥
     private static String GRANT_TYPE_GET = "password";          // 认证类型(密码)
     private static String GRANT_TYPE_REFRESH = "refresh_token"; // 认证类型(Token)
+
+    /**
+     * 刷新 token
+     */
+    public String refreshToken() {
+        final String uuid = UUIDGenerator.getUUID();
+        // 如果本地没有缓存的 token，则直接返回一个 401 异常
+        if (null == getToken()) {
+            EventBus.getDefault().post(new RefreshTokenEvent(uuid, 401, null));
+            return null;
+        }
+
+        // 如果本地有缓存的 token，尝试刷新 token 信息，并缓存新的 Token
+        Call<Token> call = mDiycodeService.refreshToken(mClientId, mClientSecret,
+                GRANT_TYPE_REFRESH, mCacheUtil.getToken().getRefresh_token());
+        call.enqueue(new TokenCallback(mCacheUtil, new RefreshTokenEvent(uuid)));
+        return uuid;
+    }
 
     /**
      * 获取当前缓存的 token
@@ -183,28 +218,9 @@ public class Diycode implements DiycodeAPI {
      *
      * @return 当前的 token
      */
-    public static Token getToken() {
-        return mCacheUtil.getToke();
+    protected static Token getToken() {
+        return mCacheUtil.getToken();
     }
-
-    /**
-     * 刷新 token
-     */
-    public String refreshToken() {
-        final String uuid = UUIDGenerator.getUUID();
-        // 如果本地没有缓存的 token，则直接返回一个 401 异常
-        if (null == mCacheUtil.getToke()) {
-            EventBus.getDefault().post(new RefreshTokenEvent(uuid, 401, null));
-            return null;
-        }
-
-        // 如果本地有缓存的 token，尝试刷新 token 信息，并缓存新的 Token
-        Call<Token> call = mDiycodeService.refreshToken(mClientId, mClientSecret,
-                GRANT_TYPE_REFRESH, mCacheUtil.getToke().getRefresh_token());
-        call.enqueue(new TokenCallback(mCacheUtil, new RefreshTokenEvent(uuid)));
-        return uuid;
-    }
-
 
     //--- 登录相关内容 ----------------------------------------------------------------------------
 
@@ -288,7 +304,7 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<List<Topic>> call = mDiycodeService.getTopics(type, node_id, offset, limit);
+        Call<List<Topic>> call = mTopicService.getTopics(type, node_id, offset, limit);
         call.enqueue(new BaseCallback<List<Topic>>(new GetTopicsEvent(uuid)));
         return uuid;
     }
@@ -302,8 +318,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopicContent(@NonNull Integer id) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mDiycodeService.getTopic(id);
-        call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
+     //   Call<TopicContent> call = mDiycodeService.getTopic(id);
+     //   call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
 
@@ -317,8 +333,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
-        call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
+     //   Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
+     //   call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
         return uuid;
     }
 
@@ -411,8 +427,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
-        call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
+      //  Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
+      //  call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
         return uuid;
     }
 

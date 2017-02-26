@@ -22,6 +22,7 @@ package com.gcssloop.diycode_sdk.api.topic.api;
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 
 import java.util.List;
 
@@ -137,4 +138,27 @@ public interface TopicService {
      */
     @POST("topics/{id}/unfollow.json")
     Call<State> unWatchTopic(@Path("id") int id);
+
+    /**
+     * 获取 topic 回复列表
+     *
+     * @param id     topic 的 id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
+     * @return 回复列表
+     */
+    @GET("topics/{id}/replies.json")
+    Call<List<TopicReply>> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
+                                           @Query("limit") Integer limit);
+
+    /**
+     * 创建 topic 回帖(回复，评论)
+     *
+     * @param id   话题列表
+     * @param body 回帖内容, Markdown 格式
+     * @return
+     */
+    @POST("topics/{id}/replies.json")
+    Call<List<TopicReply>> newTopicReplies(@Path("id") int id, @Query("body") String body);
+
 }

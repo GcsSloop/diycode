@@ -41,7 +41,7 @@ public class CacheUtil {
         cache.put("token", token);
     }
 
-    public Token getToke(){
+    public Token getToken(){
         return (Token) cache.getAsObject("token");
     }
 
