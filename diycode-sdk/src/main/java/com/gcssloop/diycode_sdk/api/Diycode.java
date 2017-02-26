@@ -32,6 +32,7 @@ import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
@@ -62,7 +63,7 @@ import retrofit2.Retrofit;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements DiycodeAPI {
+public class Diycode implements DiycodeAPI, TopicAPI {
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
@@ -181,8 +182,6 @@ public class Diycode implements DiycodeAPI {
             Logger.init("Diycode").setLevel(Config.LEVEL_NONE);
         }
     }
-
-
 
 
     //--- OAuth 认证相关 -------------------------------------------------------------------------
@@ -318,8 +317,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopicContent(@NonNull Integer id) {
         final String uuid = UUIDGenerator.getUUID();
-     //   Call<TopicContent> call = mDiycodeService.getTopic(id);
-     //   call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
+        //   Call<TopicContent> call = mDiycodeService.getTopic(id);
+        //   call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
 
@@ -333,8 +332,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
-     //   Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
-     //   call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
+        //   Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
+        //   call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
         return uuid;
     }
 
@@ -427,8 +426,8 @@ public class Diycode implements DiycodeAPI {
     @Override
     public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-      //  Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
-      //  call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
+        //  Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
+        //  call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
         return uuid;
     }
 
