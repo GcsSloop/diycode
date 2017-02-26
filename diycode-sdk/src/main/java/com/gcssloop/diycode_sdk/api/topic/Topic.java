@@ -19,7 +19,7 @@
 
 package com.gcssloop.diycode_sdk.api.topic;
 
-import com.gcssloop.diycode_sdk.api.base.Diycode;
+import com.gcssloop.diycode_sdk.api.diycode.Diycode;
 
 public class Topic extends Diycode {
 

@@ -19,6 +19,9 @@
 
 package com.gcssloop.diycode_sdk.bean;
 
+import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
+import com.gcssloop.diycode_sdk.api.base.bean.User;
+
 /**
  * topic 简略信息
  */

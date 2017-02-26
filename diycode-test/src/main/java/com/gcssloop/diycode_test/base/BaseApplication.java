@@ -21,7 +21,7 @@ package com.gcssloop.diycode_test.base;
 
 import android.app.Application;
 
-import com.gcssloop.diycode_sdk.api.base.Diycode;
+import com.gcssloop.diycode_sdk.api.diycode.Diycode;
 
 public class BaseApplication extends Application {
 

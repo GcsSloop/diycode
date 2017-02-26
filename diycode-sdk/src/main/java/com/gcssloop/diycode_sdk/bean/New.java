@@ -1,5 +1,7 @@
 package com.gcssloop.diycode_sdk.bean;
 
+import com.gcssloop.diycode_sdk.api.base.bean.User;
+
 public class New {
 
     private int id;                         // 唯一 id

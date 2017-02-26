@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 02:59:49
+ * Last modified 2017-02-27 03:33:52
  *
  */
 
-package com.gcssloop.diycode_sdk.api.base;
+package com.gcssloop.diycode_sdk.api.diycode;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.base.api.DiycodeAPI;
-import com.gcssloop.diycode_sdk.api.base.api.DiycodeService;
+import com.gcssloop.diycode_sdk.api.diycode.api.DiycodeAPI;
+import com.gcssloop.diycode_sdk.api.diycode.api.DiycodeService;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.bean.Hello;
-import com.gcssloop.diycode_sdk.bean.Token;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 import com.gcssloop.diycode_sdk.bean.Topic;
 import com.gcssloop.diycode_sdk.bean.TopicContent;
 import com.gcssloop.diycode_sdk.bean.TopicReply;
@@ -35,10 +35,10 @@ import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.event.GetTopicRepliesEvent;
 import com.gcssloop.diycode_sdk.event.GetTopicsEvent;
-import com.gcssloop.diycode_sdk.event.HelloEvent;
-import com.gcssloop.diycode_sdk.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
 import com.gcssloop.diycode_sdk.event.NewTopicEvent;
-import com.gcssloop.diycode_sdk.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;

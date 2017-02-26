@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:26:56
+ * Last modified 2017-02-27 03:34:01
  *
  */
 
-package com.gcssloop.diycode_sdk.api.base.api;
+package com.gcssloop.diycode_sdk.api.diycode.api;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.event.GetTopicsEvent;
-import com.gcssloop.diycode_sdk.event.HelloEvent;
-import com.gcssloop.diycode_sdk.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
 
 import java.io.File;
 import java.util.ArrayList;

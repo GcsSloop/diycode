@@ -13,34 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-13 01:08:26
+ * Last modified 2017-02-27 03:31:27
  *
  */
 
-package com.gcssloop.diycode_sdk.bean;
+package com.gcssloop.diycode_sdk.api.base.bean;
 
 /**
- * 权限控制
+ * 判断操作状态是否成功
  */
-public class Abilities {
-    private boolean update;
+public class State {
+    /**
+     * ok : 1
+     */
 
-    private boolean destroy;
+    private int ok;
 
-    public void setUpdate(boolean update) {
-        this.update = update;
+    public int getOk() {
+        return ok;
     }
 
-    public boolean getUpdate() {
-        return this.update;
+    public void setOk(int ok) {
+        this.ok = ok;
     }
-
-    public void setDestroy(boolean destroy) {
-        this.destroy = destroy;
-    }
-
-    public boolean getDestroy() {
-        return this.destroy;
-    }
-
 }

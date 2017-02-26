@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-11 02:24:31
+ * Last modified 2017-02-27 03:35:51
  *
  */
 
-package com.gcssloop.diycode_sdk.event;
+package com.gcssloop.diycode_sdk.api.diycode.event;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.bean.Token;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 
 /**
  * 登录

@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:26:56
+ * Last modified 2017-02-27 03:34:01
  *
  */
 
-package com.gcssloop.diycode_sdk.api.base.api;
+package com.gcssloop.diycode_sdk.api.diycode.api;
 
-import com.gcssloop.diycode_sdk.bean.Hello;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
 import com.gcssloop.diycode_sdk.bean.New;
 import com.gcssloop.diycode_sdk.bean.NewReply;
 import com.gcssloop.diycode_sdk.bean.Node;
-import com.gcssloop.diycode_sdk.bean.State;
-import com.gcssloop.diycode_sdk.bean.Token;
+import com.gcssloop.diycode_sdk.api.base.bean.State;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 import com.gcssloop.diycode_sdk.bean.Topic;
 import com.gcssloop.diycode_sdk.bean.TopicContent;
 import com.gcssloop.diycode_sdk.bean.TopicReply;

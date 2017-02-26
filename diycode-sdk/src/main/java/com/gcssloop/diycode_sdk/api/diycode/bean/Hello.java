@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-12 17:39:52
+ * Last modified 2017-02-27 03:34:38
  *
  */
 
-package com.gcssloop.diycode_sdk.bean;
+package com.gcssloop.diycode_sdk.api.diycode.bean;
 
 /**
  * 测试(测试 token 是否管用)

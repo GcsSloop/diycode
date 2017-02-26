@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.api.topic.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.bean.State;
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.bean.TopicContent;
 
 import retrofit2.Call;

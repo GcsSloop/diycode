@@ -23,7 +23,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.gcssloop.diycode_sdk.api.base.Diycode;
+import com.gcssloop.diycode_sdk.api.diycode.Diycode;
 
 public class BaseActivity extends AppCompatActivity {
 

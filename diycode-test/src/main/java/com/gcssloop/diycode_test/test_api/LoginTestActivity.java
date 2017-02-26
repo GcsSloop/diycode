@@ -25,9 +25,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gcssloop.diycode_sdk.bean.Token;
-import com.gcssloop.diycode_sdk.event.LoginEvent;
-import com.gcssloop.diycode_sdk.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
+import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
