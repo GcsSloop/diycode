@@ -26,9 +26,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.gcssloop.diycode_sdk.api.bean.Topic;
-import com.gcssloop.diycode_sdk.api.event.GetTopicsEvent;
-import com.gcssloop.diycode_sdk.api.utils.TimeUtil;
+import com.gcssloop.diycode_sdk.bean.Topic;
+import com.gcssloop.diycode_sdk.event.GetTopicsEvent;
+import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.adapter.CommonAdapter;
 import com.gcssloop.diycode_test.adapter.ViewHolder;

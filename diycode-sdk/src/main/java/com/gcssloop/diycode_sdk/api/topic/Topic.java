@@ -13,27 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-26 03:36:12
+ * Last modified 2017-02-27 02:59:04
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode_sdk.api.topic;
 
-import android.app.Application;
-
-import com.gcssloop.diycode.utils.CrashHandler;
 import com.gcssloop.diycode_sdk.api.base.Diycode;
 
-public class BaseApplication extends Application {
+public class Topic extends Diycode{
 
-    public static final String client_id = "7024a413";
-    public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        CrashHandler.getInstance().init(this);
-
-        Diycode.getInstance().init(this, client_id, client_secret);
-    }
 }

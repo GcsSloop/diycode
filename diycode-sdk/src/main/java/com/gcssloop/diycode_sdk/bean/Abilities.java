@@ -13,27 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-26 03:36:12
+ * Last modified 2017-02-13 01:08:26
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode_sdk.bean;
 
-import android.app.Application;
+/**
+ * 权限控制
+ */
+public class Abilities {
+    private boolean update;
 
-import com.gcssloop.diycode.utils.CrashHandler;
-import com.gcssloop.diycode_sdk.api.base.Diycode;
+    private boolean destroy;
 
-public class BaseApplication extends Application {
-
-    public static final String client_id = "7024a413";
-    public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        CrashHandler.getInstance().init(this);
-
-        Diycode.getInstance().init(this, client_id, client_secret);
+    public void setUpdate(boolean update) {
+        this.update = update;
     }
+
+    public boolean getUpdate() {
+        return this.update;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
+
+    public boolean getDestroy() {
+        return this.destroy;
+    }
+
 }

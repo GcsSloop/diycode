@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-25 22:50:52
+ * Last modified 2017-02-25 05:27:23
  *
  */
 
-package com.gcssloop.diycode_test.base;
+package com.gcssloop.diycode_sdk.bean;
 
-import android.app.Application;
+/**
+ * 判断操作状态是否成功
+ */
+public class State {
+    /**
+     * ok : 1
+     */
 
-import com.gcssloop.diycode_sdk.api.base.Diycode;
+    private int ok;
 
-public class BaseApplication extends Application {
+    public int getOk() {
+        return ok;
+    }
 
-    public static final String client_id = "7024a413";
-    public static final String client_secret = "8404fa33ae48d3014cfa89deaa674e4cbe6ec894a57dbef4e40d083dbbaa5cf4";
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        // 初始化 Diycode
-        Diycode.init(this.getApplicationContext(), client_id, client_secret);
+    public void setOk(int ok) {
+        this.ok = ok;
     }
 }
