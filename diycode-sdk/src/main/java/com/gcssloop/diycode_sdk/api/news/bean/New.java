@@ -13,33 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-13 01:08:43
+ * Last modified 2017-02-27 03:38:43
  *
  */
 
-package com.gcssloop.diycode_sdk.bean;
+package com.gcssloop.diycode_sdk.api.news.bean;
 
-import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.base.bean.User;
 
-/**
- * topic 简略信息
- */
-public class Topic {
+public class New {
+
     private int id;                         // 唯一 id
     private String title;                   // 标题
     private String created_at;              // 创建时间
     private String updated_at;              // 更新时间
-    private String replied_at;              // 最近一次回复时间
-    private int replies_count;              // 回复总数量
+    private User user;                      // 创建该话题的用户(信息)
     private String node_name;               // 节点名称
     private int node_id;                    // 节点 id
     private int last_reply_user_id;         // 最近一次回复的用户 id
     private String last_reply_user_login;   // 最近一次回复的用户登录名
-    private User user;                      // 创建该话题的用户(信息)
-    private boolean deleted;                // 是否是被删除的
-    private boolean excellent;              // 是否是加精的
-    private Abilities abilities;            // 当前用户对该话题拥有的权限
+    private String replied_at;              // 最近一次回复时间
+    private int replies_count;              // 回复总数量
+    private String address;                 // 具体地址
 
     public void setId(int id) {
         this.id = id;
@@ -73,20 +68,12 @@ public class Topic {
         return this.updated_at;
     }
 
-    public void setReplied_at(String replied_at) {
-        this.replied_at = replied_at;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getReplied_at() {
-        return this.replied_at;
-    }
-
-    public void setReplies_count(int replies_count) {
-        this.replies_count = replies_count;
-    }
-
-    public int getReplies_count() {
-        return this.replies_count;
+    public User getUser() {
+        return this.user;
     }
 
     public void setNode_name(String node_name) {
@@ -121,36 +108,27 @@ public class Topic {
         return this.last_reply_user_login;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setReplied_at(String replied_at) {
+        this.replied_at = replied_at;
     }
 
-    public User getUser() {
-        return this.user;
+    public String getReplied_at() {
+        return this.replied_at;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public boolean getDeleted() {
-        return this.deleted;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setExcellent(boolean excellent) {
-        this.excellent = excellent;
+    public void setReplies_count(int replies_count) {
+        this.replies_count = replies_count;
     }
 
-    public boolean getExcellent() {
-        return this.excellent;
+    public int getReplies_count() {
+        return this.replies_count;
     }
-
-    public void setAbilities(Abilities abilities) {
-        this.abilities = abilities;
-    }
-
-    public Abilities getAbilities() {
-        return this.abilities;
-    }
-
 }

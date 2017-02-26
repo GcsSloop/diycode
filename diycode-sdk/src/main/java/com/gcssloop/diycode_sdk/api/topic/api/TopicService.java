@@ -20,8 +20,8 @@
 package com.gcssloop.diycode_sdk.api.topic.api;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
-import com.gcssloop.diycode_sdk.bean.*;
-import com.gcssloop.diycode_sdk.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 
 import java.util.List;
 

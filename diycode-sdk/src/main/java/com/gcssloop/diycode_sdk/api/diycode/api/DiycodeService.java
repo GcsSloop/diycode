@@ -20,14 +20,14 @@
 package com.gcssloop.diycode_sdk.api.diycode.api;
 
 import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
-import com.gcssloop.diycode_sdk.bean.New;
-import com.gcssloop.diycode_sdk.bean.NewReply;
-import com.gcssloop.diycode_sdk.bean.Node;
+import com.gcssloop.diycode_sdk.api.news.bean.New;
+import com.gcssloop.diycode_sdk.api.news.bean.NewReply;
+import com.gcssloop.diycode_sdk.api.node.bean.Node;
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
-import com.gcssloop.diycode_sdk.bean.Topic;
-import com.gcssloop.diycode_sdk.bean.TopicContent;
-import com.gcssloop.diycode_sdk.bean.TopicReply;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.utils.Constant;
 
 import java.util.List;
