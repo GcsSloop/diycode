@@ -22,8 +22,6 @@ package com.gcssloop.diycode_sdk.api.diycode.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
 

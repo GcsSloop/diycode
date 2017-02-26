@@ -35,8 +35,10 @@ import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.NewTopicEvent;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
@@ -69,14 +71,14 @@ public class Diycode implements DiycodeAPI, TopicAPI {
 
     private volatile static Diycode mDiycode;
 
-    private Diycode(Context context) {
+    private Diycode() {
     }
 
-    public static Diycode getInstance(Context context) {
+    public static Diycode getInstance() {
         if (null == mDiycode) {
             synchronized (Diycode.class) {
                 if (null == mDiycode) {
-                    mDiycode = new Diycode(context);
+                    mDiycode = new Diycode();
                 }
             }
         }
@@ -90,33 +92,32 @@ public class Diycode implements DiycodeAPI, TopicAPI {
     protected static Retrofit mRetrofit;
     protected static CacheUtil mCacheUtil; // 缓存工具
 
-    private static String mClientId;       // 应用 id
-    private static String mClientSecret;   // 应用秘钥
-
     public static Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
-        Logger.i("初始化 diycode");
-        initRetrofit(); // 配置 retrofit
         initLogger(context);
+        Logger.i("初始化 diycode");
 
-        // 缓存工具
-        mCacheUtil = new CacheUtil(context.getApplicationContext());
-        mClientId = client_id;
-        mClientSecret = client_secret;
-
-        // 使用 Retrofit2 将定义的网络接口转化为实际的请求方式
-        mDiycodeService = mRetrofit.create(DiycodeService.class);
-        mTopicService = mRetrofit.create(TopicService.class);
-
-        // 存储
         CLIENT_ID = client_id;
         CLIENT_SECRET = client_secret;
 
-        return getInstance(context);
+        initCache(context);     // 初始化缓存
+        initRetrofit();         // 初始化 retrofit
+        initService();          // 初始化 service
+
+        return getInstance();
     }
 
-    /**
-     * 初始化 retrofit
-     */
+
+    private static void initService() {
+        // 使用 Retrofit2 将定义的网络接口转化为实际的请求方式
+        mDiycodeService = mRetrofit.create(DiycodeService.class);
+        mTopicService = mRetrofit.create(TopicService.class);
+    }
+
+    private static void initCache(@NonNull Context context) {
+        // 缓存工具
+        mCacheUtil = new CacheUtil(context.getApplicationContext());
+    }
+
     private static void initRetrofit() {
         // 设置 Log 拦截器，可以用于以后处理一些异常情况
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -203,7 +204,7 @@ public class Diycode implements DiycodeAPI, TopicAPI {
         }
 
         // 如果本地有缓存的 token，尝试刷新 token 信息，并缓存新的 Token
-        Call<Token> call = mDiycodeService.refreshToken(mClientId, mClientSecret,
+        Call<Token> call = mDiycodeService.refreshToken(CLIENT_ID, CLIENT_SECRET,
                 GRANT_TYPE_REFRESH, mCacheUtil.getToken().getRefresh_token());
         call.enqueue(new TokenCallback(mCacheUtil, new RefreshTokenEvent(uuid)));
         return uuid;
@@ -217,7 +218,7 @@ public class Diycode implements DiycodeAPI, TopicAPI {
      *
      * @return 当前的 token
      */
-    protected static Token getToken() {
+    public static Token getToken() {
         return mCacheUtil.getToken();
     }
 
@@ -284,7 +285,7 @@ public class Diycode implements DiycodeAPI, TopicAPI {
     public String hello(@Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<Hello> call = mDiycodeService.hello(limit);
-        call.enqueue(new BaseCallback<Hello>(new HelloEvent(uuid)));
+        call.enqueue(new BaseCallback<>(new HelloEvent(uuid)));
         return uuid;
     }
 
@@ -304,7 +305,7 @@ public class Diycode implements DiycodeAPI, TopicAPI {
     public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         Call<List<Topic>> call = mTopicService.getTopics(type, node_id, offset, limit);
-        call.enqueue(new BaseCallback<List<Topic>>(new GetTopicsEvent(uuid)));
+        call.enqueue(new BaseCallback<>(new GetTopicsEvent(uuid)));
         return uuid;
     }
 
@@ -317,8 +318,8 @@ public class Diycode implements DiycodeAPI, TopicAPI {
     @Override
     public String getTopicContent(@NonNull Integer id) {
         final String uuid = UUIDGenerator.getUUID();
-        //   Call<TopicContent> call = mDiycodeService.getTopic(id);
-        //   call.enqueue(new BaseCallback<TopicContent>(new GetTopicContentEvent(uuid)));
+        Call<TopicContent> call = mTopicService.getTopic(id);
+        call.enqueue(new BaseCallback<>(new GetTopicContentEvent(uuid)));
         return uuid;
     }
 
@@ -332,8 +333,8 @@ public class Diycode implements DiycodeAPI, TopicAPI {
     @Override
     public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
-        //   Call<TopicContent> call = mDiycodeService.newTopic(title, body, node_id);
-        //   call.enqueue(new BaseCallback<TopicContent>(new NewTopicEvent(uuid)));
+        Call<TopicContent> call = mTopicService.newTopic(title, body, node_id);
+        call.enqueue(new BaseCallback<>(new NewTopicEvent(uuid)));
         return uuid;
     }
 
