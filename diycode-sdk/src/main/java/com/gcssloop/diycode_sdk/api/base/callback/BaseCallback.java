@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-14 17:29:22
+ * Last modified 2017-02-27 03:28:11
  *
  */
 
-package com.gcssloop.diycode_sdk.base;
+package com.gcssloop.diycode_sdk.api.base.callback;
 
 import android.support.annotation.NonNull;
+
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

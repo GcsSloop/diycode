@@ -21,7 +21,6 @@ package com.gcssloop.diycode_sdk.api.topic;
 
 import com.gcssloop.diycode_sdk.api.base.Diycode;
 
-public class Topic extends Diycode{
-
+public class Topic extends Diycode {
 
 }

@@ -23,13 +23,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.base.BaseCallback;
+import com.gcssloop.diycode_sdk.api.base.api.DiycodeAPI;
+import com.gcssloop.diycode_sdk.api.base.api.DiycodeService;
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.bean.Hello;
 import com.gcssloop.diycode_sdk.bean.Token;
 import com.gcssloop.diycode_sdk.bean.Topic;
 import com.gcssloop.diycode_sdk.bean.TopicContent;
 import com.gcssloop.diycode_sdk.bean.TopicReply;
-import com.gcssloop.diycode_sdk.callback.TokenCallback;
+import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.event.GetTopicRepliesEvent;
 import com.gcssloop.diycode_sdk.event.GetTopicsEvent;
@@ -64,7 +66,6 @@ import retrofit2.Retrofit;
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
 public class Diycode implements DiycodeAPI {
-    public static final String TAG = "GcsDiy";
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 

@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-23 03:39:52
+ * Last modified 2017-02-27 03:28:21
  *
  */
 
-package com.gcssloop.diycode_sdk.callback;
+package com.gcssloop.diycode_sdk.api.base.callback;
 
 import android.support.annotation.NonNull;
 
-import com.gcssloop.diycode_sdk.base.BaseCallback;
-import com.gcssloop.diycode_sdk.base.BaseEvent;
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.diycode_sdk.bean.Token;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 

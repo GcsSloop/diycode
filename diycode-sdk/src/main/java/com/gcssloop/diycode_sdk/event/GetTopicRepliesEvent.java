@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.event;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.base.BaseEvent;
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.diycode_sdk.bean.TopicReply;
 
 import java.util.List;

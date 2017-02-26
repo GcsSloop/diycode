@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-13 23:24:45
+ * Last modified 2017-02-27 03:27:35
  *
  */
 
-package com.gcssloop.diycode_sdk.base;
+package com.gcssloop.diycode_sdk.api.base.event;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
