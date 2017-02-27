@@ -56,7 +56,7 @@ public interface NewsService {
      */
     @POST("news.json")
     @FormUrlEncoded
-    Call<New> newNew(@Query("title") Integer title, @Query("address") Integer address,
+    Call<New> createNews(@Query("title") Integer title, @Query("address") Integer address,
                      @Query("node_id") Integer node_id);
 
     /**

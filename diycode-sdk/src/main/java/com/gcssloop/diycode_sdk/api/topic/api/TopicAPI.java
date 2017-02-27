@@ -52,7 +52,7 @@ public interface TopicAPI {
      * @param body    Topic 内容
      * @param node_id Topic 节点编号
      */
-    String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
 
 
     /**

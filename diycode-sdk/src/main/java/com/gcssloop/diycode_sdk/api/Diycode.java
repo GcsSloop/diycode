@@ -337,7 +337,7 @@ public class Diycode implements DiycodeAPI, LikesAPI, TopicAPI, NewsAPI, ReplyAP
      * @param node_id Topic 节点编号
      */
     @Override
-    public String newTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
         Call<TopicContent> call = mTopicService.newTopic(title, body, node_id);
         call.enqueue(new BaseCallback<>(new NewTopicEvent(uuid)));
