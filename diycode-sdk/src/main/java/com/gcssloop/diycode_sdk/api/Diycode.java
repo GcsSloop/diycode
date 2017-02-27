@@ -32,6 +32,11 @@ import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.likes.api.LikesAPI;
+import com.gcssloop.diycode_sdk.api.news.api.NewsAPI;
+import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsAPI;
+import com.gcssloop.diycode_sdk.api.reply.api.ReplyAPI;
+import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
@@ -39,6 +44,7 @@ import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.NewTopicEvent;
+import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
@@ -65,7 +71,7 @@ import retrofit2.Retrofit;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements DiycodeAPI, TopicAPI {
+public class Diycode implements DiycodeAPI, LikesAPI, TopicAPI, NewsAPI, ReplyAPI, UserAPI, SitesAPI, NotificationsAPI {
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
