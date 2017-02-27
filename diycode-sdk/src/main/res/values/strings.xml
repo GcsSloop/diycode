@@ -19,5 +19,5 @@
 
 <resources>
     <string name="app_name">diycode-sdk</string>
-    <string name="__leak_canary_display_activity_label">DiytestLeaks</string>
+    <string name="leak_canary_display_activity_label">DiycodeLeaks</string>
 </resources>
