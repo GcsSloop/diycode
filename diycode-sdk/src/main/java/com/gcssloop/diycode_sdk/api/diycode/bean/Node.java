@@ -13,11 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-28 03:03:38
+ * Last modified 2017-03-01 03:02:14
  *
  */
 
-package com.gcssloop.diycode_sdk.api.node.api;
+package com.gcssloop.diycode_sdk.api.diycode.bean;
 
-public interface NodeService {
+public class Node {
+
+    /**
+     * id : 1
+     * name : Android
+     */
+
+    private int id;
+    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

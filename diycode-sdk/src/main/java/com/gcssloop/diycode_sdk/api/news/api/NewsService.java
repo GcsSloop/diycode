@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.api.news.api;
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.bean.NewReply;
-import com.gcssloop.diycode_sdk.api.node.bean.Node;
+import com.gcssloop.diycode_sdk.api.diycode.bean.Node;
 
 import java.util.List;
 
