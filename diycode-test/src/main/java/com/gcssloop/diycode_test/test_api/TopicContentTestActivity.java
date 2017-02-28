@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
@@ -73,7 +73,7 @@ public class TopicContentTestActivity extends BaseActivity {
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTopicContent(GetTopicContentEvent event) {
+    public void onTopicContent(GetTopicEvent event) {
         if (event.isOk()) {
             toast("获取成功");
             TopicContent topicContent = event.getBean();

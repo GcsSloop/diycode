@@ -36,6 +36,8 @@ import retrofit2.http.Query;
 
 public interface TopicService {
 
+    //--- topic ------------------------------------------------------------------------------------
+
     /**
      * 获取 topic 列表
      *
@@ -94,14 +96,17 @@ public interface TopicService {
     @DELETE("topics/{id}.json")
     Call<State> deleteTopic(@Path("id") int id);
 
+
+    //--- topic collection -------------------------------------------------------------------------
+
     /**
-     * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
+     * 收藏话题
      *
-     * @param id 要屏蔽的话题 id
-     * @return
+     * @param id 被收藏的话题 id
+     * @return 状态信息
      */
-    @POST("topics/{id}/ban.json")
-    Call<State> banTopic(@Path("id") int id);
+    @POST("topics/{id}/favorite.json")
+    Call<State> collectionTopic(@Path("id") int id);
 
     /**
      * 取消收藏话题
@@ -112,14 +117,8 @@ public interface TopicService {
     @POST("topics/{id}/unfavorite.json")
     Call<State> unCollectionTopic(@Path("id") int id);
 
-    /**
-     * 收藏话题
-     *
-     * @param id 被收藏的话题 id
-     * @return 状态信息
-     */
-    @POST("topics/{id}/favorite.json")
-    Call<State> collectionTopic(@Path("id") int id);
+
+    //--- topic watch ------------------------------------------------------------------------------
 
     /**
      * 关注话题
@@ -138,6 +137,9 @@ public interface TopicService {
      */
     @POST("topics/{id}/unfollow.json")
     Call<State> unWatchTopic(@Path("id") int id);
+
+
+    //--- topic reply ------------------------------------------------------------------------------
 
     /**
      * 获取 topic 回复列表
@@ -159,8 +161,45 @@ public interface TopicService {
      * @return
      */
     @POST("topics/{id}/replies.json")
-    Call<List<TopicReply>> newTopicReplies(@Path("id") int id, @Query("body") String body);
+    Call<List<TopicReply>> createTopicReply(@Path("id") int id, @Query("body") String body);
+
+    /**
+     * 获取回帖的详细内容（一般用于编辑回帖的时候）
+     *
+     * @param id id
+     * @return 回帖内容
+     */
+    @GET("replies/{id}.json")
+    Call<TopicReply> getTopicReply(@Path("id") int id);
 
 
+    /**
+     * 更新回帖
+     *
+     * @param id   id
+     * @param body 回帖详情
+     * @return 回帖内容
+     */
+    @POST("replies/{id}.json")
+    Call<TopicReply> updateTopicReply(@Path("id") int id, @Field("body") String body);
 
+    /**
+     * 删除回帖
+     *
+     * @param id id
+     * @return 状态
+     */
+    @DELETE("replies/{id}.json")
+    Call<State> deleteTopicReply(@Path("id") int id);
+
+    //--- topic ban --------------------------------------------------------------------------------
+
+    /**
+     * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
+     *
+     * @param id 要屏蔽的话题 id
+     * @return
+     */
+    @POST("topics/{id}/ban.json")
+    Call<State> banTopic(@Path("id") int id);
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:38:02
+ * Last modified 2017-03-01 05:55:19
  *
  */
 
@@ -22,24 +22,23 @@ package com.gcssloop.diycode_sdk.api.topic.event;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 
-public class GetTopicContentEvent extends BaseEvent<TopicContent> {
-
+public class CollectionTopicEvent extends BaseEvent<State> {
     /**
      * @param uuid 唯一识别码
      */
-    public GetTopicContentEvent(@Nullable String uuid) {
+    public CollectionTopicEvent(@Nullable String uuid) {
         super(uuid);
     }
 
     /**
-     * @param uuid         唯一识别码
-     * @param code         网络返回码
-     * @param topicContent 实体数据
+     * @param uuid  唯一识别码
+     * @param code  网络返回码
+     * @param state 实体数据
      */
-    public GetTopicContentEvent(@Nullable String uuid, @NonNull Integer code, @Nullable TopicContent topicContent) {
-        super(uuid, code, topicContent);
+    public CollectionTopicEvent(@Nullable String uuid, @NonNull Integer code, @Nullable State state) {
+        super(uuid, code, state);
     }
 }

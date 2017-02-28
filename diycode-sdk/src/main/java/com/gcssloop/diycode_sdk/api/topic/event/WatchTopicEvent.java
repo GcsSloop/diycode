@@ -13,36 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-28 02:56:45
+ * Last modified 2017-03-01 05:56:45
  *
  */
 
-package com.gcssloop.diycode_sdk.api.reply.api;
+package com.gcssloop.diycode_sdk.api.topic.event;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-public interface ReplyAPI {
+import com.gcssloop.diycode_sdk.api.base.bean.State;
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
+
+public class WatchTopicEvent extends BaseEvent<State> {
+    /**
+     * @param uuid 唯一识别码
+     */
+    public WatchTopicEvent(@Nullable String uuid) {
+        super(uuid);
+    }
 
     /**
-     * 获取回帖的详细内容（一般用于编辑回帖的时候）
-     *
-     * @param id 编号
+     * @param uuid  唯一识别码
+     * @param code  网络返回码
+     * @param state 实体数据
      */
-    String getReply(@NonNull Integer id);
-
-    /**
-     * 更新回帖
-     *
-     * @param id   编号
-     * @param body 帖子详情
-     */
-    String postReply(@NonNull Integer id, @NonNull String body);
-
-    /**
-     * 删除回帖
-     *
-     * @param id 编号
-     */
-    String deleteReply(@NonNull Integer id);
-
+    public WatchTopicEvent(@Nullable String uuid, @NonNull Integer code, @Nullable State state) {
+        super(uuid, code, state);
+    }
 }

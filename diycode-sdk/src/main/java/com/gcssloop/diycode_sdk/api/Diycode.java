@@ -35,15 +35,11 @@ import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.likes.api.LikesAPI;
 import com.gcssloop.diycode_sdk.api.news.api.NewsAPI;
 import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsAPI;
-import com.gcssloop.diycode_sdk.api.reply.api.ReplyAPI;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicContentEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.NewTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.*;
 import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
@@ -71,8 +67,7 @@ import retrofit2.Retrofit;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAPI,
-        UserAPI, SitesAPI, NotificationsAPI {
+public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, UserAPI, SitesAPI, NotificationsAPI {
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
@@ -96,8 +91,8 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
     private static TopicService mTopicService;
 
 
-    protected static Retrofit mRetrofit;
-    protected static CacheUtil mCacheUtil; // 缓存工具
+    private static Retrofit mRetrofit;
+    private static CacheUtil mCacheUtil; // 缓存工具
 
     public static Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
         initLogger(context);
@@ -196,8 +191,6 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
 
     private static String CLIENT_ID = "";                       // 应用 ID
     private static String CLIENT_SECRET = "";                   // 私钥
-    private static String GRANT_TYPE_GET = "password";          // 认证类型(密码)
-    private static String GRANT_TYPE_REFRESH = "refresh_token"; // 认证类型(Token)
 
     /**
      * 刷新 token
@@ -211,6 +204,7 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
         }
 
         // 如果本地有缓存的 token，尝试刷新 token 信息，并缓存新的 Token
+        String GRANT_TYPE_REFRESH = "refresh_token";
         Call<Token> call = mDiycodeService.refreshToken(CLIENT_ID, CLIENT_SECRET,
                 GRANT_TYPE_REFRESH, mCacheUtil.getToken().getRefresh_token());
         call.enqueue(new TokenCallback(mCacheUtil, new RefreshTokenEvent(uuid)));
@@ -242,6 +236,7 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
     @Override
     public String login(@NonNull final String user_name, @NonNull final String password) {
         final String uuid = UUIDGenerator.getUUID();
+        String GRANT_TYPE_GET = "password";
         Call<Token> call = mDiycodeService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE_GET,
                 user_name, password);
         call.enqueue(new TokenCallback(mCacheUtil, new LoginEvent(uuid)));
@@ -296,199 +291,6 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
         return uuid;
     }
 
-
-    //--- topic ------------------------------------------------------------------------------------
-
-    /**
-     * 获取 Topics 列表
-     *
-     * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
-     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
-     * @param offset  偏移数值，默认值 0
-     * @param limit   数量极限，默认值 20，值范围 1..150
-     * @see GetTopicsEvent
-     */
-    @Override
-    public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        Call<List<Topic>> call = mTopicService.getTopics(type, node_id, offset, limit);
-        call.enqueue(new BaseCallback<>(new GetTopicsEvent(uuid)));
-        return uuid;
-    }
-
-    /**
-     * 获取 topic 内容
-     *
-     * @param id topic 的 id
-     * @see GetTopicContentEvent
-     */
-    @Override
-    public String getTopicContent(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mTopicService.getTopic(id);
-        call.enqueue(new BaseCallback<>(new GetTopicContentEvent(uuid)));
-        return uuid;
-    }
-
-    /**
-     * 创建一个新的 Topic
-     *
-     * @param title   Topic 标题
-     * @param body    Topic 内容
-     * @param node_id Topic 节点编号
-     */
-    @Override
-    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        Call<TopicContent> call = mTopicService.createTopic(title, body, node_id);
-        call.enqueue(new BaseCallback<>(new NewTopicEvent(uuid)));
-        return uuid;
-    }
-
-    /**
-     * 更新 topic
-     *
-     * @param title   标题
-     * @param body    话题内容 Markdown 格式
-     * @param node_id 节点编号
-     */
-    @Override
-    public String updateTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 删除 topic 仅支持删除自己创建的 topic
-     *
-     * @param id 编号
-     */
-    @Override
-    public String deleteTopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 屏蔽话题，移到 NoPoint 节点 (Admin only)
-     *
-     * @param id 编号
-     */
-    @Override
-    public String banTopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 关注话题
-     *
-     * @param id 编号
-     */
-    @Override
-    public String followTopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 取消关注话题
-     *
-     * @param id 编号
-     */
-    @Override
-    public String unFollowRopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 收藏一个话题
-     *
-     * @param id 编号
-     */
-    @Override
-    public String collectionTopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 取消收藏一个话题
-     *
-     * @param id 编号
-     */
-    @Override
-    public String unCollectionTopic(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取话题评论列表
-     *
-     * @param id     编号
-     * @param offset 偏移数值，默认值 0
-     * @param limit  数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getTopicReplies(@NonNull Integer id, @Nullable Integer offset, @Nullable Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        //  Call<List<TopicReply>> call = mDiycodeService.getTopicReplies(id, offset, limit);
-        //  call.enqueue(new BaseCallback<List<TopicReply>>(new GetTopicRepliesEvent(uuid)));
-        return uuid;
-    }
-
-    /**
-     * 创建话题
-     *
-     * @param id   编号
-     * @param body 内容 Markdown 格式
-     */
-    @Override
-    public String createTopicReplies(@NonNull Integer id, @NonNull String body) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-
-    //--- reply ------------------------------------------------------------------------------------
-
-    /**
-     * 获取回帖的详细内容（一般用于编辑回帖的时候）
-     *
-     * @param id 编号
-     */
-    @Override
-    public String getReply(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 更新回帖
-     *
-     * @param id   编号
-     * @param body 帖子详情
-     */
-    @Override
-    public String postReply(@NonNull Integer id, @NonNull String body) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 删除回帖
-     *
-     * @param id 编号
-     */
-    @Override
-    public String deleteReply(@NonNull Integer id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-
     //--- like -------------------------------------------------------------------------------------
 
     /**
@@ -513,6 +315,195 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAP
     public String unLike(@NonNull String obj_type, @NonNull Integer obj_id) {
         final String uuid = UUIDGenerator.getUUID();
         return uuid;
+    }
+
+
+    //--- topic ------------------------------------------------------------------------------------
+
+    /**
+     * 获取 topic 列表
+     *
+     * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
+     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
+     * @param offset  偏移数值，默认值 0
+     * @param limit   数量极限，默认值 20，值范围 1..150
+     * @see GetTopicsEvent
+     */
+    @Override
+    public String getTopics(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+        Call<List<Topic>> call = mTopicService.getTopics(type, node_id, offset, limit);
+        return null;
+    }
+
+    /**
+     * 创建一个新的 topic
+     *
+     * @param title   话题标题
+     * @param body    话题内容, Markdown 格式
+     * @param node_id 节点编号
+     * @see CreateTopicEvent
+     */
+    @Override
+    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        return null;
+    }
+
+    /**
+     * 获取 topic 内容
+     *
+     * @param id topic 的 id
+     * @see GetTopicEvent
+     */
+    @Override
+    public String getTopic(@NonNull int id) {
+        return null;
+    }
+
+    /**
+     * 更新(修改) topic
+     *
+     * @param id      要修改的话题 id
+     * @param title   话题标题
+     * @param body    话题内容, Markdown 格式
+     * @param node_id 节点编号
+     * @see UpdateTopicEvent
+     */
+    @Override
+    public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        return null;
+    }
+
+    /**
+     * 删除一个话题
+     *
+     * @param id 要删除的话题 id
+     * @see DeleteTopicEvent
+     */
+    @Override
+    public String deleteTopic(@NonNull int id) {
+        return null;
+    }
+
+    //--- topic collection -------------------------------------------------------------------------
+
+    /**
+     * 收藏话题
+     *
+     * @param id 被收藏的话题 id
+     * @see CollectionTopicEvent
+     */
+    @Override
+    public String collectionTopic(@NonNull int id) {
+        return null;
+    }
+
+    /**
+     * 取消收藏话题
+     *
+     * @param id 被收藏的话题 id
+     * @see UnCollectionTopicEvent
+     */
+    @Override
+    public String unCollectionTopic(@NonNull int id) {
+        return null;
+    }
+
+    //--- topic watch ------------------------------------------------------------------------------
+
+    /**
+     * 关注话题
+     *
+     * @param id 话题 id
+     * @see WatchTopicEvent
+     */
+    @Override
+    public String watchTopic(@NonNull int id) {
+        return null;
+    }
+
+    /**
+     * 取消关注话题
+     *
+     * @param id 话题 id
+     * @see UnWatchTopicEvent
+     */
+    @Override
+    public String unWatchTopic(@NonNull int id) {
+        return null;
+    }
+
+    //--- topic reply ------------------------------------------------------------------------------
+
+    /**
+     * 获取 topic 回复列表
+     *
+     * @param id     topic 的 id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
+     * @see GetTopicRepliesEvent
+     */
+    @Override
+    public String getTopicReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+        return null;
+    }
+
+    /**
+     * 创建 topic 回帖(回复，评论)
+     *
+     * @param id   话题列表
+     * @param body 回帖内容, Markdown 格式
+     * @see CreateTopicReplyEvent
+     */
+    @Override
+    public String createTopicReply(@NonNull int id, @NonNull String body) {
+        return null;
+    }
+
+    /**
+     * 获取回帖的详细内容（一般用于编辑回帖的时候）
+     *
+     * @param id id
+     * @see GetTopicReplyEvent
+     */
+    @Override
+    public String getTopicReply(@NonNull int id) {
+        return null;
+    }
+
+    /**
+     * 更新回帖
+     *
+     * @param id   id
+     * @param body 回帖详情
+     * @see UpdateTopicReplyEvent
+     */
+    @Override
+    public String updateTopicReply(@NonNull int id, @NonNull String body) {
+        return null;
+    }
+
+    /**
+     * 删除回帖
+     *
+     * @param id id
+     * @see DeleteTopicReplyEvent
+     */
+    @Override
+    public String deleteTopicReply(@NonNull int id) {
+        return null;
+    }
+
+    //--- topic ban --------------------------------------------------------------------------------
+
+    /**
+     * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
+     *
+     * @param id 要屏蔽的话题 id
+     * @see BanTopicEvent
+     */
+    @Override
+    public String banTopic(@NonNull int id) {
+        return null;
     }
 
 

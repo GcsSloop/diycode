@@ -25,11 +25,12 @@ import android.support.annotation.Nullable;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 
-public class NewTopicEvent extends BaseEvent<TopicContent> {
+public class GetTopicEvent extends BaseEvent<TopicContent> {
+
     /**
      * @param uuid 唯一识别码
      */
-    public NewTopicEvent(@Nullable String uuid) {
+    public GetTopicEvent(@Nullable String uuid) {
         super(uuid);
     }
 
@@ -38,7 +39,7 @@ public class NewTopicEvent extends BaseEvent<TopicContent> {
      * @param code         网络返回码
      * @param topicContent 实体数据
      */
-    public NewTopicEvent(@Nullable String uuid, @NonNull Integer code, @Nullable TopicContent topicContent) {
+    public GetTopicEvent(@Nullable String uuid, @NonNull Integer code, @Nullable TopicContent topicContent) {
         super(uuid, code, topicContent);
     }
 }
