@@ -59,8 +59,8 @@ public interface TopicService {
      * @return 新话题的内容详情
      */
     @POST("topics.json")
-    Call<TopicContent> newTopic(@Field("title") String title, @Field("body") String body,
-                                @Field("node_id") Integer node_id);
+    Call<TopicContent> createTopic(@Field("title") String title, @Field("body") String body,
+                                   @Field("node_id") Integer node_id);
 
     /**
      * 获取 topic 内容
@@ -160,5 +160,7 @@ public interface TopicService {
      */
     @POST("topics/{id}/replies.json")
     Call<List<TopicReply>> newTopicReplies(@Path("id") int id, @Query("body") String body);
+
+
 
 }
