@@ -25,7 +25,7 @@ import android.support.annotation.Nullable;
 public interface NewsAPI {
 
     /**
-     * 获取 News 列表
+     * 获取 news 列表
      *
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
@@ -34,42 +34,56 @@ public interface NewsAPI {
     String getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
 
     /**
-     * 创建 News
+     * 创建一个 new (分享)
      *
-     * @param title   News 标题
-     * @param address News 链接
-     * @param node_id News 节点编号
+     * @param title   标题
+     * @param address 地址(网址链接)
+     * @param node_id 节点 id
      */
-    String createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id);
+    String createNews(@NonNull Integer title, @NonNull Integer address, @NonNull Integer node_id);
 
     /**
-     * 获取 News 评论列表
+     * 获取 news 回帖列表
      *
-     * @param obj_id 编号
-     * @param offset 偏移数值，默认值 0
-     * @param limit  数量极限，默认值 20，值范围 1..150
+     * @param id     id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
      */
-    String getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit);
+    String getNewsReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit);
 
     /**
-     * 获取 News 评论详情
+     * 创建 news 回帖 (暂不可用)
      *
-     * @param obj_id 编号
+     * @param id   id
+     * @param body 回帖内容， markdown格式
      */
-    String getNewsReplyContent(@NonNull Integer obj_id);
+    @Deprecated
+    String createNewsReply(@NonNull int id, @NonNull Integer body);
 
     /**
-     * 更新 News 评论
+     * 获取 news 回帖详情
      *
-     * @param obj_id 编号
-     * @param body   详情
+    * @param id id
      */
-    String updateNewsReply(@NonNull Integer obj_id, @NonNull String body);
+    String getNewsReply(@NonNull int id);
 
     /**
-     * 删除 News 评论
+     * 更新 news 回帖
      *
-     * @param obj_id 编号
+     * @param id   id
+     * @param body 回帖内容
+    */
+    String updateNewsReply(@NonNull int id, @NonNull String body);
+
+    /**
+     * 删除 news 回帖
+     *
+     * @param id id
      */
-    String deleteNewsReply(@NonNull Integer obj_id);
+    String deleteNewsReply(@NonNull int id);
+
+    /**
+     * 获取 news 分类列表
+     */
+    String getNewsNodes();
 }

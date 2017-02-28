@@ -71,7 +71,8 @@ import retrofit2.Retrofit;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements DiycodeAPI, LikesAPI, TopicAPI, NewsAPI, ReplyAPI, UserAPI, SitesAPI, NotificationsAPI {
+public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, ReplyAPI,
+        UserAPI, SitesAPI, NotificationsAPI {
 
     //--- 初始化和生命周期 -------------------------------------------------------------------------
 
@@ -518,7 +519,7 @@ public class Diycode implements DiycodeAPI, LikesAPI, TopicAPI, NewsAPI, ReplyAP
     //--- news -------------------------------------------------------------------------------------
 
     /**
-     * 获取 News 列表
+     * 获取 news 列表
      *
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
@@ -526,70 +527,82 @@ public class Diycode implements DiycodeAPI, LikesAPI, TopicAPI, NewsAPI, ReplyAP
      */
     @Override
     public String getNews(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+        return null;
     }
 
     /**
-     * 创建 News
+     * 创建一个 new (分享)
      *
-     * @param title   News 标题
-     * @param address News 链接
-     * @param node_id News 节点编号
+     * @param title   标题
+     * @param address 地址(网址链接)
+     * @param node_id 节点 id
      */
     @Override
-    public String createNews(@NonNull String title, @NonNull String address, @NonNull Integer node_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String createNews(@NonNull Integer title, @NonNull Integer address, @NonNull Integer node_id) {
+        return null;
     }
 
     /**
-     * 获取 News 评论列表
+     * 获取 news 回帖列表
      *
-     * @param obj_id 编号
-     * @param offset 偏移数值，默认值 0
-     * @param limit  数量极限，默认值 20，值范围 1..150
+     * @param id     id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
      */
     @Override
-    public String getNewsReply(@NonNull Integer obj_id, @Nullable Integer offset, @Nullable Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String getNewsReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+        return null;
     }
 
     /**
-     * 获取 News 评论详情
+     * 创建 news 回帖 (暂不可用)
      *
-     * @param obj_id 编号
+     * @param id   id
+     * @param body 回帖内容， markdown格式
      */
     @Override
-    public String getNewsReplyContent(@NonNull Integer obj_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String createNewsReply(@NonNull int id, @NonNull Integer body) {
+        return null;
     }
 
     /**
-     * 更新 News 评论
+     * 获取 news 回帖详情
      *
-     * @param obj_id 编号
-     * @param body   详情
+     * @param id id
      */
     @Override
-    public String updateNewsReply(@NonNull Integer obj_id, @NonNull String body) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String getNewsReply(@NonNull int id) {
+        return null;
     }
 
     /**
-     * 删除 News 评论
+     * 更新 news 回帖
      *
-     * @param obj_id 编号
+     * @param id   id
+     * @param body 回帖内容
      */
     @Override
-    public String deleteNewsReply(@NonNull Integer obj_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String updateNewsReply(@NonNull int id, @NonNull String body) {
+        return null;
     }
 
+    /**
+     * 删除 news 回帖
+     *
+     * @param id id
+     */
+    @Override
+    public String deleteNewsReply(@NonNull int id) {
+        return null;
+    }
+
+    /**
+     * 获取 news 分类列表
+     */
+    @Override
+    public String getNewsNodes() {
+        return null;
+    }
 
     //--- photo ------------------------------------------------------------------------------------
 

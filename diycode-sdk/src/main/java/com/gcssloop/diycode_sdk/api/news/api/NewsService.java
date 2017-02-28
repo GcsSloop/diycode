@@ -19,6 +19,7 @@
 
 package com.gcssloop.diycode_sdk.api.news.api;
 
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.bean.NewReply;
 import com.gcssloop.diycode_sdk.api.node.bean.Node;
@@ -26,6 +27,8 @@ import com.gcssloop.diycode_sdk.api.node.bean.Node;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -57,12 +60,12 @@ public interface NewsService {
     @POST("news.json")
     @FormUrlEncoded
     Call<New> createNews(@Query("title") Integer title, @Query("address") Integer address,
-                     @Query("node_id") Integer node_id);
+                         @Query("node_id") Integer node_id);
 
     /**
      * 获取 news 回帖列表
      *
-     * @param id     topic 的 id
+     * @param id     id
      * @param offset 偏移数值 默认 0
      * @param limit  数量极限，默认值 20，值范围 1...150
      * @return 回复列表
@@ -70,6 +73,45 @@ public interface NewsService {
     @GET("news/{id}/replies.json")
     Call<List<NewReply>> getNewsReplies(@Path("id") int id, @Query("offset") Integer offset,
                                         @Query("limit") Integer limit);
+
+    /**
+     * 创建 news 回帖 (暂不可用)
+     *
+     * @param id   id
+     * @param body 回帖内容， markdown格式
+     * @return 回复
+     */
+    @Deprecated
+    @POST("news/{id}/replies.json")
+    Call<NewReply> createNewsReply(@Path("id") int id, @Query("body") Integer body);
+
+    /**
+     * 获取 news 回帖详情
+     *
+     * @param id id
+     * @return 详情
+     */
+    @GET("news_replies/{id}.json")
+    Call<NewReply> getNewsReply(@Path("id") int id);
+
+    /**
+     * 更新 news 回帖
+     *
+     * @param id   id
+     * @param body 回帖内容
+     * @return 回帖内容
+     */
+    @POST("news_replies/{id}.json")
+    Call<NewReply> updateNewsReply(@Path("id") int id, @Field("body") String body);
+
+    /**
+     * 删除 news 回帖
+     *
+     * @param id id
+     * @return 状态
+     */
+    @DELETE("news_replies/{id}.json")
+    Call<State> deleteNewsReply(@Path("id") int id);
 
     /**
      * 获取 news 分类列表
