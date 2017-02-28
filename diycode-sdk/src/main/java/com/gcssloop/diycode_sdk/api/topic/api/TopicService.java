@@ -20,8 +20,8 @@
 package com.gcssloop.diycode_sdk.api.topic.api;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 
 import java.util.List;
@@ -29,6 +29,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -61,6 +62,7 @@ public interface TopicService {
      * @return 新话题的内容详情
      */
     @POST("topics.json")
+    @FormUrlEncoded
     Call<TopicContent> createTopic(@Field("title") String title, @Field("body") String body,
                                    @Field("node_id") Integer node_id);
 
@@ -84,6 +86,7 @@ public interface TopicService {
      * @return 更新后的话题内容详情
      */
     @POST("topics/{id}.json")
+    @FormUrlEncoded
     Call<TopicContent> updateTopic(@Path("id") int id, @Field("title") String title,
                                    @Field("body") String body, @Field("node_id") Integer node_id);
 
@@ -94,6 +97,7 @@ public interface TopicService {
      * @return
      */
     @DELETE("topics/{id}.json")
+    @FormUrlEncoded
     Call<State> deleteTopic(@Path("id") int id);
 
 
@@ -106,6 +110,7 @@ public interface TopicService {
      * @return 状态信息
      */
     @POST("topics/{id}/favorite.json")
+    @FormUrlEncoded
     Call<State> collectionTopic(@Path("id") int id);
 
     /**
@@ -115,6 +120,7 @@ public interface TopicService {
      * @return 状态信息
      */
     @POST("topics/{id}/unfavorite.json")
+    @FormUrlEncoded
     Call<State> unCollectionTopic(@Path("id") int id);
 
 
@@ -127,6 +133,7 @@ public interface TopicService {
      * @return 状态
      */
     @POST("topics/{id}/follow.json")
+    @FormUrlEncoded
     Call<State> watchTopic(@Path("id") int id);
 
     /**
@@ -136,6 +143,7 @@ public interface TopicService {
      * @return 状态
      */
     @POST("topics/{id}/unfollow.json")
+    @FormUrlEncoded
     Call<State> unWatchTopic(@Path("id") int id);
 
 
@@ -161,6 +169,7 @@ public interface TopicService {
      * @return
      */
     @POST("topics/{id}/replies.json")
+    @FormUrlEncoded
     Call<List<TopicReply>> createTopicReply(@Path("id") int id, @Query("body") String body);
 
     /**
@@ -181,6 +190,7 @@ public interface TopicService {
      * @return 回帖内容
      */
     @POST("replies/{id}.json")
+    @FormUrlEncoded
     Call<TopicReply> updateTopicReply(@Path("id") int id, @Field("body") String body);
 
     /**
@@ -190,6 +200,7 @@ public interface TopicService {
      * @return 状态
      */
     @DELETE("replies/{id}.json")
+    @FormUrlEncoded
     Call<State> deleteTopicReply(@Path("id") int id);
 
     //--- topic ban --------------------------------------------------------------------------------
@@ -201,5 +212,6 @@ public interface TopicService {
      * @return
      */
     @POST("topics/{id}/ban.json")
+    @FormUrlEncoded
     Call<State> banTopic(@Path("id") int id);
 }
