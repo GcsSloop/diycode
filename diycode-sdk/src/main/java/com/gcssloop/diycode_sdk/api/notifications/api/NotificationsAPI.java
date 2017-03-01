@@ -21,8 +21,6 @@ package com.gcssloop.diycode_sdk.api.notifications.api;
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-
 public interface NotificationsAPI {
 
     /**
@@ -32,6 +30,11 @@ public interface NotificationsAPI {
      * @param limit  数量极限，默认值 20，值范围 1..150
      */
     String getNotifications(@NonNull Integer offset, @NonNull Integer limit);
+
+    /**
+     * 获得未读通知的数量
+     */
+    String getNotificationUnReadCount();
 
     /**
      * 删除用户的某条通知
@@ -50,10 +53,6 @@ public interface NotificationsAPI {
      *
      * @param ids id集合
      */
-    String markNotificationAsRead(ArrayList<Integer> ids);
+    String markNotificationAsRead(int[] ids);
 
-    /**
-     * 获得未读通知的数量
-     */
-    String getUnreadNotificationCount();
 }
