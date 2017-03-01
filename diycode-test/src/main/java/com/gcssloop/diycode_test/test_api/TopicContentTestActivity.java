@@ -67,7 +67,7 @@ public class TopicContentTestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_get_content)
     public void getContent(View view) {
-        mDiycode.getTopicContent(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604));
+        mDiycode.getTopic(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604));
     }
 
 
