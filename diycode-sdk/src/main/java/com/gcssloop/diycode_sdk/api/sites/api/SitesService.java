@@ -13,16 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-28 03:04:13
+ * Last modified 2017-03-02 02:26:34
  *
  */
 
 package com.gcssloop.diycode_sdk.api.sites.api;
 
-public interface SitesAPI {
+import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+
+public interface SitesService {
 
     /**
      * 获取 酷站 列表
+     * @return 列表
      */
-    String getSites();
+    @GET("sites.json")
+    Call<List<Sites>> getSites();
 }
