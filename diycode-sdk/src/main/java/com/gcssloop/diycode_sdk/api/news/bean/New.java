@@ -19,7 +19,7 @@
 
 package com.gcssloop.diycode_sdk.api.news.bean;
 
-import com.gcssloop.diycode_sdk.api.base.bean.User;
+import com.gcssloop.diycode_sdk.api.user.bean.User;
 
 public class New {
 

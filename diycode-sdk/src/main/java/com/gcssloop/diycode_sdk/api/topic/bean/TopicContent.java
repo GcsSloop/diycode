@@ -20,7 +20,7 @@
 package com.gcssloop.diycode_sdk.api.topic.bean;
 
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
-import com.gcssloop.diycode_sdk.api.base.bean.User;
+import com.gcssloop.diycode_sdk.api.user.bean.User;
 
 /**
  * Topic 详情

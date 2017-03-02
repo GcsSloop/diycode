@@ -23,6 +23,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.api.diycode.api.DiycodeAPI;
@@ -39,7 +40,21 @@ import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicService;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
-import com.gcssloop.diycode_sdk.api.topic.event.*;
+import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicReplyEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.DeleteTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.DeleteTopicReplyEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicReplyEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.UnCollectionTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.UnWatchTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
@@ -52,7 +67,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -621,162 +635,6 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, UserAPI
     }
 
 
-    //--- user -------------------------------------------------------------------------------------
-
-    /**
-     * 获得用户列表
-     *
-     * @param limit 数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getUsers(@NonNull Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取用户信息
-     *
-     * @param username 用户名
-     */
-    @Override
-    public String getUserInfo(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 屏蔽某个用户
-     *
-     * @param username 被屏蔽的用户名
-     */
-    @Override
-    public String blockUser(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 取消屏蔽某个用户
-     *
-     * @param username 被屏蔽的用户名
-     */
-    @Override
-    public String unBlockUser(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获得被屏蔽的用户列表
-     *
-     * @param username 自己用户名
-     */
-    @Override
-    public String getBlocked(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 关注某个用户
-     *
-     * @param username 关注的用户名
-     */
-    @Override
-    public String followUser(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 取消关注某个用户
-     *
-     * @param username 取消关注的用户名
-     */
-    @Override
-    public String unFollowUser(@NonNull String username) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取关注者列表
-     *
-     * @param username
-     * @param offset   偏移数值，默认值 0
-     * @param limit    数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getFollowers(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取正在关注的列表
-     *
-     * @param username
-     * @param offset   偏移数值，默认值 0
-     * @param limit    数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getFollowing(@NonNull String username, @NonNull Integer offset, @NonNull Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取用户创建的回帖列表
-     *
-     * @param username 用户名
-     * @param order    顺序，默认值 recent，取值范围 	["recent"]
-     * @param offset   偏移数值，默认值 0
-     * @param limit    数量极限，默值 20，值范围 1..150
-     */
-    @Override
-    public String getUserReplies(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取用户相关的话题列表
-     *
-     * @param username 用户名
-     * @param order    顺序，默认值 recent，取值范围 	["recent", "likes", "replies"]
-     * @param offset   偏移数值，默认值 0
-     * @param limit    数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getUserTopics(@NonNull String username, @Nullable String order, @Nullable Integer offset, @Nullable String limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取用户收藏的话题列表
-     *
-     * @param username 用户名
-     * @param offset   偏移数值，默认值 0
-     * @param limit    数量极限，默认值 20，值范围 1..150
-     */
-    @Override
-    public String getCollection(@NonNull String username, @Nullable Integer offset, @Nullable String limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-    /**
-     * 获取当前登录者资料
-     */
-    @Override
-    public String getMe() {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
-    }
-
-
     //--- notification -----------------------------------------------------------------------------
 
     /**
@@ -789,6 +647,14 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, UserAPI
     public String getNotifications(@NonNull Integer offset, @NonNull Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
         return uuid;
+    }
+
+    /**
+     * 获得未读通知的数量
+     */
+    @Override
+    public String getNotificationUnReadCount() {
+        return null;
     }
 
     /**
@@ -817,23 +683,173 @@ public class Diycode implements DiycodeAPI, LikesAPI, NewsAPI, TopicAPI, UserAPI
      * @param ids id集合
      */
     @Override
-    public String markNotificationAsRead(ArrayList<Integer> ids) {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String markNotificationAsRead(int[] ids) {
+        return null;
+    }
+
+
+    //--- user info --------------------------------------------------------------------------------
+
+    /**
+     * 获取用户列表
+     *
+     * @param limit 数量极限，默认值 20，值范围 1..150
+     * @return 用户列表
+     */
+    @Override
+    public String getUsersList(Integer limit) {
+        return null;
     }
 
     /**
-     * 获得未读通知的数量
+     * 获取用户详细资料
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @return 用户详情
      */
     @Override
-    public String getUnreadNotificationCount() {
-        final String uuid = UUIDGenerator.getUUID();
-        return uuid;
+    public String getUser(String login_name) {
+        return null;
     }
 
+    /**
+     * 获取当前登录者的详细资料
+     *
+     * @return 用户详情
+     */
+    @Override
+    public String getMe() {
+        return null;
+    }
 
-    //--- nodes ------------------------------------------------------------------------------------
+    //--- user block -------------------------------------------------------------------------------
 
+    /**
+     * 屏蔽用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @return 状态
+     */
+    @Override
+    public Call<State> blockUser(String login_name) {
+        return null;
+    }
 
-    //--- project ----------------------------------------------------------------------------------
+    /**
+     * 取消屏蔽用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @return 状态
+     */
+    @Override
+    public String unBlockUser(String login_name) {
+        return null;
+    }
+
+    /**
+     * 获取用户屏蔽的用户列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 被屏蔽的用户列表
+     */
+    @Override
+    public String getUserBlockedList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    //--- user follow ------------------------------------------------------------------------------
+
+    /**
+     * 关注用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @return 状态
+     */
+    @Override
+    public String followUser(String login_name) {
+        return null;
+    }
+
+    /**
+     * 取消关注用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @return 状态
+     */
+    @Override
+    public String unFollowUser(String login_name) {
+        return null;
+    }
+
+    /**
+     * 用户正在关注的人列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 用户关注的人列表
+     */
+    @Override
+    public String getUserFollowingList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    /**
+     * 关注该用户的人列白哦
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 关注该用户的人列表
+     */
+    @Override
+    public String getUserFollowerList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    //--- user list --------------------------------------------------------------------------------
+
+    /**
+     * 用户收藏的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 话题列表
+     */
+    @Override
+    public Call<List<Topic>> getUserCollectionTopicList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    /**
+     * 获取用户创建的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param order      类型 默认 recent，可选["recent", "likes", "replies"]
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 话题列表
+     */
+    @Override
+    public String getUserCreateTopicList(String login_name, String order, Integer offset, Integer limit) {
+        return null;
+    }
+
+    /**
+     * 用户回复过的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param order      类型 默认 recent，可选["recent"]
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @return 话题列表
+     */
+    @Override
+    public String getUserReplyTopicList(String login_name, String order, Integer offset, Integer limit) {
+        return null;
+    }
+
 }

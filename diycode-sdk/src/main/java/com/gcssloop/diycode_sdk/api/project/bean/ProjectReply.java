@@ -20,7 +20,7 @@
 package com.gcssloop.diycode_sdk.api.project.bean;
 
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
-import com.gcssloop.diycode_sdk.api.base.bean.User;
+import com.gcssloop.diycode_sdk.api.user.bean.User;
 
 public class ProjectReply {
 
