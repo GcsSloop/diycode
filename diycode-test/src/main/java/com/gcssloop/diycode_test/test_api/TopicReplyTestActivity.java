@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesListEvent;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.adapter.CommonAdapter;
@@ -57,12 +57,12 @@ public class TopicReplyTestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_get_reply)
     public void getReply(View view) {
-        mDiycode.getTopicReplies(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604), null, null);
+        mDiycode.getTopicRepliesList(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604), null, null);
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTopicReplies(GetTopicRepliesEvent event) {
+    public void onTopicReplies(GetTopicRepliesListEvent event) {
 
         if (event.isOk()) {
             Toast.makeText(this, "成功", Toast.LENGTH_SHORT).show();

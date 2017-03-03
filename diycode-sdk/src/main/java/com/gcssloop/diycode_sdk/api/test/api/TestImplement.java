@@ -26,10 +26,7 @@ import android.support.annotation.Nullable;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
 import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
-import com.gcssloop.diycode_sdk.api.test.bean.Hello;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
-
-import retrofit2.Call;
 
 public class TestImplement extends BaseImplement<TestService> implements TestAPI {
     public TestImplement(@NonNull Context context) {
@@ -46,8 +43,7 @@ public class TestImplement extends BaseImplement<TestService> implements TestAPI
     @Override
     public String hello(@Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        Call<Hello> call = mService.hello(limit);
-        call.enqueue(new BaseCallback<>(new HelloEvent(uuid)));
+        mService.hello(limit).enqueue(new BaseCallback<>(new HelloEvent(uuid)));
         return uuid;
     }
 }

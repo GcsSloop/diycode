@@ -40,7 +40,7 @@ import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.DeleteTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.DeleteTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UnCollectionTopicEvent;
@@ -318,11 +318,11 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI {
      * @param id     topic 的 id
      * @param offset 偏移数值 默认 0
      * @param limit  数量极限，默认值 20，值范围 1...150
-     * @see GetTopicRepliesEvent
+     * @see GetTopicRepliesListEvent
      */
     @Override
-    public String getTopicReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
-        return sTopicImplement.getTopicReplies(id, offset, limit);
+    public String getTopicRepliesList(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+        return sTopicImplement.getTopicRepliesList(id, offset, limit);
     }
 
     /**

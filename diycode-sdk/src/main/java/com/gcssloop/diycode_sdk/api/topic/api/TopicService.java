@@ -158,8 +158,8 @@ public interface TopicService {
      * @return 回复列表
      */
     @GET("topics/{id}/replies.json")
-    Call<List<TopicReply>> getTopicReplies(@Path("id") int id, @Query("offset") Integer offset,
-                                           @Query("limit") Integer limit);
+    Call<List<TopicReply>> getTopicRepliesList(@Path("id") int id, @Query("offset") Integer offset,
+                                               @Query("limit") Integer limit);
 
     /**
      * 创建 topic 回帖(回复，评论)

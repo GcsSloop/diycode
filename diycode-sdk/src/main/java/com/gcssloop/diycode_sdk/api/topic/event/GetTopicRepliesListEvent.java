@@ -27,11 +27,11 @@ import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 
 import java.util.List;
 
-public class GetTopicRepliesEvent extends BaseEvent<List<TopicReply>> {
+public class GetTopicRepliesListEvent extends BaseEvent<List<TopicReply>> {
     /**
      * @param uuid 唯一识别码
      */
-    public GetTopicRepliesEvent(@Nullable String uuid) {
+    public GetTopicRepliesListEvent(@Nullable String uuid) {
         super(uuid);
     }
 
@@ -40,7 +40,7 @@ public class GetTopicRepliesEvent extends BaseEvent<List<TopicReply>> {
      * @param code         网络返回码
      * @param topicReplies 实体数据
      */
-    public GetTopicRepliesEvent(@Nullable String uuid, @NonNull Integer code, @Nullable List<TopicReply> topicReplies) {
+    public GetTopicRepliesListEvent(@Nullable String uuid, @NonNull Integer code, @Nullable List<TopicReply> topicReplies) {
         super(uuid, code, topicReplies);
     }
 }
