@@ -19,7 +19,7 @@
 
 package com.gcssloop.diycode.view.topic.delegate;
 
-import com.gcssloop.diycode.base.BaseViewDelegate;
+import com.gcssloop.diycode.view.base.BaseViewDelegate;
 import com.gcssloop.diycode.view.topic.define.ITopicListView;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 

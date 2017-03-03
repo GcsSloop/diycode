@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-04 04:51:06
+ * Last modified 2017-03-04 05:20:47
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode.view.base;
 
 import android.os.Bundle;
 import android.util.SparseArray;
