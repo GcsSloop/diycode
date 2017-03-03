@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsEvent;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.adapter.CommonAdapter;
@@ -76,14 +76,14 @@ public class TopicListTestActivity extends BaseActivity {
         Integer offset = ConvertUtil.StringToInteger(text_offset.getText().toString());
         Integer limit = ConvertUtil.StringToInteger(text_limit.getText().toString());
 
-        mDiycode.getTopics(type, node_id, offset, limit);
+        mDiycode.getTopicsList(type, node_id, offset, limit);
     }
 
 
     private CommonAdapter<Topic> mAdapter;
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTopicList(GetTopicsEvent event) {
+    public void onTopicList(GetTopicsListEvent event) {
         if (event.isOk()) {
             List<Topic> topics = event.getBean();
             if (null == mAdapter){

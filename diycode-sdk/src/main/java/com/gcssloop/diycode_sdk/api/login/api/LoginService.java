@@ -13,26 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:34:01
+ * Last modified 2017-03-03 14:07:24
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode.api;
+package com.gcssloop.diycode_sdk.api.login.api;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.utils.Constant;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
-public interface DiycodeService {
+public interface LoginService {
 
     //--- Token ------------------------------------------------------------------------------------
 
@@ -95,16 +92,5 @@ public interface DiycodeService {
     @FormUrlEncoded
     Call<State> unRegisterDevices(@Field("platform") String platform, @Field("token") String token);
 
-
-    //--- 测试接口 -------------------------------------------------------------------------------
-
-    /**
-     * 测试 token 是否正常
-     *
-     * @param limit 极限值
-     * @return Hello 实体类
-     */
-    @GET("hello.json")
-    Call<Hello> hello(@Query("limit") Integer limit);
 
 }

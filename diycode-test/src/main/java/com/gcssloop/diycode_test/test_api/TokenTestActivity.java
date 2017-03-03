@@ -24,8 +24,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
-import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
+import com.gcssloop.diycode_sdk.api.test.bean.Hello;
+import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 

@@ -45,7 +45,7 @@ public class BaseActivity extends AppCompatActivity {
         CrashHandler.getInstance().init(this.getApplicationContext());
 
         // 获取 Diycode
-        mDiycode = Diycode.getInstance();
+        mDiycode = Diycode.getSingleInstance();
 
         mContext = this;
     }

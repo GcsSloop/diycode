@@ -30,10 +30,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.gcssloop.diycode.base.BaseActivity;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,9 +68,32 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        String state = "当前状态：";
+        if (event.isOk()) {
+            Token token = event.getBean();
+            Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
+            state = state + "登录成功\n"
+                    + "uuid          = " + event.getUUID() + "\n"
+                    + "state         = " + event.getCode() + "\n"
+                    + "state message = " + event.getCodeDescribe() + "\n"
+                    + "token type    = " + token.getToken_type() + "\n"
+                    + "created at    = " + token.getCreated_at() + "\n"
+                    + "expires in    = " + token.getExpires_in() + "\n"
+                    + "access token  = " + token.getAccess_token() + "\n"
+                    + "refresh token = " + token.getRefresh_token() + "\n";
+        } else {
+            Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
 
+            state = state + "登录失败\n"
+                    + "uuid          = " + event.getUUID() + "\n"
+                    + "state         = " + event.getCode() + "\n"
+                    + "state message = " + event.getCodeDescribe() + "\n";
+        }
     }
 
     //--- EventBus ---------------------------------------------------------------------------------
@@ -80,7 +108,6 @@ public class MainActivity extends BaseActivity
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-
 
     //----------------------------------------------------------------------------------------------
 
@@ -116,7 +143,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

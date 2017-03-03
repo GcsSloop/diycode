@@ -13,33 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:35:51
+ * Last modified 2017-03-03 14:07:08
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode.event;
+package com.gcssloop.diycode_sdk.api.photo.api;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Hello;
+import java.io.File;
 
-public class HelloEvent extends BaseEvent<Hello> {
+public interface PhotoAPI {
 
-    /**
-     * @param uuid 唯一识别码
-     */
-    public HelloEvent(@Nullable String uuid) {
-        super(uuid);
-    }
+    //--- photo ------------------------------------------------------------------------------------
 
     /**
-     * @param uuid  唯一识别码
-     * @param code  网络返回码
-     * @param hello 实体数据
+     * 上传图片,请使用 Multipart 的方式提交图片文件
+     *
+     * @param img_file 图片文件
      */
-    public HelloEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Hello hello) {
-        super(uuid, code, hello);
-    }
+    String uploadPhoto(@NonNull File img_file);
 }

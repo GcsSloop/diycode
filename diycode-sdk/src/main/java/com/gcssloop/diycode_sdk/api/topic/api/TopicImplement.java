@@ -13,15 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 04:54:45
+ * Last modified 2017-03-03 04:22:32
  *
  */
 
 package com.gcssloop.diycode_sdk.api.topic.api;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;
@@ -37,9 +41,13 @@ import com.gcssloop.diycode_sdk.api.topic.event.UnWatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
+import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public interface TopicAPI {
-    //--- topic ------------------------------------------------------------------------------------
+public class TopicImplement extends BaseImplement<TopicService> implements TopicAPI {
+
+    public TopicImplement(Context context) {
+        super(context);
+    }
 
     /**
      * 获取 topic 列表
@@ -50,8 +58,13 @@ public interface TopicAPI {
      * @param limit   数量极限，默认值 20，值范围 1..150
      * @see GetTopicsListEvent
      */
-    String getTopicsList(String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit);
-
+    @Override
+    public String getTopicsList(String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        mService.getTopicsList(type, node_id, offset, limit)
+                .enqueue(new BaseCallback<>(new GetTopicsListEvent(uuid)));
+        return uuid;
+    }
 
     /**
      * 创建一个新的 topic
@@ -61,7 +74,11 @@ public interface TopicAPI {
      * @param node_id 节点编号
      * @see CreateTopicEvent
      */
-    String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    @Override
+    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 获取 topic 内容
@@ -69,8 +86,12 @@ public interface TopicAPI {
      * @param id topic 的 id
      * @see GetTopicEvent
      */
-    String getTopic(@NonNull int id);
-
+    @Override
+    public String getTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        mService.getTopic(id).enqueue(new BaseCallback<TopicContent>(new GetTopicEvent(uuid)));
+        return uuid;
+    }
 
     /**
      * 更新(修改) topic
@@ -81,7 +102,11 @@ public interface TopicAPI {
      * @param node_id 节点编号
      * @see UpdateTopicEvent
      */
-    String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id);
+    @Override
+    public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 删除一个话题
@@ -89,10 +114,11 @@ public interface TopicAPI {
      * @param id 要删除的话题 id
      * @see DeleteTopicEvent
      */
-    String deleteTopic(@NonNull int id);
-
-
-    //--- topic collection -------------------------------------------------------------------------
+    @Override
+    public String deleteTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 收藏话题
@@ -100,7 +126,11 @@ public interface TopicAPI {
      * @param id 被收藏的话题 id
      * @see CollectionTopicEvent
      */
-    String collectionTopic(@NonNull int id);
+    @Override
+    public String collectionTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 取消收藏话题
@@ -108,10 +138,11 @@ public interface TopicAPI {
      * @param id 被收藏的话题 id
      * @see UnCollectionTopicEvent
      */
-    String unCollectionTopic(@NonNull int id);
-
-
-    //--- topic watch ------------------------------------------------------------------------------
+    @Override
+    public String unCollectionTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 关注话题
@@ -119,7 +150,11 @@ public interface TopicAPI {
      * @param id 话题 id
      * @see WatchTopicEvent
      */
-    String watchTopic(@NonNull int id);
+    @Override
+    public String watchTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 取消关注话题
@@ -127,10 +162,11 @@ public interface TopicAPI {
      * @param id 话题 id
      * @see UnWatchTopicEvent
      */
-    String unWatchTopic(@NonNull int id);
-
-
-    //--- topic reply ------------------------------------------------------------------------------
+    @Override
+    public String unWatchTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 获取 topic 回复列表
@@ -140,7 +176,11 @@ public interface TopicAPI {
      * @param limit  数量极限，默认值 20，值范围 1...150
      * @see GetTopicRepliesEvent
      */
-    String getTopicReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit);
+    @Override
+    public String getTopicReplies(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 创建 topic 回帖(回复，评论)
@@ -149,7 +189,11 @@ public interface TopicAPI {
      * @param body 回帖内容, Markdown 格式
      * @see CreateTopicReplyEvent
      */
-    String createTopicReply(@NonNull int id, @NonNull String body);
+    @Override
+    public String createTopicReply(@NonNull int id, @NonNull String body) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 获取回帖的详细内容（一般用于编辑回帖的时候）
@@ -157,8 +201,11 @@ public interface TopicAPI {
      * @param id id
      * @see GetTopicReplyEvent
      */
-    String getTopicReply(@NonNull int id);
-
+    @Override
+    public String getTopicReply(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 更新回帖
@@ -167,7 +214,11 @@ public interface TopicAPI {
      * @param body 回帖详情
      * @see UpdateTopicReplyEvent
      */
-    String updateTopicReply(@NonNull int id, @NonNull String body);
+    @Override
+    public String updateTopicReply(@NonNull int id, @NonNull String body) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 删除回帖
@@ -175,10 +226,11 @@ public interface TopicAPI {
      * @param id id
      * @see DeleteTopicReplyEvent
      */
-    String deleteTopicReply(@NonNull int id);
-
-
-    //--- topic ban --------------------------------------------------------------------------------
+    @Override
+    public String deleteTopicReply(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 
     /**
      * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
@@ -186,6 +238,9 @@ public interface TopicAPI {
      * @param id 要屏蔽的话题 id
      * @see BanTopicEvent
      */
-    String banTopic(@NonNull int id);
-
+    @Override
+    public String banTopic(@NonNull int id) {
+        final String uuid = UUIDGenerator.getUUID();
+        return uuid;
+    }
 }

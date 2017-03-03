@@ -30,6 +30,7 @@ import com.gcssloop.diycode_test.adapter.CommonAdapter;
 import com.gcssloop.diycode_test.adapter.ViewHolder;
 import com.gcssloop.diycode_test.base.BaseActivity;
 import com.gcssloop.diycode_test.date.MainMenu;
+import com.gcssloop.diycode_test.utils.CrashHandler;
 
 public class MainActivity extends BaseActivity {
 
@@ -37,6 +38,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CrashHandler.getInstance().init(this.getApplicationContext());
 
         setTitle("Diycode测试");
 

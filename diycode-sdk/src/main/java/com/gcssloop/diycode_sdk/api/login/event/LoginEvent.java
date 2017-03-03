@@ -13,23 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:35:51
+ * Last modified 2017-03-03 14:09:49
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode.event;
+package com.gcssloop.diycode_sdk.api.login.event;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 
-public class RefreshTokenEvent extends BaseEvent<Token> {
+/**
+ * 登录
+ */
+public class LoginEvent extends BaseEvent<Token> {
+
     /**
      * @param uuid 唯一识别码
      */
-    public RefreshTokenEvent(@Nullable String uuid) {
+    public LoginEvent(@Nullable String uuid) {
         super(uuid);
     }
 
@@ -38,7 +42,7 @@ public class RefreshTokenEvent extends BaseEvent<Token> {
      * @param code  网络返回码
      * @param token 实体数据
      */
-    public RefreshTokenEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
+    public LoginEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
         super(uuid, code, token);
     }
 }

@@ -13,35 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:38:02
+ * Last modified 2017-03-03 14:09:54
  *
  */
 
-package com.gcssloop.diycode_sdk.api.topic.event;
+package com.gcssloop.diycode_sdk.api.login.event;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 
-import java.util.List;
-
-public class GetTopicsEvent extends BaseEvent<List<Topic>> {
-
+public class RefreshTokenEvent extends BaseEvent<Token> {
     /**
      * @param uuid 唯一识别码
      */
-    public GetTopicsEvent(@Nullable String uuid) {
+    public RefreshTokenEvent(@Nullable String uuid) {
         super(uuid);
     }
 
     /**
-     * @param uuid   唯一识别码
-     * @param code   网络返回码
-     * @param topics 实体数据
+     * @param uuid  唯一识别码
+     * @param code  网络返回码
+     * @param token 实体数据
      */
-    public GetTopicsEvent(@Nullable String uuid, @NonNull Integer code, @Nullable List<Topic> topics) {
-        super(uuid, code, topics);
+    public RefreshTokenEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
+        super(uuid, code, token);
     }
 }

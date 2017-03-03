@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-26 03:37:14
+ * Last modified 2017-03-03 14:07:58
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode_sdk.api.test.api;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import com.gcssloop.diycode_sdk.api.test.bean.Hello;
 
-import com.gcssloop.diycode_sdk.api.Diycode;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-public class BaseActivity extends AppCompatActivity {
+public interface TestService {
 
-    Diycode mDiycode;
+    //--- 测试接口 -------------------------------------------------------------------------------
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mDiycode = Diycode.getSingleInstance();
-    }
+    /**
+     * 测试 token 是否正常
+     *
+     * @param limit 极限值
+     * @return Hello 实体类
+     */
+    @GET("hello.json")
+    Call<Hello> hello(@Query("limit") Integer limit);
 }

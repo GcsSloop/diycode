@@ -34,6 +34,6 @@ public class BaseApplication extends Application {
         super.onCreate();
         CrashHandler.getInstance().init(this);
 
-        Diycode.getInstance().init(this, client_id, client_secret);
+        Diycode.init(this, client_id, client_secret);
     }
 }

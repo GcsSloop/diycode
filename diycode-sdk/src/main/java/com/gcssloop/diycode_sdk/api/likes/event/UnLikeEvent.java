@@ -13,36 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:35:51
+ * Last modified 2017-03-03 04:07:41
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode.event;
+package com.gcssloop.diycode_sdk.api.likes.event;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
 
-/**
- * 登录
- */
-public class LoginEvent extends BaseEvent<Token> {
-
+public class UnLikeEvent extends BaseEvent<State> {
     /**
      * @param uuid 唯一识别码
      */
-    public LoginEvent(@Nullable String uuid) {
+    public UnLikeEvent(@Nullable String uuid) {
         super(uuid);
     }
 
     /**
      * @param uuid  唯一识别码
      * @param code  网络返回码
-     * @param token 实体数据
+     * @param state 实体数据
      */
-    public LoginEvent(@Nullable String uuid, @NonNull Integer code, @Nullable Token token) {
-        super(uuid, code, token);
+    public UnLikeEvent(@Nullable String uuid, @NonNull Integer code, @Nullable State state) {
+        super(uuid, code, state);
     }
 }

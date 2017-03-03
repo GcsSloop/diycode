@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.api.base.callback;
 import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 
 import org.greenrobot.eventbus.EventBus;

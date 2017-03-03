@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-27 03:34:01
+ * Last modified 2017-03-03 14:07:24
  *
  */
 
-package com.gcssloop.diycode_sdk.api.diycode.api;
+package com.gcssloop.diycode_sdk.api.login.api;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.diycode.event.HelloEvent;
-import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
 
-import java.io.File;
+public interface LoginAPI {
 
-/**
- * API 列表，所有用户可以使用的方法接口
- */
-public interface DiycodeAPI {
-
-    //--- 登录相关内容 ----------------------------------------------------------------------------
+    //--- login ------------------------------------------------------------------------------------
 
     /**
      * 登录时调用
@@ -49,6 +44,26 @@ public interface DiycodeAPI {
      */
     void logout();
 
+
+    //--- token ------------------------------------------------------------------------------------
+
+    /**
+     * 刷新 token
+     *
+     * @see RefreshTokenEvent
+     */
+    String refreshToken();
+
+    /**
+     * 获取当前缓存的 token
+     *
+     * @return 当前缓存的 token
+     */
+    Token getCacheToken();
+
+
+    //--- devices ----------------------------------------------------------------------------------
+
     /**
      * 更新设备信息
      * 记录用户 Device 信息，用于 Push 通知。
@@ -63,24 +78,4 @@ public interface DiycodeAPI {
     String deleteDevices();
 
 
-    //--- 测试接口 -------------------------------------------------------------------------------
-
-    /**
-     * 简单的 API 测试接口，需要登录验证，便于快速测试 OAuth 以及其他 API 的基本格式是否正确。
-     * 使用 HelloEvent 接收结果。
-     *
-     * @param limit 数量极限，值范围[0..100]
-     * @see HelloEvent
-     */
-    String hello(@Nullable Integer limit);
-
-
-    //--- photo ------------------------------------------------------------------------------------
-
-    /**
-     * 上传图片,请使用 Multipart 的方式提交图片文件
-     *
-     * @param img_file 图片文件
-     */
-    String uploadPhoto(@NonNull File img_file);
 }

@@ -13,25 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-26 03:37:14
+ * Last modified 2017-03-03 14:25:29
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode_sdk.api.photo.api;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-import com.gcssloop.diycode_sdk.api.Diycode;
-
-public class BaseActivity extends AppCompatActivity {
-
-    Diycode mDiycode;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mDiycode = Diycode.getSingleInstance();
-    }
+public interface PhotoService {
 }

@@ -22,7 +22,7 @@ package com.gcssloop.diycode_sdk.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 
 /**
  * 缓存工具类，用于缓存各类数据

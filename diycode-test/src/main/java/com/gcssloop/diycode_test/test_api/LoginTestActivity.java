@@ -25,9 +25,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gcssloop.diycode_sdk.api.diycode.bean.Token;
-import com.gcssloop.diycode_sdk.api.diycode.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.diycode.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
 import com.gcssloop.diycode_test.R;
 import com.gcssloop.diycode_test.base.BaseActivity;
 
@@ -77,7 +77,7 @@ public class LoginTestActivity extends BaseActivity {
 
     @OnClick(R.id.get_token)
     public void get_token(View view) {
-        Token token = mDiycode.getToken();
+        Token token = mDiycode.getCacheToken();
 
         String state = "当前状态：";
 

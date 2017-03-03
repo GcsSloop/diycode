@@ -49,8 +49,8 @@ public interface TopicService {
      * @return topic 列表
      */
     @GET("topics.json")
-    Call<List<Topic>> getTopics(@Query("type") String type, @Query("node_id") Integer node_id,
-                                @Query("offset") Integer offset, @Query("limit") Integer limit);
+    Call<List<Topic>> getTopicsList(@Query("type") String type, @Query("node_id") Integer node_id,
+                                    @Query("offset") Integer offset, @Query("limit") Integer limit);
 
 
     /**
