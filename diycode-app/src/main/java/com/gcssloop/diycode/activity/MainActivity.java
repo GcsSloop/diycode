@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-01 04:42:25
+ * Last modified 2017-03-04 03:02:45
  *
  */
 
-package com.gcssloop.diycode;
+package com.gcssloop.diycode.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
