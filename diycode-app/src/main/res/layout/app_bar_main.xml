@@ -43,8 +43,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextColor="#c8c8ce"
+            app:tabSelectedTextColor="@color/diy_red"
+            app:tabTextColor="@color/diy_gray"
             />
     </android.support.design.widget.AppBarLayout>
 
