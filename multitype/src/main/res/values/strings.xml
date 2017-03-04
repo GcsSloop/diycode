@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright 2017 GcsSloop
   ~
@@ -14,16 +13,10 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-02-01 04:42:24
+  ~ Last modified 2017-03-05 01:30:06
   ~
   -->
 
 <resources>
-    <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
-    <color name="colorAccent">#DB3937</color>
-    <color name="diy_red">#DB3937</color>
-    <color name="diy_gray">#C8C8CE</color>
-    <color name="diy_gray2">#666666</color>
-    <color name="diy_black">#222222</color>
+    <string name="app_name">multitype</string>
 </resources>

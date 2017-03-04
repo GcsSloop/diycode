@@ -22,6 +22,7 @@ package com.gcssloop.diycode.activity;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.adapter.MainPageAdapter;
 import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
@@ -49,6 +51,7 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
+    @BindView(R.id.tab_layout) TabLayout mTabLayout;
     @BindView(R.id.view_pager) ViewPager mViewPager;
 
     @OnClick(R.id.fab)
@@ -64,6 +67,9 @@ public class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initMenu();
+
+        mViewPager.setAdapter(new MainPageAdapter(getSupportFragmentManager()));
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     // 初始化菜单(包括侧边栏菜单，和顶部菜单选项)
