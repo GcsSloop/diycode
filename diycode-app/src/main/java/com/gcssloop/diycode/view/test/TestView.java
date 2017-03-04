@@ -13,29 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-05 03:09:15
+ * Last modified 2017-03-05 03:28:24
  *
  */
 
-package com.gcssloop.diycode.view.test.delegate;
+package com.gcssloop.diycode.view.test;
 
-import android.widget.TextView;
-
-import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.view.base.BaseViewDelegate;
-import com.gcssloop.diycode.view.test.define.ITestView;
-
-public class TestViewDelegate extends BaseViewDelegate implements ITestView {
-
-    @Override
-    public int getRootLayoutId() {
-        return R.layout.fragment_test;
-    }
-
-
-    @Override
-    public void setText(String text) {
-        TextView textView = get(R.id.text_test);
-        textView.setText(text);
-    }
+public interface TestView {
+    public void setText(String text);
 }

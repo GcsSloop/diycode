@@ -13,36 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-04 05:14:46
+ * Last modified 2017-03-05 03:28:58
  *
  */
 
-package com.gcssloop.diycode.view.topic.define;
+package com.gcssloop.diycode.view.topic;
 
+import com.gcssloop.diycode.view.base.BaseViewDelegate;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 
 import java.util.List;
 
-public interface ITopicListView {
+public class TopicListViewDelegate extends BaseViewDelegate implements TopicListView {
+
+    @Override
+    public int getRootLayoutId() {
+        return 0;
+    }
 
     /**
      * 显示列表
      *
      * @param topics topics
      */
-    public void showList(List<Topic> topics);
+    @Override
+    public void showList(List<Topic> topics) {
+
+    }
 
     /**
      * 刷新列表
      *
      * @param topics topics
      */
-    public void refreshList(List<Topic> topics);
+    @Override
+    public void refreshList(List<Topic> topics) {
+
+    }
 
     /**
      * 加载更多内容
      *
      * @param topics topics
      */
-    public void loadMore(List<Topic> topics);
+    @Override
+    public void loadMore(List<Topic> topics) {
+
+    }
 }

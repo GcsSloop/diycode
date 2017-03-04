@@ -26,12 +26,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gcssloop.diycode.view.test.delegate.TestViewDelegate;
+import com.gcssloop.diycode.view.test.TestViewDelegate;
 
 public class TestFragment extends android.support.v4.app.Fragment {
     private static final String TYPE = "type";
-
-    private String mType;
 
     public static TestFragment newInstance(@NonNull String type) {
         Bundle args = new Bundle();
@@ -41,18 +39,13 @@ public class TestFragment extends android.support.v4.app.Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mType = getArguments().getString(TYPE);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         TestViewDelegate testViewDelegate = new TestViewDelegate();
         testViewDelegate.create(inflater, container, savedInstanceState);
-        testViewDelegate.setText(mType);
+        String type = getArguments().getString(TYPE);
+        testViewDelegate.setText(type);
         return testViewDelegate.getRootView();
     }
 }

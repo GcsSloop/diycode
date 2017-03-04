@@ -13,12 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-05 03:09:14
+ * Last modified 2017-03-05 03:28:53
  *
  */
 
-package com.gcssloop.diycode.view.test.define;
+package com.gcssloop.diycode.view.topic;
 
-public interface ITestView {
-    public void setText(String text);
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+
+import java.util.List;
+
+public interface TopicListView {
+
+    /**
+     * 显示列表
+     *
+     * @param topics topics
+     */
+    public void showList(List<Topic> topics);
+
+    /**
+     * 刷新列表
+     *
+     * @param topics topics
+     */
+    public void refreshList(List<Topic> topics);
+
+    /**
+     * 加载更多内容
+     *
+     * @param topics topics
+     */
+    public void loadMore(List<Topic> topics);
 }
