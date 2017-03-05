@@ -13,40 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-04 05:20:47
+ * Last modified 2017-03-05 06:19:06
  *
  */
 
-package com.gcssloop.diycode.view.base;
+package com.gcssloop.diycode.base;
 
-import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
-public abstract class BaseViewDelegate {
-    private View rootView;
+public class ViewHolder extends RecyclerView.ViewHolder {
 
-    public abstract int getRootLayoutId();
+    private View mRootView;
 
-    // 初始化 ViewDelegate(如果是Fragment，就需要传递onCreateView方法中的三个参数)
-    public void create(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-        int rootLayoutId = getRootLayoutId();
-        rootView = inflater.inflate(rootLayoutId, container, false);
+    public ViewHolder(View itemView) {
+        super(itemView);
+        mRootView = itemView;
     }
 
-    public View getRootView(){
-        return rootView;
+    public View getRootView() {
+        return mRootView;
     }
 
+    private final SparseArray<View> mViews = new SparseArray<View>();
 
-    protected final SparseArray<View> mViews = new SparseArray<View>();
-
-    public <T extends View> T bindView(int id) {
+    private <T extends View> T bindView(int id) {
         T view = (T) mViews.get(id);
         if (view == null) {
-            view = (T) rootView.findViewById(id);
+            view = (T) mRootView.findViewById(id);
             mViews.put(id, view);
         }
         return view;
@@ -63,5 +59,10 @@ public abstract class BaseViewDelegate {
         for (int id : ids) {
             get(id).setOnClickListener(l);
         }
+    }
+
+    public void setText(int id, String text) {
+        TextView textView = get(id);
+        textView.setText(text);
     }
 }

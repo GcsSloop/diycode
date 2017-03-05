@@ -19,35 +19,99 @@
 
 package com.gcssloop.diycode.fragment;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.base.GcsAdapter;
+import com.gcssloop.diycode.base.ViewHolder;
+import com.gcssloop.diycode_sdk.api.Diycode;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
+import com.gcssloop.diycode_sdk.api.user.bean.User;
+import com.gcssloop.diycode_sdk.utils.TimeUtil;
+import com.gcssloop.gcs_log.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
-public class TopicListFragment extends Fragment {
+public class TopicListFragment extends BaseFragment {
+
+    GcsAdapter<Topic> mAdapter;
 
     public static TopicListFragment newInstance() {
-        
         Bundle args = new Bundle();
-
         TopicListFragment fragment = new TopicListFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    int getLayoutId() {
+        return R.layout.fragment_topic_list;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    void initViews() {
+        initRecyclerView(getContext());
+    }
+
+    private void initRecyclerView(final Context context) {
+        FragmentViewHolder holder = getViewHolder();
+        RecyclerView recyclerView = holder.get(R.id.rv_topic_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
+            @Override
+            public void convert(int position, ViewHolder holder, Topic topic) {
+                User user = topic.getUser();
+                holder.setText(R.id.text_username, user.getLogin());
+                holder.setText(R.id.text_node, topic.getNode_name());
+                holder.setText(R.id.text_time, TimeUtil.computePastTime(topic.getUpdated_at()));
+                holder.setText(R.id.text_title, topic.getTitle());
+
+                ImageView avatar = holder.get(R.id.img_avatar);
+                Glide.with(context).load(user.getAvatar_url()).into(avatar);
+            }
+        };
+        recyclerView.setAdapter(mAdapter);
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Diycode diycode = Diycode.getSingleInstance();
+        diycode.getTopicsList(null, null, null, null);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTopicList(GetTopicsListEvent event) {
+        if (event.isOk()) {
+            Logger.e("获取 topic list 成功 - showlist");
+            mAdapter.addDatas(event.getBean());
+        } else {
+            Logger.e("获取 topic list 失败 - showlist");
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }

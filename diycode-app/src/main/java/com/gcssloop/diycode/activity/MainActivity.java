@@ -23,6 +23,8 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -31,17 +33,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.adapter.MainPageAdapter;
 import com.gcssloop.diycode.base.BaseActivity;
-import com.gcssloop.diycode_sdk.api.login.bean.Token;
-import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.gcssloop.diycode.fragment.TextFragment;
+import com.gcssloop.diycode.fragment.TopicListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,15 +56,36 @@ public class MainActivity extends BaseActivity
                 .setAction("Action", null).show();
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initMenu();
+        initViewPager();
+    }
 
-        mViewPager.setAdapter(new MainPageAdapter(getSupportFragmentManager()));
+    private void initViewPager() {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            String[] types = {"Topics", "News", "Sites"};
+
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0)
+                    return TopicListFragment.newInstance();
+                return TextFragment.newInstance(types[position]);
+            }
+
+            @Override
+            public int getCount() {
+                return 3;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return types[position];
+            }
+        });
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -82,33 +99,6 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginEvent(LoginEvent event) {
-        String state = "当前状态：";
-        if (event.isOk()) {
-            Token token = event.getBean();
-            Toast.makeText(this, "登录成功", Toast.LENGTH_LONG).show();
-            state = state + "登录成功\n"
-                    + "uuid          = " + event.getUUID() + "\n"
-                    + "state         = " + event.getCode() + "\n"
-                    + "state message = " + event.getCodeDescribe() + "\n"
-                    + "token type    = " + token.getToken_type() + "\n"
-                    + "created at    = " + token.getCreated_at() + "\n"
-                    + "expires in    = " + token.getExpires_in() + "\n"
-                    + "access token  = " + token.getAccess_token() + "\n"
-                    + "refresh token = " + token.getRefresh_token() + "\n";
-        } else {
-            Toast.makeText(this, "登录失败", Toast.LENGTH_LONG).show();
-
-            state = state + "登录失败\n"
-                    + "uuid          = " + event.getUUID() + "\n"
-                    + "state         = " + event.getCode() + "\n"
-                    + "state message = " + event.getCodeDescribe() + "\n";
-        }
-    }
-
 
     //--- menu -------------------------------------------------------------------------------------
 
@@ -167,20 +157,4 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
-    //--- EventBus ---------------------------------------------------------------------------------
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
-
 }

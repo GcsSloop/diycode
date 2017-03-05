@@ -21,31 +21,28 @@ package com.gcssloop.diycode.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.gcssloop.diycode.view.test.TestViewDelegate;
+import com.gcssloop.diycode.R;
 
-public class TestFragment extends android.support.v4.app.Fragment {
+public class TextFragment extends BaseFragment {
     private static final String TYPE = "type";
 
-    public static TestFragment newInstance(@NonNull String type) {
+    public static TextFragment newInstance(@NonNull String type) {
         Bundle args = new Bundle();
         args.putString(TYPE, type);
-        TestFragment fragment = new TestFragment();
+        TextFragment fragment = new TextFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TestViewDelegate testViewDelegate = new TestViewDelegate();
-        testViewDelegate.create(inflater, container, savedInstanceState);
-        String type = getArguments().getString(TYPE);
-        testViewDelegate.setText(type);
-        return testViewDelegate.getRootView();
+    int getLayoutId() {
+        return R.layout.fragment_test;
+    }
+
+    @Override
+    void initViews() {
+        String text = getArguments().getString(TYPE);
+        mViewHolder.setText(R.id.text_test, "Gcs:"+text);
     }
 }
