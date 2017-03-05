@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-05 06:20:29
+ * Last modified 2017-03-05 08:40:33
  *
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode.base.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;

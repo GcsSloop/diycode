@@ -65,6 +65,8 @@ public class MainActivity extends BaseActivity
         initViewPager();
     }
 
+    //--- viewpager adapter ------------------------------------------------------------------------
+
     private void initViewPager() {
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites"};
@@ -89,6 +91,9 @@ public class MainActivity extends BaseActivity
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+
+    //--- menu -------------------------------------------------------------------------------------
+
     // 初始化菜单(包括侧边栏菜单，和顶部菜单选项)
     private void initMenu() {
         setSupportActionBar(toolbar);
@@ -99,8 +104,6 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-    //--- menu -------------------------------------------------------------------------------------
 
     @Override
     public void onBackPressed() {

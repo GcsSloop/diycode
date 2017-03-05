@@ -28,8 +28,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.GcsAdapter;
-import com.gcssloop.diycode.base.ViewHolder;
+import com.gcssloop.diycode.base.adapter.GcsAdapter;
+import com.gcssloop.diycode.base.adapter.ViewHolder;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
