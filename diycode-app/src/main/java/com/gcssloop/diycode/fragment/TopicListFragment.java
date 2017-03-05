@@ -24,12 +24,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.base.BaseFragment;
+import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsAdapter;
-import com.gcssloop.diycode.base.adapter.ViewHolder;
+import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
@@ -56,22 +59,21 @@ public class TopicListFragment extends BaseFragment {
     }
 
     @Override
-    int getLayoutId() {
+    protected int getLayoutId() {
         return R.layout.fragment_topic_list;
     }
 
     @Override
-    void initViews() {
-        initRecyclerView(getContext());
+    protected void initViews(ViewHolder holder, View root) {
+        initRecyclerView(getContext(), holder);
     }
 
-    private void initRecyclerView(final Context context) {
-        FragmentViewHolder holder = getViewHolder();
+    private void initRecyclerView(final Context context, ViewHolder holder) {
         RecyclerView recyclerView = holder.get(R.id.rv_topic_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
             @Override
-            public void convert(int position, ViewHolder holder, Topic topic) {
+            public void convert(int position, GcsViewHolder holder, Topic topic) {
                 User user = topic.getUser();
                 holder.setText(R.id.text_username, user.getLogin());
                 holder.setText(R.id.text_node, topic.getNode_name());

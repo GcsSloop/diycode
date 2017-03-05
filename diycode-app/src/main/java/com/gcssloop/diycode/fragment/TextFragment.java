@@ -21,8 +21,11 @@ package com.gcssloop.diycode.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.base.BaseFragment;
+import com.gcssloop.diycode.base.ViewHolder;
 
 public class TextFragment extends BaseFragment {
     private static final String TYPE = "type";
@@ -36,12 +39,12 @@ public class TextFragment extends BaseFragment {
     }
 
     @Override
-    int getLayoutId() {
+    protected int getLayoutId() {
         return R.layout.fragment_test;
     }
 
     @Override
-    void initViews() {
+    protected void initViews(ViewHolder viewHolder, View root) {
         String text = getArguments().getString(TYPE);
         mViewHolder.setText(R.id.text_test, "Gcs:"+text);
     }

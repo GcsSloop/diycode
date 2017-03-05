@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-26 03:37:14
+ * Last modified 2017-03-05 14:26:44
  *
  */
 
@@ -21,31 +21,32 @@ package com.gcssloop.diycode.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.gcssloop.diycode_sdk.api.Diycode;
+public abstract class BaseFragment extends Fragment {
 
-public abstract class BaseActivity extends AppCompatActivity {
-
-    protected Diycode mDiycode;
     protected ViewHolder mViewHolder;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mDiycode = Diycode.getSingleInstance();
-        mViewHolder = new ViewHolder(getLayoutInflater(), null, getLayoutId());
-        setContentView(mViewHolder.getRootView());
-        initViews(mViewHolder, mViewHolder.getRootView());
-    }
 
     @LayoutRes
     protected abstract int getLayoutId();
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mViewHolder = new ViewHolder(inflater, container, getLayoutId());
+        initViews(mViewHolder, mViewHolder.getRootView());
+        return mViewHolder.getRootView();
+    }
 
     protected abstract void initViews(ViewHolder holder, View root);
 
     public ViewHolder getViewHolder() {
         return mViewHolder;
     }
+
+
 }

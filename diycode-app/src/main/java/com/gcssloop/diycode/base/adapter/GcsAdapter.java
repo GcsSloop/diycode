@@ -30,7 +30,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GcsAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> {
 
     private LayoutInflater mInflater;
     private Context mContext;
@@ -44,20 +44,20 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GcsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = mInflater.inflate(mLayoutId, parent, false);
-        return new ViewHolder(rootView);
+        return new GcsViewHolder(rootView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(GcsViewHolder holder, int position) {
         convert(position, holder, mDatas.get(position));
     }
 
     /**
      * 在此处处理数据
      */
-    public abstract void convert(int position, ViewHolder holder, T bean);
+    public abstract void convert(int position, GcsViewHolder holder, T bean);
 
     @Override
     public int getItemCount() {

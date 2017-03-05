@@ -19,7 +19,6 @@
 
 package com.gcssloop.diycode.activity;
 
-import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -36,38 +35,29 @@ import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.BaseActivity;
+import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
-    @BindView(R.id.tab_layout) TabLayout mTabLayout;
-    @BindView(R.id.view_pager) ViewPager mViewPager;
 
-    @OnClick(R.id.fab)
-    public void fabClick(View view) {
-        Snackbar.make(view, "Diycode", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        initMenu();
-        initViewPager();
+    public void initViews(ViewHolder holder, View root) {
+        initMenu(holder);
+        initViewPager(holder);
     }
 
     //--- viewpager adapter ------------------------------------------------------------------------
 
-    private void initViewPager() {
+    private void initViewPager(ViewHolder holder) {
+        ViewPager mViewPager = holder.get(R.id.view_pager);
+        TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites"};
 
@@ -95,7 +85,9 @@ public class MainActivity extends BaseActivity
     //--- menu -------------------------------------------------------------------------------------
 
     // 初始化菜单(包括侧边栏菜单，和顶部菜单选项)
-    private void initMenu() {
+    private void initMenu(ViewHolder holder) {
+        Toolbar toolbar = holder.get(R.id.toolbar);
+        DrawerLayout drawer = holder.get(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -103,6 +95,14 @@ public class MainActivity extends BaseActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Diycode", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        }, R.id.fab);
     }
 
     @Override

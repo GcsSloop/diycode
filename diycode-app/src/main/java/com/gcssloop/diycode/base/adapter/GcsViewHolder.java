@@ -24,11 +24,11 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
-public class ViewHolder extends RecyclerView.ViewHolder {
+public class GcsViewHolder extends RecyclerView.ViewHolder {
 
     private View mRootView;
 
-    public ViewHolder(View itemView) {
+    public GcsViewHolder(View itemView) {
         super(itemView);
         mRootView = itemView;
     }
