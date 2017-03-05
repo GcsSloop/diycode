@@ -19,10 +19,14 @@
 
 package com.gcssloop.diycode.base.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class GcsViewHolder extends RecyclerView.ViewHolder {
 
@@ -64,5 +68,14 @@ public class GcsViewHolder extends RecyclerView.ViewHolder {
     public void setText(int id, String text) {
         TextView textView = get(id);
         textView.setText(text);
+    }
+
+    public void setText(String text, int id) {
+        setText(id, text);
+    }
+
+    public void loadImage(Context context, String url, int res_id){
+        ImageView imageView = get(res_id);
+        Glide.with(context).load(url).into(imageView);
     }
 }

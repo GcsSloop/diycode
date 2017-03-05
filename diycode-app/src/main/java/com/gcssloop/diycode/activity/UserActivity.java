@@ -29,19 +29,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode.base.ViewHolder;
-import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.gcs_log.Logger;
+import com.gcssloop.view.utils.DensityUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,7 +50,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import static com.gcssloop.diycode.R.id.topic_list;
-import static com.gcssloop.diycode.R.id.username;
 import static com.github.florent37.expectanim.core.Expectations.alpha;
 import static com.github.florent37.expectanim.core.Expectations.height;
 import static com.github.florent37.expectanim.core.Expectations.leftOfParent;
@@ -61,48 +59,42 @@ import static com.github.florent37.expectanim.core.Expectations.scale;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
 import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 
-public class UserActivity extends BaseActivity {
+public class UserActivity extends BaseActivity implements View.OnClickListener {
     public static String USER = "user";
+    private ExpectAnim expectAnimMove;
+    private TopicListAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user;
     }
 
-    private ExpectAnim expectAnimMove;
-    private GcsAdapter<Topic> mAdapter;
-
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        setTitle("User");
+        initUserInfo(holder);
+        initRecyclerView(holder);
+        initScrollAnimation(holder);
+    }
+
+    private void initUserInfo(ViewHolder holder) {
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra(USER);
         if (null != user) {
-            holder.setText(username, user.getLogin() + "(" + user.getName() + ")");
-            ImageView avatar = mViewHolder.get(R.id.avatar);
-            Glide.with(this).load(user.getAvatar_url()).into(avatar);
-
+            toastShort("获取用户数据成功");
+            holder.setText(user.getLogin() + "(" + user.getName() + ")", R.id.username);
+            holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
             mDiycode.getUser(user.getLogin());
+            holder.setOnClickListener(this, R.id.follow);
+        } else {
+            toastShort("未获取到用户数据");
         }
+    }
 
-        holder.setOnClickListener(new View.OnClickListener() {
+    private void initRecyclerView(ViewHolder holder) {
+        mAdapter = new TopicListAdapter(this) {
             @Override
-            public void onClick(View v) {
-                Logger.e("follow");
-            }
-        }, R.id.follow);
-
-        mAdapter = new GcsAdapter<Topic>(this, R.layout.item_topic) {
-            @Override
-            public void convert(int position, GcsViewHolder holder, Topic topic) {
-                final User user = topic.getUser();
-                holder.setText(R.id.text_username, user.getLogin());
-                holder.setText(R.id.text_node, topic.getNode_name());
-                holder.setText(R.id.text_time, TimeUtil.computePastTime(topic.getUpdated_at()));
-                holder.setText(R.id.text_title, topic.getTitle());
-
-                ImageView avatar = holder.get(R.id.img_avatar);
-                Glide.with(UserActivity.this).load(user.getAvatar_url()).into(avatar);
+            public void setListener(int position, GcsViewHolder holder, Topic topic) {
+                // 设置监听器
             }
         };
 
@@ -114,8 +106,9 @@ public class UserActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+    }
 
-
+    private void initScrollAnimation(ViewHolder holder) {
         NestedScrollView scrollView = holder.get(R.id.sv_user_main);
         ImageView avatar = holder.get(R.id.avatar);
         TextView username = holder.get(R.id.username);
@@ -129,26 +122,21 @@ public class UserActivity extends BaseActivity {
                         leftOfParent().withMarginDp(20),
                         scale(0.5f, 0.5f)
                 )
-
                 .expect(username)
                 .toBe(
                         toRightOf(avatar).withMarginDp(16),
                         sameCenterVerticalAs(avatar),
-
                         alpha(0.5f)
                 )
-
                 .expect(follow)
                 .toBe(
                         rightOfParent().withMarginDp(20),
                         sameCenterVerticalAs(avatar)
                 )
-
                 .expect(backbground)
                 .toBe(
-                        height(90 * 3).withGravity(Gravity.LEFT, Gravity.TOP)
+                        height(DensityUtils.dip2px(this, 90)).withGravity(Gravity.LEFT, Gravity.TOP)
                 )
-
                 .toAnimation();
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -159,6 +147,7 @@ public class UserActivity extends BaseActivity {
             }
         });
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUser(GetUserEvent event) {
@@ -189,5 +178,14 @@ public class UserActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.follow:
+                Logger.e("follow");
+                break;
+        }
     }
 }

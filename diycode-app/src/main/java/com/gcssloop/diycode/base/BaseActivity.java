@@ -22,7 +22,9 @@ package com.gcssloop.diycode.base;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.Diycode;
 
@@ -30,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Diycode mDiycode;
     protected ViewHolder mViewHolder;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +50,42 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public ViewHolder getViewHolder() {
         return mViewHolder;
+    }
+
+    /**
+     * 发出一个短Toast
+     *
+     * @param text 内容
+     */
+    public void toastShort(String text) {
+        toast(text, Toast.LENGTH_SHORT);
+    }
+
+    /**
+     * 发出一个长toast提醒
+     *
+     * @param text 内容
+     */
+    public void toastLong(String text) {
+        toast(text, Toast.LENGTH_LONG);
+    }
+
+
+    private void toast(final String text, final int duration) {
+        if (!TextUtils.isEmpty(text)) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (mToast == null) {
+                        mToast = Toast.makeText(getApplicationContext(), text, duration);
+                    } else {
+                        mToast.setText(text);
+                        mToast.setDuration(duration);
+                    }
+                    mToast.show();
+                }
+            });
+        }
     }
 }

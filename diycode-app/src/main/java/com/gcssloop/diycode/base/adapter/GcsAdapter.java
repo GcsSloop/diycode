@@ -32,8 +32,8 @@ import java.util.List;
 
 public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> {
 
+    protected Context mContext;
     private LayoutInflater mInflater;
-    private Context mContext;
     private List<T> mDatas = new ArrayList<>();
     private int mLayoutId;
 

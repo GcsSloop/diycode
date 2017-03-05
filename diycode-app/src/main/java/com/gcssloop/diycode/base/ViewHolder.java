@@ -19,12 +19,16 @@
 
 package com.gcssloop.diycode.base;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 public class ViewHolder {
 
@@ -69,7 +73,7 @@ public class ViewHolder {
      * @param text   文本内容
      * @return 是否成功
      */
-    public boolean setText(@NonNull int res_id, CharSequence text) {
+    public boolean setText(CharSequence text, @NonNull int res_id) {
         try {
             TextView textView = get(res_id);
             textView.setText(text);
@@ -77,6 +81,11 @@ public class ViewHolder {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void loadImage(Context context, String url, int res_id){
+        ImageView imageView = get(res_id);
+        Glide.with(context).load(url).into(imageView);
     }
 
     /**
@@ -93,4 +102,6 @@ public class ViewHolder {
             get(id).setOnClickListener(l);
         }
     }
+
+
 }

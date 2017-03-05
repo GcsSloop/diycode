@@ -26,20 +26,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.UserActivity;
+import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.BaseFragment;
 import com.gcssloop.diycode.base.ViewHolder;
-import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.gcs_log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,7 +48,8 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class TopicListFragment extends BaseFragment {
 
-    GcsAdapter<Topic> mAdapter;
+    TopicListAdapter mAdapter;
+
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -71,24 +69,13 @@ public class TopicListFragment extends BaseFragment {
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
-        RecyclerView recyclerView = holder.get(R.id.rv_topic_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
+        mAdapter = new TopicListAdapter(context) {
             @Override
-            public void convert(int position, GcsViewHolder holder, Topic topic) {
+            public void setListener(int position, GcsViewHolder holder, Topic topic) {
                 final User user = topic.getUser();
-                holder.setText(R.id.text_username, user.getLogin());
-                holder.setText(R.id.text_node, topic.getNode_name());
-                holder.setText(R.id.text_time, TimeUtil.computePastTime(topic.getUpdated_at()));
-                holder.setText(R.id.text_title, topic.getTitle());
-
-                ImageView avatar = holder.get(R.id.img_avatar);
-                Glide.with(context).load(user.getAvatar_url()).into(avatar);
-
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Logger.e("username:"+user.getName());
                         Intent intent = new Intent(context, UserActivity.class);
                         intent.putExtra(UserActivity.USER, user);
                         context.startActivity(intent);
@@ -97,6 +84,9 @@ public class TopicListFragment extends BaseFragment {
                 }, R.id.img_avatar, R.id.text_username);
             }
         };
+
+        RecyclerView recyclerView = holder.get(R.id.rv_topic_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(mAdapter);
     }
 
