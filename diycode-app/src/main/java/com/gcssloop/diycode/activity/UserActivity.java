@@ -62,11 +62,12 @@ import static com.github.florent37.expectanim.core.Expectations.toRightOf;
 import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 
 public class UserActivity extends BaseActivity {
+    public static String USER = "user";
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_user;
     }
-
 
     private ExpectAnim expectAnimMove;
     private GcsAdapter<Topic> mAdapter;
@@ -75,11 +76,13 @@ public class UserActivity extends BaseActivity {
     protected void initViews(ViewHolder holder, View root) {
         setTitle("User");
         Intent intent = getIntent();
-        String name = intent.getStringExtra("username");
-        if (null != name){
-            holder.setText(username, name);
-            mDiycode.getUser(name);
-            mDiycode.getUserCreateTopicList(name,null,null,null);
+        User user = (User) intent.getSerializableExtra(USER);
+        if (null != user) {
+            holder.setText(username, user.getLogin() + "(" + user.getName() + ")");
+            ImageView avatar = mViewHolder.get(R.id.avatar);
+            Glide.with(this).load(user.getAvatar_url()).into(avatar);
+
+            mDiycode.getUser(user.getLogin());
         }
 
         holder.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +146,7 @@ public class UserActivity extends BaseActivity {
 
                 .expect(backbground)
                 .toBe(
-                        height(90*3).withGravity(Gravity.LEFT, Gravity.TOP)
+                        height(90 * 3).withGravity(Gravity.LEFT, Gravity.TOP)
                 )
 
                 .toAnimation();
@@ -161,9 +164,8 @@ public class UserActivity extends BaseActivity {
     public void onUser(GetUserEvent event) {
         if (event.isOk()) {
             UserDetail user = event.getBean();
-            mViewHolder.setText(R.id.username, user.getLogin()+"("+user.getName()+")");
-            ImageView avatar = mViewHolder.get(R.id.avatar);
-            Glide.with(this).load(user.getAvatar_url()).into(avatar);
+            mDiycode.getUserCreateTopicList(user.getLogin(), null, 0, user.getTopics_count());
+            Logger.e("返回 user 成功");
         } else {
         }
     }

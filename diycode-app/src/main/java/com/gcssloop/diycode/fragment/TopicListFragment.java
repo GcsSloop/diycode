@@ -90,11 +90,11 @@ public class TopicListFragment extends BaseFragment {
                     public void onClick(View v) {
                         Logger.e("username:"+user.getName());
                         Intent intent = new Intent(context, UserActivity.class);
-                        intent.putExtra("username", user.getLogin());
+                        intent.putExtra(UserActivity.USER, user);
                         context.startActivity(intent);
 
                     }
-                }, R.id.img_avatar);
+                }, R.id.img_avatar, R.id.text_username);
             }
         };
         recyclerView.setAdapter(mAdapter);
