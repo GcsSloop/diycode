@@ -37,11 +37,11 @@ public class TopicListAdapter extends GcsAdapter<Topic> {
     @Override
     public void convert(int position, GcsViewHolder holder, Topic topic) {
         final User user = topic.getUser();
-        holder.setText(R.id.text_username, user.getLogin());
-        holder.setText(R.id.text_node, topic.getNode_name());
-        holder.setText(R.id.text_time, TimeUtil.computePastTime(topic.getUpdated_at()));
-        holder.setText(R.id.text_title, topic.getTitle());
-        holder.loadImage(mContext, user.getAvatar_url(), R.id.img_avatar);
+        holder.setText(R.id.username, user.getLogin());
+        holder.setText(R.id.node_name, topic.getNode_name());
+        holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
+        holder.setText(R.id.title, topic.getTitle());
+        holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
 
         setListener(position, holder, topic);
     }

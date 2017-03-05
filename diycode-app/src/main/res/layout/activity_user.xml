@@ -28,7 +28,7 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/sv_user_main"
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -58,7 +58,6 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:layout_margin="-10dp"
             android:background="@color/diy_white"
             app:cardCornerRadius="0dp"
             app:cardElevation="3dp"/>
@@ -96,7 +95,6 @@
                 android:text="Follow"
                 android:textColor="@color/diy_white"/>
         </LinearLayout>
-
 
     </FrameLayout>
 </FrameLayout>

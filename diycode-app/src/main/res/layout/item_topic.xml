@@ -42,17 +42,17 @@
             android:layout_marginTop="8dp">
 
             <ImageView
-                android:id="@+id/img_avatar"
+                android:id="@+id/avatar"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 tools:src="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/text_username"
+                android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/img_avatar"
+                android:layout_toRightOf="@+id/avatar"
                 android:gravity="center_vertical"
                 android:textSize="18sp"
                 tools:text="diytest" />
@@ -64,13 +64,13 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:gravity="center_vertical"
-                android:layout_toRightOf="@+id/text_username"
+                android:layout_toRightOf="@+id/username"
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"/>
 
             <TextView
-                android:id="@+id/text_node"
+                android:id="@+id/node_name"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginLeft="8dp"
@@ -81,7 +81,7 @@
                 tools:text="Android" />
 
             <TextView
-                android:id="@+id/text_time"
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
@@ -91,10 +91,10 @@
                 tools:text="1分钟前" />
 
             <TextView
-                android:id="@+id/text_title"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_avatar"
+                android:layout_below="@+id/avatar"
                 android:layout_marginTop="8dp"
                 android:text="GcsTest(测试节点)"
                 android:textColor="@color/diy_gray2"

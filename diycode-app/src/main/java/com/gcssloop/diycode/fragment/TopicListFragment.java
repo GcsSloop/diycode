@@ -81,11 +81,11 @@ public class TopicListFragment extends BaseFragment {
                         context.startActivity(intent);
 
                     }
-                }, R.id.img_avatar, R.id.text_username);
+                }, R.id.avatar, R.id.username);
             }
         };
 
-        RecyclerView recyclerView = holder.get(R.id.rv_topic_list);
+        RecyclerView recyclerView = holder.get(R.id.topic_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(mAdapter);
     }

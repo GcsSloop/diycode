@@ -46,6 +46,6 @@ public class TextFragment extends BaseFragment {
     @Override
     protected void initViews(ViewHolder holder, View root) {
         String text = getArguments().getString(TYPE);
-        holder.setText("Gcs:"+text, R.id.text_test);
+        holder.setText("Gcs:"+text, R.id.text);
     }
 }

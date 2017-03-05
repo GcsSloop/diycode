@@ -28,7 +28,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:id="@+id/text_test"
+        android:id="@+id/text"
         android:textColor="@color/diy_black"
         android:gravity="center"
         android:layout_width="match_parent"

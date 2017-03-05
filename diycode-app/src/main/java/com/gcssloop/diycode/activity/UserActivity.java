@@ -109,7 +109,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initScrollAnimation(ViewHolder holder) {
-        NestedScrollView scrollView = holder.get(R.id.sv_user_main);
+        NestedScrollView scrollView = holder.get(R.id.scroll_view);
         ImageView avatar = holder.get(R.id.avatar);
         TextView username = holder.get(R.id.username);
         AppCompatButton follow = holder.get(R.id.follow);
