@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- 圆形头像 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+
+</resources>

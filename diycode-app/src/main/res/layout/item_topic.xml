@@ -60,8 +60,9 @@
                 android:id="@+id/point"
                 android:textColor="@color/diy_gray"
                 android:text="·"
-                android:textSize="24sp"
-                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/text_username"
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:textColor="@color/diy_gray"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 tools:text="1分钟前" />
 
             <TextView

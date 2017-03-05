@@ -13,39 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-05 03:03:02
+ * Last modified 2017-03-05 17:30:15
  *
  */
 
-package com.gcssloop.diycode.fragment;
+package com.gcssloop.diycode.activity;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.BaseFragment;
+import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode.base.ViewHolder;
 
-public class TextFragment extends BaseFragment {
-    private static final String TYPE = "type";
-
-    public static TextFragment newInstance(@NonNull String type) {
-        Bundle args = new Bundle();
-        args.putString(TYPE, type);
-        TextFragment fragment = new TextFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+public class TopicCententActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_test;
+        return 0;
     }
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        String text = getArguments().getString(TYPE);
-        holder.setText(R.id.text_test, "Gcs:"+text);
+
     }
 }

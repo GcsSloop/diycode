@@ -23,6 +23,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.login.api.LoginAPI;
 import com.gcssloop.diycode_sdk.api.login.api.LoginImplement;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
@@ -33,6 +34,7 @@ import com.gcssloop.diycode_sdk.api.test.api.TestAPI;
 import com.gcssloop.diycode_sdk.api.test.api.TestImplement;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicImplement;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;
@@ -48,18 +50,25 @@ import com.gcssloop.diycode_sdk.api.topic.event.UnWatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
+import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
+import com.gcssloop.diycode_sdk.api.user.api.UserImplement;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
 import com.gcssloop.gcs_log.Config;
 import com.gcssloop.gcs_log.Logger;
 
+import java.util.List;
+
+import retrofit2.Call;
+
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements LoginAPI, TestAPI, TopicAPI {
+public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
 
     private static LoginImplement sLoginImplement;
     private static TestImplement sTestImplement;
     private static TopicImplement sTopicImplement;
+    private static UserImplement sUserImplement;
 
     //--- 单例 -----------------------------------------------------------------------------------
 
@@ -106,6 +115,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI {
             sLoginImplement = new LoginImplement(context, client_id, client_secret);
             sTestImplement = new TestImplement(context);
             sTopicImplement = new TopicImplement(context);
+            sUserImplement = new UserImplement(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -385,4 +395,68 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI {
     }
 
 
+    @Override
+    public String getUsersList(Integer limit) {
+        return null;
+    }
+
+    @Override
+    public String getUser(String login_name) {
+        return sUserImplement.getUser(login_name);
+    }
+
+    @Override
+    public String getMe() {
+        return sUserImplement.getMe();
+    }
+
+    @Override
+    public Call<State> blockUser(String login_name) {
+        return null;
+    }
+
+    @Override
+    public String unBlockUser(String login_name) {
+        return null;
+    }
+
+    @Override
+    public String getUserBlockedList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    @Override
+    public String followUser(String login_name) {
+        return null;
+    }
+
+    @Override
+    public String unFollowUser(String login_name) {
+        return null;
+    }
+
+    @Override
+    public String getUserFollowingList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    @Override
+    public String getUserFollowerList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    @Override
+    public Call<List<Topic>> getUserCollectionTopicList(String login_name, Integer offset, Integer limit) {
+        return null;
+    }
+
+    @Override
+    public String getUserCreateTopicList(String login_name, String order, Integer offset, Integer limit) {
+        return sUserImplement.getUserCreateTopicList(login_name, order, offset, limit);
+    }
+
+    @Override
+    public String getUserReplyTopicList(String login_name, String order, Integer offset, Integer limit) {
+        return null;
+    }
 }

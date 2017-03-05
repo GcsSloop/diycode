@@ -20,6 +20,7 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.BaseFragment;
 import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsAdapter;
@@ -74,7 +76,7 @@ public class TopicListFragment extends BaseFragment {
         mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
             @Override
             public void convert(int position, GcsViewHolder holder, Topic topic) {
-                User user = topic.getUser();
+                final User user = topic.getUser();
                 holder.setText(R.id.text_username, user.getLogin());
                 holder.setText(R.id.text_node, topic.getNode_name());
                 holder.setText(R.id.text_time, TimeUtil.computePastTime(topic.getUpdated_at()));
@@ -82,6 +84,17 @@ public class TopicListFragment extends BaseFragment {
 
                 ImageView avatar = holder.get(R.id.img_avatar);
                 Glide.with(context).load(user.getAvatar_url()).into(avatar);
+
+                holder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Logger.e("username:"+user.getName());
+                        Intent intent = new Intent(context, UserActivity.class);
+                        intent.putExtra("username", user.getLogin());
+                        context.startActivity(intent);
+
+                    }
+                }, R.id.img_avatar);
             }
         };
         recyclerView.setAdapter(mAdapter);
