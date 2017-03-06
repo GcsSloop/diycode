@@ -25,7 +25,6 @@ import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
-import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;
@@ -77,6 +76,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.createTopic(title, body, node_id).enqueue(new BaseCallback<>(new CreateTopicEvent(uuid)));
         return uuid;
     }
 
@@ -89,7 +89,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String getTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
-        mService.getTopic(id).enqueue(new BaseCallback<TopicContent>(new GetTopicEvent(uuid)));
+        mService.getTopic(id).enqueue(new BaseCallback<>(new GetTopicEvent(uuid)));
         return uuid;
     }
 
@@ -105,6 +105,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.updateTopic(id, title, body, node_id).enqueue(new BaseCallback<>(new UpdateTopicEvent(uuid)));
         return uuid;
     }
 
@@ -117,6 +118,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String deleteTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.deleteTopic(id).enqueue(new BaseCallback<>(new DeleteTopicEvent(uuid)));
         return uuid;
     }
 
@@ -129,6 +131,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String collectionTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.collectionTopic(id).enqueue(new BaseCallback<>(new CollectionTopicEvent(uuid)));
         return uuid;
     }
 
@@ -141,6 +144,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String unCollectionTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.unCollectionTopic(id).enqueue(new BaseCallback<>(new UnCollectionTopicEvent(uuid)));
         return uuid;
     }
 
@@ -153,6 +157,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String watchTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.watchTopic(id).enqueue(new BaseCallback<>(new WatchTopicEvent(uuid)));
         return uuid;
     }
 
@@ -165,6 +170,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String unWatchTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.unWatchTopic(id).enqueue(new BaseCallback<>(new UnWatchTopicEvent(uuid)));
         return uuid;
     }
 
@@ -179,7 +185,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String getTopicRepliesList(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        mService.getTopicRepliesList(id,offset,limit).enqueue(new BaseCallback<>(new GetTopicRepliesListEvent(uuid)));
+        mService.getTopicRepliesList(id, offset, limit).enqueue(new BaseCallback<>(new GetTopicRepliesListEvent(uuid)));
         return uuid;
     }
 
@@ -193,6 +199,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String createTopicReply(@NonNull int id, @NonNull String body) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.createTopicReply(id, body).enqueue(new BaseCallback<>(new CreateTopicReplyEvent(uuid)));
         return uuid;
     }
 
@@ -205,6 +212,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String getTopicReply(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.getTopicReply(id).enqueue(new BaseCallback<>(new GetTopicReplyEvent(uuid)));
         return uuid;
     }
 
@@ -218,6 +226,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String updateTopicReply(@NonNull int id, @NonNull String body) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.updateTopicReply(id, body).enqueue(new BaseCallback<>(new UpdateTopicReplyEvent(uuid)));
         return uuid;
     }
 
@@ -230,6 +239,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String deleteTopicReply(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.deleteTopicReply(id).enqueue(new BaseCallback<>(new DeleteTopicReplyEvent(uuid)));
         return uuid;
     }
 
@@ -242,6 +252,7 @@ public class TopicImplement extends BaseImplement<TopicService> implements Topic
     @Override
     public String banTopic(@NonNull int id) {
         final String uuid = UUIDGenerator.getUUID();
+        mService.banTopic(id).enqueue(new BaseCallback<>(new BanTopicEvent(uuid)));
         return uuid;
     }
 }

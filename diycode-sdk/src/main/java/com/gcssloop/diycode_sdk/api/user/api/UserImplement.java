@@ -40,6 +40,8 @@ public class UserImplement extends BaseImplement<UserService> implements UserAPI
         super(context);
     }
 
+    //--- user info --------------------------------------------------------------------------------
+
     @Override
     public String getUsersList(Integer limit) {
         return null;
@@ -59,6 +61,9 @@ public class UserImplement extends BaseImplement<UserService> implements UserAPI
         return uuid;
     }
 
+
+    //--- user block -------------------------------------------------------------------------------
+
     @Override
     public Call<State> blockUser(String login_name) {
         return null;
@@ -74,6 +79,9 @@ public class UserImplement extends BaseImplement<UserService> implements UserAPI
         return null;
     }
 
+
+    //--- user follow ------------------------------------------------------------------------------
+
     @Override
     public String followUser(String login_name) {
         return null;
@@ -83,6 +91,9 @@ public class UserImplement extends BaseImplement<UserService> implements UserAPI
     public String unFollowUser(String login_name) {
         return null;
     }
+
+
+    //--- user list --------------------------------------------------------------------------------
 
     @Override
     public String getUserFollowingList(String login_name, Integer offset, Integer limit) {

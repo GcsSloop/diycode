@@ -233,7 +233,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-        return null;
+        return sTopicImplement.createTopic(title, body, node_id);
     }
 
     /**
@@ -258,7 +258,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id) {
-        return null;
+        return sTopicImplement.updateTopic(id, title, body, node_id);
     }
 
     /**
@@ -269,7 +269,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String deleteTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.deleteTopic(id);
     }
 
     //--- topic collection -------------------------------------------------------------------------
@@ -282,7 +282,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String collectionTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.collectionTopic(id);
     }
 
     /**
@@ -293,7 +293,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String unCollectionTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.unCollectionTopic(id);
     }
 
     //--- topic watch ------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String watchTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.watchTopic(id);
     }
 
     /**
@@ -317,7 +317,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String unWatchTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.unWatchTopic(id);
     }
 
     //--- topic reply ------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String createTopicReply(@NonNull int id, @NonNull String body) {
-        return null;
+        return sTopicImplement.createTopicReply(id, body);
     }
 
     /**
@@ -355,7 +355,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String getTopicReply(@NonNull int id) {
-        return null;
+        return sTopicImplement.getTopicReply(id);
     }
 
     /**
@@ -367,7 +367,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String updateTopicReply(@NonNull int id, @NonNull String body) {
-        return null;
+        return sTopicImplement.updateTopicReply(id, body);
     }
 
     /**
@@ -378,7 +378,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String deleteTopicReply(@NonNull int id) {
-        return null;
+        return sTopicImplement.deleteTopicReply(id);
     }
 
     //--- topic ban --------------------------------------------------------------------------------
@@ -391,13 +391,15 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      */
     @Override
     public String banTopic(@NonNull int id) {
-        return null;
+        return sTopicImplement.banTopic(id);
     }
 
 
+    //--- user follow ------------------------------------------------------------------------------
+
     @Override
     public String getUsersList(Integer limit) {
-        return null;
+        return sUserImplement.getUsersList(limit);
     }
 
     @Override
@@ -410,44 +412,50 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
         return sUserImplement.getMe();
     }
 
+    //--- user block ------------------------------------------------------------------------------
+
     @Override
     public Call<State> blockUser(String login_name) {
-        return null;
+        return sUserImplement.blockUser(login_name);
     }
 
     @Override
     public String unBlockUser(String login_name) {
-        return null;
+        return sUserImplement.unBlockUser(login_name);
     }
 
     @Override
     public String getUserBlockedList(String login_name, Integer offset, Integer limit) {
-        return null;
+        return sUserImplement.getUserBlockedList(login_name, offset, limit);
     }
+
+    //--- user follow ------------------------------------------------------------------------------
 
     @Override
     public String followUser(String login_name) {
-        return null;
+        return sUserImplement.followUser(login_name);
     }
 
     @Override
     public String unFollowUser(String login_name) {
-        return null;
+        return sUserImplement.unFollowUser(login_name);
     }
 
     @Override
     public String getUserFollowingList(String login_name, Integer offset, Integer limit) {
-        return null;
+        return sUserImplement.getUserFollowingList(login_name, offset, limit);
     }
 
     @Override
     public String getUserFollowerList(String login_name, Integer offset, Integer limit) {
-        return null;
+        return sUserImplement.getUserFollowerList(login_name, offset, limit);
     }
+
+    //--- user list --------------------------------------------------------------------------------
 
     @Override
     public Call<List<Topic>> getUserCollectionTopicList(String login_name, Integer offset, Integer limit) {
-        return null;
+        return sUserImplement.getUserCollectionTopicList(login_name, offset, limit);
     }
 
     @Override
@@ -457,6 +465,6 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
 
     @Override
     public String getUserReplyTopicList(String login_name, String order, Integer offset, Integer limit) {
-        return null;
+        return sUserImplement.getUserReplyTopicList(login_name, order, offset, limit);
     }
 }

@@ -35,7 +35,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface TopicService {
+interface TopicService {
 
     //--- topic ------------------------------------------------------------------------------------
 
@@ -94,7 +94,7 @@ public interface TopicService {
      * 删除一个话题
      *
      * @param id 要删除的话题 id
-     * @return
+     * @return 状态
      */
     @DELETE("topics/{id}.json")
     @FormUrlEncoded
@@ -166,11 +166,11 @@ public interface TopicService {
      *
      * @param id   话题列表
      * @param body 回帖内容, Markdown 格式
-     * @return
+     * @return 回复详情
      */
     @POST("topics/{id}/replies.json")
     @FormUrlEncoded
-    Call<List<TopicReply>> createTopicReply(@Path("id") int id, @Query("body") String body);
+    Call<TopicReply> createTopicReply(@Path("id") int id, @Query("body") String body);
 
     /**
      * 获取回帖的详细内容（一般用于编辑回帖的时候）
@@ -209,7 +209,7 @@ public interface TopicService {
      * 屏蔽话题，移到 NoPoint 节点 (管理员限定)
      *
      * @param id 要屏蔽的话题 id
-     * @return
+     * @return 状态
      */
     @POST("topics/{id}/ban.json")
     @FormUrlEncoded
