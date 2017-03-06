@@ -22,11 +22,14 @@ package com.gcssloop.diycode_sdk.api.login.api;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
+import com.gcssloop.diycode_sdk.api.login.event.DeleteDevicesEvent;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
+import com.gcssloop.diycode_sdk.api.login.event.UpdateDevicesEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -57,9 +60,8 @@ public class LoginImplement extends BaseImplement<LoginService> implements Login
     public String login(@NonNull String user_name, @NonNull String password) {
         final String uuid = UUIDGenerator.getUUID();
         String GRANT_TYPE_GET = "password";
-        Call<Token> call = mService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE_GET,
-                user_name, password);
-        call.enqueue(new TokenCallback(mCacheUtil, new LoginEvent(uuid)));
+        mService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE_GET, user_name, password)
+                .enqueue(new TokenCallback(mCacheUtil, new LoginEvent(uuid)));
         return uuid;
     }
 
@@ -113,7 +115,10 @@ public class LoginImplement extends BaseImplement<LoginService> implements Login
     @Deprecated
     @Override
     public String updateDevices() {
-        return null;
+        String uuid = UUIDGenerator.getUUID();
+        mService.updateDevices("android", mCacheUtil.getToken().getAccess_token())
+                .enqueue(new BaseCallback<>(new UpdateDevicesEvent(uuid)));
+        return uuid;
     }
 
     /**
@@ -122,6 +127,9 @@ public class LoginImplement extends BaseImplement<LoginService> implements Login
     @Deprecated
     @Override
     public String deleteDevices() {
-        return null;
+        String uuid = UUIDGenerator.getUUID();
+        mService.deleteDevices("android", mCacheUtil.getToken().getAccess_token())
+                .enqueue(new BaseCallback<>(new DeleteDevicesEvent(uuid)));
+        return uuid;
     }
 }

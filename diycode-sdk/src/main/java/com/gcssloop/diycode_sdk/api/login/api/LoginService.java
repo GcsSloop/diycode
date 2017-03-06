@@ -29,7 +29,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface LoginService {
+interface LoginService {
 
     //--- Token ------------------------------------------------------------------------------------
 
@@ -78,19 +78,18 @@ public interface LoginService {
      */
     @POST("devices.json")
     @FormUrlEncoded
-    Call<State> registerDevices(@Field("platform") String platform, @Field("token") String token);
+    Call<State> updateDevices(@Field("platform") String platform, @Field("token") String token);
 
     /**
      * 删除 Device 信息，请注意在用户登出或删除应用的时候调用，以便能确保清理掉
      *
-     * @param platform
      * @param platform 平台 ["ios", "android"]
      * @param token    令牌 token
      * @return 是否成功
      */
     @DELETE("devices.json")
     @FormUrlEncoded
-    Call<State> unRegisterDevices(@Field("platform") String platform, @Field("token") String token);
+    Call<State> deleteDevices(@Field("platform") String platform, @Field("token") String token);
 
 
 }
