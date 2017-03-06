@@ -17,89 +17,123 @@
   ~
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/topic_item_padding_vertical"
+    android:paddingLeft="@dimen/topic_item_padding_horizontal"
+    android:paddingRight="@dimen/topic_item_padding_horizontal"
+    android:paddingTop="@dimen/topic_item_padding_vertical"
+    android:layout_marginTop="12dp"
+    android:background="@color/diy_white"
+    >
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="5dp"
-        >
+        android:layout_height="match_parent"
+        tools:background="@color/diy_white">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/avatar"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            tools:text="diytest"/>
+
+        <TextView
+            android:id="@+id/point"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/username"
+            android:gravity="center_vertical"
+            android:text="·"
+            android:textColor="@color/diy_gray"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/node_name"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/point"
+            android:gravity="center_vertical"
+            android:textColor="@color/diy_gray"
+            android:textSize="12sp"
+            tools:text="Android"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/diy_gray"
+            android:textSize="13sp"
+            tools:text="1分钟前"/>
+
+        <TextView
+            android:paddingTop="@dimen/topic_item_padding_vertical"
+            android:layout_marginRight="@dimen/topic_item_padding_vertical"
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar"
+            android:text="GcsTest(测试节点)"
+            android:textColor="@color/diy_black"
+            android:textSize="16sp"/>
 
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                tools:src="@mipmap/ic_launcher" />
+        <TextView
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/topic_item_padding_vertical"
+            android:id="@+id/preview"
+            android:maxLines="3"
+            android:textColor="@color/diy_gray2"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/title"
+            android:text="《提问的智慧》就是一个敲门砖，它把黑客间的礼仪和准则明白地写下来。它会让你了解到一个事实，为什么那些看起来很牛的人几乎从不提问，似乎他们一进入这个行业就是牛人了。不是的，他们也有问题，但是通常在提问之前就自己解决了；不是因为他们本来就懂得怎么解决，而是解决问题的经历让他们成为牛人；最终，你只会看到网络上多了一篇文章：关于解决XXX问题的方案。」"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/avatar"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                tools:text="diytest" />
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
+            android:id="@+id/collection"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/preview"
+            android:padding="2dp"
+            android:src="@drawable/ic_collection_default"/>
 
-            <TextView
-                android:id="@+id/point"
-                android:textColor="@color/diy_gray"
-                android:text="·"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="center_vertical"
-                android:layout_toRightOf="@+id/username"
-                android:layout_marginLeft="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"/>
 
-            <TextView
-                android:id="@+id/node_name"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:layout_marginLeft="8dp"
-                android:layout_toRightOf="@+id/point"
-                android:gravity="center_vertical"
-                android:textColor="@color/diy_gray"
-                android:textSize="18sp"
-                tools:text="Android" />
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="11dp"
+            android:id="@+id/like"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toLeftOf="@+id/collection"
+            android:layout_below="@+id/preview"
+            android:padding="2dp"
+            android:src="@drawable/ic_like_default"/>
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
-                android:textColor="@color/diy_gray"
-                android:textSize="16sp"
-                tools:text="1分钟前" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/avatar"
-                android:layout_marginTop="8dp"
-                android:text="GcsTest(测试节点)"
-                android:textColor="@color/diy_gray2"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </RelativeLayout>
 </LinearLayout>

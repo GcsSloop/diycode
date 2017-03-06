@@ -14,24 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-03-05 03:32:55
+  ~ Last modified 2017-03-07 00:38:52
   ~
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.RecyclerView
-        android:background="@color/diy_white_bg"
-        android:id="@+id/topic_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-</LinearLayout>
+<resources>
+    <dimen name="topic_item_padding_vertical">12dp</dimen>
+    <dimen name="topic_item_padding_horizontal">20dp</dimen>
+</resources>
