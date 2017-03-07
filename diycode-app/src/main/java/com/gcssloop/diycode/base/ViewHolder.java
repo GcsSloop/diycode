@@ -86,7 +86,11 @@ public class ViewHolder {
         }
     }
 
-    public void loadImage(Context context, String url, int res_id){
+    public boolean setText(@NonNull int res_id, CharSequence text) {
+        return setText(text, res_id);
+    }
+
+    public void loadImage(Context context, String url, int res_id) {
         ImageView imageView = get(res_id);
         Glide.with(context).load(url).into(imageView);
     }
@@ -105,6 +109,4 @@ public class ViewHolder {
             get(id).setOnClickListener(l);
         }
     }
-
-
 }

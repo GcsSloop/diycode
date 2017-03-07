@@ -22,10 +22,12 @@
 
 package com.gcssloop.diycode_sdk.api.user.bean;
 
+import java.io.Serializable;
+
 /**
  * 用户详细信息
  */
-public class UserDetail {
+public class UserDetail implements Serializable {
 
     private int id;                     // ID
     private String login;               // 用户名

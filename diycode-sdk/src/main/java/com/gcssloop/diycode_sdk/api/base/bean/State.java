@@ -22,10 +22,12 @@
 
 package com.gcssloop.diycode_sdk.api.base.bean;
 
+import java.io.Serializable;
+
 /**
  * 判断操作状态是否成功
  */
-public class State {
+public class State implements Serializable {
     /**
      * ok : 1
      */

@@ -222,7 +222,7 @@ public class Diycode implements LoginAPI, TestAPI, TopicAPI, UserAPI {
      * @see GetTopicsListEvent
      */
     @Override
-    public String getTopicsList(String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getTopicsList(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
         return sTopicImplement.getTopicsList(type, node_id, offset, limit);
     }
 

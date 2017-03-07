@@ -31,6 +31,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.BaseFragment;
@@ -73,7 +74,7 @@ public class TopicListFragment extends BaseFragment {
     private void initRecyclerView(final Context context, ViewHolder holder) {
         mAdapter = new TopicListAdapter(context) {
             @Override
-            public void setListener(int position, GcsViewHolder holder, Topic topic) {
+            public void setListener(int position, GcsViewHolder holder, final Topic topic) {
                 final User user = topic.getUser();
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -84,6 +85,15 @@ public class TopicListFragment extends BaseFragment {
 
                     }
                 }, R.id.avatar, R.id.username);
+
+                holder.get(R.id.title).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, TopicContentActivity.class);
+                        intent.putExtra(TopicContentActivity.TOPIC, topic);
+                        context.startActivity(intent);
+                    }
+                });
             }
         };
 

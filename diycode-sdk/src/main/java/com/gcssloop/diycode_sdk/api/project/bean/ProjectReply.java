@@ -25,7 +25,9 @@ package com.gcssloop.diycode_sdk.api.project.bean;
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class ProjectReply {
+import java.io.Serializable;
+
+public class ProjectReply implements Serializable {
 
     private int id;                 // 回复 的 id
     private String body_html;       // 回复内容详情(HTML)

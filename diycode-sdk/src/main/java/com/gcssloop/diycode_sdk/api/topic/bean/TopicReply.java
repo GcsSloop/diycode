@@ -25,7 +25,9 @@ package com.gcssloop.diycode_sdk.api.topic.bean;
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class TopicReply {
+import java.io.Serializable;
+
+public class TopicReply implements Serializable {
     /**
      * id : 2839
      * body_html : <p>期待 GcsSloop版的 diycode  客户端</p>

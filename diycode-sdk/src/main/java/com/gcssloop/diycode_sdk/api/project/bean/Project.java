@@ -22,7 +22,9 @@
 
 package com.gcssloop.diycode_sdk.api.project.bean;
 
-public class Project {
+import java.io.Serializable;
+
+public class Project implements Serializable {
     /**
      * id : 18470
      * name : TodayMind

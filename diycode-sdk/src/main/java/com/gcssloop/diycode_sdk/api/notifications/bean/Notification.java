@@ -24,7 +24,9 @@ package com.gcssloop.diycode_sdk.api.notifications.bean;
 
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
     private int id;                 // notification id
     private String type;            // 类型
     private boolean read;           // 是否已读

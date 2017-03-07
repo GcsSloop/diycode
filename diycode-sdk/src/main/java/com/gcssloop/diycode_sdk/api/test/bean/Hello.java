@@ -22,10 +22,12 @@
 
 package com.gcssloop.diycode_sdk.api.test.bean;
 
+import java.io.Serializable;
+
 /**
  * 测试(测试 token 是否管用)
  */
-public class Hello {
+public class Hello implements Serializable {
 
     private int id;             // 当前用户唯一 id
     private String login;       // 当前用户登录用户名

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2017 GcsSloop
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ Last modified 2017-03-08 04:22:12
+  ~
+  ~ GitHub:  https://github.com/GcsSloop
+  ~ Website: http://www.gcssloop.com
+  ~ Weibo:   http://weibo.com/GcsSloop
+  -->
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_topic_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/diy_white_bg"
+    tools:context="com.gcssloop.diycode.activity.TopicContentActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                app:layout_scrollFlags="scroll"
+                android:id="@+id/panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/topic_item_padding_vertical"
+                android:paddingLeft="@dimen/topic_item_padding_horizontal"
+                android:paddingRight="@dimen/topic_item_padding_horizontal"
+                android:paddingTop="@dimen/topic_item_padding_vertical"
+                android:background="@color/diy_white">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    tools:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/avatar"
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    tools:text="diytest"/>
+
+                <TextView
+                    android:id="@+id/point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/username"
+                    android:gravity="center_vertical"
+                    android:text="·"
+                    android:textColor="@color/diy_gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/node_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/point"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/diy_gray"
+                    android:textSize="12sp"
+                    tools:text="Android"/>
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/diy_gray"
+                    android:textSize="13sp"
+                    tools:text="1分钟前"/>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/avatar"
+                    android:paddingTop="@dimen/topic_item_padding_vertical"
+                    android:text="GcsTest(测试节点)"
+                    android:textColor="@color/diy_black"
+                    android:textSize="16sp"/>
+
+                <com.gcssloop.diycode.widget.MarkdownView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginTop="8dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/collection"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/content"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="12dp"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_collection_default"
+                    />
+
+
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/content"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toLeftOf="@+id/collection"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_like_default"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/reply_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/panel"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="8dp"
+                android:text="共收到 0 条回复"
+                android:textColor="@color/diy_black"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/reply_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reply_count"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            </android.support.v7.widget.RecyclerView>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

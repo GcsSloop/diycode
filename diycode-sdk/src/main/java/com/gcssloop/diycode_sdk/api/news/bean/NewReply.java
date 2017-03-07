@@ -25,7 +25,9 @@ package com.gcssloop.diycode_sdk.api.news.bean;
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class NewReply {
+import java.io.Serializable;
+
+public class NewReply implements Serializable {
 
     /**
      * id : 395

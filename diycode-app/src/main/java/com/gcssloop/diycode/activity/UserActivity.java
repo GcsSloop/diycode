@@ -25,7 +25,6 @@ package com.gcssloop.diycode.activity;
 import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -37,6 +36,7 @@ import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
+import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
@@ -97,18 +97,12 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         mAdapter = new TopicListAdapter(this) {
             @Override
             public void setListener(int position, GcsViewHolder holder, Topic topic) {
-                // 设置监听器
+                // TODO 设置监听器
             }
         };
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setSmoothScrollbarEnabled(true);
-        layoutManager.setAutoMeasureEnabled(true);
         RecyclerView recyclerView = holder.get(topic_list);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
+        RecyclerViewUtil.init(this, recyclerView, mAdapter);
     }
 
     private void initScrollAnimation(ViewHolder holder) {

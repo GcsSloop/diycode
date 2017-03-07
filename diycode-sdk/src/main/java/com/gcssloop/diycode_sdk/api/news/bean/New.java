@@ -24,7 +24,9 @@ package com.gcssloop.diycode_sdk.api.news.bean;
 
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class New {
+import java.io.Serializable;
+
+public class New implements Serializable {
 
     private int id;                         // 唯一 id
     private String title;                   // 标题

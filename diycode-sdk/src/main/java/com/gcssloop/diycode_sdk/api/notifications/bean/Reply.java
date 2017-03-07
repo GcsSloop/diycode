@@ -25,7 +25,9 @@ package com.gcssloop.diycode_sdk.api.notifications.bean;
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
-public class Reply {
+import java.io.Serializable;
+
+public class Reply implements Serializable {
     private int id;
     private String body_html;
     private String created_at;

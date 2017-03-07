@@ -22,7 +22,9 @@
 
 package com.gcssloop.diycode_sdk.api.base.bean;
 
-public class Node {
+import java.io.Serializable;
+
+public class Node implements Serializable{
 
     /**
      * id : 1

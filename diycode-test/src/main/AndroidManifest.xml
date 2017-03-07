@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright 2017 GcsSloop
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +19,9 @@
   ~ GitHub:  https://github.com/GcsSloop
   ~ Website: http://www.gcssloop.com
   ~ Weibo:   http://weibo.com/GcsSloop
-  -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gcssloop.diycode_test">
+          package="com.gcssloop.diycode_test">
 
     <application
         android:name=".base.BaseApplication"
@@ -31,9 +32,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -43,7 +44,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gcssloop.diycode_test.MainActivity" />
+                android:value="com.gcssloop.diycode_test.MainActivity"/>
         </activity>
         <activity
             android:name=".test_api.TokenTestActivity"
@@ -52,7 +53,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gcssloop.diycode_test.MainActivity" />
+                android:value="com.gcssloop.diycode_test.MainActivity"/>
         </activity>
         <activity
             android:name=".test_api.TopicListTestActivity"
@@ -61,7 +62,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gcssloop.diycode_test.MainActivity" />
+                android:value="com.gcssloop.diycode_test.MainActivity"/>
         </activity>
         <activity
             android:name=".test_api.TopicContentTestActivity"
@@ -70,7 +71,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gcssloop.diycode_test.MainActivity" />
+                android:value="com.gcssloop.diycode_test.MainActivity"/>
         </activity>
         <activity
             android:name=".test_api.TopicReplyTestActivity"
@@ -79,7 +80,9 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gcssloop.diycode_test.MainActivity" />
+                android:value="com.gcssloop.diycode_test.MainActivity"/>
+        </activity>
+        <activity android:name=".test_api.WebViewTest">
         </activity>
     </application>
 

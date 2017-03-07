@@ -22,10 +22,12 @@
 
 package com.gcssloop.diycode_sdk.api.base.bean;
 
+import java.io.Serializable;
+
 /**
  * 权限控制
  */
-public class Abilities {
+public class Abilities implements Serializable {
     private boolean update;
 
     private boolean destroy;

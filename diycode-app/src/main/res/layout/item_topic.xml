@@ -26,14 +26,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:paddingBottom="@dimen/topic_item_padding_vertical"
     android:paddingLeft="@dimen/topic_item_padding_horizontal"
     android:paddingRight="@dimen/topic_item_padding_horizontal"
     android:paddingTop="@dimen/topic_item_padding_vertical"
     android:layout_marginTop="12dp"
     android:background="@color/diy_white"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"

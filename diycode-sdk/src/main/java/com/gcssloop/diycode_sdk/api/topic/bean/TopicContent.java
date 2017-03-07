@@ -25,10 +25,12 @@ package com.gcssloop.diycode_sdk.api.topic.bean;
 import com.gcssloop.diycode_sdk.api.base.bean.Abilities;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
+import java.io.Serializable;
+
 /**
  * Topic 详情
  */
-public class TopicContent {
+public class TopicContent implements Serializable {
     private int id;                         // 唯一 id
     private String title;                   // 标题
     private String created_at;              // 创建时间
