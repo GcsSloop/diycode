@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-06 03:04:10
+ * Last modified 2017-03-08 01:01:18
  *
+ * GitHub:  https://github.com/GcsSloop
+ * Website: http://www.gcssloop.com
+ * Weibo:   http://weibo.com/GcsSloop
  */
 
 package com.gcssloop.diycode.adapter;
@@ -46,7 +49,7 @@ public class TopicListAdapter extends GcsAdapter<Topic> {
         setListener(position, holder, topic);
     }
 
-    public void setListener(int position, GcsViewHolder holder, Topic topic){
+    public void setListener(int position, GcsViewHolder holder, Topic topic) {
 
     }
 }

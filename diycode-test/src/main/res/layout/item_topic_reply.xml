@@ -13,8 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-02-21 21:18:03
+  ~ Last modified 2017-03-08 01:01:18
   ~
+  ~ GitHub:  https://github.com/GcsSloop
+  ~ Website: http://www.gcssloop.com
+  ~ Weibo:   http://weibo.com/GcsSloop
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -86,10 +89,18 @@
                 android:textSize="18sp" />
 
             <TextView
+                tools:text="山东分局克里斯朵夫吉林省"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/markdown_reply_content"
+                android:id="@+id/text_reply_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
                 android:id="@+id/text_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/markdown_reply_content"
+                android:layout_below="@+id/text_reply_content"
                 android:orientation="vertical"
                 tools:text="附加信息" />
 

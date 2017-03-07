@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-02-19 13:40:10
+ * Last modified 2017-03-08 01:01:18
  *
+ * GitHub:  https://github.com/GcsSloop
+ * Website: http://www.gcssloop.com
+ * Weibo:   http://weibo.com/GcsSloop
  */
 
 package com.gcssloop.diycode_test.test_api;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -90,7 +94,7 @@ public class TopicReplyTestActivity extends BaseActivity {
                    // markdownView.loadData(bean.getBody_html(),"text/html;charset=UTF-8", null);
                     markdownView.setMarkDownText(bean.getBody_html());
 
-                    // holder.setText(R.id.text_reply_content, Html.fromHtml(bean.getBody_html()));
+                    holder.setText(R.id.text_reply_content, Html.fromHtml(bean.getBody_html()));
                 }
             });
         } else {
