@@ -37,7 +37,7 @@ public interface UserAPI {
      * 获取用户列表
      *
      * @param limit 数量极限，默认值 20，值范围 1..150
-     * @return 用户列表
+     * @see GetUs
      */
     String getUsersList(Integer limit);
 
@@ -45,14 +45,14 @@ public interface UserAPI {
      * 获取用户详细资料
      *
      * @param login_name 登录用户名(非昵称)
-     * @return 用户详情
+     * @see
      */
     String getUser(String login_name);
 
     /**
      * 获取当前登录者的详细资料
      *
-     * @return 用户详情
+     * @see
      */
     String getMe();
 
@@ -62,7 +62,7 @@ public interface UserAPI {
      * 屏蔽用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @return 状态
+     * @see
      */
     @Deprecated
     Call<State> blockUser(String login_name);
@@ -71,7 +71,7 @@ public interface UserAPI {
      * 取消屏蔽用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @return 状态
+     * @see
      */
     @Deprecated
     String unBlockUser(String login_name);
@@ -82,7 +82,7 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 被屏蔽的用户列表
+     * @see
      */
     String getUserBlockedList(String login_name,
                                         Integer offset, Integer limit);
@@ -93,7 +93,7 @@ public interface UserAPI {
      * 关注用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @return 状态
+     * @see
      */
     @Deprecated
     String followUser(String login_name);
@@ -102,7 +102,7 @@ public interface UserAPI {
      * 取消关注用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @return 状态
+     * @see
      */
     @Deprecated
     String unFollowUser(String login_name);
@@ -113,7 +113,7 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 用户关注的人列表
+     * @see
      */
     String getUserFollowingList(String login_name,
                                           Integer offset, Integer limit);
@@ -124,7 +124,7 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 关注该用户的人列表
+     * @see
      */
     String getUserFollowerList(String login_name,
                                          Integer offset, Integer limit);
@@ -138,7 +138,7 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 话题列表
+     * @see
      */
     Call<List<Topic>> getUserCollectionTopicList(String login_name,
                                                  Integer offset, Integer limit);
@@ -151,7 +151,7 @@ public interface UserAPI {
      * @param order      类型 默认 recent，可选["recent", "likes", "replies"]
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 话题列表
+     * @see
      */
     String getUserCreateTopicList(String login_name, String order,
                                              Integer offset, Integer limit);
@@ -164,7 +164,7 @@ public interface UserAPI {
      * @param order      类型 默认 recent，可选["recent"]
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @return 话题列表
+     * @see
      */
     String getUserReplyTopicList(String login_name, String order,
                                             Integer offset, Integer limit);

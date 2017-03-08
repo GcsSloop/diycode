@@ -43,6 +43,7 @@ public class LikesImplement extends BaseImplement<LikesService> implements Likes
      *
      * @param obj_type 值范围["topic", "reply", "news"]
      * @param obj_id   唯一id
+     * @see LikeEvent
      */
     @Override
     public String like(@NonNull String obj_type, @NonNull Integer obj_id) {
@@ -56,6 +57,7 @@ public class LikesImplement extends BaseImplement<LikesService> implements Likes
      *
      * @param obj_type 值范围["topic", "reply", "news"]
      * @param obj_id   唯一id
+     * @see UnLikeEvent
      */
     @Override
     public String unLike(@NonNull String obj_type, @NonNull Integer obj_id) {

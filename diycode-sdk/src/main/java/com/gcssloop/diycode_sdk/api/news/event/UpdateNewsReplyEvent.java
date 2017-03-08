@@ -13,37 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 00:07:55
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.likes.api;
+package com.gcssloop.diycode_sdk.api.news.event;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.likes.event.*;
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
+import com.gcssloop.diycode_sdk.api.news.bean.NewReply;
 
-public interface LikesAPI {
+public class UpdateNewsReplyEvent extends BaseEvent<NewReply> {
+    /**
+     * @param uuid 唯一识别码
+     */
+    public UpdateNewsReplyEvent(@Nullable String uuid) {
+        super(uuid);
+    }
 
     /**
-     * 赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     * @see LikeEvent
+     * @param uuid     唯一识别码
+     * @param code     网络返回码
+     * @param newReply 实体数据
      */
-    String like(@NonNull String obj_type, @NonNull Integer obj_id);
-
-
-    /**
-     * 取消之前的赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     * @see UnLikeEvent
-     */
-    String unLike(@NonNull String obj_type, @NonNull Integer obj_id);
+    public UpdateNewsReplyEvent(@Nullable String uuid, @NonNull Integer code, @Nullable NewReply newReply) {
+        super(uuid, code, newReply);
+    }
 }

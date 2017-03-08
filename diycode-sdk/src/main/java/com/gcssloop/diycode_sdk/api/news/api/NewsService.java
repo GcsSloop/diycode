@@ -49,8 +49,8 @@ public interface NewsService {
      * @return news 列表
      */
     @GET("news.json")
-    Call<List<New>> getNews(@Query("node_id") Integer node_id, @Query("offset") Integer offset,
-                            @Query("limit") Integer limit);
+    Call<List<New>> getNewsList(@Query("node_id") Integer node_id, @Query("offset") Integer offset,
+                                @Query("limit") Integer limit);
 
     /**
      * 创建一个 new (分享)
@@ -74,11 +74,11 @@ public interface NewsService {
      * @return 回复列表
      */
     @GET("news/{id}/replies.json")
-    Call<List<NewReply>> getNewsReplies(@Path("id") int id, @Query("offset") Integer offset,
-                                        @Query("limit") Integer limit);
+    Call<List<NewReply>> getNewsRepliesList(@Path("id") int id, @Query("offset") Integer offset,
+                                            @Query("limit") Integer limit);
 
     /**
-     * 创建 news 回帖 (暂不可用)
+     * 创建 news 回帖 (暂不可用, 没有api)
      *
      * @param id   id
      * @param body 回帖内容， markdown格式
@@ -122,5 +122,5 @@ public interface NewsService {
      * @return 分类列表
      */
     @GET("news/nodes.json")
-    Call<List<Node>> getNewsNodes();
+    Call<List<Node>> getNewsNodesList();
 }

@@ -13,22 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-08 23:56:43
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.sites.api;
+package com.gcssloop.diycode_sdk.api.news.event;
 
-import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-public interface SitesAPI {
+import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
+import com.gcssloop.diycode_sdk.api.news.bean.New;
+
+public class CreateNewsEvent extends BaseEvent<New> {
+    /**
+     * @param uuid 唯一识别码
+     */
+    public CreateNewsEvent(@Nullable String uuid) {
+        super(uuid);
+    }
 
     /**
-     * 获取 酷站 列表
-     * @see GetSitesEvent
+     * @param uuid 唯一识别码
+     * @param code 网络返回码
+     * @param aNew 实体数据
      */
-    String getSites();
+    public CreateNewsEvent(@Nullable String uuid, @NonNull Integer code, @Nullable New aNew) {
+        super(uuid, code, aNew);
+    }
 }

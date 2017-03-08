@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 00:34:31
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -22,13 +22,28 @@
 
 package com.gcssloop.diycode_sdk.api.sites.api;
 
-import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
-public interface SitesAPI {
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
+
+public class SitesImplements extends BaseImplement<SitesService> implements SitesAPI {
+    public SitesImplements(@NonNull Context context) {
+        super(context);
+    }
 
     /**
      * 获取 酷站 列表
+     *
      * @see GetSitesEvent
      */
-    String getSites();
+    @Override
+    public String getSites() {
+        String uuid = UUIDGenerator.getUUID();
+        mService.getSites().enqueue(new BaseCallback<>(new GetSitesEvent(uuid)));
+        return uuid;
+    }
 }
