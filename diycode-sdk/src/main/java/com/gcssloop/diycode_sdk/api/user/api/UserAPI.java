@@ -22,12 +22,21 @@
 
 package com.gcssloop.diycode_sdk.api.user.api;
 
-import com.gcssloop.diycode_sdk.api.base.bean.State;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import java.util.List;
-
-import retrofit2.Call;
+import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserBlockedListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserFollowerListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserFollowingListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserReplyTopicListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUsersListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 
 public interface UserAPI {
 
@@ -37,22 +46,22 @@ public interface UserAPI {
      * 获取用户列表
      *
      * @param limit 数量极限，默认值 20，值范围 1..150
-     * @see GetUs
+     * @see GetUsersListEvent
      */
-    String getUsersList(Integer limit);
+    String getUsersList(@Nullable Integer limit);
 
     /**
      * 获取用户详细资料
      *
      * @param login_name 登录用户名(非昵称)
-     * @see
+     * @see GetUserEvent
      */
-    String getUser(String login_name);
+    String getUser(@NonNull String login_name);
 
     /**
      * 获取当前登录者的详细资料
      *
-     * @see
+     * @see GetMeEvent
      */
     String getMe();
 
@@ -62,19 +71,19 @@ public interface UserAPI {
      * 屏蔽用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @see
+     * @see BlockUserEvent
      */
     @Deprecated
-    Call<State> blockUser(String login_name);
+    String blockUser(@NonNull String login_name);
 
     /**
      * 取消屏蔽用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @see
+     * @see UnBlockUserEvent
      */
     @Deprecated
-    String unBlockUser(String login_name);
+    String unBlockUser(@NonNull String login_name);
 
     /**
      * 获取用户屏蔽的用户列表
@@ -82,10 +91,10 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserBlockedListEvent
      */
-    String getUserBlockedList(String login_name,
-                                        Integer offset, Integer limit);
+    String getUserBlockedList(@NonNull String login_name,
+                              @Nullable Integer offset, @Nullable Integer limit);
 
     //--- user follow ------------------------------------------------------------------------------
 
@@ -93,19 +102,19 @@ public interface UserAPI {
      * 关注用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @see
+     * @see FollowUserEvent
      */
     @Deprecated
-    String followUser(String login_name);
+    String followUser(@NonNull String login_name);
 
     /**
      * 取消关注用户
      *
      * @param login_name 登录用户名(非昵称)
-     * @see
+     * @see UnFollowUserEvent
      */
     @Deprecated
-    String unFollowUser(String login_name);
+    String unFollowUser(@NonNull String login_name);
 
     /**
      * 用户正在关注的人列表
@@ -113,21 +122,21 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserFollowingListEvent
      */
-    String getUserFollowingList(String login_name,
-                                          Integer offset, Integer limit);
+    String getUserFollowingList(@NonNull String login_name,
+                                @Nullable Integer offset, @Nullable Integer limit);
 
     /**
-     * 关注该用户的人列白哦
+     * 关注该用户的人列表
      *
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserFollowerListEvent
      */
-    String getUserFollowerList(String login_name,
-                                         Integer offset, Integer limit);
+    String getUserFollowerList(@NonNull String login_name,
+                               @Nullable Integer offset, @Nullable Integer limit);
 
 
     //--- user list --------------------------------------------------------------------------------
@@ -138,10 +147,10 @@ public interface UserAPI {
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserCreateTopicListEvent
      */
-    Call<List<Topic>> getUserCollectionTopicList(String login_name,
-                                                 Integer offset, Integer limit);
+    String getUserCollectionTopicList(@NonNull String login_name,
+                                                 @Nullable Integer offset, @Nullable Integer limit);
 
 
     /**
@@ -151,10 +160,10 @@ public interface UserAPI {
      * @param order      类型 默认 recent，可选["recent", "likes", "replies"]
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserCreateTopicListEvent
      */
-    String getUserCreateTopicList(String login_name, String order,
-                                             Integer offset, Integer limit);
+    String getUserCreateTopicList(@NonNull String login_name, @Nullable String order,
+                                  @Nullable Integer offset, @Nullable Integer limit);
 
 
     /**
@@ -164,8 +173,8 @@ public interface UserAPI {
      * @param order      类型 默认 recent，可选["recent"]
      * @param offset     偏移数值，默认值 0
      * @param limit      数量极限，默认值 20，值范围 1..150
-     * @see
+     * @see GetUserReplyTopicListEvent
      */
-    String getUserReplyTopicList(String login_name, String order,
-                                            Integer offset, Integer limit);
+    String getUserReplyTopicList(@NonNull String login_name, @Nullable String order,
+                                 @Nullable Integer offset, @Nullable Integer limit);
 }

@@ -68,7 +68,20 @@ import com.gcssloop.diycode_sdk.api.topic.event.UnWatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
+import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
 import com.gcssloop.diycode_sdk.api.user.api.UserImplement;
+import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserBlockedListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserFollowerListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserFollowingListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUserReplyTopicListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.GetUsersListEvent;
+import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
+import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
 import com.gcssloop.gcs_log.Config;
 import com.gcssloop.gcs_log.Logger;
@@ -76,7 +89,7 @@ import com.gcssloop.gcs_log.Logger;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI {
+public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI {
 
     private static LoginImplement sLoginImplement;
     private static TestImplement sTestImplement;
@@ -107,7 +120,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
 
     //--- 初始化 ---------------------------------------------------------------------------------
 
-    public static Diycode init(@NonNull Context context, @NonNull final String client_id, @NonNull final String client_secret) {
+    public static Diycode init(@NonNull Context context, @NonNull final String client_id,
+                               @NonNull final String client_secret) {
         initLogger(context);
         Logger.i("初始化 diycode");
 
@@ -258,14 +272,16 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     /**
      * 获取 topic 列表
      *
-     * @param type    类型，默认 last_actived，可选["last_actived", "recent", "no_reply", "popular", "excellent"]
+     * @param type    类型，默认 last_actived，
+     *                可选["last_actived", "recent", "no_reply", "popular", "excellent"]
      * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
      * @param offset  偏移数值，默认值 0
      * @param limit   数量极限，默认值 20，值范围 1..150
      * @see GetTopicsListEvent
      */
     @Override
-    public String getTopicsList(@Nullable String type, @Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getTopicsList(@Nullable String type, @Nullable Integer node_id,
+                                @Nullable Integer offset, @Nullable Integer limit) {
         return sTopicImplement.getTopicsList(type, node_id, offset, limit);
     }
 
@@ -278,7 +294,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see CreateTopicEvent
      */
     @Override
-    public String createTopic(@NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+    public String createTopic(@NonNull String title, @NonNull String body,
+                              @NonNull Integer node_id) {
         return sTopicImplement.createTopic(title, body, node_id);
     }
 
@@ -303,7 +320,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see UpdateTopicEvent
      */
     @Override
-    public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body, @NonNull Integer node_id) {
+    public String updateTopic(@NonNull int id, @NonNull String title, @NonNull String body,
+                              @NonNull Integer node_id) {
         return sTopicImplement.updateTopic(id, title, body, node_id);
     }
 
@@ -377,7 +395,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see GetTopicRepliesListEvent
      */
     @Override
-    public String getTopicRepliesList(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getTopicRepliesList(@NonNull int id, @Nullable Integer offset,
+                                      @Nullable Integer limit) {
         return sTopicImplement.getTopicRepliesList(id, offset, limit);
     }
 
@@ -452,7 +471,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see GetNewsListEvent
      */
     @Override
-    public String getNewsList(@Nullable Integer node_id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getNewsList(@Nullable Integer node_id, @Nullable Integer offset,
+                              @Nullable Integer limit) {
         return sNewsImplement.getNewsList(node_id, offset, limit);
     }
 
@@ -465,7 +485,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see CreateNewsEvent
      */
     @Override
-    public String createNews(@NonNull Integer title, @NonNull Integer address, @NonNull Integer node_id) {
+    public String createNews(@NonNull Integer title, @NonNull Integer address,
+                             @NonNull Integer node_id) {
         return sNewsImplement.createNews(title, address, node_id);
     }
 
@@ -480,7 +501,8 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      * @see GetNewsRepliesListEvent
      */
     @Override
-    public String getNewsRepliesList(@NonNull int id, @Nullable Integer offset, @Nullable Integer limit) {
+    public String getNewsRepliesList(@NonNull int id, @Nullable Integer offset,
+                                     @Nullable Integer limit) {
         return sNewsImplement.getNewsRepliesList(id, offset, limit);
     }
 
@@ -553,6 +575,177 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getSites() {
         return sSitesImplements.getSites();
+    }
+
+
+    //--- user info --------------------------------------------------------------------------------
+
+    /**
+     * 获取用户列表
+     *
+     * @param limit 数量极限，默认值 20，值范围 1..150
+     * @see GetUsersListEvent
+     */
+    @Override
+    public String getUsersList(@Nullable Integer limit) {
+        return sUserImplement.getUsersList(limit);
+    }
+
+    /**
+     * 获取用户详细资料
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @see GetUserEvent
+     */
+    @Override
+    public String getUser(@NonNull String login_name) {
+        return sUserImplement.getUser(login_name);
+    }
+
+    /**
+     * 获取当前登录者的详细资料
+     *
+     * @see GetMeEvent
+     */
+    @Override
+    public String getMe() {
+        return sUserImplement.getMe();
+    }
+
+    //--- user block -------------------------------------------------------------------------------
+
+    /**
+     * 屏蔽用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @see BlockUserEvent
+     */
+    @Override
+    public String blockUser(@NonNull String login_name) {
+        return sUserImplement.blockUser(login_name);
+    }
+
+    /**
+     * 取消屏蔽用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @see UnBlockUserEvent
+     */
+    @Override
+    public String unBlockUser(@NonNull String login_name) {
+        return sUserImplement.unBlockUser(login_name);
+    }
+
+    /**
+     * 获取用户屏蔽的用户列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserBlockedListEvent
+     */
+    @Override
+    public String getUserBlockedList(@NonNull String login_name, @Nullable Integer offset,
+                                     @Nullable Integer limit) {
+        return sUserImplement.getUserBlockedList(login_name, offset, limit);
+    }
+
+    //--- user follow ------------------------------------------------------------------------------
+
+    /**
+     * 关注用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @see FollowUserEvent
+     */
+    @Override
+    public String followUser(@NonNull String login_name) {
+        return sUserImplement.followUser(login_name);
+    }
+
+    /**
+     * 取消关注用户
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @see UnFollowUserEvent
+     */
+    @Override
+    public String unFollowUser(@NonNull String login_name) {
+        return sUserImplement.unFollowUser(login_name);
+    }
+
+    /**
+     * 用户正在关注的人列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserFollowingListEvent
+     */
+    @Override
+    public String getUserFollowingList(@NonNull String login_name, @Nullable Integer offset,
+                                       @Nullable Integer limit) {
+        return sUserImplement.getUserFollowingList(login_name, offset, limit);
+    }
+
+    /**
+     * 关注该用户的人列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserFollowerListEvent
+     */
+    @Override
+    public String getUserFollowerList(@NonNull String login_name, @Nullable Integer offset,
+                                      @Nullable Integer limit) {
+        return sUserImplement.getUserFollowerList(login_name, offset, limit);
+    }
+
+    //--- user list --------------------------------------------------------------------------------
+
+    /**
+     * 用户收藏的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserCreateTopicListEvent
+     */
+    @Override
+    public String getUserCollectionTopicList(@NonNull String login_name, @Nullable Integer offset,
+                                             @Nullable Integer limit) {
+        return sUserImplement.getUserCollectionTopicList(login_name, offset, limit);
+    }
+
+    /**
+     * 获取用户创建的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param order      类型 默认 recent，可选["recent", "likes", "replies"]
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserCreateTopicListEvent
+     */
+    @Override
+    public String getUserCreateTopicList(@NonNull String login_name, @Nullable String order,
+                                         @Nullable Integer offset, @Nullable Integer limit) {
+        return sUserImplement.getUserCreateTopicList(login_name, order, offset, limit);
+    }
+
+    /**
+     * 用户回复过的话题列表
+     *
+     * @param login_name 登录用户名(非昵称)
+     * @param order      类型 默认 recent，可选["recent"]
+     * @param offset     偏移数值，默认值 0
+     * @param limit      数量极限，默认值 20，值范围 1..150
+     * @see GetUserReplyTopicListEvent
+     */
+    @Override
+    public String getUserReplyTopicList(@NonNull String login_name, @Nullable String order,
+                                        @Nullable Integer offset, @Nullable Integer limit) {
+        return sUserImplement.getUserReplyTopicList(login_name, order, offset, limit);
     }
 
 

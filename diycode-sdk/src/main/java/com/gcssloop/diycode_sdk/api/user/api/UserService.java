@@ -88,7 +88,7 @@ public interface UserService {
     Call<State> unBlockUser(@Path("login") String login_name);
 
     /**
-     * 获取用户屏蔽的用户列表
+     * 获取用户屏蔽的用户列表(只能获取自己的)
      *
      * @param login_name 登录用户名(非昵称)
      * @param offset     偏移数值，默认值 0
