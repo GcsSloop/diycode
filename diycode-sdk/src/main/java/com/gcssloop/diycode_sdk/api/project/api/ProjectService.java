@@ -76,7 +76,7 @@ public interface ProjectService {
      */
     @POST("projects/{id}/replies.json")
     @FormUrlEncoded
-    Call<List<ProjectReply>> createProjectReply(@Path("id") int id, @Query("body") String body);
+    Call<ProjectReply> createProjectReply(@Path("id") int id, @Query("body") String body);
 
     /**
      * 获取回帖的详细内容（一般用于编辑回帖的时候）

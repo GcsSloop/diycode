@@ -55,6 +55,8 @@ import com.gcssloop.diycode_sdk.api.notifications.event.MarkNotificationAsReadEv
 import com.gcssloop.diycode_sdk.api.photo.api.PhotoAPI;
 import com.gcssloop.diycode_sdk.api.photo.api.PhotoImplement;
 import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
+import com.gcssloop.diycode_sdk.api.project.api.ProjectAPI;
+import com.gcssloop.diycode_sdk.api.project.api.ProjectImplement;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesImplements;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
@@ -102,7 +104,7 @@ import java.io.File;
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
 public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI,
-        PhotoAPI, NotificationsAPI {
+        PhotoAPI, NotificationsAPI, ProjectAPI {
 
     private static LoginImplement sLoginImplement;
     private static TestImplement sTestImplement;
@@ -112,6 +114,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     private static SitesImplements sSitesImplements;
     private static UserImplement sUserImplement;
     private static PhotoImplement sPhotoImplement;
+    private static ProjectImplement sProjectImplement;
     private static NotificationsImplement sNotificationsImplement;
 
     //--- 单例 -----------------------------------------------------------------------------------
@@ -165,6 +168,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
             sSitesImplements = new SitesImplements(context);
             sUserImplement = new UserImplement(context);
             sPhotoImplement = new PhotoImplement(context);
+            sProjectImplement = new ProjectImplement(context);
             sNotificationsImplement = new NotificationsImplement(context);
         } catch (Exception e) {
             e.printStackTrace();
@@ -834,5 +838,82 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String deleteAllNotification() {
         return sNotificationsImplement.deleteAllNotification();
+    }
+
+
+    //--- project  ---------------------------------------------------------------------------------
+
+    /**
+     * 获取 project 列表
+     *
+     * @param node_id 如果你需要只看某个节点的，请传此参数, 如果不传 则返回全部
+     * @param offset  偏移数值，默认值 0
+     * @param limit   数量极限，默认值 20，值范围 1..150
+     * @see
+     */
+    @Override
+    public String getProjectsList(Integer node_id, Integer offset, Integer limit) {
+        return sProjectImplement.getProjectsList(node_id, offset, limit);
+    }
+
+    //--- project reply ----------------------------------------------------------------------------
+
+    /**
+     * 获取 project 回复列表
+     *
+     * @param id     project 的 id
+     * @param offset 偏移数值 默认 0
+     * @param limit  数量极限，默认值 20，值范围 1...150
+     * @see
+     */
+    @Override
+    public String getProjectRepliesList(int id, Integer offset, Integer limit) {
+        return sProjectImplement.getProjectsList(id, offset, limit);
+    }
+
+    /**
+     * 创建 project 回帖(回复，评论)
+     *
+     * @param id   话题列表
+     * @param body 回帖内容, Markdown 格式
+     * @return
+     */
+    @Override
+    public String createProjectReply(int id, String body) {
+        return sProjectImplement.createProjectReply(id, body);
+    }
+
+    /**
+     * 获取回帖的详细内容（一般用于编辑回帖的时候）
+     *
+     * @param id id
+     * @see
+     */
+    @Override
+    public String getProjectReply(int id) {
+        return sProjectImplement.getProjectReply(id);
+    }
+
+    /**
+     * 更新回帖
+     *
+     * @param id   id
+     * @param body 回帖详情
+     * @see
+     */
+    @Override
+    public String updateProjectReply(int id, String body) {
+        return sProjectImplement.updateProjectReply(id, body);
+    }
+
+    /**
+     * 删除回帖
+     *
+     * @param id id
+     * @see
+     */
+    @Override
+    public String deleteProjectReply(int id) {
+        return sProjectImplement.deleteProjectReply(id);
     }
 }
