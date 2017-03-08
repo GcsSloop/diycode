@@ -3,10 +3,10 @@
 - [x] base
 - [x] login
 - [x] test
-- [ ] user
+- [x] user
 - [x] topic
-- [ ] news
-- [ ] sites
-- [ ] project
-- [ ] photo
-- [ ] notification
+- [x] news
+- [x] sites
+- [x] project
+- [x] photo
+- [x] notification

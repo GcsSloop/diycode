@@ -511,7 +511,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
         return sNewsImplement.createNews(title, address, node_id);
     }
 
-    //--- news reply ------------------------------------------------------------------------------
+    //--- news reply ----------------------------------------------------------0--------------------
 
     /**
      * 获取 news 回帖列表
