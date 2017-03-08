@@ -13,31 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 02:18:04
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.photo.api;
+package com.gcssloop.diycode_sdk.api.photo.bean;
 
-import com.gcssloop.diycode_sdk.api.photo.bean.Photo;
-
-import java.io.File;
-
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.POST;
-
-public interface PhotoService {
-
+public class Photo {
     /**
-     * 上传图片,请使用 Multipart 的方式提交图片文件
-     *
-     * @param img_file 图片文件
-     * @return 图片地址
+     * image_url : https://diycode.b0.upaiyun.com/photo/2017/980ab912bb99173feb0966e23e88515c.jpeg
      */
-    @POST("photos.json")
-    Call<Photo> uploadPhoto(@Field("file") File img_file);
+
+    private String image_url;
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 }

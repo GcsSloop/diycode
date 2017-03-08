@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 02:21:32
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -22,22 +22,31 @@
 
 package com.gcssloop.diycode_sdk.api.photo.api;
 
-import com.gcssloop.diycode_sdk.api.photo.bean.Photo;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
+import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
 import java.io.File;
 
-import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.POST;
-
-public interface PhotoService {
+public class PhotoImplement extends BaseImplement<PhotoService> implements PhotoAPI {
+    public PhotoImplement(@NonNull Context context) {
+        super(context);
+    }
 
     /**
      * 上传图片,请使用 Multipart 的方式提交图片文件
      *
      * @param img_file 图片文件
-     * @return 图片地址
+     * @see UploadPhotoEvent
      */
-    @POST("photos.json")
-    Call<Photo> uploadPhoto(@Field("file") File img_file);
+    @Override
+    public String uploadPhoto(@NonNull File img_file) {
+        String uuid = UUIDGenerator.getUUID();
+        mService.uploadPhoto(img_file).enqueue(new BaseCallback<>(new UploadPhotoEvent(uuid)));
+        return uuid;
+    }
 }

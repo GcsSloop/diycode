@@ -39,6 +39,8 @@ import retrofit2.http.Query;
 
 public interface ProjectService {
 
+    //--- project  ---------------------------------------------------------------------------------
+
     /**
      * 获取 project 列表
      *
@@ -48,8 +50,8 @@ public interface ProjectService {
      * @return project 列表
      */
     @GET("projects.json")
-    Call<List<Project>> getTopics(@Query("node_id") Integer node_id,
-                                  @Query("offset") Integer offset, @Query("limit") Integer limit);
+    Call<List<Project>> getProjectsList(@Query("node_id") Integer node_id,
+                                        @Query("offset") Integer offset, @Query("limit") Integer limit);
 
     //--- project reply ----------------------------------------------------------------------------
 
@@ -62,8 +64,8 @@ public interface ProjectService {
      * @return 回复列表
      */
     @GET("projects/{id}/replies.json")
-    Call<List<ProjectReply>> getProjectReplies(@Path("id") int id, @Query("offset") Integer offset,
-                                               @Query("limit") Integer limit);
+    Call<List<ProjectReply>> getProjectRepliesList(@Path("id") int id, @Query("offset") Integer offset,
+                                                   @Query("limit") Integer limit);
 
     /**
      * 创建 project 回帖(回复，评论)

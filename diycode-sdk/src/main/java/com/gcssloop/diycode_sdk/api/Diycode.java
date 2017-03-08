@@ -45,6 +45,9 @@ import com.gcssloop.diycode_sdk.api.news.event.GetNewsNodesListEvent;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.news.event.UpdateNewsReplyEvent;
+import com.gcssloop.diycode_sdk.api.photo.api.PhotoAPI;
+import com.gcssloop.diycode_sdk.api.photo.api.PhotoImplement;
+import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesImplements;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
@@ -86,10 +89,12 @@ import com.gcssloop.diycode_sdk.utils.DebugUtil;
 import com.gcssloop.gcs_log.Config;
 import com.gcssloop.gcs_log.Logger;
 
+import java.io.File;
+
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI {
+public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI, PhotoAPI {
 
     private static LoginImplement sLoginImplement;
     private static TestImplement sTestImplement;
@@ -98,6 +103,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     private static NewsImplement sNewsImplement;
     private static SitesImplements sSitesImplements;
     private static UserImplement sUserImplement;
+    private static PhotoImplement sPhotoImplement;
 
     //--- 单例 -----------------------------------------------------------------------------------
 
@@ -149,6 +155,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
             sNewsImplement = new NewsImplement(context);
             sSitesImplements = new SitesImplements(context);
             sUserImplement = new UserImplement(context);
+            sPhotoImplement = new PhotoImplement(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -749,4 +756,16 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     }
 
 
+    //--- photo ------------------------------------------------------------------------------------
+
+    /**
+     * 上传图片,请使用 Multipart 的方式提交图片文件
+     *
+     * @param img_file 图片文件
+     * @see UploadPhotoEvent
+     */
+    @Override
+    public String uploadPhoto(@NonNull File img_file) {
+        return sPhotoImplement.uploadPhoto(img_file);
+    }
 }
