@@ -76,6 +76,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             holder.setText(R.id.title, topic.getTitle());
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
             holder.setOnClickListener(this, R.id.avatar, R.id.username);
+            holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
 
             // 发出获取 topic 详情和 topic 回复的请求
             // TODO 分页加载回复的内容(鉴于目前回复数量并不多，此处采取一次性加载)

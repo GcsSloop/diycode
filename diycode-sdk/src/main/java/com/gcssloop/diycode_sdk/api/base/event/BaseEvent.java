@@ -45,7 +45,6 @@ public class BaseEvent<T> {
     protected Integer code = -1;        // 状态码
     protected T t;                      // 实体类
 
-
     /**
      * @param uuid 唯一识别码
      */

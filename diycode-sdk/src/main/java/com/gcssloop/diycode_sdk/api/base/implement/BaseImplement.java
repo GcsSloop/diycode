@@ -54,7 +54,7 @@ public class BaseImplement<Service> {
     public BaseImplement(@NonNull Context context) {
         this.mContext = context;
         mCacheUtil = new CacheUtil(context.getApplicationContext());
-        Logger.e(getServiceClass()+"");
+        Logger.e(getServiceClass() + "");
         initRetrofit();
         this.mService = mRetrofit.create(getServiceClass());
     }
