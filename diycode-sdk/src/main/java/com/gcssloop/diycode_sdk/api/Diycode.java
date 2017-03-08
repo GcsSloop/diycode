@@ -45,6 +45,13 @@ import com.gcssloop.diycode_sdk.api.news.event.GetNewsNodesListEvent;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.news.event.UpdateNewsReplyEvent;
+import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsAPI;
+import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsImplement;
+import com.gcssloop.diycode_sdk.api.notifications.event.DeleteAllNotificationEvent;
+import com.gcssloop.diycode_sdk.api.notifications.event.DeleteNotificationEvent;
+import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationUnReadCountEvent;
+import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationsListEvent;
+import com.gcssloop.diycode_sdk.api.notifications.event.MarkNotificationAsReadEvent;
 import com.gcssloop.diycode_sdk.api.photo.api.PhotoAPI;
 import com.gcssloop.diycode_sdk.api.photo.api.PhotoImplement;
 import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
@@ -94,7 +101,8 @@ import java.io.File;
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
  */
-public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI, PhotoAPI {
+public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI,
+        PhotoAPI, NotificationsAPI {
 
     private static LoginImplement sLoginImplement;
     private static TestImplement sTestImplement;
@@ -104,6 +112,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     private static SitesImplements sSitesImplements;
     private static UserImplement sUserImplement;
     private static PhotoImplement sPhotoImplement;
+    private static NotificationsImplement sNotificationsImplement;
 
     //--- 单例 -----------------------------------------------------------------------------------
 
@@ -156,6 +165,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
             sSitesImplements = new SitesImplements(context);
             sUserImplement = new UserImplement(context);
             sPhotoImplement = new PhotoImplement(context);
+            sNotificationsImplement = new NotificationsImplement(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -767,5 +777,62 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String uploadPhoto(@NonNull File img_file) {
         return sPhotoImplement.uploadPhoto(img_file);
+    }
+
+
+    //--- notification -----------------------------------------------------------------------------
+
+    /**
+     * 获取通知列表
+     *
+     * @param offset 偏移数值，默认值 0
+     * @param limit  数量极限，默认值 20，值范围 1..150
+     * @see GetNotificationsListEvent
+     */
+    @Override
+    public String getNotificationsList(@NonNull Integer offset, @NonNull Integer limit) {
+        return sNotificationsImplement.getNotificationsList(offset, limit);
+    }
+
+    /**
+     * 获得未读通知的数量
+     *
+     * @see GetNotificationUnReadCountEvent
+     */
+    @Override
+    public String getNotificationUnReadCount() {
+        return sNotificationsImplement.getNotificationUnReadCount();
+    }
+
+    /**
+     * 将某些通知标记为已读
+     *
+     * @param ids id集合
+     * @see MarkNotificationAsReadEvent
+     */
+    @Override
+    public String markNotificationAsRead(int[] ids) {
+        return sNotificationsImplement.markNotificationAsRead(ids);
+    }
+
+    /**
+     * 删除用户的某条通知
+     *
+     * @param id id
+     * @see DeleteNotificationEvent
+     */
+    @Override
+    public String deleteNotionfition(@NonNull Integer id) {
+        return sNotificationsImplement.deleteNotionfition(id);
+    }
+
+    /**
+     * 删除当前用户的所有通知
+     *
+     * @see DeleteAllNotificationEvent
+     */
+    @Override
+    public String deleteAllNotification() {
+        return sNotificationsImplement.deleteAllNotification();
     }
 }

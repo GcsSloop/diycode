@@ -23,10 +23,9 @@
 package com.gcssloop.diycode_sdk.api.notifications.api;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
+import com.gcssloop.diycode_sdk.api.notifications.bean.Count;
 import com.gcssloop.diycode_sdk.api.notifications.bean.Notification;
-import com.gcssloop.diycode_sdk.api.notifications.bean.NotificationUnReadCount;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,8 +46,8 @@ public interface NotificationsService {
      * @return 通知列表
      */
     @GET("notifications.json")
-    Call<List<Notification>> getNotifications(@Query("offset") Integer offset,
-                                              @Query("limit") Integer limit);
+    Call<List<Notification>> getNotificationsList(@Query("offset") Integer offset,
+                                                  @Query("limit") Integer limit);
 
     /**
      * 获得未读通知数量
@@ -56,7 +55,7 @@ public interface NotificationsService {
      * @return 未读通知数量
      */
     @GET("notifications/unread_count.json")
-    Call<NotificationUnReadCount> getNotificationUnReadCount();
+    Call<Count> getNotificationUnReadCount();
 
     /**
      * 将当前用户的一些通知设成已读状态
@@ -66,7 +65,7 @@ public interface NotificationsService {
      */
     @Deprecated
     @POST("notifications/read.json")
-    Call<State> markNotificationAsRead(@Field("ids") Array ids);
+    Call<State> markNotificationAsRead(@Field("ids") int[] ids);
 
 
     /**

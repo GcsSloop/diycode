@@ -24,7 +24,7 @@ package com.gcssloop.diycode_sdk.api.notifications.bean;
 
 import java.io.Serializable;
 
-public class NotificationUnReadCount implements Serializable {
+public class Count implements Serializable {
 
     private int count;  // 数值
 
