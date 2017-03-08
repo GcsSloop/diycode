@@ -48,9 +48,10 @@ import java.util.List;
 
 import static com.gcssloop.diycode.R.id.reply_list;
 
-public class TopicContentActivity extends BaseActivity {
+public class TopicContentActivity extends BaseActivity implements View.OnClickListener {
     public static String TOPIC = "topic";
     private TopicReplyListAdapter mAdapter;
+    private Topic topic;
 
     @Override
     protected int getLayoutId() {
@@ -66,13 +67,15 @@ public class TopicContentActivity extends BaseActivity {
     // 初始化 topic 内容面板的数据
     private void initTopicContentPanel(ViewHolder holder) {
         Intent intent = getIntent();
-        Topic topic = (Topic) intent.getSerializableExtra(TOPIC);
+        topic = (Topic) intent.getSerializableExtra(TOPIC);
         if (null != topic) {
             toastShort("获取 topic 成功");
             User user = topic.getUser();
             holder.setText(R.id.username, user.getLogin() + "(" + user.getName() + ")");
             holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
+            holder.setText(R.id.title, topic.getTitle());
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
+            holder.setOnClickListener(this, R.id.avatar, R.id.username);
 
             // 发出获取 topic 详情和 topic 回复的请求
             // TODO 分页加载回复的内容(鉴于目前回复数量并不多，此处采取一次性加载)
@@ -124,5 +127,17 @@ public class TopicContentActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.avatar:
+            case R.id.username:
+                if (null != topic) {
+                    openActivity(UserActivity.class, UserActivity.USER, topic.getUser());
+                }
+                break;
+        }
     }
 }

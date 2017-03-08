@@ -40,6 +40,9 @@ import com.gcssloop.diycode.R;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 用 Glide 加载图片，并在 Textview 中显示
+ */
 public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     private final Context mContext;

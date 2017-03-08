@@ -52,51 +52,51 @@
 
                 <ImageView
                     android:id="@+id/avatar"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/panel_space_2"
+                    android:layout_height="@dimen/panel_space_2"
                     tools:src="@mipmap/ic_launcher"/>
 
                 <TextView
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/panel_space_2"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/avatar"
                     android:gravity="center_vertical"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/panel_text_2"
                     tools:text="diytest"/>
 
                 <TextView
                     android:id="@+id/point"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/panel_space_2"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/username"
                     android:gravity="center_vertical"
                     android:text="·"
                     android:textColor="@color/diy_gray"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/panel_text_2"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/node_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="24dp"
+                    android:layout_height="@dimen/panel_space_2"
                     android:layout_marginLeft="8dp"
                     android:layout_toRightOf="@+id/point"
                     android:gravity="center_vertical"
                     android:textColor="@color/diy_gray"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/panel_text_2"
                     tools:text="Android"/>
 
                 <TextView
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="@dimen/panel_space_2"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
                     android:textColor="@color/diy_gray"
-                    android:textSize="13sp"
+                    android:textSize="@dimen/panel_text_2"
                     tools:text="1分钟前"/>
 
                 <TextView
@@ -106,11 +106,13 @@
                     android:layout_below="@+id/avatar"
                     android:paddingTop="@dimen/topic_item_padding_vertical"
                     android:text="GcsTest(测试节点)"
-                    android:textColor="@color/diy_black"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/diy_black2"
+                    android:textSize="20sp"/>
 
                 <com.gcssloop.diycode.widget.MarkdownView
                     android:id="@+id/content"
+                    android:layout_marginLeft="-12dp"
+                    android:layout_marginRight="-12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
@@ -163,6 +165,11 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_below="@id/reply_list"
+                android:layout_width="0dp"
+                android:layout_height="20dp"/>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

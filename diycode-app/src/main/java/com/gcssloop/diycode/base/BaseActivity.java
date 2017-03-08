@@ -22,6 +22,8 @@
 
 package com.gcssloop.diycode.base;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.gcssloop.diycode_sdk.api.Diycode;
+
+import java.io.Serializable;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -91,4 +95,32 @@ public abstract class BaseActivity extends AppCompatActivity {
             });
         }
     }
+
+
+    protected void openActivity(Class<?> cls) {
+        openActivity(this, cls);
+    }
+
+    public static void openActivity(Context context, Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 打开 Avtivity 的同时传递一个数据
+     */
+    protected <V extends Serializable> void openActivity(Class<?> cls, String key, V value) {
+        openActivity(this, cls, key, value);
+    }
+
+
+    /**
+     * 打开 Avtivity 的同时传递一个数据
+     */
+    public <V extends Serializable> void openActivity(Context context, Class<?> cls, String key, V value) {
+        Intent intent = new Intent(context, cls);
+        intent.putExtra(key, value);
+        context.startActivity(intent);
+    }
+
 }

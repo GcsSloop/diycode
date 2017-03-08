@@ -29,6 +29,7 @@
     <color name="diy_gray">#C8C8CE</color>
     <color name="diy_gray2">#999999</color>
     <color name="diy_black">#4d4d4d</color>
+    <color name="diy_black2">#000000</color>
     <color name="diy_white">#ffffff</color>
     <color name="diy_white_bg">#F0F0F0</color>
 </resources>

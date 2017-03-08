@@ -43,7 +43,7 @@ public class TextFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_test;
+        return R.layout.fragment_text;
     }
 
     @Override
