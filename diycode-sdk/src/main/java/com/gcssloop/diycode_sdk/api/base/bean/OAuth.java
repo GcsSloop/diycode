@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 23:37:46
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.utils;
+package com.gcssloop.diycode_sdk.api.base.bean;
 
-public class Constant {
-    // 网络相关
-    public static final String BASE_URL = "https://diycode.cc/api/v3/";
-    public static final String OAUTH_URL = "https://www.diycode.cc/oauth/token";
+public class OAuth {
+    // 认证类型
+    public static String GRANT_TYPE_LOGIN = "password";             // 密码
+    public static String GRANT_TYPE_REFRESH = "refresh_token";      // 刷新令牌
+
+    public static String client_id = "";                            // 应用ID
+    public static String client_secret = "";                        // 私钥
+
+    public static final String KEY_TOKEN = "Authorization";
+    public static final String TOKEN_PREFIX = "Bearer ";
 }

@@ -34,7 +34,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.gcssloop.gcs_log.Logger;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

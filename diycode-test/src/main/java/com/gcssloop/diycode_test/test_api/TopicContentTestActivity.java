@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
@@ -70,6 +71,7 @@ public class TopicContentTestActivity extends BaseActivity {
 
     @OnClick(R.id.btn_get_content)
     public void getContent(View view) {
+        Diycode mDiycode = Diycode.getSingleInstance();
         mDiycode.getTopic(ConvertUtil.StringToInteger(edit_id.getText().toString(), 604));
     }
 

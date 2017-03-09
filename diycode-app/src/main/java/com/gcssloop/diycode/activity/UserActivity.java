@@ -42,7 +42,7 @@ import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
-import com.gcssloop.gcs_log.Logger;
+import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.view.utils.DensityUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 

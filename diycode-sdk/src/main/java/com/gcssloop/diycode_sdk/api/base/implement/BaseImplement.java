@@ -25,18 +25,25 @@ package com.gcssloop.diycode_sdk.api.base.implement;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
+import com.gcssloop.diycode_sdk.api.login.api.TokenService;
+import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
-import com.gcssloop.gcs_log.Logger;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 
@@ -46,13 +53,11 @@ import retrofit2.Retrofit;
  * @param <Service>
  */
 public class BaseImplement<Service> {
-    private Context mContext;
     protected CacheUtil mCacheUtil;
     private static Retrofit mRetrofit;
     protected Service mService;
 
     public BaseImplement(@NonNull Context context) {
-        this.mContext = context;
         mCacheUtil = new CacheUtil(context.getApplicationContext());
         Logger.e(getServiceClass() + "");
         initRetrofit();
@@ -80,13 +85,37 @@ public class BaseImplement<Service> {
                 if (null == mCacheUtil.getToken() || alreadyHasAuthorizationHeader(originalRequest)) {
                     return chain.proceed(originalRequest);
                 }
-                String token = Constant.VALUE_TOKEN_PREFIX + mCacheUtil.getToken().getAccess_token();
+                String token = OAuth.TOKEN_PREFIX + mCacheUtil.getToken().getAccess_token();
                 Logger.i("AutoToken:" + token); // 查看 token 是否异常
                 // 为请求附加 token
                 Request authorised = originalRequest.newBuilder()
-                        .header(Constant.KEY_TOKEN, token)
+                        .header(OAuth.KEY_TOKEN, token)
                         .build();
                 return chain.proceed(authorised);
+            }
+        };
+
+        // 自动刷新 token
+        Authenticator mAuthenticator = new Authenticator() {
+            @Override
+            public Request authenticate(Route route, Response response) {
+                TokenService tokenService = mRetrofit.create(TokenService.class);
+                String accessToken = "";
+                try {
+                    if (null != mCacheUtil.getToken()) {
+                        Call<Token> call = tokenService.refreshToken(OAuth.client_id,
+                                OAuth.client_secret, OAuth.GRANT_TYPE_REFRESH,
+                                mCacheUtil.getToken().getRefresh_token());
+                        retrofit2.Response<Token> tokenResponse = call.execute();
+                        Token token = tokenResponse.body();
+                        accessToken = null == token ? "" : token.getAccess_token();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return response.request().newBuilder()
+                        .addHeader(OAuth.KEY_TOKEN, OAuth.TOKEN_PREFIX + accessToken)
+                        .build();
             }
         };
 
@@ -95,7 +124,8 @@ public class BaseImplement<Service> {
                 .addInterceptor(interceptor)                // 设置拦截器
                 .retryOnConnectionFailure(true)             // 是否重试
                 .connectTimeout(5, TimeUnit.SECONDS)        // 连接超时事件
-                .addNetworkInterceptor(mTokenInterceptor)   // 自动附加 token (附加和不附加请求结果可能会有差别)
+                .addNetworkInterceptor(mTokenInterceptor)   // 自动附加 token
+                .authenticator(mAuthenticator)              // 认证失败自动刷新token
                 .build();
 
         // 配置 Retrofit
@@ -107,7 +137,7 @@ public class BaseImplement<Service> {
     }
 
     private boolean alreadyHasAuthorizationHeader(Request originalRequest) {
-        String token = originalRequest.header(Constant.KEY_TOKEN);
+        String token = originalRequest.header(OAuth.KEY_TOKEN);
         // 如果本身是请求 token 的 URL，直接返回 true
         // 如果不是，则判断 header 中是否已经添加过 Authorization 这个字段，以及是否为空
         return !(null == token || token.isEmpty() || originalRequest.url().toString().contains(Constant.OAUTH_URL));

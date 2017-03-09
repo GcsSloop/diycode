@@ -26,6 +26,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
 import com.gcssloop.diycode_sdk.api.likes.api.LikesAPI;
 import com.gcssloop.diycode_sdk.api.likes.api.LikesImplement;
 import com.gcssloop.diycode_sdk.api.likes.event.LikeEvent;
@@ -95,8 +96,8 @@ import com.gcssloop.diycode_sdk.api.user.event.GetUsersListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 import com.gcssloop.diycode_sdk.utils.DebugUtil;
-import com.gcssloop.gcs_log.Config;
-import com.gcssloop.gcs_log.Logger;
+import com.gcssloop.diycode_sdk.log.Config;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.File;
 
@@ -143,7 +144,10 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
         initLogger(context);
         Logger.i("初始化 diycode");
 
-        initImplement(context, client_id, client_secret);
+        OAuth.client_id = client_id;
+        OAuth.client_secret = client_secret;
+
+        initImplement(context);
 
         return getSingleInstance();
     }
@@ -157,10 +161,10 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
         }
     }
 
-    private static void initImplement(Context context, String client_id, String client_secret) {
+    private static void initImplement(Context context) {
         Logger.i("初始化 implement");
         try {
-            sLoginImplement = new LoginImplement(context, client_id, client_secret);
+            sLoginImplement = new LoginImplement(context);
             sTestImplement = new TestImplement(context);
             sLikesImplement = new LikesImplement(context);
             sTopicImplement = new TopicImplement(context);

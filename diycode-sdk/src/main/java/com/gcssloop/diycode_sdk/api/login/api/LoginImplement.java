@@ -25,6 +25,7 @@ package com.gcssloop.diycode_sdk.api.login.api;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
@@ -41,14 +42,8 @@ import retrofit2.Call;
 
 public class LoginImplement extends BaseImplement<LoginService> implements LoginAPI {
 
-    private static String CLIENT_ID = "";                       // 应用 ID
-    private static String CLIENT_SECRET = "";                   // 私钥
-
-    public LoginImplement(@NonNull Context context,
-                          @NonNull final String client_id, @NonNull final String client_secret) {
+    public LoginImplement(@NonNull Context context) {
         super(context);
-        CLIENT_ID = client_id;
-        CLIENT_SECRET = client_secret;
     }
 
     /**
@@ -62,8 +57,7 @@ public class LoginImplement extends BaseImplement<LoginService> implements Login
     @Override
     public String login(@NonNull String user_name, @NonNull String password) {
         final String uuid = UUIDGenerator.getUUID();
-        String GRANT_TYPE_GET = "password";
-        mService.getToken(CLIENT_ID, CLIENT_SECRET, GRANT_TYPE_GET, user_name, password)
+        mService.getToken(OAuth.client_id, OAuth.client_secret, OAuth.GRANT_TYPE_LOGIN, user_name, password)
                 .enqueue(new TokenCallback(mCacheUtil, new LoginEvent(uuid)));
         return uuid;
     }
@@ -92,9 +86,8 @@ public class LoginImplement extends BaseImplement<LoginService> implements Login
         }
 
         // 如果本地有缓存的 token，尝试刷新 token 信息，并缓存新的 Token
-        String GRANT_TYPE_REFRESH = "refresh_token";
-        Call<Token> call = mService.refreshToken(CLIENT_ID, CLIENT_SECRET,
-                GRANT_TYPE_REFRESH, mCacheUtil.getToken().getRefresh_token());
+        Call<Token> call = mService.refreshToken(OAuth.client_id, OAuth.client_secret,
+                OAuth.GRANT_TYPE_REFRESH, mCacheUtil.getToken().getRefresh_token());
         call.enqueue(new TokenCallback(mCacheUtil, new RefreshTokenEvent(uuid)));
         return uuid;
     }

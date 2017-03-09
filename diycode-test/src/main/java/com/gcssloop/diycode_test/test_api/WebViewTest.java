@@ -39,7 +39,7 @@ public class WebViewTest extends AppCompatActivity {
         markdownView.setMarkDownText("## Markdown \n" +
                 "![](http://www.gcssloop.com/assets/siteinfo/friends/gcssloop.jpg)");
 
-        markdownView.setMarkDownText("## Markdown2 \n" +
-                "![](http://www.gcssloop.com/assets/siteinfo/friends/gcssloop中文.jpg)");
+     //   markdownView.setMarkDownText("## Markdown2 \n" +
+     //           "![](http://www.gcssloop.com/assets/siteinfo/friends/gcssloop中文.jpg)");
     }
 }
