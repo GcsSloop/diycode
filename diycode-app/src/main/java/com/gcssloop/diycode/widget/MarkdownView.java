@@ -37,8 +37,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.gcssloop.diycode_sdk.log.Logger;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -158,15 +156,12 @@ public class MarkdownView extends WebView {
 
   public void setMarkDownText(String markdownText) {
     String bs64MdText = imgToBase64(markdownText);
-    Logger.e("bs64MdText="+bs64MdText);
     String escMdText = escapeForText(bs64MdText);
-    Logger.e("escMdText="+escMdText);
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
       mPreviewText = String.format("javascript:preview('%s')", escMdText);
     } else {
       mPreviewText = String.format("preview('%s')", escMdText);
     }
-    Logger.e("mPreviewText="+mPreviewText);
     initialize();
   }
 

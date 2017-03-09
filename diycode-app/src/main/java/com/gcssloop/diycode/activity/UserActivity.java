@@ -83,13 +83,11 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = getIntent();
         User user = (User) intent.getSerializableExtra(USER);
         if (null != user) {
-            toastShort("获取用户数据成功");
             holder.setText(user.getLogin() + "(" + user.getName() + ")", R.id.username);
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
-            mDiycode.getUser(user.getLogin());
             holder.setOnClickListener(this, R.id.follow);
+            mDiycode.getUser(user.getLogin());
         } else {
-            toastShort("未获取到用户数据");
         }
     }
 

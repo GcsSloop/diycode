@@ -157,5 +157,4 @@ public class Topic implements Serializable {
     public Abilities getAbilities() {
         return this.abilities;
     }
-
 }

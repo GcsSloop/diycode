@@ -59,6 +59,8 @@ public class MainActivity extends BaseActivity
     //--- viewpager adapter ------------------------------------------------------------------------
 
     private void initViewPager(ViewHolder holder) {
+        mDiycode.login("diytest","slooptest");
+
         ViewPager mViewPager = holder.get(R.id.view_pager);
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

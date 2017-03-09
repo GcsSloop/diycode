@@ -120,6 +120,7 @@
                     />
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/collection"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -133,6 +134,7 @@
 
 
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/like"
                     android:layout_width="24dp"
                     android:layout_height="24dp"

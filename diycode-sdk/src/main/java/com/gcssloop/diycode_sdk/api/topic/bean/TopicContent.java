@@ -207,7 +207,7 @@ public class TopicContent implements Serializable {
         return this.suggested_at;
     }
 
-    public Object getFollowed() {
+    public Boolean getFollowed() {
         return followed;
     }
 
@@ -215,7 +215,7 @@ public class TopicContent implements Serializable {
         this.followed = followed;
     }
 
-    public Object getLiked() {
+    public Boolean getLiked() {
         return liked;
     }
 
@@ -223,7 +223,7 @@ public class TopicContent implements Serializable {
         this.liked = liked;
     }
 
-    public Object getFavorited() {
+    public Boolean getFavorited() {
         return favorited;
     }
 
