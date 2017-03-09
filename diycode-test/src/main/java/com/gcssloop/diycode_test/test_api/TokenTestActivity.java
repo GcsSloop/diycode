@@ -98,7 +98,7 @@ public class TokenTestActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDeleteTopic(DeleteTopicEvent event) {
         // 由于 401 错误会被底层进行拦截，拦截后自动附加更新的 token，所以返回结果就变成了 403（没有权限)
-        Logger.e("触发 401 强制更新,实际返回值应该为 403，返回结果 => "+event.getCode());
+        Logger.e("触发 401 强制更新,返回值应该为 403 或 400，返回结果 => "+event.getCode());
 
         // 测试结束后立即重置该参数，以防止影响其他 api 的使用
         OAuth.resetAutoToken();
