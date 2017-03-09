@@ -37,7 +37,7 @@ public class MainMenu {
 
     static{
         menu.add(new MenuEntity("登录测试(获取 Token )", LoginTestActivity.class)) ;
-        menu.add(new MenuEntity("获取数据测试(Token)", TokenTestActivity.class)) ;
+        menu.add(new MenuEntity("Token 测试(自动刷新)", TokenTestActivity.class)) ;
         menu.add(new MenuEntity("获取 topic 列表测试", TopicListTestActivity.class)) ;
         menu.add(new MenuEntity("获取 topic 内容测试", TopicContentTestActivity.class)) ;
         menu.add(new MenuEntity("获取 topic 回复测试", TopicReplyTestActivity.class)) ;

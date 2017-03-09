@@ -59,7 +59,6 @@ public class BaseImplement<Service> {
 
     public BaseImplement(@NonNull Context context) {
         mCacheUtil = new CacheUtil(context.getApplicationContext());
-        Logger.e(getServiceClass() + "");
         initRetrofit();
         this.mService = mRetrofit.create(getServiceClass());
     }
@@ -99,6 +98,7 @@ public class BaseImplement<Service> {
         Authenticator mAuthenticator = new Authenticator() {
             @Override
             public Request authenticate(Route route, Response response) {
+                Logger.i("自动刷新 token 开始");
                 TokenService tokenService = mRetrofit.create(TokenService.class);
                 String accessToken = "";
                 try {
@@ -108,11 +108,15 @@ public class BaseImplement<Service> {
                                 mCacheUtil.getToken().getRefresh_token());
                         retrofit2.Response<Token> tokenResponse = call.execute();
                         Token token = tokenResponse.body();
-                        accessToken = null == token ? "" : token.getAccess_token();
+                        if (null != token) {
+                            mCacheUtil.saveToken(token);
+                            accessToken = token.getAccess_token();
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                Logger.i("自动刷新 token 结束：" + accessToken);
                 return response.request().newBuilder()
                         .addHeader(OAuth.KEY_TOKEN, OAuth.TOKEN_PREFIX + accessToken)
                         .build();
@@ -137,6 +141,10 @@ public class BaseImplement<Service> {
     }
 
     private boolean alreadyHasAuthorizationHeader(Request originalRequest) {
+        // 用于 debug 时临时移除 token
+        if (OAuth.getRemoveAutoTokenState()) {
+            return true;
+        }
         String token = originalRequest.header(OAuth.KEY_TOKEN);
         // 如果本身是请求 token 的 URL，直接返回 true
         // 如果不是，则判断 header 中是否已经添加过 Authorization 这个字段，以及是否为空

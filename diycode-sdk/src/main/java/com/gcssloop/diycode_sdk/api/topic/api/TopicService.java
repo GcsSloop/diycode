@@ -100,7 +100,6 @@ interface TopicService {
      * @return 状态
      */
     @DELETE("topics/{id}.json")
-    @FormUrlEncoded
     Call<State> deleteTopic(@Path("id") int id);
 
 
@@ -203,7 +202,6 @@ interface TopicService {
      * @return 状态
      */
     @DELETE("replies/{id}.json")
-    @FormUrlEncoded
     Call<State> deleteTopicReply(@Path("id") int id);
 
     //--- topic ban --------------------------------------------------------------------------------

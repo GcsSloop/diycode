@@ -52,6 +52,5 @@ public interface LikesService {
      * @return 是否成功
      */
     @DELETE("likes.json")
-    @FormUrlEncoded
     Call<State> unLike(@Field("obj_type") String obj_type, @Field("obj_id") Integer obj_id);
 }

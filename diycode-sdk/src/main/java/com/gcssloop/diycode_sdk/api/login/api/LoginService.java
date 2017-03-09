@@ -91,7 +91,6 @@ interface LoginService {
      * @return 是否成功
      */
     @DELETE("devices.json")
-    @FormUrlEncoded
     Call<State> deleteDevices(@Field("platform") String platform, @Field("token") String token);
 
 

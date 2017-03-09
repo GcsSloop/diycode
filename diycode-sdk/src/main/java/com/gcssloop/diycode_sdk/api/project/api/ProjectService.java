@@ -106,6 +106,5 @@ public interface ProjectService {
      * @return 状态
      */
     @DELETE("project_replies/{id}.json")
-    @FormUrlEncoded
     Call<State> deleteProjectReply(@Path("id") int id);
 }
