@@ -112,8 +112,9 @@ public class TopicListFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (NetUtil.isNetConnection(getContext())) {
-            Diycode diycode = Diycode.getSingleInstance();
-            diycode.getTopicsList(null, null, null, null);
+
+            Diycode.getSingleInstance().getTopicsList(null, null, null, null);
+
         } else {
             List<Topic> topics = mDataCache.getTopicsList();
             mAdapter.addDatas(topics);
