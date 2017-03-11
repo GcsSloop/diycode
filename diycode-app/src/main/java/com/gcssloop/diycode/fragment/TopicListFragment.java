@@ -37,7 +37,7 @@ import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
-import com.gcssloop.diycode.utils.cache.DataCache;
+import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;

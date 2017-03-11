@@ -34,7 +34,7 @@ import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.webview.GcsWebViewClient;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
-import com.gcssloop.diycode.utils.cache.DataCache;
+import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.widget.MarkdownView;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
