@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 22:31:55
+ * Last modified 2017-03-11 03:08:25
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.utils;
+package com.gcssloop.diycode.utils.cache;
 
 import android.content.Context;
 
+import com.gcssloop.diycode.utils.FileUtil;
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.utils.ACache;
@@ -36,11 +38,11 @@ import java.util.List;
 /**
  * 数据缓存工具
  */
-public class DataCacheUtil {
+public class DataCache {
 
     ACache cache;
 
-    public DataCacheUtil(Context context) {
+    public DataCache(Context context) {
         cache = ACache.get(new File(FileUtil.getExternalCacheDir(context.getApplicationContext(), "diy-data")));
     }
 
@@ -67,5 +69,14 @@ public class DataCacheUtil {
 
     public List<TopicReply> getTopicRepliesList(int topic_id) {
         return getData("topic_reply_" + topic_id);
+    }
+
+    public void saveTopicsList(List<Topic> topicList) {
+        ArrayList<Topic> replies = new ArrayList<>(topicList);
+        saveData("topic_list_", replies);
+    }
+
+    public List<Topic> getTopicsList() {
+        return getData("topic_list_");
     }
 }

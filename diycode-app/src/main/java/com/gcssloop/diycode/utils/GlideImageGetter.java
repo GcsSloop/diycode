@@ -78,7 +78,7 @@ public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callba
     public Drawable getDrawable(String url) {
         final UrlDrawable urlDrawable = new UrlDrawable();
 
-        System.out.println("Downloading from: " + url);
+       // System.out.println("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

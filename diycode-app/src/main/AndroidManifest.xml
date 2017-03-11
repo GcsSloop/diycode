@@ -25,6 +25,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".base.BaseApplication"
@@ -33,6 +35,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.gcssloop.diycode.base.BaseGlideModule"
+            android:value="GlideModule"/>
+
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"

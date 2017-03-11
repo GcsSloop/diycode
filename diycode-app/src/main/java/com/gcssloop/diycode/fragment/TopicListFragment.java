@@ -37,6 +37,8 @@ import com.gcssloop.diycode.adapter.TopicListAdapter;
 import com.gcssloop.diycode.base.BaseFragment;
 import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
+import com.gcssloop.diycode.utils.cache.DataCache;
+import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
@@ -47,11 +49,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 /**
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
 public class TopicListFragment extends BaseFragment {
-
+    DataCache mDataCache;
     TopicListAdapter mAdapter;
 
     public static TopicListFragment newInstance() {
@@ -68,6 +72,7 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        mDataCache = new DataCache(getContext());
         initRecyclerView(getContext(), holder);
     }
 
@@ -106,8 +111,14 @@ public class TopicListFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Diycode diycode = Diycode.getSingleInstance();
-        diycode.getTopicsList(null, null, null, null);
+        if (NetUtil.isNetConnection(getContext())) {
+            Diycode diycode = Diycode.getSingleInstance();
+            diycode.getTopicsList(null, null, null, null);
+        } else {
+            List<Topic> topics = mDataCache.getTopicsList();
+            mAdapter.addDatas(topics);
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -115,6 +126,7 @@ public class TopicListFragment extends BaseFragment {
         if (event.isOk()) {
             Logger.e("获取 topic list 成功 - showlist");
             mAdapter.addDatas(event.getBean());
+            mDataCache.saveTopicsList(event.getBean());
         } else {
             Logger.e("获取 topic list 失败 - showlist");
         }

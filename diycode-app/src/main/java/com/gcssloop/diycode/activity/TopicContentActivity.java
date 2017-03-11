@@ -31,9 +31,9 @@ import com.gcssloop.diycode.adapter.TopicReplyListAdapter;
 import com.gcssloop.diycode.base.BaseActivity;
 import com.gcssloop.diycode.base.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
-import com.gcssloop.diycode.utils.DataCacheUtil;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
+import com.gcssloop.diycode.utils.cache.DataCache;
 import com.gcssloop.diycode.widget.MarkdownView;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
@@ -56,7 +56,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     public static String TOPIC = "topic";
     public static String TOPIC_ID = "topic_id";
     private Topic topic;
-    private DataCacheUtil mDataCacheUtil;
+    private DataCache mDataCache;
     private TopicReplyListAdapter mAdapter;
 
     @Override
@@ -66,7 +66,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mDataCacheUtil = new DataCacheUtil(this);
+        mDataCache = new DataCache(this);
         initRecyclerView(holder);
         loadData(holder);
     }
@@ -90,14 +90,14 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             }
 
             // 读取缓存
-            TopicContent topicContent = mDataCacheUtil.getTopicContent(topic.getId());
+            TopicContent topicContent = mDataCache.getTopicContent(topic.getId());
             if (null != topicContent) {
                 Logger.i("数据不变 - 来自缓存");
                 MarkdownView markdownView = holder.get(R.id.content);
                 markdownView.setMarkDownText(topicContent.getBody());
             }
 
-            List<TopicReply> replies = mDataCacheUtil.getTopicRepliesList(topic.getId());
+            List<TopicReply> replies = mDataCache.getTopicRepliesList(topic.getId());
             if (null != replies) {
                 Logger.i("回复不变 - 来自缓存");
                 mAdapter.addDatas(replies);
@@ -112,10 +112,10 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         if (!NetUtil.isNetConnection(this)) {
             return false;   // 无网络，无法加载
         }
-        if (null == mDataCacheUtil.getTopicContent(topic.getId())) {
+        if (null == mDataCache.getTopicContent(topic.getId())) {
             return true;    // 无缓存，需要加载
         }
-        TopicContent content = mDataCacheUtil.getTopicContent(topic.getId());
+        TopicContent content = mDataCache.getTopicContent(topic.getId());
         if (!content.getUpdated_at().equals(topic.getUpdated_at())) {
             return true;    // 更新时间不同，需要加载
         }
@@ -141,7 +141,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             Logger.i("topic 请求成功 - 来自网络");
             MarkdownView markdownView = mViewHolder.get(R.id.content);
             markdownView.setMarkDownText(event.getBean().getBody());
-            mDataCacheUtil.saveTopicContent(event.getBean());
+            mDataCache.saveTopicContent(event.getBean());
         }
     }
 
@@ -150,7 +150,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         if (event.isOk()) {
             Logger.i("topic reply 回复 - 来自网络");
             mAdapter.addDatas(event.getBean());
-            mDataCacheUtil.saveTopicRepliesList(topic.getId(), event.getBean());
+            mDataCache.saveTopicRepliesList(topic.getId(), event.getBean());
         } else {
             toastShort("获取回复失败");
         }
