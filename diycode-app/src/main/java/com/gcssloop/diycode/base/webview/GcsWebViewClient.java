@@ -39,7 +39,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
 
@@ -98,8 +97,6 @@ public class GcsWebViewClient extends WebViewClient {
 
     @Override
     public void onLoadResource(WebView view, final String url) {
-        // TODO cache Image?
-        Logger.e("缓存图片");
         if (isImageSuffix(url)) {
             Glide.with(mContext).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
@@ -131,7 +128,6 @@ public class GcsWebViewClient extends WebViewClient {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
-                    Logger.e("拦截请求");
                     return response;
                 }
             }
@@ -143,14 +139,12 @@ public class GcsWebViewClient extends WebViewClient {
 
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-        Logger.e("shouldInterceptRequest");
         try {
             // 如果是图片且本地有缓存
             if (isImageSuffix(url) || isGifSuffix(url)) {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
-                    Logger.e("拦截请求");
                     return response;
                 }
             }
