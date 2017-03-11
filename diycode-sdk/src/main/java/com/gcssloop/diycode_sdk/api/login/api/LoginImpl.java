@@ -40,9 +40,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import retrofit2.Call;
 
-public class LoginImplement extends BaseImplement<LoginService> implements LoginAPI {
+public class LoginImpl extends BaseImplement<LoginService> implements LoginAPI {
 
-    public LoginImplement(@NonNull Context context) {
+    public LoginImpl(@NonNull Context context) {
         super(context);
     }
 

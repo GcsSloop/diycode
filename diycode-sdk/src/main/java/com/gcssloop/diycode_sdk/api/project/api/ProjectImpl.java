@@ -36,8 +36,8 @@ import com.gcssloop.diycode_sdk.api.project.event.GetProjectsListEvent;
 import com.gcssloop.diycode_sdk.api.project.event.UpdateProjectReplyEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class ProjectImplement extends BaseImplement<ProjectService> implements ProjectAPI {
-    public ProjectImplement(@NonNull Context context) {
+public class ProjectImpl extends BaseImplement<ProjectService> implements ProjectAPI {
+    public ProjectImpl(@NonNull Context context) {
         super(context);
     }
 

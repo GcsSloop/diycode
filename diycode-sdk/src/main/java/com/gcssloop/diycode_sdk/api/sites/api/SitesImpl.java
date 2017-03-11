@@ -30,8 +30,8 @@ import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class SitesImplements extends BaseImplement<SitesService> implements SitesAPI {
-    public SitesImplements(@NonNull Context context) {
+public class SitesImpl extends BaseImplement<SitesService> implements SitesAPI {
+    public SitesImpl(@NonNull Context context) {
         super(context);
     }
 

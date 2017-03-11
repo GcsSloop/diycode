@@ -34,8 +34,8 @@ import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationsListEven
 import com.gcssloop.diycode_sdk.api.notifications.event.MarkNotificationAsReadEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class NotificationsImplement extends BaseImplement<NotificationsService> implements NotificationsAPI {
-    public NotificationsImplement(@NonNull Context context) {
+public class NotificationsImpl extends BaseImplement<NotificationsService> implements NotificationsAPI {
+    public NotificationsImpl(@NonNull Context context) {
         super(context);
     }
 

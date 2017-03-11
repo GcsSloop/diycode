@@ -13,40 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-09 02:21:32
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.test.api;
+package com.gcssloop.diycode_sdk.api.photo.api;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
-import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
+import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class TestImplement extends BaseImplement<TestService> implements TestAPI {
-    public TestImplement(@NonNull Context context) {
+import java.io.File;
+
+public class PhotoImpl extends BaseImplement<PhotoService> implements PhotoAPI {
+    public PhotoImpl(@NonNull Context context) {
         super(context);
     }
 
     /**
-     * 简单的 API 测试接口，需要登录验证，便于快速测试 OAuth 以及其他 API 的基本格式是否正确。
-     * 使用 HelloEvent 接收结果。
+     * 上传图片,请使用 Multipart 的方式提交图片文件
      *
-     * @param limit 数量极限，值范围[0..100]
-     * @see HelloEvent
+     * @param img_file 图片文件
+     * @see UploadPhotoEvent
      */
     @Override
-    public String hello(@Nullable Integer limit) {
-        final String uuid = UUIDGenerator.getUUID();
-        mService.hello(limit).enqueue(new BaseCallback<>(new HelloEvent(uuid)));
+    public String uploadPhoto(@NonNull File img_file) {
+        String uuid = UUIDGenerator.getUUID();
+        mService.uploadPhoto(img_file).enqueue(new BaseCallback<>(new UploadPhotoEvent(uuid)));
         return uuid;
     }
 }

@@ -38,9 +38,9 @@ import com.gcssloop.diycode_sdk.api.news.event.GetNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.news.event.UpdateNewsReplyEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class NewsImplement extends BaseImplement<NewsService> implements NewsAPI {
+public class NewsImpl extends BaseImplement<NewsService> implements NewsAPI {
 
-    public NewsImplement(@NonNull Context context) {
+    public NewsImpl(@NonNull Context context) {
         super(context);
     }
 

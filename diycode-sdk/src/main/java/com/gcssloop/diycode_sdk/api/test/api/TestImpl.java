@@ -20,49 +20,33 @@
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.likes.api;
+package com.gcssloop.diycode_sdk.api.test.api;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
-import com.gcssloop.diycode_sdk.api.likes.event.LikeEvent;
-import com.gcssloop.diycode_sdk.api.likes.event.UnLikeEvent;
+import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class LikesImplement extends BaseImplement<LikesService> implements LikesAPI {
-
-    public LikesImplement(Context context) {
+public class TestImpl extends BaseImplement<TestService> implements TestAPI {
+    public TestImpl(@NonNull Context context) {
         super(context);
     }
 
     /**
-     * 赞
+     * 简单的 API 测试接口，需要登录验证，便于快速测试 OAuth 以及其他 API 的基本格式是否正确。
+     * 使用 HelloEvent 接收结果。
      *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     * @see LikeEvent
+     * @param limit 数量极限，值范围[0..100]
+     * @see HelloEvent
      */
     @Override
-    public String like(@NonNull String obj_type, @NonNull Integer obj_id) {
+    public String hello(@Nullable Integer limit) {
         final String uuid = UUIDGenerator.getUUID();
-        mService.like(obj_type, obj_id).enqueue(new BaseCallback<>(new LikeEvent(uuid)));
-        return uuid;
-    }
-
-    /**
-     * 取消之前的赞
-     *
-     * @param obj_type 值范围["topic", "reply", "news"]
-     * @param obj_id   唯一id
-     * @see UnLikeEvent
-     */
-    @Override
-    public String unLike(@NonNull String obj_type, @NonNull Integer obj_id) {
-        final String uuid = UUIDGenerator.getUUID();
-        mService.unLike(obj_type, obj_id).enqueue(new BaseCallback<State>(new UnLikeEvent(uuid)));
+        mService.hello(limit).enqueue(new BaseCallback<>(new HelloEvent(uuid)));
         return uuid;
     }
 }

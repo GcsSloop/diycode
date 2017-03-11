@@ -43,8 +43,8 @@ import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class UserImplement extends BaseImplement<UserService> implements UserAPI {
-    public UserImplement(@NonNull Context context) {
+public class UserImpl extends BaseImplement<UserService> implements UserAPI {
+    public UserImpl(@NonNull Context context) {
         super(context);
     }
 

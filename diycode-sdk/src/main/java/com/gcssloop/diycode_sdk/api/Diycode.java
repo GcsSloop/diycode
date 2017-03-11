@@ -28,16 +28,16 @@ import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
 import com.gcssloop.diycode_sdk.api.likes.api.LikesAPI;
-import com.gcssloop.diycode_sdk.api.likes.api.LikesImplement;
+import com.gcssloop.diycode_sdk.api.likes.api.LikesImpl;
 import com.gcssloop.diycode_sdk.api.likes.event.LikeEvent;
 import com.gcssloop.diycode_sdk.api.likes.event.UnLikeEvent;
 import com.gcssloop.diycode_sdk.api.login.api.LoginAPI;
-import com.gcssloop.diycode_sdk.api.login.api.LoginImplement;
+import com.gcssloop.diycode_sdk.api.login.api.LoginImpl;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.news.api.NewsAPI;
-import com.gcssloop.diycode_sdk.api.news.api.NewsImplement;
+import com.gcssloop.diycode_sdk.api.news.api.NewsImpl;
 import com.gcssloop.diycode_sdk.api.news.event.CreateNewsEvent;
 import com.gcssloop.diycode_sdk.api.news.event.CreateNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.news.event.DeleteNewsReplyEvent;
@@ -47,25 +47,25 @@ import com.gcssloop.diycode_sdk.api.news.event.GetNewsRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.news.event.UpdateNewsReplyEvent;
 import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsAPI;
-import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsImplement;
+import com.gcssloop.diycode_sdk.api.notifications.api.NotificationsImpl;
 import com.gcssloop.diycode_sdk.api.notifications.event.DeleteAllNotificationEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.DeleteNotificationEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationUnReadCountEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationsListEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.MarkNotificationAsReadEvent;
 import com.gcssloop.diycode_sdk.api.photo.api.PhotoAPI;
-import com.gcssloop.diycode_sdk.api.photo.api.PhotoImplement;
+import com.gcssloop.diycode_sdk.api.photo.api.PhotoImpl;
 import com.gcssloop.diycode_sdk.api.photo.event.UploadPhotoEvent;
 import com.gcssloop.diycode_sdk.api.project.api.ProjectAPI;
-import com.gcssloop.diycode_sdk.api.project.api.ProjectImplement;
+import com.gcssloop.diycode_sdk.api.project.api.ProjectImpl;
 import com.gcssloop.diycode_sdk.api.sites.api.SitesAPI;
-import com.gcssloop.diycode_sdk.api.sites.api.SitesImplements;
+import com.gcssloop.diycode_sdk.api.sites.api.SitesImpl;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
 import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
 import com.gcssloop.diycode_sdk.api.test.api.TestAPI;
-import com.gcssloop.diycode_sdk.api.test.api.TestImplement;
+import com.gcssloop.diycode_sdk.api.test.api.TestImpl;
 import com.gcssloop.diycode_sdk.api.topic.api.TopicAPI;
-import com.gcssloop.diycode_sdk.api.topic.api.TopicImplement;
+import com.gcssloop.diycode_sdk.api.topic.api.TopicImpl;
 import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;
@@ -82,7 +82,7 @@ import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
-import com.gcssloop.diycode_sdk.api.user.api.UserImplement;
+import com.gcssloop.diycode_sdk.api.user.api.UserImpl;
 import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
@@ -107,16 +107,16 @@ import java.io.File;
 public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, SitesAPI, UserAPI,
         PhotoAPI, NotificationsAPI, ProjectAPI {
 
-    private static LoginImplement sLoginImplement;
-    private static TestImplement sTestImplement;
-    private static LikesImplement sLikesImplement;
-    private static TopicImplement sTopicImplement;
-    private static NewsImplement sNewsImplement;
-    private static SitesImplements sSitesImplements;
-    private static UserImplement sUserImplement;
-    private static PhotoImplement sPhotoImplement;
-    private static ProjectImplement sProjectImplement;
-    private static NotificationsImplement sNotificationsImplement;
+    private static LoginImpl sLoginImpl;
+    private static TestImpl sTestImpl;
+    private static LikesImpl sLikesImpl;
+    private static TopicImpl sTopicImplement;
+    private static NewsImpl sNewsImpl;
+    private static SitesImpl sSitesImpl;
+    private static UserImpl sUserImpl;
+    private static PhotoImpl sPhotoImpl;
+    private static ProjectImpl sProjectImpl;
+    private static NotificationsImpl sNotificationsImpl;
 
     //--- 单例 -----------------------------------------------------------------------------------
 
@@ -164,16 +164,16 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     private static void initImplement(Context context) {
         Logger.i("初始化 implement");
         try {
-            sLoginImplement = new LoginImplement(context);
-            sTestImplement = new TestImplement(context);
-            sLikesImplement = new LikesImplement(context);
-            sTopicImplement = new TopicImplement(context);
-            sNewsImplement = new NewsImplement(context);
-            sSitesImplements = new SitesImplements(context);
-            sUserImplement = new UserImplement(context);
-            sPhotoImplement = new PhotoImplement(context);
-            sProjectImplement = new ProjectImplement(context);
-            sNotificationsImplement = new NotificationsImplement(context);
+            sLoginImpl = new LoginImpl(context);
+            sTestImpl = new TestImpl(context);
+            sLikesImpl = new LikesImpl(context);
+            sTopicImplement = new TopicImpl(context);
+            sNewsImpl = new NewsImpl(context);
+            sSitesImpl = new SitesImpl(context);
+            sUserImpl = new UserImpl(context);
+            sPhotoImpl = new PhotoImpl(context);
+            sProjectImpl = new ProjectImpl(context);
+            sNotificationsImpl = new NotificationsImpl(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,7 +193,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String login(@NonNull String user_name, @NonNull String password) {
-        return sLoginImplement.login(user_name, password);
+        return sLoginImpl.login(user_name, password);
     }
 
     /**
@@ -201,7 +201,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public void logout() {
-        sLoginImplement.logout();
+        sLoginImpl.logout();
     }
 
     //--- token ------------------------------------------------------------------------------------
@@ -213,7 +213,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String refreshToken() {
-        return sLoginImplement.refreshToken();
+        return sLoginImpl.refreshToken();
     }
 
     /**
@@ -223,7 +223,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public Token getCacheToken() {
-        return sLoginImplement.getCacheToken();
+        return sLoginImpl.getCacheToken();
     }
 
     //--- devices ----------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Deprecated
     @Override
     public String updateDevices() {
-        return sLoginImplement.updateDevices();
+        return sLoginImpl.updateDevices();
     }
 
     /**
@@ -246,7 +246,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Deprecated
     @Override
     public String deleteDevices() {
-        return sLoginImplement.deleteDevices();
+        return sLoginImpl.deleteDevices();
     }
 
 
@@ -261,7 +261,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String hello(@Nullable Integer limit) {
-        return sTestImplement.hello(limit);
+        return sTestImpl.hello(limit);
     }
 
 
@@ -276,7 +276,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String like(@NonNull String obj_type, @NonNull Integer obj_id) {
-        return sLikesImplement.like(obj_type, obj_id);
+        return sLikesImpl.like(obj_type, obj_id);
     }
 
     /**
@@ -288,7 +288,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String unLike(@NonNull String obj_type, @NonNull Integer obj_id) {
-        return sLikesImplement.unLike(obj_type, obj_id);
+        return sLikesImpl.unLike(obj_type, obj_id);
     }
 
 
@@ -498,7 +498,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getNewsList(@Nullable Integer node_id, @Nullable Integer offset,
                               @Nullable Integer limit) {
-        return sNewsImplement.getNewsList(node_id, offset, limit);
+        return sNewsImpl.getNewsList(node_id, offset, limit);
     }
 
     /**
@@ -512,7 +512,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String createNews(@NonNull Integer title, @NonNull Integer address,
                              @NonNull Integer node_id) {
-        return sNewsImplement.createNews(title, address, node_id);
+        return sNewsImpl.createNews(title, address, node_id);
     }
 
     //--- news reply ----------------------------------------------------------0--------------------
@@ -528,7 +528,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getNewsRepliesList(@NonNull int id, @Nullable Integer offset,
                                      @Nullable Integer limit) {
-        return sNewsImplement.getNewsRepliesList(id, offset, limit);
+        return sNewsImpl.getNewsRepliesList(id, offset, limit);
     }
 
     /**
@@ -540,7 +540,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String createNewsReply(@NonNull int id, @NonNull Integer body) {
-        return sNewsImplement.createNewsReply(id, body);
+        return sNewsImpl.createNewsReply(id, body);
     }
 
     /**
@@ -551,7 +551,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getNewsReply(@NonNull int id) {
-        return sNewsImplement.getNewsReply(id);
+        return sNewsImpl.getNewsReply(id);
     }
 
     /**
@@ -563,7 +563,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String updateNewsReply(@NonNull int id, @NonNull String body) {
-        return sNewsImplement.updateNewsReply(id, body);
+        return sNewsImpl.updateNewsReply(id, body);
     }
 
     /**
@@ -574,7 +574,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String deleteNewsReply(@NonNull int id) {
-        return sNewsImplement.deleteNewsReply(id);
+        return sNewsImpl.deleteNewsReply(id);
     }
 
     //--- news node --------------------------------------------------------------------------------
@@ -586,7 +586,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getNewsNodesList() {
-        return sNewsImplement.getNewsNodesList();
+        return sNewsImpl.getNewsNodesList();
     }
 
 
@@ -599,7 +599,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getSites() {
-        return sSitesImplements.getSites();
+        return sSitesImpl.getSites();
     }
 
 
@@ -613,7 +613,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getUsersList(@Nullable Integer limit) {
-        return sUserImplement.getUsersList(limit);
+        return sUserImpl.getUsersList(limit);
     }
 
     /**
@@ -624,7 +624,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getUser(@NonNull String login_name) {
-        return sUserImplement.getUser(login_name);
+        return sUserImpl.getUser(login_name);
     }
 
     /**
@@ -634,7 +634,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getMe() {
-        return sUserImplement.getMe();
+        return sUserImpl.getMe();
     }
 
     //--- user block -------------------------------------------------------------------------------
@@ -647,7 +647,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String blockUser(@NonNull String login_name) {
-        return sUserImplement.blockUser(login_name);
+        return sUserImpl.blockUser(login_name);
     }
 
     /**
@@ -658,7 +658,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String unBlockUser(@NonNull String login_name) {
-        return sUserImplement.unBlockUser(login_name);
+        return sUserImpl.unBlockUser(login_name);
     }
 
     /**
@@ -672,7 +672,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserBlockedList(@NonNull String login_name, @Nullable Integer offset,
                                      @Nullable Integer limit) {
-        return sUserImplement.getUserBlockedList(login_name, offset, limit);
+        return sUserImpl.getUserBlockedList(login_name, offset, limit);
     }
 
     //--- user follow ------------------------------------------------------------------------------
@@ -685,7 +685,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String followUser(@NonNull String login_name) {
-        return sUserImplement.followUser(login_name);
+        return sUserImpl.followUser(login_name);
     }
 
     /**
@@ -696,7 +696,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String unFollowUser(@NonNull String login_name) {
-        return sUserImplement.unFollowUser(login_name);
+        return sUserImpl.unFollowUser(login_name);
     }
 
     /**
@@ -710,7 +710,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserFollowingList(@NonNull String login_name, @Nullable Integer offset,
                                        @Nullable Integer limit) {
-        return sUserImplement.getUserFollowingList(login_name, offset, limit);
+        return sUserImpl.getUserFollowingList(login_name, offset, limit);
     }
 
     /**
@@ -724,7 +724,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserFollowerList(@NonNull String login_name, @Nullable Integer offset,
                                       @Nullable Integer limit) {
-        return sUserImplement.getUserFollowerList(login_name, offset, limit);
+        return sUserImpl.getUserFollowerList(login_name, offset, limit);
     }
 
     //--- user list --------------------------------------------------------------------------------
@@ -740,7 +740,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserCollectionTopicList(@NonNull String login_name, @Nullable Integer offset,
                                              @Nullable Integer limit) {
-        return sUserImplement.getUserCollectionTopicList(login_name, offset, limit);
+        return sUserImpl.getUserCollectionTopicList(login_name, offset, limit);
     }
 
     /**
@@ -755,7 +755,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserCreateTopicList(@NonNull String login_name, @Nullable String order,
                                          @Nullable Integer offset, @Nullable Integer limit) {
-        return sUserImplement.getUserCreateTopicList(login_name, order, offset, limit);
+        return sUserImpl.getUserCreateTopicList(login_name, order, offset, limit);
     }
 
     /**
@@ -770,7 +770,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getUserReplyTopicList(@NonNull String login_name, @Nullable String order,
                                         @Nullable Integer offset, @Nullable Integer limit) {
-        return sUserImplement.getUserReplyTopicList(login_name, order, offset, limit);
+        return sUserImpl.getUserReplyTopicList(login_name, order, offset, limit);
     }
 
 
@@ -784,7 +784,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String uploadPhoto(@NonNull File img_file) {
-        return sPhotoImplement.uploadPhoto(img_file);
+        return sPhotoImpl.uploadPhoto(img_file);
     }
 
 
@@ -799,7 +799,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getNotificationsList(@NonNull Integer offset, @NonNull Integer limit) {
-        return sNotificationsImplement.getNotificationsList(offset, limit);
+        return sNotificationsImpl.getNotificationsList(offset, limit);
     }
 
     /**
@@ -809,7 +809,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getNotificationUnReadCount() {
-        return sNotificationsImplement.getNotificationUnReadCount();
+        return sNotificationsImpl.getNotificationUnReadCount();
     }
 
     /**
@@ -820,7 +820,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String markNotificationAsRead(int[] ids) {
-        return sNotificationsImplement.markNotificationAsRead(ids);
+        return sNotificationsImpl.markNotificationAsRead(ids);
     }
 
     /**
@@ -831,7 +831,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String deleteNotionfition(@NonNull Integer id) {
-        return sNotificationsImplement.deleteNotionfition(id);
+        return sNotificationsImpl.deleteNotionfition(id);
     }
 
     /**
@@ -841,7 +841,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String deleteAllNotification() {
-        return sNotificationsImplement.deleteAllNotification();
+        return sNotificationsImpl.deleteAllNotification();
     }
 
 
@@ -857,7 +857,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getProjectsList(Integer node_id, Integer offset, Integer limit) {
-        return sProjectImplement.getProjectsList(node_id, offset, limit);
+        return sProjectImpl.getProjectsList(node_id, offset, limit);
     }
 
     //--- project reply ----------------------------------------------------------------------------
@@ -872,7 +872,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getProjectRepliesList(int id, Integer offset, Integer limit) {
-        return sProjectImplement.getProjectsList(id, offset, limit);
+        return sProjectImpl.getProjectsList(id, offset, limit);
     }
 
     /**
@@ -884,7 +884,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String createProjectReply(int id, String body) {
-        return sProjectImplement.createProjectReply(id, body);
+        return sProjectImpl.createProjectReply(id, body);
     }
 
     /**
@@ -895,7 +895,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String getProjectReply(int id) {
-        return sProjectImplement.getProjectReply(id);
+        return sProjectImpl.getProjectReply(id);
     }
 
     /**
@@ -907,7 +907,7 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String updateProjectReply(int id, String body) {
-        return sProjectImplement.updateProjectReply(id, body);
+        return sProjectImpl.updateProjectReply(id, body);
     }
 
     /**
@@ -918,6 +918,6 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      */
     @Override
     public String deleteProjectReply(int id) {
-        return sProjectImplement.deleteProjectReply(id);
+        return sProjectImpl.deleteProjectReply(id);
     }
 }

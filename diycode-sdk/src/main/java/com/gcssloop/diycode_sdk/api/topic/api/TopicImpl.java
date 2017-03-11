@@ -45,9 +45,9 @@ import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class TopicImplement extends BaseImplement<TopicService> implements TopicAPI {
+public class TopicImpl extends BaseImplement<TopicService> implements TopicAPI {
 
-    public TopicImplement(Context context) {
+    public TopicImpl(Context context) {
         super(context);
     }
 
