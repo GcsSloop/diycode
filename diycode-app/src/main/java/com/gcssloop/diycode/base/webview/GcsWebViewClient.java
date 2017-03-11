@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-11 19:44:27
+ * Last modified 2017-03-11 22:24:28
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.base;
+package com.gcssloop.diycode.base.webview;
 
 import android.app.Activity;
 import android.content.Context;

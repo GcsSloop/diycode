@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-10 23:51:25
+ * Last modified 2017-03-11 22:25:17
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.utils;
+package com.gcssloop.diycode.utils.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.gcssloop.diycode.utils.FileUtil;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.diycode_sdk.utils.ACache;
 

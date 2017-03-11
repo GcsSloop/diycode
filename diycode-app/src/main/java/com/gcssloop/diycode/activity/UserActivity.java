@@ -33,8 +33,8 @@ import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.adapter.TopicListAdapter;
-import com.gcssloop.diycode.base.BaseActivity;
-import com.gcssloop.diycode.base.ViewHolder;
+import com.gcssloop.diycode.base.app.BaseActivity;
+import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
@@ -77,6 +77,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         initUserInfo(holder);
         initRecyclerView(holder);
         initScrollAnimation(holder);
+
     }
 
     private void initUserInfo(ViewHolder holder) {

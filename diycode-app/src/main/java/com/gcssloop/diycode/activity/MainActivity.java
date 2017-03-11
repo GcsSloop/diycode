@@ -37,8 +37,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.BaseActivity;
-import com.gcssloop.diycode.base.ViewHolder;
+import com.gcssloop.diycode.base.app.BaseActivity;
+import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 

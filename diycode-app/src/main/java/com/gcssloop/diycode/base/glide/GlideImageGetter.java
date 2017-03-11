@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 06:11:16
+ * Last modified 2017-03-11 22:23:57
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.utils;
+package com.gcssloop.diycode.base.glide;
 
 import android.content.Context;
 import android.graphics.Rect;

@@ -28,8 +28,8 @@ import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.adapter.TopicReplyListAdapter;
-import com.gcssloop.diycode.base.BaseActivity;
-import com.gcssloop.diycode.base.ViewHolder;
+import com.gcssloop.diycode.base.app.BaseActivity;
+import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;

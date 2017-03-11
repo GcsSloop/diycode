@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
-import com.gcssloop.diycode.utils.GlideImageGetter;
+import com.gcssloop.diycode.base.glide.GlideImageGetter;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
