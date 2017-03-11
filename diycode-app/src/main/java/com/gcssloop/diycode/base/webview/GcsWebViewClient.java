@@ -25,6 +25,7 @@ package com.gcssloop.diycode.base.webview;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -34,11 +35,13 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.gcssloop.diycode_sdk.log.Logger;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 
 /**
  * 自定义 web client， 做一些不可描述的事情
@@ -48,9 +51,11 @@ public class GcsWebViewClient extends WebViewClient {
     private Class<? extends Activity> mWebActivity = null;
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
+    private DiskImageCache mCache;
 
     public GcsWebViewClient(@NonNull Context context) {
         mContext = context;
+        mCache = new DiskImageCache(context);
     }
 
     //--- html 链接打开方式 -----------------------------------------------------------------------
@@ -92,28 +97,62 @@ public class GcsWebViewClient extends WebViewClient {
     //--- 监听加载了哪些资源 -----------------------------------------------------------------------
 
     @Override
-    public void onLoadResource(WebView view, String url) {
+    public void onLoadResource(WebView view, final String url) {
         // TODO cache Image?
+        Logger.e("缓存图片");
+        if (isImageSuffixCheck(url)) {
+            Glide.with(mContext).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    mCache.saveBitmap(url, resource);
+                }
+            });
+        }
+
+        if (isGifSuffixCheck(url)) {
+            Glide.with(mContext).load(url).asGif().into(new SimpleTarget<GifDrawable>() {
+                @Override
+                public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
+                    mCache.saveBytes(url, resource.getData());
+                }
+            });
+        }
     }
 
     //--- 请求资源 -------------------------------------------------------------------------------
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        try {
+            String url = request.getUrl().toString();
+            // 如果是图片且本地有缓存
+            if (isImageSuffixCheck(url) || isGifSuffixCheck(url)) {
+                FileInputStream inputStream = mCache.getStream(url);
+                if (null != inputStream) {
+                    WebResourceResponse response = new WebResourceResponse(imgEx2BaseType(url), "base64", inputStream);
+                    Logger.e("拦截请求");
+                    return response;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return super.shouldInterceptRequest(view, request);
     }
 
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-        Logger.e("拦截请求");
+        Logger.e("shouldInterceptRequest");
         try {
             // 如果是图片且本地有缓存
-
             if (isImageSuffixCheck(url) || isGifSuffixCheck(url)) {
-                //     InputStream inputStream2 = mImageCache.getStream(url);
-                File file = new File("/sdcard/a.jpeg");
-                InputStream inputStream = new FileInputStream(file);
-                WebResourceResponse response = new WebResourceResponse("image/jpeg", "base64", inputStream);
+                FileInputStream inputStream = mCache.getStream(url);
+                if (null != inputStream) {
+                    WebResourceResponse response = new WebResourceResponse(imgEx2BaseType(url), "base64", inputStream);
+                    Logger.e("拦截请求");
+                    return response;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

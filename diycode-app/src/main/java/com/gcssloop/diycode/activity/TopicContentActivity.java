@@ -31,6 +31,7 @@ import com.gcssloop.diycode.adapter.TopicReplyListAdapter;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
+import com.gcssloop.diycode.base.webview.GcsWebViewClient;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode.utils.cache.DataCache;
@@ -58,6 +59,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     private Topic topic;
     private DataCache mDataCache;
     private TopicReplyListAdapter mAdapter;
+    MarkdownView mMarkdownView;
 
     @Override
     protected int getLayoutId() {
@@ -82,6 +84,10 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
             holder.setOnClickListener(this, R.id.avatar, R.id.username);
+            mMarkdownView = holder.get(R.id.content);
+
+            GcsWebViewClient client = new GcsWebViewClient(this);
+            mMarkdownView.setWebViewClient(client);
 
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
@@ -93,8 +99,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             TopicContent topicContent = mDataCache.getTopicContent(topic.getId());
             if (null != topicContent) {
                 Logger.i("数据不变 - 来自缓存");
-                MarkdownView markdownView = holder.get(R.id.content);
-                markdownView.setMarkDownText(topicContent.getBody());
+                mMarkdownView.setMarkDownText(topicContent.getBody());
             }
 
             List<TopicReply> replies = mDataCache.getTopicRepliesList(topic.getId());
@@ -139,8 +144,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     public void onTopicDetail(GetTopicEvent event) {
         if (event.isOk()) {
             Logger.i("topic 请求成功 - 来自网络");
-            MarkdownView markdownView = mViewHolder.get(R.id.content);
-            markdownView.setMarkDownText(event.getBean().getBody());
+            mMarkdownView.setMarkDownText(event.getBean().getBody());
             mDataCache.saveTopicContent(event.getBean());
         }
     }
