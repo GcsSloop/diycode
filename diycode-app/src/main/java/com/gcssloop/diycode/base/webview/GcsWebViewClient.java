@@ -100,7 +100,7 @@ public class GcsWebViewClient extends WebViewClient {
     public void onLoadResource(WebView view, final String url) {
         // TODO cache Image?
         Logger.e("缓存图片");
-        if (isImageSuffixCheck(url)) {
+        if (isImageSuffix(url)) {
             Glide.with(mContext).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -109,7 +109,7 @@ public class GcsWebViewClient extends WebViewClient {
             });
         }
 
-        if (isGifSuffixCheck(url)) {
+        if (isGifSuffix(url)) {
             Glide.with(mContext).load(url).asGif().into(new SimpleTarget<GifDrawable>() {
                 @Override
                 public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
@@ -127,10 +127,10 @@ public class GcsWebViewClient extends WebViewClient {
         try {
             String url = request.getUrl().toString();
             // 如果是图片且本地有缓存
-            if (isImageSuffixCheck(url) || isGifSuffixCheck(url)) {
+            if (isImageSuffix(url) || isGifSuffix(url)) {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
-                    WebResourceResponse response = new WebResourceResponse(imgEx2BaseType(url), "base64", inputStream);
+                    WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
                     Logger.e("拦截请求");
                     return response;
                 }
@@ -146,10 +146,10 @@ public class GcsWebViewClient extends WebViewClient {
         Logger.e("shouldInterceptRequest");
         try {
             // 如果是图片且本地有缓存
-            if (isImageSuffixCheck(url) || isGifSuffixCheck(url)) {
+            if (isImageSuffix(url) || isGifSuffix(url)) {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
-                    WebResourceResponse response = new WebResourceResponse(imgEx2BaseType(url), "base64", inputStream);
+                    WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
                     Logger.e("拦截请求");
                     return response;
                 }
@@ -161,24 +161,10 @@ public class GcsWebViewClient extends WebViewClient {
     }
 
 
-    //--- 设置 -----------------------------------------------------------------------------------
-
-    public void setWebActivity(Class<? extends Activity> webActivity) {
-        this.mWebActivity = webActivity;
-    }
-
-    public boolean isOpenUrlInBrowser() {
-        return mIsOpenUrlInBrowser;
-    }
-
-    public void setOpenUrlInBrowser(boolean openUrlInBrowser) {
-        mIsOpenUrlInBrowser = openUrlInBrowser;
-    }
-
     //--- 工具 -----------------------------------------------------------------------------------
 
-    private boolean isUrlPrefix(String text) {
-        return text.startsWith("http://") || text.startsWith("https://");
+    private boolean isUrlPrefix(String url) {
+        return url.startsWith("http://") || url.startsWith("https://");
     }
 
     /**
@@ -186,7 +172,7 @@ public class GcsWebViewClient extends WebViewClient {
      *
      * @param url url
      */
-    private boolean isImageSuffixCheck(String url) {
+    private boolean isImageSuffix(String url) {
         return url.endsWith(".png")
                 || url.endsWith(".PNG")
                 || url.endsWith(".jpg")
@@ -200,7 +186,7 @@ public class GcsWebViewClient extends WebViewClient {
      *
      * @param url url
      */
-    private boolean isGifSuffixCheck(String url) {
+    private boolean isGifSuffix(String url) {
         return url.endsWith(".gif")
                 || url.endsWith(".GIF");
     }
@@ -218,15 +204,46 @@ public class GcsWebViewClient extends WebViewClient {
         return url;
     }
 
-    private String imgEx2BaseType(String text) {
-        if (text.endsWith(".png") || text.endsWith(".PNG")) {
+    /**
+     * 获取 mimeType
+     */
+    private String getMimeType(String url) {
+        if (url.endsWith(".png") || url.endsWith(".PNG")) {
             return "data:image/png;base64,";
-        } else if (text.endsWith(".jpg") || text.endsWith(".jpeg") || text.endsWith(".JPG") || text.endsWith(".JPEG")) {
+        } else if (url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".JPG") || url.endsWith(".JPEG")) {
             return "data:image/jpg;base64,";
-        } else if (text.endsWith(".gif") || text.endsWith(".GIF")) {
+        } else if (url.endsWith(".gif") || url.endsWith(".GIF")) {
             return "data:image/gif;base64,";
         } else {
             return "";
         }
+    }
+
+
+    //--- 设置 -----------------------------------------------------------------------------------
+
+    /**
+     * 设置链接在哪个 Activity 打开
+     *
+     * @param webActivity 包含 WebView 的 Activity
+     */
+    public void setWebActivity(Class<? extends Activity> webActivity) {
+        this.mWebActivity = webActivity;
+    }
+
+    /**
+     * 判断链接是否是使用 浏览器 打开
+     */
+    public boolean isOpenUrlInBrowser() {
+        return mIsOpenUrlInBrowser;
+    }
+
+    /**
+     * 设置链接打开方式
+     *
+     * @param openUrlInBrowser true 使用浏览器打开，false 在当前打开
+     */
+    public void setOpenUrlInBrowser(boolean openUrlInBrowser) {
+        mIsOpenUrlInBrowser = openUrlInBrowser;
     }
 }
