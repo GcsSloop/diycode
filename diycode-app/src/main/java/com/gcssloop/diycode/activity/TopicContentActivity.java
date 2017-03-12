@@ -29,8 +29,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.adapter.GcsAdapter;
-import com.gcssloop.diycode.base.adapter.GcsViewHolder;
+import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
+import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.glide.GlideImageGetter;

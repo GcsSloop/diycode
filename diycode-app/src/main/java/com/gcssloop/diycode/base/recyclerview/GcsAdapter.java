@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-13 00:19:17
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.base.adapter;
+package com.gcssloop.diycode.base.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
@@ -79,6 +79,10 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> 
     public void addDatas(List<T> datas) {
         this.mDatas.addAll(datas);
         notifyDataSetChanged();
+    }
+
+    public List<T> getDatas() {
+        return mDatas;
     }
 
     public void clearDatas() {

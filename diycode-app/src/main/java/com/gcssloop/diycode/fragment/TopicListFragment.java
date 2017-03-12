@@ -26,7 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
@@ -35,12 +35,13 @@ import android.widget.TextView;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
-import com.gcssloop.diycode.base.adapter.GcsAdapter;
-import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
+import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.NetUtil;
+import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
@@ -58,13 +59,25 @@ import java.util.List;
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
 public class TopicListFragment extends BaseFragment {
-    private static final String ITEM_POSITION = "recycler_position";
+    private static final String LOADING = "loading...";
+    private static final String NORMAL = "-- end --";
+    private static final String ERROR = "-- 获取失败 --";
+
+    private static final int STATE_NORMAL = 0;
+    private static final int STATE_NO_MORE = 1;
+    private static final int STATE_LOADING = 2;
+    private int mState = STATE_NORMAL;
+
+    private int pageIndex = 0;
+    private int pageCount = 20;
+
+    private Diycode mDiycode;
+
     DataCache mDataCache;
     GcsAdapter<Topic> mAdapter;
     RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    private int lastPosition = 0;
-    private int lastOffset = 0;
+
+    private TextView mFooter;
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -80,6 +93,9 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        mDiycode = Diycode.getSingleInstance();
+        mFooter = holder.get(R.id.footer);
+        mFooter.setText(LOADING);
         initRecyclerView(getContext(), holder);
     }
 
@@ -125,18 +141,40 @@ public class TopicListFragment extends BaseFragment {
             }
         };
 
-        linearLayoutManager = new LinearLayoutManager(context);
         recyclerView = holder.get(R.id.topic_list);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(mAdapter);
+        RecyclerViewUtil.init(context, recyclerView, mAdapter);
+
+        NestedScrollView scrollView = holder.get(R.id.scroll_view);
+
+        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                View childView = v.getChildAt(0);
+                if (scrollY == (childView.getHeight() - v.getHeight())) {
+                    //滑动到底部
+                    Logger.e("滑动到底部");
+                    if (mState == STATE_NORMAL) {    // 正常模式
+                        mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
+                        pageIndex++;
+                        mFooter.setText(LOADING);
+                        mState = STATE_LOADING;
+                    } else if (mState == STATE_LOADING) {
+                        return;
+                    } else if (mState == STATE_NO_MORE) {
+                        return;
+                    }
+                }
+            }
+        });
 
         if (NetUtil.isNetConnection(getContext())) {
-            Diycode.getSingleInstance().getTopicsList(null, null, null, null);
+            mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
         } else {
             List<Topic> topics = mDataCache.getTopicsList();
             if (null != topics) {
                 mAdapter.addDatas(topics);
             }
+            mFooter.setText(NORMAL);
         }
     }
 
@@ -150,13 +188,18 @@ public class TopicListFragment extends BaseFragment {
     public void onTopicList(GetTopicsListEvent event) {
         if (event.isOk()) {
             Logger.e("获取 topic list 成功 - showlist");
-            mAdapter.addDatas(event.getBean());
-            mDataCache.saveTopicsList(event.getBean());
-            if (lastPosition != 0) {
-                linearLayoutManager.scrollToPosition(lastPosition);
-                linearLayoutManager.scrollToPositionWithOffset(lastPosition, lastOffset);
+            List<Topic> topics = event.getBean();
+            if (topics.size() < pageCount) {
+                mState = STATE_NO_MORE;
+                mFooter.setText(NORMAL);
+            } else {
+                mState = STATE_NORMAL;
+                mFooter.setText(NORMAL);
             }
+            mAdapter.addDatas(topics);
+            mDataCache.saveTopicsList(mAdapter.getDatas());
         } else {
+            mFooter.setText(ERROR);
             Logger.e("获取 topic list 失败 - showlist");
         }
     }
@@ -164,10 +207,6 @@ public class TopicListFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (null != recyclerView) {
-            Logger.e("onCreateView", lastPosition + "");
-            linearLayoutManager.scrollToPosition(lastPosition);
-        }
         EventBus.getDefault().register(this);
     }
 
@@ -175,11 +214,5 @@ public class TopicListFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        lastPosition = linearLayoutManager.findFirstVisibleItemPosition();
-        View view = linearLayoutManager.getChildAt(0);
-        lastOffset = view.getTop();
-        Logger.e("onDestroyView", lastPosition + "");
     }
-
-
 }

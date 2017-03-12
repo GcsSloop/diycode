@@ -26,7 +26,7 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.gcssloop.diycode.base.adapter.GcsAdapter;
+import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 
 public class RecyclerViewUtil {
 
