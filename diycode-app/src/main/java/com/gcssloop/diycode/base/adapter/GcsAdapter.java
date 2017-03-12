@@ -49,9 +49,9 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> 
     @Override
     public GcsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = null;
-        try{
+        try {
             rootView = mInflater.inflate(mLayoutId, parent, false);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new GcsViewHolder(rootView);
@@ -64,6 +64,10 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> 
 
     /**
      * 在此处处理数据
+     *
+     * @param position 位置
+     * @param holder   view holder
+     * @param bean     数据
      */
     public abstract void convert(int position, GcsViewHolder holder, T bean);
 

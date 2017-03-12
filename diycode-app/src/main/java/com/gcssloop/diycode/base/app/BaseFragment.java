@@ -30,12 +30,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 提供基础内容和生命周期控制
+ */
 public abstract class BaseFragment extends Fragment {
-
-    protected ViewHolder mViewHolder;
+    private static final String BUNDLE_KEY = "GcsSaveStateBundle0x6675636b";
+    private Bundle mSavedState;         // 存储状态信息
+    private ViewHolder mViewHolder;     // View 管理
 
     @LayoutRes
     protected abstract int getLayoutId();
+
+    public ViewHolder getViewHolder() {
+        return mViewHolder;
+    }
 
     @Nullable
     @Override
@@ -47,9 +55,90 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void initViews(ViewHolder holder, View root);
 
-    public ViewHolder getViewHolder() {
-        return mViewHolder;
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // Restore State Here
+        if (!restoreStateFromArguments()) {
+            // First Time, Initialize something here
+            onFirstTimeLaunched();
+        }
     }
 
+    protected void onFirstTimeLaunched() {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save State Here
+        saveStateToArguments();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Save State Here
+        saveStateToArguments();
+    }
+
+    ////////////////////
+    // Don't Touch !!
+    ////////////////////
+
+    private void saveStateToArguments() {
+        if (getView() != null)
+            mSavedState = saveState();
+        if (mSavedState != null) {
+            Bundle b = getArguments();
+            b.putBundle(BUNDLE_KEY, mSavedState);
+        }
+    }
+
+    ////////////////////
+    // Don't Touch !!
+    ////////////////////
+
+    private boolean restoreStateFromArguments() {
+        Bundle b = getArguments();
+        mSavedState = b.getBundle(BUNDLE_KEY);
+        if (mSavedState != null) {
+            restoreState();
+            return true;
+        }
+        return false;
+    }
+
+    /////////////////////////////////
+    // Restore Instance State Here
+    /////////////////////////////////
+
+    private void restoreState() {
+        if (mSavedState != null) {
+            // For Example
+            //tv1.setText(savedState.getString("text"));
+            onRestoreState(mSavedState);
+        }
+    }
+
+    protected void onRestoreState(Bundle savedInstanceState) {
+
+    }
+
+    //////////////////////////////
+    // Save Instance State Here
+    //////////////////////////////
+
+    private Bundle saveState() {
+        Bundle state = new Bundle();
+        // For Example
+        //state.putString("text", tv1.getText().toString());
+        onSaveState(state);
+        return state;
+    }
+
+    protected void onSaveState(Bundle outState) {
+
+    }
 }

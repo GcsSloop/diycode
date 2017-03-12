@@ -32,10 +32,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.adapter.TopicListAdapter;
+import com.gcssloop.diycode.base.adapter.GcsAdapter;
+import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
@@ -43,6 +43,7 @@ import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
+import com.gcssloop.diycode_sdk.utils.TimeUtil;
 import com.gcssloop.view.utils.DensityUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 
@@ -65,7 +66,7 @@ import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 public class UserActivity extends BaseActivity implements View.OnClickListener {
     public static String USER = "user";
     private ExpectAnim expectAnimMove;
-    private TopicListAdapter mAdapter;
+    private GcsAdapter<Topic> mAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -93,10 +94,15 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initRecyclerView(ViewHolder holder) {
-        mAdapter = new TopicListAdapter(this) {
+        mAdapter = new GcsAdapter<Topic>(this, R.layout.item_topic) {
             @Override
-            public void setListener(int position, GcsViewHolder holder, Topic topic) {
-                // TODO 设置监听器
+            public void convert(int position, GcsViewHolder holder, Topic bean) {
+                final User user = bean.getUser();
+                holder.setText(R.id.username, user.getLogin());
+                holder.setText(R.id.node_name, bean.getNode_name());
+                holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
+                holder.setText(R.id.title, bean.getTitle());
+                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
             }
         };
 

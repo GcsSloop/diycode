@@ -26,6 +26,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HtmlUtil {
+
+    /**
+     * 获取 html 中的纯文本
+     */
     public static String Html2Text(String inputString) {
         String htmlStr = inputString; // 含html标签的字符串
         String textStr = "";
@@ -68,6 +72,9 @@ public class HtmlUtil {
         return textStr;// 返回文本字符串
     }
 
+    /**
+     * 移除段落标签
+     */
     public static String removeP(String html) {
         String result = html;
         if (result.contains("<p>") && result.contains("</p>")) {

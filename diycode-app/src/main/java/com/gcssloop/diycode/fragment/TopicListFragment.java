@@ -35,7 +35,7 @@ import android.widget.TextView;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
-import com.gcssloop.diycode.adapter.TopicListAdapter;
+import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
@@ -46,6 +46,7 @@ import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.log.Logger;
+import com.gcssloop.diycode_sdk.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,7 +60,7 @@ import java.util.List;
 public class TopicListFragment extends BaseFragment {
     private static final String ITEM_POSITION = "recycler_position";
     DataCache mDataCache;
-    TopicListAdapter mAdapter;
+    GcsAdapter<Topic> mAdapter;
     RecyclerView recyclerView;
     LinearLayoutManager linearLayoutManager;
     private int lastPosition = 0;
@@ -84,9 +85,16 @@ public class TopicListFragment extends BaseFragment {
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
         mDataCache = new DataCache(getContext());
-        mAdapter = new TopicListAdapter(context) {
+        mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
             @Override
-            public void setListener(int position, GcsViewHolder holder, final Topic topic) {
+            public void convert(int position, GcsViewHolder holder, final Topic topic) {
+                final User user = topic.getUser();
+                holder.setText(R.id.username, user.getLogin());
+                holder.setText(R.id.node_name, topic.getNode_name());
+                holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
+                holder.setText(R.id.title, topic.getTitle());
+                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+
                 TextView preview = holder.get(R.id.preview);
                 String text = mDataCache.getTopicPreview(topic.getId());
                 if (null != text) {
@@ -96,7 +104,6 @@ public class TopicListFragment extends BaseFragment {
                     preview.setVisibility(View.GONE);
                 }
 
-                final User user = topic.getUser();
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -145,6 +152,10 @@ public class TopicListFragment extends BaseFragment {
             Logger.e("获取 topic list 成功 - showlist");
             mAdapter.addDatas(event.getBean());
             mDataCache.saveTopicsList(event.getBean());
+            if (lastPosition != 0) {
+                linearLayoutManager.scrollToPosition(lastPosition);
+                linearLayoutManager.scrollToPositionWithOffset(lastPosition, lastOffset);
+            }
         } else {
             Logger.e("获取 topic list 失败 - showlist");
         }
@@ -154,7 +165,7 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         if (null != recyclerView) {
-            Logger.e("onCreateView", lastPosition+"");
+            Logger.e("onCreateView", lastPosition + "");
             linearLayoutManager.scrollToPosition(lastPosition);
         }
         EventBus.getDefault().register(this);
@@ -167,7 +178,7 @@ public class TopicListFragment extends BaseFragment {
         lastPosition = linearLayoutManager.findFirstVisibleItemPosition();
         View view = linearLayoutManager.getChildAt(0);
         lastOffset = view.getTop();
-        Logger.e("onDestroyView", lastPosition+"");
+        Logger.e("onDestroyView", lastPosition + "");
     }
 
 

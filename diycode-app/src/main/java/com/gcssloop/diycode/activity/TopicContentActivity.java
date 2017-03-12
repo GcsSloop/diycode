@@ -24,15 +24,19 @@ package com.gcssloop.diycode.activity;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.adapter.TopicReplyListAdapter;
+import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.base.glide.GlideImageGetter;
 import com.gcssloop.diycode.base.webview.GcsWebViewClient;
 import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode.widget.MarkdownView;
@@ -56,7 +60,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     public static String TOPIC_ID = "topic_id";
     private Topic topic;
     private DataCache mDataCache;
-    private TopicReplyListAdapter mAdapter;
+    private GcsAdapter<TopicReply> mAdapter;
     MarkdownView mMarkdownView;
 
     @Override
@@ -85,6 +89,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             mMarkdownView = holder.get(R.id.content);
 
             GcsWebViewClient client = new GcsWebViewClient(this);
+            client.setOpenUrlInBrowser(true);
             mMarkdownView.setWebViewClient(client);
 
             if (shouldReloadTopic(topic)) {
@@ -126,11 +131,17 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initRecyclerView(ViewHolder holder) {
-        mAdapter = new TopicReplyListAdapter(this) {
+        mAdapter = new GcsAdapter<TopicReply>(this, R.layout.item_topic_reply) {
             @Override
-            public void setListener(int position, GcsViewHolder holder, TopicReply topic) {
-                super.setListener(position, holder, topic);
-                // TODO 此处设置监听器
+            public void convert(int position, GcsViewHolder holder, TopicReply bean) {
+                User user = bean.getUser();
+                holder.setText(R.id.username, user.getLogin());
+                holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
+                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+                TextView content = holder.get(R.id.content);
+                // TODO 评论区代码问题
+                content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));
+
             }
         };
 
