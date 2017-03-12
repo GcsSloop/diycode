@@ -23,6 +23,7 @@
 package com.gcssloop.diycode.utils;
 
 import android.content.Context;
+import android.util.LruCache;
 
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
@@ -40,9 +41,11 @@ import java.util.List;
 public class DataCache {
 
     ACache cache;
+    LruCache<String, String> mLruCache;
 
     public DataCache(Context context) {
         cache = ACache.get(new File(FileUtil.getExternalCacheDir(context.getApplicationContext(), "diy-data")));
+        mLruCache = new LruCache<>(3 * 1024);
     }
 
     public <T extends Serializable> void saveData(String key, T data) {
@@ -55,10 +58,30 @@ public class DataCache {
 
     public void saveTopicContent(TopicContent content) {
         saveData("topic_content_" + content.getId(), content);
+        String preview = HtmlUtil.Html2Text(content.getBody_html());
+        if (preview.length() > 100) {
+            preview = preview.substring(0, 100);
+        }
+        saveData("topic_content_preview" + content.getId(), preview);
+        mLruCache.put("topic_content_preview" + content.getId(), preview);
     }
 
     public TopicContent getTopicContent(int id) {
         return getData("topic_content_" + id);
+    }
+
+    public String getTopicPreview(int id) {
+        String key = "topic_content_preview" + id;
+        String result = null;
+        result = mLruCache.get(key);
+        if (null != result) {
+            return result;
+        }
+        result = getData(key);
+        if (null != result) {
+            mLruCache.put(key, result);
+        }
+        return result;
     }
 
     public void saveTopicRepliesList(int topic_id, List<TopicReply> replyList) {

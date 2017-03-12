@@ -26,18 +26,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/topic_item_padding_vertical"
-    android:paddingLeft="@dimen/topic_item_padding_horizontal"
-    android:paddingRight="@dimen/topic_item_padding_horizontal"
-    android:paddingTop="@dimen/topic_item_padding_vertical"
-    android:layout_marginTop="12dp"
-    android:background="@color/diy_white"
     android:orientation="vertical">
 
+    <View
+        android:background="@color/diy_white_bg"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"/>
+
     <RelativeLayout
+        android:id="@+id/item"
+        android:paddingBottom="@dimen/topic_item_padding_vertical"
+        android:paddingLeft="@dimen/topic_item_padding_horizontal"
+        android:paddingRight="@dimen/topic_item_padding_horizontal"
+        android:paddingTop="@dimen/topic_item_padding_vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/diy_white">
+        android:background="@color/diy_white">
 
         <ImageView
             android:id="@+id/avatar"

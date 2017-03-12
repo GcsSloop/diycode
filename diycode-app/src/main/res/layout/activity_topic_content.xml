@@ -28,14 +28,14 @@
     android:id="@+id/activity_topic_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/diy_white_bg"
     tools:context="com.gcssloop.diycode.activity.TopicContentActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -153,10 +153,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/panel"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="8dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="8dp"
                 android:text="共收到 0 条回复"
+                android:background="@color/diy_white_bg"
                 android:textColor="@color/diy_black"/>
 
             <android.support.v7.widget.RecyclerView
@@ -165,13 +165,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/reply_count"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
             </android.support.v7.widget.RecyclerView>
 
             <View
+                android:background="@color/diy_white_bg"
                 android:layout_below="@id/reply_list"
-                android:layout_width="0dp"
-                android:layout_height="20dp"/>
-        </RelativeLayout>
+                android:layout_width="match_parent"
+                android:layout_height="12dp"/>
+
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

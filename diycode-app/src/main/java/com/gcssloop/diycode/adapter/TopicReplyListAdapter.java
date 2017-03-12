@@ -31,13 +31,14 @@ import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.adapter.GcsAdapter;
 import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.glide.GlideImageGetter;
+import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 
 public class TopicReplyListAdapter extends GcsAdapter<TopicReply> {
     public TopicReplyListAdapter(@NonNull Context context) {
-        super(context,  R.layout.item_topic_reply);
+        super(context, R.layout.item_topic_reply);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class TopicReplyListAdapter extends GcsAdapter<TopicReply> {
         holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
         TextView content = holder.get(R.id.content);
         // TODO 评论区代码问题
-        content.setText(Html.fromHtml(bean.getBody_html(), new GlideImageGetter(mContext, content), null));
+        content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));
 
         setListener(position, holder, bean);
     }

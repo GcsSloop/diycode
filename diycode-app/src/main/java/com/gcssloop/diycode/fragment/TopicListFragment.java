@@ -28,15 +28,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.adapter.TopicListAdapter;
+import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
@@ -55,8 +57,13 @@ import java.util.List;
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
 public class TopicListFragment extends BaseFragment {
+    private static final String ITEM_POSITION = "recycler_position";
     DataCache mDataCache;
     TopicListAdapter mAdapter;
+    RecyclerView recyclerView;
+    LinearLayoutManager linearLayoutManager;
+    private int lastPosition = 0;
+    private int lastOffset = 0;
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -72,14 +79,23 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mDataCache = new DataCache(getContext());
         initRecyclerView(getContext(), holder);
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
+        mDataCache = new DataCache(getContext());
         mAdapter = new TopicListAdapter(context) {
             @Override
             public void setListener(int position, GcsViewHolder holder, final Topic topic) {
+                TextView preview = holder.get(R.id.preview);
+                String text = mDataCache.getTopicPreview(topic.getId());
+                if (null != text) {
+                    preview.setVisibility(View.VISIBLE);
+                    preview.setText(Html.fromHtml(text));
+                } else {
+                    preview.setVisibility(View.GONE);
+                }
+
                 final User user = topic.getUser();
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -91,7 +107,7 @@ public class TopicListFragment extends BaseFragment {
                     }
                 }, R.id.avatar, R.id.username);
 
-                holder.get(R.id.title).setOnClickListener(new View.OnClickListener() {
+                holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, TopicContentActivity.class);
@@ -102,24 +118,25 @@ public class TopicListFragment extends BaseFragment {
             }
         };
 
-        RecyclerView recyclerView = holder.get(R.id.topic_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        linearLayoutManager = new LinearLayoutManager(context);
+        recyclerView = holder.get(R.id.topic_list);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(mAdapter);
+
+        if (NetUtil.isNetConnection(getContext())) {
+            Diycode.getSingleInstance().getTopicsList(null, null, null, null);
+        } else {
+            List<Topic> topics = mDataCache.getTopicsList();
+            if (null != topics) {
+                mAdapter.addDatas(topics);
+            }
+        }
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (NetUtil.isNetConnection(getContext())) {
-
-            Diycode.getSingleInstance().getTopicsList(null, null, null, null);
-
-        } else {
-            List<Topic> topics = mDataCache.getTopicsList();
-            mAdapter.addDatas(topics);
-        }
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -136,6 +153,10 @@ public class TopicListFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (null != recyclerView) {
+            Logger.e("onCreateView", lastPosition+"");
+            linearLayoutManager.scrollToPosition(lastPosition);
+        }
         EventBus.getDefault().register(this);
     }
 
@@ -143,5 +164,11 @@ public class TopicListFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        lastPosition = linearLayoutManager.findFirstVisibleItemPosition();
+        View view = linearLayoutManager.getChildAt(0);
+        lastOffset = view.getTop();
+        Logger.e("onDestroyView", lastPosition+"");
     }
+
+
 }

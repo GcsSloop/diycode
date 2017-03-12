@@ -22,22 +22,24 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/topic_item_padding_vertical"
-    android:paddingLeft="@dimen/topic_item_padding_horizontal"
-    android:paddingRight="@dimen/topic_item_padding_horizontal"
-    android:paddingTop="@dimen/topic_item_padding_vertical"
-    android:layout_marginTop="12dp"
-    android:background="@color/diy_white"
     android:orientation="vertical">
+
+    <View
+        android:background="@color/diy_white_bg"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/diy_white">
+        android:paddingBottom="@dimen/topic_item_padding_vertical"
+        android:paddingLeft="@dimen/topic_item_padding_horizontal"
+        android:paddingRight="@dimen/topic_item_padding_horizontal"
+        android:paddingTop="@dimen/topic_item_padding_vertical"
+        android:background="@color/diy_white">
 
         <ImageView
             android:id="@+id/avatar"
@@ -59,7 +61,7 @@
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="24dp"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:textColor="@color/diy_gray"
@@ -67,14 +69,13 @@
             tools:text="1分钟前"/>
 
         <TextView
-            android:paddingTop="@dimen/topic_item_padding_vertical"
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
+            android:paddingTop="@dimen/topic_item_padding_vertical"
             android:text="GcsTest(测试节点)"
             android:textColor="@color/diy_black"
             android:textSize="16sp"/>
-
     </RelativeLayout>
 </LinearLayout>

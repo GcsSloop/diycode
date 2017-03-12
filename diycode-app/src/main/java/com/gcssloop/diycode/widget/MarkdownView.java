@@ -59,16 +59,15 @@ public class MarkdownView extends WebView {
 
     public MarkdownView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getSettings().setAppCacheEnabled(false); // 关闭缓存
+        if (isInEditMode()) {
+            return;
+        }
         initialize();
+        getSettings().setAppCacheEnabled(false); // 关闭缓存
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void initialize() {
-        if (isInEditMode()) {
-            return;
-        }
-
         loadUrl("file:///android_asset/html/preview.html");
         getSettings().setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -152,6 +151,7 @@ public class MarkdownView extends WebView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (isInEditMode()) {
+            canvas.drawColor(Color.WHITE);
             canvas.translate(canvas.getWidth() / 2, 30);
             Paint paint = new Paint();
             paint.setTextAlign(Paint.Align.CENTER);

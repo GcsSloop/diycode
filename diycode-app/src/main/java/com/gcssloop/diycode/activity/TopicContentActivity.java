@@ -28,13 +28,13 @@ import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.adapter.TopicReplyListAdapter;
+import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.adapter.GcsViewHolder;
 import com.gcssloop.diycode.base.webview.GcsWebViewClient;
+import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
-import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.widget.MarkdownView;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
@@ -50,8 +50,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-
-import static com.gcssloop.diycode.R.id.reply_list;
 
 public class TopicContentActivity extends BaseActivity implements View.OnClickListener {
     public static String TOPIC = "topic";
@@ -136,7 +134,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             }
         };
 
-        RecyclerView recyclerView = holder.get(reply_list);
+        RecyclerView recyclerView = holder.get(R.id.reply_list);
         RecyclerViewUtil.init(this, recyclerView, mAdapter);
     }
 

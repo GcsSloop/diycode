@@ -48,7 +48,12 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> 
 
     @Override
     public GcsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rootView = mInflater.inflate(mLayoutId, parent, false);
+        View rootView = null;
+        try{
+            rootView = mInflater.inflate(mLayoutId, parent, false);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return new GcsViewHolder(rootView);
     }
 
