@@ -149,6 +149,10 @@ public class TopicListFragment extends BaseFragment {
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(v.getScrollY() == 0){
+                    // 到顶部了
+                    //TODO
+                }
                 View childView = v.getChildAt(0);
                 if (scrollY == (childView.getHeight() - v.getHeight())) {
                     //滑动到底部
