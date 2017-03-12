@@ -26,11 +26,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
-import com.gcssloop.diycode_sdk.api.login.api.TokenService;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
+import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.diycode_sdk.utils.CacheUtil;
 import com.gcssloop.diycode_sdk.utils.Constant;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -46,18 +45,21 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 /**
  * 实现类，具体实现在此处
  *
  * @param <Service>
  */
-public class BaseImplement<Service> {
+public class BaseImpl<Service> {
     protected CacheUtil mCacheUtil;
     private static Retrofit mRetrofit;
     protected Service mService;
 
-    public BaseImplement(@NonNull Context context) {
+    public BaseImpl(@NonNull Context context) {
         mCacheUtil = new CacheUtil(context.getApplicationContext());
         initRetrofit();
         this.mService = mRetrofit.create(getServiceClass());
@@ -151,4 +153,15 @@ public class BaseImplement<Service> {
         return !(null == token || token.isEmpty() || originalRequest.url().toString().contains(Constant.OAUTH_URL));
     }
 
+}
+
+
+interface TokenService {
+    /**
+     * 刷新 token
+     */
+    @POST(Constant.OAUTH_URL)
+    @FormUrlEncoded
+    Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
+                             @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
 }

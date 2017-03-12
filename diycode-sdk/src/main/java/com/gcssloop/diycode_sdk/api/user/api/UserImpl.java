@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
 import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
@@ -43,7 +43,7 @@ import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class UserImpl extends BaseImplement<UserService> implements UserAPI {
+public class UserImpl extends BaseImpl<UserService> implements UserAPI {
     public UserImpl(@NonNull Context context) {
         super(context);
     }

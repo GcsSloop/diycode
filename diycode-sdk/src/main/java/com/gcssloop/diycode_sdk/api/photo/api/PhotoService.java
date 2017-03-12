@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.POST;
 
-public interface PhotoService {
+interface PhotoService {
 
     /**
      * 上传图片,请使用 Multipart 的方式提交图片文件

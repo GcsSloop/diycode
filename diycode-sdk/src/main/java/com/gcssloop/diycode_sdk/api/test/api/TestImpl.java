@@ -27,11 +27,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
 import com.gcssloop.diycode_sdk.api.test.Event.HelloEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class TestImpl extends BaseImplement<TestService> implements TestAPI {
+public class TestImpl extends BaseImpl<TestService> implements TestAPI {
     public TestImpl(@NonNull Context context) {
         super(context);
     }

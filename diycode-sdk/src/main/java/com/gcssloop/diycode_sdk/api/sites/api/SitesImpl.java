@@ -26,11 +26,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class SitesImpl extends BaseImplement<SitesService> implements SitesAPI {
+public class SitesImpl extends BaseImpl<SitesService> implements SitesAPI {
     public SitesImpl(@NonNull Context context) {
         super(context);
     }

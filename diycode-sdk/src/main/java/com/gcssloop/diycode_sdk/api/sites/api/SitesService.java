@@ -29,7 +29,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-public interface SitesService {
+interface SitesService {
 
     /**
      * 获取 酷站 列表

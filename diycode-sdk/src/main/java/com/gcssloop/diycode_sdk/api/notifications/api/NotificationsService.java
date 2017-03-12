@@ -36,7 +36,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface NotificationsService {
+interface NotificationsService {
 
     /**
      * 获取通知列表

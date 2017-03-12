@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
 import com.gcssloop.diycode_sdk.api.project.event.CreateProjectReplyEvent;
 import com.gcssloop.diycode_sdk.api.project.event.DeleteProjectReplyEvent;
 import com.gcssloop.diycode_sdk.api.project.event.GetProjectRepliesListEvent;
@@ -36,7 +36,7 @@ import com.gcssloop.diycode_sdk.api.project.event.GetProjectsListEvent;
 import com.gcssloop.diycode_sdk.api.project.event.UpdateProjectReplyEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class ProjectImpl extends BaseImplement<ProjectService> implements ProjectAPI {
+public class ProjectImpl extends BaseImpl<ProjectService> implements ProjectAPI {
     public ProjectImpl(@NonNull Context context) {
         super(context);
     }

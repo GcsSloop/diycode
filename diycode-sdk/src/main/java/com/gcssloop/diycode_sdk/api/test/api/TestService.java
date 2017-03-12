@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface TestService {
+interface TestService {
 
     //--- 测试接口 -------------------------------------------------------------------------------
 

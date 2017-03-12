@@ -27,12 +27,12 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImplement;
+import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
 import com.gcssloop.diycode_sdk.api.likes.event.LikeEvent;
 import com.gcssloop.diycode_sdk.api.likes.event.UnLikeEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
 
-public class LikesImpl extends BaseImplement<LikesService> implements LikesAPI {
+public class LikesImpl extends BaseImpl<LikesService> implements LikesAPI {
 
     public LikesImpl(Context context) {
         super(context);
