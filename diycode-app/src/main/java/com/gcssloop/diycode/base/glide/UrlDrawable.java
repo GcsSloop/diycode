@@ -28,6 +28,9 @@ import android.graphics.drawable.Drawable;
 
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 
+/**
+ * 为 {@link GlideImageGetter} 服务
+ */
 public class UrlDrawable extends Drawable implements Drawable.Callback {
 
     private GlideDrawable mDrawable;

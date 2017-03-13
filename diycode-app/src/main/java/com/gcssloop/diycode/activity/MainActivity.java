@@ -60,11 +60,12 @@ public class MainActivity extends BaseActivity
     //--- viewpager adapter ------------------------------------------------------------------------
 
     private void initViewPager(ViewHolder holder) {
+        // TODO 此处使用的是测试账号，登录页面完成后移除
         mDiycode.login("diytest", "slooptest");
 
         ViewPager mViewPager = holder.get(R.id.view_pager);
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
-        mViewPager.setOffscreenPageLimit(2);    //  防止滑动到第三个页面时，第一个页面被销毁
+        mViewPager.setOffscreenPageLimit(2); // 防止滑动到第三个页面时，第一个页面被销毁
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites"};
 

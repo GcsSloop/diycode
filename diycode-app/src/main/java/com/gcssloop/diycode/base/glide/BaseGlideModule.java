@@ -39,7 +39,6 @@ public class BaseGlideModule implements GlideModule {
                 DEFAULT_DISK_CACHE_SIZE));
     }
 
-
     @Override
     public void registerComponents(Context context, Glide glide) {
     }
