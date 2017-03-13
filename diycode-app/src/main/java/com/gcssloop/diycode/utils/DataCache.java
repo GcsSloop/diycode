@@ -48,6 +48,11 @@ public class DataCache {
         mLruCache = new LruCache<>(3 * 1024);
     }
 
+    public <T extends Serializable> void saveListData(String key, List<T> data) {
+        ArrayList<T> datas = (ArrayList<T>) data;
+        cache.put(key, datas, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
+    }
+
     public <T extends Serializable> void saveData(String key, T data) {
         cache.put(key, data, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
     }
@@ -56,6 +61,7 @@ public class DataCache {
         return (T) cache.getAsObject(key);
     }
 
+    @Deprecated
     public void saveTopicContent(TopicContent content) {
         saveData("topic_content_" + content.getId(), content);
         String preview = HtmlUtil.Html2Text(content.getBody_html());
@@ -66,10 +72,12 @@ public class DataCache {
         mLruCache.put("topic_content_preview" + content.getId(), preview);
     }
 
+    @Deprecated
     public TopicContent getTopicContent(int id) {
         return getData("topic_content_" + id);
     }
 
+    @Deprecated
     public String getTopicPreview(int id) {
         String key = "topic_content_preview" + id;
         String result = null;
@@ -84,20 +92,24 @@ public class DataCache {
         return result;
     }
 
+    @Deprecated
     public void saveTopicRepliesList(int topic_id, List<TopicReply> replyList) {
         ArrayList<TopicReply> replies = new ArrayList<>(replyList);
         saveData("topic_reply_" + topic_id, replies);
     }
 
+    @Deprecated
     public List<TopicReply> getTopicRepliesList(int topic_id) {
         return getData("topic_reply_" + topic_id);
     }
 
+    @Deprecated
     public void saveTopicsList(List<Topic> topicList) {
         ArrayList<Topic> replies = new ArrayList<>(topicList);
         saveData("topic_list_", replies);
     }
 
+    @Deprecated
     public List<Topic> getTopicsList() {
         return getData("topic_list_");
     }

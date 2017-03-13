@@ -39,6 +39,7 @@ import android.view.View;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 
@@ -71,6 +72,8 @@ public class MainActivity extends BaseActivity
             public Fragment getItem(int position) {
                 if (position == 0)
                     return TopicListFragment.newInstance();
+                if (position == 1)
+                    return NewsListFragment.newInstance();
                 return TextFragment.newInstance(types[position]);
             }
 

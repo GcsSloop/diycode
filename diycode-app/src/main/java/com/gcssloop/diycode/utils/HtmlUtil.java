@@ -86,4 +86,22 @@ public class HtmlUtil {
         }
         return result;
     }
+
+    /**
+     * 根据 url 获取 host name
+     * http://www.gcssloop.com/ => www.gcssloop.com
+     */
+    public static String getHost(String url) {
+        if (url == null || url.trim().equals("")) {
+            return "";
+        }
+        String host = "";
+        Pattern p = Pattern.compile("(?<=//|)((\\w)+\\.)+\\w+");
+        Matcher matcher = p.matcher(url);
+        if (matcher.find()) {
+            host = matcher.group();
+        }
+        return host;
+    }
+
 }

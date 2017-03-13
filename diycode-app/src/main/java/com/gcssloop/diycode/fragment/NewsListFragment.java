@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-08 01:01:18
+ * Last modified 2017-03-13 21:51:55
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -24,27 +24,27 @@ package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
-import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
+import com.gcssloop.diycode_sdk.api.news.bean.New;
+import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
@@ -58,7 +58,8 @@ import java.util.List;
 /**
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
-public class TopicListFragment extends BaseFragment {
+public class NewsListFragment extends BaseFragment {
+    private static String CACHE_KEY = "News_List_";
     private static final String LOADING = "loading...";
     private static final String NORMAL = "-- end --";
     private static final String ERROR = "-- 获取失败 --";
@@ -74,14 +75,14 @@ public class TopicListFragment extends BaseFragment {
     private Diycode mDiycode;
 
     DataCache mDataCache;
-    GcsAdapter<Topic> mAdapter;
+    GcsAdapter<New> mAdapter;
     RecyclerView recyclerView;
 
     private TextView mFooter;
 
-    public static TopicListFragment newInstance() {
+    public static NewsListFragment newInstance() {
         Bundle args = new Bundle();
-        TopicListFragment fragment = new TopicListFragment();
+        NewsListFragment fragment = new NewsListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,24 +102,18 @@ public class TopicListFragment extends BaseFragment {
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
         mDataCache = new DataCache(getContext());
-        mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
+        mAdapter = new GcsAdapter<New>(context, R.layout.item_news) {
+
             @Override
-            public void convert(int position, GcsViewHolder holder, final Topic topic) {
-                final User user = topic.getUser();
+            public void convert(int position, GcsViewHolder holder, final New bean) {
+                final User user = bean.getUser();
                 holder.setText(R.id.username, user.getLogin());
-                holder.setText(R.id.node_name, topic.getNode_name());
-                holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
-                holder.setText(R.id.title, topic.getTitle());
+                holder.setText(R.id.node_name, bean.getNode_name());
+                holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
+                holder.setText(R.id.title, bean.getTitle());
                 holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
 
-                TextView preview = holder.get(R.id.preview);
-                String text = mDataCache.getTopicPreview(topic.getId());
-                if (null != text) {
-                    preview.setVisibility(View.VISIBLE);
-                    preview.setText(Html.fromHtml(text));
-                } else {
-                    preview.setVisibility(View.GONE);
-                }
+                holder.setText(R.id.host_name, HtmlUtil.getHost(bean.getAddress()));
 
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,9 +128,8 @@ public class TopicListFragment extends BaseFragment {
                 holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, TopicContentActivity.class);
-                        intent.putExtra(TopicContentActivity.TOPIC, topic);
-                        context.startActivity(intent);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bean.getAddress()));
+                        mContext.startActivity(intent);
                     }
                 });
             }
@@ -150,7 +144,7 @@ public class TopicListFragment extends BaseFragment {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 View childView = v.getChildAt(0);
-                if (scrollY == (childView.getHeight() - v.getHeight()) && mState == STATE_NORMAL) { //滑动到底部 && 正常模式
+                if (scrollY == (childView.getHeight() - v.getHeight()) && mState == STATE_NORMAL) {
                     loadMore();
                 }
             }
@@ -159,9 +153,9 @@ public class TopicListFragment extends BaseFragment {
         if (NetUtil.isNetConnection(getContext())) {
             loadMore();
         } else {
-            List<Topic> topics = mDataCache.getTopicsList();
-            if (null != topics) {
-                mAdapter.addDatas(topics);
+            List<New> news = mDataCache.getData(CACHE_KEY);
+            if (null != news) {
+                mAdapter.addDatas(news);
             }
             mFooter.setText(NORMAL);
         }
@@ -170,8 +164,8 @@ public class TopicListFragment extends BaseFragment {
     /**
      * 加载更多
      */
-    private void loadMore() {
-        mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
+    public void loadMore() {
+        mDiycode.getNewsList(null, pageIndex * pageCount, pageCount);
         pageIndex++;
         mFooter.setText(LOADING);
         mState = STATE_LOADING;
@@ -184,19 +178,19 @@ public class TopicListFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTopicList(GetTopicsListEvent event) {
+    public void onNewsList(GetNewsListEvent event) {
         if (event.isOk()) {
             Logger.e("获取 topic list 成功 - showlist");
-            List<Topic> topics = event.getBean();
-            if (topics.size() < pageCount) {
+            List<New> news = event.getBean();
+            if (news.size() < pageCount) {
                 mState = STATE_NO_MORE;
                 mFooter.setText(NORMAL);
             } else {
                 mState = STATE_NORMAL;
                 mFooter.setText(NORMAL);
             }
-            mAdapter.addDatas(topics);
-            mDataCache.saveTopicsList(mAdapter.getDatas());
+            mAdapter.addDatas(news);
+            mDataCache.saveListData(CACHE_KEY, mAdapter.getDatas());
         } else {
             mFooter.setText(ERROR);
             Logger.e("获取 topic list 失败 - showlist");
