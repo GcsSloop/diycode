@@ -53,7 +53,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import static com.gcssloop.diycode.R.id.topic_list;
+import static com.gcssloop.diycode.R.id.recycler_view;
 import static com.github.florent37.expectanim.core.Expectations.alpha;
 import static com.github.florent37.expectanim.core.Expectations.height;
 import static com.github.florent37.expectanim.core.Expectations.leftOfParent;
@@ -106,7 +106,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
             }
         };
 
-        RecyclerView recyclerView = holder.get(topic_list);
+        RecyclerView recyclerView = holder.get(recycler_view);
         RecyclerViewUtil.init(this, recyclerView, mAdapter);
     }
 

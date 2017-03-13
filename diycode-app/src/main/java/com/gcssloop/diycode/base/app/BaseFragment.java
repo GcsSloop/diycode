@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * 提供基础内容和生命周期控制
@@ -140,5 +141,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected void onSaveState(Bundle outState) {
 
+    }
+
+    protected void toast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

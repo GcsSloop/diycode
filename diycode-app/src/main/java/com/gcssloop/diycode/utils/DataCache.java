@@ -25,6 +25,7 @@ package com.gcssloop.diycode.utils;
 import android.content.Context;
 import android.util.LruCache;
 
+import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
@@ -61,7 +62,6 @@ public class DataCache {
         return (T) cache.getAsObject(key);
     }
 
-    @Deprecated
     public void saveTopicContent(TopicContent content) {
         saveData("topic_content_" + content.getId(), content);
         String preview = HtmlUtil.Html2Text(content.getBody_html());
@@ -72,12 +72,10 @@ public class DataCache {
         mLruCache.put("topic_content_preview" + content.getId(), preview);
     }
 
-    @Deprecated
     public TopicContent getTopicContent(int id) {
         return getData("topic_content_" + id);
     }
 
-    @Deprecated
     public String getTopicPreview(int id) {
         String key = "topic_content_preview" + id;
         String result = null;
@@ -92,25 +90,30 @@ public class DataCache {
         return result;
     }
 
-    @Deprecated
     public void saveTopicRepliesList(int topic_id, List<TopicReply> replyList) {
         ArrayList<TopicReply> replies = new ArrayList<>(replyList);
         saveData("topic_reply_" + topic_id, replies);
     }
 
-    @Deprecated
     public List<TopicReply> getTopicRepliesList(int topic_id) {
         return getData("topic_reply_" + topic_id);
     }
 
-    @Deprecated
     public void saveTopicsList(List<Topic> topicList) {
-        ArrayList<Topic> replies = new ArrayList<>(topicList);
-        saveData("topic_list_", replies);
+        ArrayList<Topic> datas = new ArrayList<>(topicList);
+        saveData("topic_list_", datas);
     }
 
-    @Deprecated
     public List<Topic> getTopicsList() {
-        return getData("topic_list_");
+        return getData("topic_lst_");
+    }
+
+    public void saveNewsList(List<New> newList) {
+        ArrayList<New> news = new ArrayList<>(newList);
+        saveData("news_list_", news);
+    }
+
+    public List<New> getNewsList() {
+        return getData("news_list_");
     }
 }

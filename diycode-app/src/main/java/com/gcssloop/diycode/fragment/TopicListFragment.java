@@ -25,8 +25,9 @@ package com.gcssloop.diycode.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
@@ -40,13 +41,11 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,25 +58,36 @@ import java.util.List;
  * topic 相关的 fragment， 主要用于显示 topic 列表
  */
 public class TopicListFragment extends BaseFragment {
-    private static final String LOADING = "loading...";
-    private static final String NORMAL = "-- end --";
-    private static final String ERROR = "-- 获取失败 --";
+    // 底部状态显示
+    private static final String FOOTER_LOADING = "loading...";
+    private static final String FOOTER_NORMAL = "-- end --";
+    private static final String FOOTER_ERROR = "-- 获取失败 --";
+    private TextView mFooter;
 
-    private static final int STATE_NORMAL = 0;
-    private static final int STATE_NO_MORE = 1;
-    private static final int STATE_LOADING = 2;
+    // 请求状态 - 下拉刷新 还是 加载更多
+    private static final String POST_LOAD_MORE = "load_more";
+    private static final String POST_REFRESH = "refresh";
+    private ArrayMap<String, String> mPostTypes = new ArrayMap<>();    // 请求类型
+
+    // 当前状态
+    private static final int STATE_NORMAL = 0;      // 正常
+    private static final int STATE_NO_MORE = 1;     // 正在
+    private static final int STATE_LOADING = 2;     // 加载
+    private static final int STATE_REFRESH = 3;     // 刷新
     private int mState = STATE_NORMAL;
 
-    private int pageIndex = 0;
-    private int pageCount = 20;
+    // 分页加载
+    private int pageIndex = 0;                      // 当面页码
+    private int pageCount = 20;                     // 每页个数
 
-    private Diycode mDiycode;
+    // 数据
+    private Diycode mDiycode;                       // 在线(服务器)
+    private DataCache mDataCache;                   // 缓存(本地)
 
-    DataCache mDataCache;
-    GcsAdapter<Topic> mAdapter;
-    RecyclerView recyclerView;
+    // View
+    private GcsAdapter<Topic> mAdapter;
+    private SwipeRefreshLayout mRefreshLayout;
 
-    private TextView mFooter;
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -88,19 +98,43 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_topic_list;
+        return R.layout.fragment_recycler_refresh;
+    }
+
+    // 注意：此处调用位置在 initViews 之后
+    @Override
+    protected void onFirstTimeLaunched() {
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+
+        // 第一次加载，默认从缓存加载
+        List<Topic> topics = mDataCache.getTopicsList();
+        if (null != topics && topics.size() > 0) {
+            mAdapter.addDatas(topics);
+            mFooter.setText(FOOTER_NORMAL);
+            mRefreshLayout.setEnabled(true);
+        } else {
+            loadMore();
+            mFooter.setText(FOOTER_LOADING);
+        }
     }
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mDiycode = Diycode.getSingleInstance();
         mFooter = holder.get(R.id.footer);
-        mFooter.setText(LOADING);
+        initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
+        initListener(holder);
+    }
+
+    private void initRefreshLayout(ViewHolder holder) {
+        mRefreshLayout = holder.get(R.id.refresh_layout);
+        mRefreshLayout.setProgressViewOffset(false, -20, 80);
+        mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.diy_red));
+        mRefreshLayout.setEnabled(false);
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
-        mDataCache = new DataCache(getContext());
         mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
             @Override
             public void convert(int position, GcsViewHolder holder, final Topic topic) {
@@ -141,11 +175,20 @@ public class TopicListFragment extends BaseFragment {
             }
         };
 
-        recyclerView = holder.get(R.id.topic_list);
+        RecyclerView recyclerView = holder.get(R.id.recycler_view);
         RecyclerViewUtil.init(context, recyclerView, mAdapter);
+    }
 
+    private void initListener(ViewHolder holder) {
+        // 监听 RefreshLayout 下拉刷新
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        // 监听 scrollView 加载更多
         NestedScrollView scrollView = holder.get(R.id.scroll_view);
-
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -155,52 +198,74 @@ public class TopicListFragment extends BaseFragment {
                 }
             }
         });
-
-        if (NetUtil.isNetConnection(getContext())) {
-            loadMore();
-        } else {
-            List<Topic> topics = mDataCache.getTopicsList();
-            if (null != topics) {
-                mAdapter.addDatas(topics);
-            }
-            mFooter.setText(NORMAL);
-        }
     }
 
-    /**
-     * 加载更多
-     */
-    private void loadMore() {
-        mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
+    // 刷新
+    private void refresh() {
+        pageIndex = 0;
+        String uuid = mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
+        mPostTypes.put(uuid, POST_REFRESH);
         pageIndex++;
-        mFooter.setText(LOADING);
-        mState = STATE_LOADING;
+        mState = STATE_REFRESH;
     }
 
+    private void onRefresh(GetTopicsListEvent event) {
+        mState = STATE_NORMAL;
+        mRefreshLayout.setRefreshing(false);
+        mAdapter.clearDatas();
+        mAdapter.addDatas(event.getBean());
+        mDataCache.saveTopicsList(mAdapter.getDatas());
+        toast("数据刷新成功");
+    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    // 加载更多
+    private void loadMore() {
+        String uuid = mDiycode.getTopicsList(null, null, pageIndex * pageCount, pageCount);
+        mPostTypes.put(uuid, POST_LOAD_MORE);
+        pageIndex++;
+        mState = STATE_LOADING;
+        mFooter.setText(FOOTER_LOADING);
+    }
+
+    private void onLoadMore(GetTopicsListEvent event) {
+        List<Topic> topics = event.getBean();
+        if (topics.size() < pageCount) {
+            mState = STATE_NO_MORE;
+            mFooter.setText(FOOTER_NORMAL);
+        } else {
+            mState = STATE_NORMAL;
+            mFooter.setText(FOOTER_NORMAL);
+        }
+        mAdapter.addDatas(topics);
+        mDataCache.saveTopicsList(mAdapter.getDatas());
+        mRefreshLayout.setEnabled(true);
+    }
+
+    // 数据加载出现异常
+    private void onError(String postType) {
+        mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
+        if (postType.equals(POST_LOAD_MORE)) {
+            mFooter.setText(FOOTER_ERROR);
+            toast("加载更多失败");
+        } else if (postType.equals(POST_REFRESH)) {
+            mRefreshLayout.setRefreshing(false);
+            toast("刷新数据失败");
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicList(GetTopicsListEvent event) {
+        String postType = mPostTypes.get(event.getUUID());
         if (event.isOk()) {
-            Logger.e("获取 topic list 成功 - showlist");
-            List<Topic> topics = event.getBean();
-            if (topics.size() < pageCount) {
-                mState = STATE_NO_MORE;
-                mFooter.setText(NORMAL);
-            } else {
-                mState = STATE_NORMAL;
-                mFooter.setText(NORMAL);
+            if (postType.equals(POST_LOAD_MORE)) {
+                onLoadMore(event);
+            } else if (postType.equals(POST_REFRESH)) {
+                onRefresh(event);
             }
-            mAdapter.addDatas(topics);
-            mDataCache.saveTopicsList(mAdapter.getDatas());
         } else {
-            mFooter.setText(ERROR);
-            Logger.e("获取 topic list 失败 - showlist");
+            onError(postType);
         }
+        mPostTypes.remove(event.getUUID());
     }
 
     @Override

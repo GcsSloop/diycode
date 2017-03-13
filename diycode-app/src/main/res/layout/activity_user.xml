@@ -46,7 +46,7 @@
                 android:layout_height="240dp"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/topic_list"
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/diy_white_bg">
