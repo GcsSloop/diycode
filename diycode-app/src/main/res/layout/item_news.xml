@@ -111,7 +111,7 @@
             android:layout_marginRight="@dimen/topic_item_padding_vertical"
             android:layout_marginTop="8dp"
             android:maxLines="3"
-            android:text="www.gcssloop.com"
+            tools:text="www.gcssloop.com"
             android:textColor="@color/diy_gray2"
             android:textSize="14sp"/>
 

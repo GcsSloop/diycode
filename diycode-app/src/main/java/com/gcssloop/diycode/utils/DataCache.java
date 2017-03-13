@@ -100,12 +100,12 @@ public class DataCache {
     }
 
     public void saveTopicsList(List<Topic> topicList) {
-        ArrayList<Topic> datas = new ArrayList<>(topicList);
-        saveData("topic_list_", datas);
+        ArrayList<Topic> topics = new ArrayList<>(topicList);
+        saveData("topic_list_", topics);
     }
 
     public List<Topic> getTopicsList() {
-        return getData("topic_lst_");
+        return getData("topic_list_");
     }
 
     public void saveNewsList(List<New> newList) {

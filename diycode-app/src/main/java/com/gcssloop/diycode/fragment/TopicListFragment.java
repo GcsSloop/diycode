@@ -107,7 +107,7 @@ public class TopicListFragment extends BaseFragment {
         mDiycode = Diycode.getSingleInstance();
         mDataCache = new DataCache(getContext());
 
-        // 第一次加载，默认从缓存加载
+        // 第一次加载，默认从缓存获取
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
             mAdapter.addDatas(topics);

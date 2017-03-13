@@ -87,7 +87,6 @@ public class BaseImpl<Service> {
                     return chain.proceed(originalRequest);
                 }
                 String token = OAuth.TOKEN_PREFIX + mCacheUtil.getToken().getAccess_token();
-                Logger.i("AutoToken:" + token); // 查看 token 是否异常
                 // 为请求附加 token
                 Request authorised = originalRequest.newBuilder()
                         .header(OAuth.KEY_TOKEN, token)
