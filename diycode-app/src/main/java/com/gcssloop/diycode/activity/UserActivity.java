@@ -63,7 +63,13 @@ import static com.github.florent37.expectanim.core.Expectations.scale;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
 import static com.github.florent37.expectanim.core.Expectations.topOfParent;
 
+/**
+ * 展示用户信息
+ */
 public class UserActivity extends BaseActivity implements View.OnClickListener {
+    public static String TYPE_DEFAULT = "default";
+    public static String TYPE_USER_CREATE = "user_create";
+    public static String TYPE_USER_REPLY = "user_reply";
     public static String USER = "user";
     private ExpectAnim expectAnimMove;
     private GcsAdapter<Topic> mAdapter;
@@ -78,7 +84,6 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         initUserInfo(holder);
         initRecyclerView(holder);
         initScrollAnimation(holder);
-
     }
 
     private void initUserInfo(ViewHolder holder) {

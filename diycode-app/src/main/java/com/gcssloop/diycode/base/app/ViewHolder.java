@@ -92,7 +92,8 @@ public class ViewHolder {
 
     public void loadImage(Context context, String url, int res_id) {
         ImageView imageView = get(res_id);
-        Glide.with(context).load(url).into(imageView);
+        String url2 = url.replace("large_avatar", "avatar");
+        Glide.with(context).load(url2).into(imageView);
     }
 
     /**
