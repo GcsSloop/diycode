@@ -29,11 +29,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.glide.GlideImageGetter;
+import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
+import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.webview.GcsWebViewClient;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.HtmlUtil;
@@ -92,6 +92,8 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             client.setOpenUrlInBrowser(true);
             mMarkdownView.setWebViewClient(client);
 
+
+
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
                 mDiycode.getTopicRepliesList(topic.getId(), null, topic.getReplies_count());
@@ -141,7 +143,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                 TextView content = holder.get(R.id.content);
                 // TODO 评论区代码问题
                 content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));
-
             }
         };
 

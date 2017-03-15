@@ -47,12 +47,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         mDiycode = Diycode.getSingleInstance();
         mViewHolder = new ViewHolder(getLayoutInflater(), null, getLayoutId());
         setContentView(mViewHolder.getRootView());
+        initDatas();
         initViews(mViewHolder, mViewHolder.getRootView());
     }
+
 
     @LayoutRes
     protected abstract int getLayoutId();
 
+    /**
+     * 初始化数据，调用位置在 initViews 之前
+     */
+    protected void initDatas() {
+    }
+
+    /**
+     * 初始化 View， 调用位置在 initDatas 之后
+     */
     protected abstract void initViews(ViewHolder holder, View root);
 
     public ViewHolder getViewHolder() {

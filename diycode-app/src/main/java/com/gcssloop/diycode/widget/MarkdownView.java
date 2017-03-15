@@ -34,6 +34,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.gcssloop.diycode_sdk.log.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +46,14 @@ import java.io.InputStreamReader;
 
 public class MarkdownView extends WebView {
     private static final String TAG = MarkdownView.class.getSimpleName();
+    // 带有点击的图片 => 为了防止被转换，提前转化为 html
+    // [text ![text](image_url) text](link) => <a href="link" ><img src="image_url" /></a>
+    private static final String IMAGE_LINK_PATTERN = "\\[(.*)!\\[(.*)\\]\\((.*)\\)(.*)\\]\\((.*)\\)";
+    private static final String IMAGE_LINK_REPLACE = "<a href=\"$5\" >$1<img src=\"$3\" />$4</a>";
+    // 纯图片 => 添加点击跳转，方便后期拦截
+    // ![text](image_url) => <a href="image_url" ><img src="image_url" /></a>
     private static final String IMAGE_PATTERN = "!\\[(.*)\\]\\((.*)\\)";
+    private static final String IMAGE_REPLACE = "<a href=\"$2\" ><img src=\"$2\" /></a>";
 
     private String mPreviewText;
     private boolean mIsOpenUrlInBrowser;
@@ -78,6 +87,7 @@ public class MarkdownView extends WebView {
         }
 
         setWebChromeClient(new WebChromeClient() {
+            @SuppressLint("JavascriptInterface")
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
@@ -87,6 +97,7 @@ public class MarkdownView extends WebView {
                     } else {
                         evaluateJavascript(mPreviewText, null);
                     }
+
                 }
             }
         });
@@ -131,13 +142,24 @@ public class MarkdownView extends WebView {
     }
 
     public void setMarkDownText(String markdownText) {
-        String escMdText = escapeForText(markdownText);
+        String injectMdText = injectImageLink(markdownText);
+        String escMdText = escapeForText(injectMdText);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             mPreviewText = String.format("javascript:preview('%s')", escMdText);
         } else {
             mPreviewText = String.format("preview('%s')", escMdText);
         }
         initialize();
+    }
+
+    /**
+     * 注入图片链接
+     */
+    private String injectImageLink(String mdText) {
+        // TODO 修复代码区md格式图片被替换问题
+        mdText = mdText.replaceAll(IMAGE_LINK_PATTERN, IMAGE_LINK_REPLACE);
+        mdText = mdText.replaceAll(IMAGE_PATTERN, IMAGE_REPLACE);
+        return mdText;
     }
 
     private String escapeForText(String mdText) {

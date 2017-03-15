@@ -39,6 +39,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.gcssloop.diycode.base.app.ImageActivity;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
 
@@ -48,9 +50,13 @@ import java.io.FileInputStream;
 public class GcsWebViewClient extends WebViewClient {
     public static final String URL = "url";
     private Class<? extends Activity> mWebActivity = null;
+    private Class<? extends ImageActivity> mImageActivity = null;
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
+
+    // TODO 记录一篇文章中所有的图片
+    // TODO 打开图片
 
     public GcsWebViewClient(@NonNull Context context) {
         mContext = context;
@@ -62,31 +68,36 @@ public class GcsWebViewClient extends WebViewClient {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        if (mIsOpenUrlInBrowser) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
-            mContext.startActivity(intent);
-            return true;
-        }
-        if (null != mWebActivity) {
-            Intent intent = new Intent(mContext, mWebActivity);
-            intent.putExtra(URL, request.getUrl().toString());
-            mContext.startActivity(intent);
-            return true;
-        }
-        return false;
+        String url = request.getUrl().toString();
+        return handleLink(url);
     }
 
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (mIsOpenUrlInBrowser) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            mContext.startActivity(intent);
+        return handleLink(url);
+    }
+
+    /**
+     * 处理超链接
+     *
+     * @param url 超链接
+     */
+    private boolean handleLink(String url) {
+        // 优先处理图片，其次判断是否从本地打开，最后判断是否从浏览器打开
+        if (isImageSuffix(url) || isGifSuffix(url)) {
+            // TODO 显示图片
+            Logger.i("Clicked:" + url);
             return true;
         }
         if (null != mWebActivity) {
             Intent intent = new Intent(mContext, mWebActivity);
             intent.putExtra(URL, url);
+            mContext.startActivity(intent);
+            return true;
+        }
+        if (mIsOpenUrlInBrowser) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             mContext.startActivity(intent);
             return true;
         }

@@ -60,7 +60,7 @@ public class DiskImageCache {
      * 从缓存中获取图片
      **/
     public Bitmap getBitmap(final String key) {
-        final String path = getPath(key);
+        final String path = getCachePath(key);
         File file = new File(path);
         if (file.exists()) {
             Bitmap bmp = BitmapFactory.decodeFile(path);
@@ -85,7 +85,7 @@ public class DiskImageCache {
         if (FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
             return;     //SD空间不足
         }
-        File file = new File(getPath(key));
+        File file = new File(getCachePath(key));
         try {
             file.createNewFile();
             OutputStream outStream = new FileOutputStream(file);
@@ -102,8 +102,8 @@ public class DiskImageCache {
     /**
      * 保存 bytes 数据
      *
-     * @param key
-     * @param bytes
+     * @param key   url
+     * @param bytes bytes 数据
      */
     public void saveBytes(String key, byte[] bytes) {
         if (bytes == null) {
@@ -113,7 +113,7 @@ public class DiskImageCache {
         if (FREE_SD_SPACE_NEEDED_TO_CACHE > freeSpaceOnSd()) {
             return;     //SD空间不足
         }
-        File file = new File(getPath(key));
+        File file = new File(getCachePath(key));
         try {
             file.createNewFile();
             OutputStream outStream = new FileOutputStream(file);
@@ -127,8 +127,14 @@ public class DiskImageCache {
         }
     }
 
+    /**
+     * 获取一个本地缓存的输入流
+     *
+     * @param key url
+     * @return FileInputStream
+     */
     public FileInputStream getStream(String key) {
-        File file = new File(getPath(key));
+        File file = new File(getCachePath(key));
         if (!file.exists())
             return null;
         try {
@@ -139,6 +145,19 @@ public class DiskImageCache {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 获取本地缓存路径
+     *
+     * @param key url
+     * @return 路径
+     */
+    public String getDiskPath(String key) {
+        File file = new File(getCachePath(key));
+        if (!file.exists())
+            return null;
+        return file.getAbsolutePath();
     }
 
     /**
@@ -217,7 +236,7 @@ public class DiskImageCache {
     /**
      * 获取缓存文件的绝对路径
      */
-    private String getPath(String key) {
+    private String getCachePath(String key) {
         return cacheDir.getAbsolutePath() + File.separator + convertKey(key);
     }
 
