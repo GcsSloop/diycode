@@ -25,7 +25,10 @@ package com.gcssloop.diycode.activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
@@ -62,6 +65,8 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     private DataCache mDataCache;
     private GcsAdapter<TopicReply> mAdapter;
     MarkdownView mMarkdownView;
+    GcsWebViewClient mWebViewClient;
+
 
     @Override
     protected int getLayoutId() {
@@ -86,12 +91,18 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
             holder.setOnClickListener(this, R.id.avatar, R.id.username);
-            mMarkdownView = holder.get(R.id.content);
+            //mMarkdownView = holder.get(R.id.content);
 
-            GcsWebViewClient client = new GcsWebViewClient(this);
-            client.setOpenUrlInBrowser(true);
-            client.setImageActivity(ImageActivity.class);
-            mMarkdownView.setWebViewClient(client);
+            FrameLayout layout = holder.get(R.id.webview_container);
+            mMarkdownView = new MarkdownView(this.getApplicationContext());
+            mMarkdownView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            layout.addView(mMarkdownView);
+
+            mWebViewClient = new GcsWebViewClient(this);
+            mWebViewClient.setOpenUrlInBrowser(true);
+            mWebViewClient.setImageActivity(ImageActivity.class);
+            mMarkdownView.setWebViewClient(mWebViewClient);
 
 
 
@@ -171,6 +182,31 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    // 防止
+    public void clearWebViewResource() {
+        if (mMarkdownView != null) {
+            mMarkdownView.removeAllViews();
+            // in android 5.1(sdk:21) we should invoke this to avoid memory leak
+            // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
+            // android-5.1-webview-memory-leak.html)
+            ((ViewGroup) mMarkdownView.getParent()).removeView(mMarkdownView);
+            mMarkdownView.setTag(null);
+            mMarkdownView.clearHistory();
+            mMarkdownView.destroy();
+            mMarkdownView = null;
+            mWebViewClient = null;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -181,6 +217,12 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearWebViewResource();
     }
 
     @Override

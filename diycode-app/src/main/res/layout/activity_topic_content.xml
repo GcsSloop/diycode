@@ -109,15 +109,16 @@
                     android:textColor="@color/diy_black2"
                     android:textSize="20sp"/>
 
-                <com.gcssloop.diycode.widget.MarkdownView
-                    android:id="@+id/content"
-                    android:layout_marginLeft="-12dp"
-                    android:layout_marginRight="-12dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <FrameLayout
                     android:layout_below="@+id/title"
                     android:layout_marginTop="8dp"
-                    />
+                    android:layout_marginLeft="-12dp"
+                    android:layout_marginRight="-12dp"
+                    android:id="@+id/webview_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </FrameLayout>
 
                 <ImageView
                     android:visibility="gone"

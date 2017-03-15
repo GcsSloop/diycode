@@ -26,6 +26,7 @@ import android.app.Application;
 
 import com.gcssloop.diycode.utils.CrashHandler;
 import com.gcssloop.diycode_sdk.api.Diycode;
+import com.squareup.leakcanary.LeakCanary;
 
 public class BaseApplication extends Application {
 
@@ -35,6 +36,11 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
+
         CrashHandler.getInstance().init(this);
 
         Diycode.init(this, client_id, client_secret);
