@@ -90,6 +90,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
 
             GcsWebViewClient client = new GcsWebViewClient(this);
             client.setOpenUrlInBrowser(true);
+            client.setImageActivity(ImageActivity.class);
             mMarkdownView.setWebViewClient(client);
 
 

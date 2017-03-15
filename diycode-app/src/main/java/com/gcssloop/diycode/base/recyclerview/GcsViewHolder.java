@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class GcsViewHolder extends RecyclerView.ViewHolder {
 
@@ -77,9 +78,11 @@ public class GcsViewHolder extends RecyclerView.ViewHolder {
         setText(id, text);
     }
 
-    public void loadImage(Context context, String url, int res_id){
+    public void loadImage(Context context, String url, int res_id) {
         ImageView imageView = get(res_id);
-        String url2 = url.replace("large_avatar", "avatar");
-        Glide.with(context).load(url2).into(imageView);
+        String url2 = url;
+        if (url.contains("diycode"))    // 添加判断，防止替换掉其他网站掉图片
+            url2 = url.replace("large_avatar", "avatar");
+        Glide.with(context).load(url2).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
     }
 }

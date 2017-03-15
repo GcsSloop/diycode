@@ -24,9 +24,11 @@ package com.gcssloop.diycode.base.app;
 
 import android.content.Intent;
 
+import com.gcssloop.diycode_sdk.log.Logger;
+
 import java.util.ArrayList;
 
-public abstract class ImageActivity extends BaseActivity {
+public abstract class BaseImageActivity extends BaseActivity {
     public static final String ALL_IMAGE_URLS = "all_images";
     public static final String CURRENT_IMAGE_URL = "current_image";
 
@@ -36,7 +38,7 @@ public abstract class ImageActivity extends BaseActivity {
 
     protected ArrayList<String> images = new ArrayList<>();     // 所有图片
     protected String current_image_url = null;                  // 当前图片
-    protected int current_image_position = -1;                  // 当前图片位置
+    protected int current_image_position = 0;                  // 当前图片位置
 
     @Override
     protected void initDatas() {
@@ -52,6 +54,7 @@ public abstract class ImageActivity extends BaseActivity {
             mCurrentMode = MODE_ERROR;
             return;
         } else {
+            current_image_url = imageUrl;
             mCurrentMode = MODE_NORMAL;
         }
 
@@ -60,10 +63,12 @@ public abstract class ImageActivity extends BaseActivity {
         if (temp == null || temp.size() <= 0) {
             return;
         }
+        Logger.e("result:" + temp.toString());
 
         // 如果图片集合大于1，而且包括当前图片，记录集合，计算位置
-        if (temp.size()>=1 && temp.contains(current_image_url)){
+        if ((temp.size() >= 1) && temp.contains(current_image_url)) {
             images = new ArrayList<>(temp);
+            Logger.e("result2:" + images.toString());
             current_image_position = images.indexOf(current_image_url);
             return;
         }

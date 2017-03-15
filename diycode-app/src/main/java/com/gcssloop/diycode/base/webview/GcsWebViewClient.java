@@ -39,10 +39,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gcssloop.diycode.base.app.ImageActivity;
+import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 /**
  * 自定义 web client， 做一些不可描述的事情
@@ -50,10 +51,12 @@ import java.io.FileInputStream;
 public class GcsWebViewClient extends WebViewClient {
     public static final String URL = "url";
     private Class<? extends Activity> mWebActivity = null;
-    private Class<? extends ImageActivity> mImageActivity = null;
+    private Class<? extends BaseImageActivity> mImageActivity = null;
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
+
+    private ArrayList<String> mImages = new ArrayList<>();
 
     // TODO 记录一篇文章中所有的图片
     // TODO 打开图片
@@ -68,8 +71,7 @@ public class GcsWebViewClient extends WebViewClient {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        String url = request.getUrl().toString();
-        return handleLink(url);
+        return handleLink(request.getUrl().toString());
     }
 
 
@@ -85,9 +87,14 @@ public class GcsWebViewClient extends WebViewClient {
      */
     private boolean handleLink(String url) {
         // 优先处理图片，其次判断是否从本地打开，最后判断是否从浏览器打开
-        if (isImageSuffix(url) || isGifSuffix(url)) {
+        if (mImageActivity != null && (isImageSuffix(url) || isGifSuffix(url))) {
             // TODO 显示图片
             Logger.i("Clicked:" + url);
+            Logger.e("source:"+mImages.toString());
+            Intent intent = new Intent(mContext, mImageActivity);
+            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
+            intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
+            mContext.startActivity(intent);
             return true;
         }
         if (null != mWebActivity) {
@@ -136,6 +143,7 @@ public class GcsWebViewClient extends WebViewClient {
             String url = request.getUrl().toString();
             // 如果是图片且本地有缓存
             if (isImageSuffix(url) || isGifSuffix(url)) {
+                mImages.add(url);
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
@@ -153,6 +161,7 @@ public class GcsWebViewClient extends WebViewClient {
         try {
             // 如果是图片且本地有缓存
             if (isImageSuffix(url) || isGifSuffix(url)) {
+                mImages.add(url);
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
@@ -234,6 +243,13 @@ public class GcsWebViewClient extends WebViewClient {
      */
     public void setWebActivity(Class<? extends Activity> webActivity) {
         this.mWebActivity = webActivity;
+    }
+
+    /**
+     * 设置打开图片的 Activity
+     */
+    public void setImageActivity(Class<? extends BaseImageActivity> imageActivity) {
+        mImageActivity = imageActivity;
     }
 
     /**

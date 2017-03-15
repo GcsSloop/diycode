@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class ViewHolder {
 
@@ -92,8 +93,10 @@ public class ViewHolder {
 
     public void loadImage(Context context, String url, int res_id) {
         ImageView imageView = get(res_id);
-        String url2 = url.replace("large_avatar", "avatar");
-        Glide.with(context).load(url2).into(imageView);
+        String url2 = url;
+        if (url.contains("diycode"))
+            url2 = url.replace("large_avatar", "avatar");
+        Glide.with(context).load(url2).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
     }
 
     /**
