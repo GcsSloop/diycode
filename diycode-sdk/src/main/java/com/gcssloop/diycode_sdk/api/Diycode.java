@@ -204,6 +204,16 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
         sLoginImpl.logout();
     }
 
+    /**
+     * 是否登录
+     *
+     * @return 是否登录
+     */
+    @Override
+    public boolean isLogin() {
+        return sLoginImpl.isLogin();
+    }
+
     //--- token ------------------------------------------------------------------------------------
 
     /**
@@ -880,7 +890,6 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
      *
      * @param id   话题列表
      * @param body 回帖内容, Markdown 格式
-     * @return
      */
     @Override
     public String createProjectReply(int id, String body) {

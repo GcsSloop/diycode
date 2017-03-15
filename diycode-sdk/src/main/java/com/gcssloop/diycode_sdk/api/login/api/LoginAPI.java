@@ -26,7 +26,6 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
-import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
 
 public interface LoginAPI {
 
@@ -47,6 +46,11 @@ public interface LoginAPI {
      */
     void logout();
 
+    /**
+     * 是否登录
+     * @return 是否登录
+     */
+    boolean isLogin();
 
     //--- token ------------------------------------------------------------------------------------
 

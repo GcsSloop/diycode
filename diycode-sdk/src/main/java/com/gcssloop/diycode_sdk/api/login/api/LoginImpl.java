@@ -72,6 +72,16 @@ public class LoginImpl extends BaseImpl<LoginService> implements LoginAPI {
     }
 
     /**
+     * 是否登录
+     *
+     * @return 是否登录
+     */
+    @Override
+    public boolean isLogin() {
+        return !(mCacheUtil.getToken() == null);
+    }
+
+    /**
      * 刷新 token
      *
      * @see RefreshTokenEvent
