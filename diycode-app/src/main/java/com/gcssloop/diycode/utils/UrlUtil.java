@@ -22,6 +22,9 @@
 
 package com.gcssloop.diycode.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UrlUtil {
     public static boolean isUrlPrefix(String url) {
         return url.startsWith("http://") || url.startsWith("https://");
@@ -62,5 +65,22 @@ public class UrlUtil {
             }
         }
         return url;
+    }
+
+    /**
+     * 根据 url 获取 host name
+     * http://www.gcssloop.com/ => www.gcssloop.com
+     */
+    public static String getHost(String url) {
+        if (url == null || url.trim().equals("")) {
+            return "";
+        }
+        String host = "";
+        Pattern p = Pattern.compile("(?<=//|)((\\w)+\\.)+\\w+");
+        Matcher matcher = p.matcher(url);
+        if (matcher.find()) {
+            host = matcher.group();
+        }
+        return host;
     }
 }

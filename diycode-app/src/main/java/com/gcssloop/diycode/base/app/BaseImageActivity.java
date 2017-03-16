@@ -28,6 +28,9 @@ import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.util.ArrayList;
 
+/**
+ * 对数据进行预处理
+ */
 public abstract class BaseImageActivity extends BaseActivity {
     public static final String ALL_IMAGE_URLS = "all_images";
     public static final String CURRENT_IMAGE_URL = "current_image";

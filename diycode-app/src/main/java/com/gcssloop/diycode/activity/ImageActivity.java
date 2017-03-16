@@ -56,6 +56,11 @@ public class ImageActivity extends BaseImageActivity {
      */
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        if (mCurrentMode == MODE_ERROR) {
+            //TODO 显示错误视图
+            return;
+        }
+        // 显示正常视图
         Logger.e("initView-image");
         Logger.e(images.toString());
         ViewPager viewPager = holder.get(R.id.view_pager);

@@ -40,8 +40,8 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
+import com.gcssloop.diycode.utils.UrlUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
@@ -145,7 +145,7 @@ public class NewsListFragment extends BaseFragment {
                 holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
                 holder.setText(R.id.title, bean.getTitle());
                 holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
-                holder.setText(R.id.host_name, HtmlUtil.getHost(bean.getAddress()));
+                holder.setText(R.id.host_name, UrlUtil.getHost(bean.getAddress()));
 
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
