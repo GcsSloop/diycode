@@ -37,7 +37,7 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.glide.GlideImageGetter;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
-import com.gcssloop.diycode.base.webview.GcsWebViewClient;
+import com.gcssloop.diycode.base.webview.GcsMarkdownViewClient;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.NetUtil;
@@ -65,7 +65,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     private DataCache mDataCache;
     private GcsAdapter<TopicReply> mAdapter;
     MarkdownView mMarkdownView;
-    GcsWebViewClient mWebViewClient;
+    GcsMarkdownViewClient mWebViewClient;
 
 
     @Override
@@ -99,7 +99,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             layout.addView(mMarkdownView);
 
-            mWebViewClient = new GcsWebViewClient(this);
+            mWebViewClient = new GcsMarkdownViewClient(this);
             mWebViewClient.setOpenUrlInBrowser(true);
             mWebViewClient.setImageActivity(ImageActivity.class);
             mMarkdownView.setWebViewClient(mWebViewClient);

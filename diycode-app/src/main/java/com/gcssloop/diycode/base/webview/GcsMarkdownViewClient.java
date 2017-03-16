@@ -40,7 +40,6 @@ import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.gcssloop.diycode.base.app.BaseImageActivity;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -52,20 +51,16 @@ import static com.gcssloop.diycode.utils.UrlUtil.isImageSuffix;
 /**
  * 自定义 web client， 做一些不可描述的事情
  */
-public class GcsWebViewClient extends WebViewClient {
+public class GcsMarkdownViewClient extends WebViewClient {
     public static final String URL = "url";
     private Class<? extends Activity> mWebActivity = null;
     private Class<? extends BaseImageActivity> mImageActivity = null;
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
-
     private ArrayList<String> mImages = new ArrayList<>();
 
-    // TODO 记录一篇文章中所有的图片
-    // TODO 打开图片
-
-    public GcsWebViewClient(@NonNull Context context) {
+    public GcsMarkdownViewClient(@NonNull Context context) {
         mContext = context;
         mCache = new DiskImageCache(context);
     }
@@ -174,7 +169,6 @@ public class GcsWebViewClient extends WebViewClient {
         }
         return super.shouldInterceptRequest(view, url);
     }
-
 
     //--- 设置 -----------------------------------------------------------------------------------
 
