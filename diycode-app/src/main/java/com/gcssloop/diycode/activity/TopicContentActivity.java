@@ -28,6 +28,7 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -102,6 +103,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             mWebViewClient = new GcsMarkdownViewClient(this);
             mWebViewClient.setOpenUrlInBrowser(true);
             mWebViewClient.setImageActivity(ImageActivity.class);
+            mWebViewClient.setWebActivity(WebActivity.class);
             mMarkdownView.setWebViewClient(mWebViewClient);
 
 
@@ -182,18 +184,18 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    // 防止
-    public void clearWebViewResource() {
-        if (mMarkdownView != null) {
-            mMarkdownView.removeAllViews();
+    // 防止内存泄漏
+    public <T extends WebView> void clearWebViewResource(T webView) {
+        if (webView != null) {
+            webView.removeAllViews();
             // in android 5.1(sdk:21) we should invoke this to avoid memory leak
             // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
             // android-5.1-webview-memory-leak.html)
-            ((ViewGroup) mMarkdownView.getParent()).removeView(mMarkdownView);
-            mMarkdownView.setTag(null);
-            mMarkdownView.clearHistory();
-            mMarkdownView.destroy();
-            mMarkdownView = null;
+            ((ViewGroup) webView.getParent()).removeView(webView);
+            webView.setTag(null);
+            webView.clearHistory();
+            webView.destroy();
+            webView = null;
             mWebViewClient = null;
         }
     }
@@ -222,7 +224,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        clearWebViewResource();
+        clearWebViewResource(mMarkdownView);
     }
 
     @Override

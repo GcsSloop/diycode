@@ -62,6 +62,8 @@
             android:name=".activity.ImageActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.WebActivity">
+        </activity>
     </application>
 
 </manifest>
