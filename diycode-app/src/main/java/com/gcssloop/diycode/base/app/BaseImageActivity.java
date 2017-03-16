@@ -66,12 +66,10 @@ public abstract class BaseImageActivity extends BaseActivity {
         if (temp == null || temp.size() <= 0) {
             return;
         }
-        Logger.e("result:" + temp.toString());
 
         // 如果图片集合大于1，而且包括当前图片，记录集合，计算位置
         if ((temp.size() >= 1) && temp.contains(current_image_url)) {
             images = new ArrayList<>(temp);
-            Logger.e("result2:" + images.toString());
             current_image_position = images.indexOf(current_image_url);
             return;
         }

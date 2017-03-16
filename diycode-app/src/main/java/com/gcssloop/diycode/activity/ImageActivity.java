@@ -61,8 +61,6 @@ public class ImageActivity extends BaseImageActivity {
             return;
         }
         // 显示正常视图
-        Logger.e("initView-image");
-        Logger.e(images.toString());
         ViewPager viewPager = holder.get(R.id.view_pager);
         DiskImageCache mCache = new DiskImageCache(this);
 
