@@ -157,6 +157,7 @@ public class MarkdownView extends WebView {
      */
     private String injectImageLink(String mdText) {
         // TODO 修复代码区md格式图片被替换问题
+        // TODO 修复图片没有后缀的问题
         mdText = mdText.replaceAll(IMAGE_LINK_PATTERN, IMAGE_LINK_REPLACE);
         mdText = mdText.replaceAll(IMAGE_PATTERN, IMAGE_REPLACE);
         return mdText;

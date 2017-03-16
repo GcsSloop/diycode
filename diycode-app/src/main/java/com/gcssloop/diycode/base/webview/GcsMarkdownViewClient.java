@@ -118,9 +118,7 @@ public class GcsMarkdownViewClient extends WebViewClient {
                     mCache.saveBitmap(url, resource);
                 }
             });
-        }
-
-        if (isGifSuffix(url)) {
+        } else if (isGifSuffix(url)) {
             Glide.with(mContext).load(url).asGif().into(new SimpleTarget<GifDrawable>() {
                 @Override
                 public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
@@ -135,8 +133,8 @@ public class GcsMarkdownViewClient extends WebViewClient {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+        String url = request.getUrl().toString();
         try {
-            String url = request.getUrl().toString();
             // 如果是图片且本地有缓存
             if (isImageSuffix(url) || isGifSuffix(url)) {
                 mImages.add(url);
