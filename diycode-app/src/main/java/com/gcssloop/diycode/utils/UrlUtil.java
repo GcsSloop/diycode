@@ -25,6 +25,9 @@ package com.gcssloop.diycode.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * url 相关工具
+ */
 public class UrlUtil {
     public static boolean isUrlPrefix(String url) {
         return url.startsWith("http://") || url.startsWith("https://");
@@ -65,6 +68,21 @@ public class UrlUtil {
             }
         }
         return url;
+    }
+
+    /**
+     * 获取 mimeType
+     */
+    public static String getMimeType(String url) {
+        if (url.endsWith(".png") || url.endsWith(".PNG")) {
+            return "data:image/png;base64,";
+        } else if (url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".JPG") || url.endsWith(".JPEG")) {
+            return "data:image/jpg;base64,";
+        } else if (url.endsWith(".gif") || url.endsWith(".GIF")) {
+            return "data:image/gif;base64,";
+        } else {
+            return "";
+        }
     }
 
     /**

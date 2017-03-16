@@ -45,6 +45,10 @@ import com.gcssloop.diycode_sdk.log.Logger;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
+import static com.gcssloop.diycode.utils.UrlUtil.getMimeType;
+import static com.gcssloop.diycode.utils.UrlUtil.isGifSuffix;
+import static com.gcssloop.diycode.utils.UrlUtil.isImageSuffix;
+
 /**
  * 自定义 web client， 做一些不可描述的事情
  */
@@ -88,9 +92,6 @@ public class GcsWebViewClient extends WebViewClient {
     private boolean handleLink(String url) {
         // 优先处理图片，其次判断是否从本地打开，最后判断是否从浏览器打开
         if (mImageActivity != null && (isImageSuffix(url) || isGifSuffix(url))) {
-            // TODO 显示图片
-            Logger.i("Clicked:" + url);
-            Logger.e("source:"+mImages.toString());
             Intent intent = new Intent(mContext, mImageActivity);
             intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
             intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
@@ -172,65 +173,6 @@ public class GcsWebViewClient extends WebViewClient {
             e.printStackTrace();
         }
         return super.shouldInterceptRequest(view, url);
-    }
-
-
-    //--- 工具 -----------------------------------------------------------------------------------
-
-    private boolean isUrlPrefix(String url) {
-        return url.startsWith("http://") || url.startsWith("https://");
-    }
-
-    /**
-     * 判断后缀是不是图片类型的
-     *
-     * @param url url
-     */
-    private boolean isImageSuffix(String url) {
-        return url.endsWith(".png")
-                || url.endsWith(".PNG")
-                || url.endsWith(".jpg")
-                || url.endsWith(".JPG")
-                || url.endsWith(".jpeg")
-                || url.endsWith(".JPEG");
-    }
-
-    /**
-     * 判断后缀是不是 GIF
-     *
-     * @param url url
-     */
-    private boolean isGifSuffix(String url) {
-        return url.endsWith(".gif")
-                || url.endsWith(".GIF");
-    }
-
-    /**
-     * 获取后缀名
-     */
-    public static String getSuffix(String url) {
-        if ((url != null) && (url.length() > 0)) {
-            int dot = url.lastIndexOf('.');
-            if ((dot > -1) && (dot < (url.length() - 1))) {
-                return url.substring(dot + 1);
-            }
-        }
-        return url;
-    }
-
-    /**
-     * 获取 mimeType
-     */
-    private String getMimeType(String url) {
-        if (url.endsWith(".png") || url.endsWith(".PNG")) {
-            return "data:image/png;base64,";
-        } else if (url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".JPG") || url.endsWith(".JPEG")) {
-            return "data:image/jpg;base64,";
-        } else if (url.endsWith(".gif") || url.endsWith(".GIF")) {
-            return "data:image/gif;base64,";
-        } else {
-            return "";
-        }
     }
 
 

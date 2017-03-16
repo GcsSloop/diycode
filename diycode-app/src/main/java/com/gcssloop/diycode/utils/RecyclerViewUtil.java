@@ -28,6 +28,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 
+/**
+ * 当 RecyclerView 外围嵌套 ScrollView 时，将滚动事件交予上层处理
+ */
 public class RecyclerViewUtil {
 
     public static <T extends GcsAdapter> void init(Context context, RecyclerView recyclerView, T adapter) {
