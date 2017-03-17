@@ -22,8 +22,10 @@
 
 package com.gcssloop.diycode.base.app;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +33,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.gcssloop.diycode.hackpatch.IMMLeaks;
 import com.gcssloop.diycode_sdk.api.Diycode;
 
 import java.io.Serializable;
@@ -41,12 +44,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected ViewHolder mViewHolder;
     private Toast mToast;
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDiycode = Diycode.getSingleInstance();
         mViewHolder = new ViewHolder(getLayoutInflater(), null, getLayoutId());
         setContentView(mViewHolder.getRootView());
+        IMMLeaks.fixFocusedViewLeak(this.getApplication()); // 修复 InputMethodManager 引发的内存泄漏
         initDatas();
         initViews(mViewHolder, mViewHolder.getRootView());
     }
