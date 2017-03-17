@@ -28,7 +28,6 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -105,7 +104,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             mWebViewClient.setImageActivity(ImageActivity.class);
             mWebViewClient.setWebActivity(WebActivity.class);
             mMarkdownView.setWebViewClient(mWebViewClient);
-
 
 
             if (shouldReloadTopic(topic)) {
@@ -185,24 +183,28 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     // 防止内存泄漏
-    public <T extends WebView> void clearWebViewResource(T webView) {
-        if (webView != null) {
-            webView.removeAllViews();
-            // in android 5.1(sdk:21) we should invoke this to avoid memory leak
-            // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
-            // android-5.1-webview-memory-leak.html)
-            ((ViewGroup) webView.getParent()).removeView(webView);
-            webView.setTag(null);
-            webView.clearHistory();
-            webView.destroy();
-            webView = null;
-            mWebViewClient = null;
+    // in android 5.1(sdk:21) we should invoke this to avoid memory leak
+    // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
+    // android-5.1-webview-memory-leak.html)
+    public void clearWebViewResource() {
+        if (mMarkdownView != null) {
+            Logger.e("清空 webview");
+            mMarkdownView.clearHistory();
+            ((ViewGroup) mMarkdownView.getParent()).removeView(mMarkdownView);
+            mMarkdownView.setTag(null);
+            mMarkdownView.loadUrl("about:blank");
+            mMarkdownView.stopLoading();
+            mMarkdownView.setWebViewClient(null);
+            mMarkdownView.setWebChromeClient(null);
+            mMarkdownView.removeAllViews();
+            mMarkdownView.destroy();
+            mMarkdownView = null;
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             return true;
         }
@@ -224,7 +226,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        clearWebViewResource(mMarkdownView);
+        clearWebViewResource();
     }
 
     @Override

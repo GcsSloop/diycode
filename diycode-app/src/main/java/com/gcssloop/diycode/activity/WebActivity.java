@@ -28,6 +28,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -106,24 +107,28 @@ public class WebActivity extends BaseActivity {
     }
 
     // 防止内存泄漏
-    public <T extends WebView> void clearWebViewResource(T webView) {
-        if (webView != null) {
-            webView.removeAllViews();
-            // in android 5.1(sdk:21) we should invoke this to avoid memory leak
-            // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
-            // android-5.1-webview-memory-leak.html)
-            ((ViewGroup) webView.getParent()).removeView(webView);
-            webView.setTag(null);
-            webView.clearHistory();
-            webView.destroy();
-            webView = null;
+    // in android 5.1(sdk:21) we should invoke this to avoid memory leak
+    // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
+    // android-5.1-webview-memory-leak.html)
+    public void clearWebViewResource() {
+        if (mWebView != null) {
+            mWebView.clearHistory();
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.setTag(null);
+            mWebView.loadUrl("about:blank");
+            mWebView.stopLoading();
+            mWebView.setWebViewClient(null);
+            mWebView.setWebChromeClient(null);
+            mWebView.removeAllViews();
+            mWebView.destroy();
+            mWebView = null;
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        clearWebViewResource(mWebView);
+        clearWebViewResource();
     }
 
     @Override
@@ -171,4 +176,14 @@ public class WebActivity extends BaseActivity {
             toolbar.setTitle(title);
         }
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 }
