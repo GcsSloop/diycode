@@ -41,7 +41,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
@@ -117,17 +116,6 @@ public class GcsMarkdownViewClient extends WebViewClient {
      */
     private boolean handleLink(String url) {
         Logger.e("handleLink" + url);
-        /*
-        if (mImageActivity != null && mImages.contains(url)) {
-            Logger.e("handleLink 图片");
-            /*
-            Intent intent = new Intent(mContext, mImageActivity);
-            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
-            intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
-            mContext.startActivity(intent);
-
-            return true;
-        }*/
         if (null != mWebActivity) {
             Intent intent = new Intent(mContext, mWebActivity);
             intent.putExtra(URL, url);
@@ -190,12 +178,20 @@ public class GcsMarkdownViewClient extends WebViewClient {
     private WebResourceResponse getWebResourceResponse(String url) {
         try {
             // 如果是图片且本地有缓存
+            if (mCache.hasCache(url)) {
+                FileInputStream inputStream = mCache.getStream(url);
+                if (null != inputStream) {
+                    return new WebResourceResponse(getMimeType(url), "base64", inputStream);
+                }
+            }
+            /*
             if (isImageSuffix(url) || isGifSuffix(url)) {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     return new WebResourceResponse(getMimeType(url), "base64", inputStream);
                 }
             }
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }

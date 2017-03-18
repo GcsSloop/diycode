@@ -22,6 +22,8 @@
 
 package com.gcssloop.diycode.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -31,6 +33,9 @@ import android.view.ViewGroup;
 import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
@@ -62,14 +67,14 @@ public class ImageActivity extends BaseImageActivity {
         }
         // 显示正常视图
         ViewPager viewPager = holder.get(R.id.view_pager);
-        DiskImageCache mCache = new DiskImageCache(this);
+        final DiskImageCache mCache = new DiskImageCache(this);
 
         LayoutInflater inflater = getLayoutInflater();
         for (int i = 0; i < images.size(); i++) {
             View item = inflater.inflate(R.layout.item_image, null);
             PhotoView photoView = (PhotoView) item.findViewById(R.id.photo_view);
             photoView.enable();
-            String url = images.get(i);
+            final String url = images.get(i);
             if (null == url || url.isEmpty()) {
             } else {
 
@@ -77,6 +82,32 @@ public class ImageActivity extends BaseImageActivity {
                 if (image_cache_path == null || image_cache_path.isEmpty()) {
                     loadImage(url, photoView);
                     Logger.e("从网络加载:" + url);
+                    Glide.with(this).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Logger.e("bitmap - 缓存 " + url);
+                            mCache.saveBitmap(url, resource);
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            Logger.e("bitmap - 缓存失败 " + url);
+                        }
+                    });
+                    Glide.with(this).load(url).asGif().into(new SimpleTarget<GifDrawable>() {
+                        @Override
+                        public void onResourceReady(GifDrawable resource, GlideAnimation<? super GifDrawable> glideAnimation) {
+                            Logger.e("gif - 缓存 " + url);
+                            mCache.saveBytes(url, resource.getData());
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            Logger.e("gif - 缓存失败 " + url);
+                        }
+                    });
                 } else {
                     loadImage(image_cache_path, photoView);
                     Logger.e("从本地加载:" + image_cache_path);
