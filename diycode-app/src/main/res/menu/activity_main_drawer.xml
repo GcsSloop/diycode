@@ -29,15 +29,15 @@
             android:icon="@drawable/nav_menu_post"
             android:title="我的帖子"/>
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_collect"
             android:icon="@drawable/nav_menu_collect"
             android:title="我的收藏"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_comment"
             android:icon="@drawable/nav_menu_comment"
             android:title="我的评论"/>
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_share"
             android:icon="@drawable/nav_menu_share"
             android:title="我的分享"/>
     </item>
@@ -45,11 +45,11 @@
     <item android:title="软件设置">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_about"
                 android:icon="@drawable/nav_menu_about"
                 android:title="关于我们"/>
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_setting"
                 android:icon="@drawable/nav_menu_setting"
                 android:title="软件设置"/>
         </menu>
