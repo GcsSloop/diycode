@@ -20,7 +20,12 @@
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient android:angle="135" android:centerColor="#4CAF50" android:endColor="#2E7D32"
-        android:startColor="#81C784" android:type="linear" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <gradient
+        android:angle="135"
+        android:centerColor="#101D24"
+        android:endColor="#DB3937"
+        android:startColor="#101D24"
+        android:type="linear"/>
 </shape>
