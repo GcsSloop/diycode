@@ -56,11 +56,9 @@ import static com.gcssloop.diycode.utils.UrlUtil.isImageSuffix;
 public class GcsMarkdownViewClient extends WebViewClient {
     public static final String URL = "url";
     private Class<? extends Activity> mWebActivity = null;
-    private Class<? extends BaseImageActivity> mImageActivity = null;
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
-    private WebImageListener mWebImageListener;
 
 
     public GcsMarkdownViewClient(@NonNull Context context) {
@@ -70,7 +68,7 @@ public class GcsMarkdownViewClient extends WebViewClient {
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        //addImageClickListener(view);
+        addImageClickListener(view);
         super.onPageFinished(view, url);
     }
 
@@ -83,9 +81,9 @@ public class GcsMarkdownViewClient extends WebViewClient {
      */
     @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
     private <Web extends WebView> void addImageClickListener(Web webView) {
-        // 遍历所有的img，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        // 遍历所有签过名的图片，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
         webView.loadUrl("javascript:(function(){" +
-                "var objs = document.getElementsByTagName(\"img\"); " +
+                "var objs = document.getElementsByClassName(\"gcs-img-sign\"); " +
                 "for(var i=0;i<objs.length;i++)  " +
                 "{" +
                 "  window.listener.collectImage(objs[i].src); " +
@@ -119,15 +117,6 @@ public class GcsMarkdownViewClient extends WebViewClient {
      */
     private boolean handleLink(String url) {
         Logger.e("handleLink" + url);
-        // 如果已经设置了图片监听器，则默认使用图片监听器打开链接
-        if (mImageActivity != null && mWebImageListener != null && mWebImageListener.getImages().contains(url)) {
-            Logger.e("handleLink：" + url);
-            Intent intent = new Intent(mContext, mImageActivity);
-            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mWebImageListener.getImages());
-            intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
-            mContext.startActivity(intent);
-            return true;
-        }
         /*
         if (mImageActivity != null && mImages.contains(url)) {
             Logger.e("handleLink 图片");
@@ -214,19 +203,6 @@ public class GcsMarkdownViewClient extends WebViewClient {
     }
 
     //--- 设置 -----------------------------------------------------------------------------------
-
-    /**
-     * 设置图片监听，用于解决带链接图片的点击冲突
-     *
-     * @param webImageListener
-     */
-    public void setWebImageListener(WebImageListener webImageListener) {
-        mWebImageListener = webImageListener;
-    }
-
-    public void setImageActivity(Class<? extends BaseImageActivity> imageActivity) {
-        mImageActivity = imageActivity;
-    }
 
     /**
      * 设置链接在哪个 Activity 打开

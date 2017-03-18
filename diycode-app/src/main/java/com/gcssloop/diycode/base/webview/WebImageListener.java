@@ -22,19 +22,24 @@
 
 package com.gcssloop.diycode.base.webview;
 
+import android.content.Context;
+import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
+import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.util.ArrayList;
 
 public class WebImageListener {
+    private Context mContext;
+    private Class<? extends BaseImageActivity> mImageActivity;
     private ArrayList<String> mImages = new ArrayList<>();
 
-
-    public WebImageListener() {
+    public WebImageListener(Context context, Class<? extends BaseImageActivity> imageActivity) {
+        mContext = context;
+        mImageActivity = imageActivity;
     }
-
 
     public ArrayList<String> getImages() {
         return mImages;
@@ -60,12 +65,12 @@ public class WebImageListener {
     @JavascriptInterface
     public void onImageClicked(String url) {
         Logger.e("clicked:" + url);
-        /*
-        Intent intent = new Intent(mContext, mImageActivity);
-        intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
-        intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
-        mContext.startActivity(intent);
-        */
+        if (mImageActivity != null) {
+            Intent intent = new Intent(mContext, mImageActivity);
+            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
+            intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
+            mContext.startActivity(intent);
+        }
     }
 
 }

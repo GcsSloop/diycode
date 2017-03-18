@@ -49,9 +49,9 @@ public class MarkdownView extends WebView {
     private static final String IMAGE_LINK_PATTERN = "\\[(.*)!\\[(.*)\\]\\((.*)\\)(.*)\\]\\((.*)\\)";
     private static final String IMAGE_LINK_REPLACE = "<a href=\"$5\" >$1<img src=\"$3\" />$4</a>";
     // 纯图片 => 添加点击跳转，方便后期拦截
-    // ![text](image_url) => <a href="image_url" ><img src="image_url" /></a>
+    // ![text](image_url) => <img class="gcs-img-sign" src="image_url" />
     private static final String IMAGE_PATTERN = "!\\[(.*)\\]\\((.*)\\)";
-    private static final String IMAGE_REPLACE = "<a href=\"$2\" ><img src=\"$2\" /></a>";
+    private static final String IMAGE_REPLACE = "<img class=\"gcs-img-sign\" src=\"$2\" />";
 
     private String mPreviewText;
 
@@ -156,7 +156,6 @@ public class MarkdownView extends WebView {
      */
     private String injectImageLink(String mdText) {
         // TODO 修复代码区md格式图片被替换问题
-        // TODO 修复图片没有后缀的问题
         mdText = mdText.replaceAll(IMAGE_LINK_PATTERN, IMAGE_LINK_REPLACE);
         mdText = mdText.replaceAll(IMAGE_PATTERN, IMAGE_REPLACE);
         return mdText;
