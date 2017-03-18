@@ -103,11 +103,12 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             layout.addView(mMarkdownView);
 
             WebImageListener listener = new WebImageListener(this, ImageActivity.class);
-            mWebViewClient = new GcsMarkdownViewClient(this);
-            mWebViewClient.setOpenUrlInBrowser(true);
-            mWebViewClient.setWebActivity(WebActivity.class);
-            mMarkdownView.setWebViewClient(mWebViewClient);
             mMarkdownView.addJavascriptInterface(listener, "listener");
+            mWebViewClient = new GcsMarkdownViewClient(this);
+            mWebViewClient.setWebActivity(WebActivity.class);
+            mWebViewClient.setOpenUrlInBrowser(true);
+            mMarkdownView.setWebViewClient(mWebViewClient);
+
 
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
