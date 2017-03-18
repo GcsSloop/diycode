@@ -22,6 +22,7 @@
 
 package com.gcssloop.diycode.activity;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -38,6 +39,7 @@ import com.gcssloop.diycode.base.glide.GlideImageGetter;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.webview.GcsMarkdownViewClient;
+import com.gcssloop.diycode.base.webview.WebImageListener;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.NetUtil;
@@ -81,6 +83,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     // 初始化 topic 内容面板的数据
+    @SuppressLint({"AddJavascriptInterface", "JavascriptInterface"})
     private void loadData(ViewHolder holder) {
         topic = (Topic) getIntent().getSerializableExtra(TOPIC);
         if (null != topic) {
@@ -99,12 +102,14 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             layout.addView(mMarkdownView);
 
+            WebImageListener listener = new WebImageListener();
             mWebViewClient = new GcsMarkdownViewClient(this);
             mWebViewClient.setOpenUrlInBrowser(true);
-            mWebViewClient.setImageActivity(ImageActivity.class);
             mWebViewClient.setWebActivity(WebActivity.class);
+            mWebViewClient.setImageActivity(ImageActivity.class);
+            mWebViewClient.setWebImageListener(listener);
             mMarkdownView.setWebViewClient(mWebViewClient);
-
+            mMarkdownView.addJavascriptInterface(listener, "listener");
 
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
@@ -172,7 +177,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTopicReplysList(GetTopicRepliesListEvent event) {
+    public void onTopicRepliesList(GetTopicRepliesListEvent event) {
         if (event.isOk()) {
             Logger.i("topic reply 回复 - 来自网络");
             mAdapter.addDatas(event.getBean());

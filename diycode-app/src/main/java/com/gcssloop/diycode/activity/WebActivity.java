@@ -24,7 +24,6 @@ package com.gcssloop.diycode.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -33,15 +32,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 public class WebActivity extends BaseActivity {
     public static final String URL = "url";
@@ -88,17 +88,6 @@ public class WebActivity extends BaseActivity {
         mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(mWebView);
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-            }
-        });
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebChromeClient(webChromeClient);
@@ -185,5 +174,18 @@ public class WebActivity extends BaseActivity {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    class WebImageListenerImpl {
+
+        @JavascriptInterface
+        public void onImageClicked(String url) {
+
+        }
+
+        @JavascriptInterface
+        public void clicked(String url) {
+            Logger.e("clicked：" + url);
+        }
     }
 }

@@ -22,6 +22,7 @@
 
 package com.gcssloop.diycode.base.webview;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -40,9 +42,9 @@ import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.gcssloop.diycode.base.app.BaseImageActivity;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 
 import static com.gcssloop.diycode.utils.UrlUtil.getMimeType;
 import static com.gcssloop.diycode.utils.UrlUtil.isGifSuffix;
@@ -58,12 +60,43 @@ public class GcsMarkdownViewClient extends WebViewClient {
     private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
-    private ArrayList<String> mImages = new ArrayList<>();
+    private WebImageListener mWebImageListener;
+
 
     public GcsMarkdownViewClient(@NonNull Context context) {
         mContext = context;
         mCache = new DiskImageCache(context);
     }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        //addImageClickListener(view);
+        super.onPageFinished(view, url);
+    }
+
+    /**
+     * 注入js函数监听
+     * <p>
+     * 原理是：循环扫描所有 img 节点，将链接提取出来，并且注入监听函数
+     *
+     * @param webView
+     */
+    @SuppressLint({"JavascriptInterface", "AddJavascriptInterface"})
+    private <Web extends WebView> void addImageClickListener(Web webView) {
+        // 遍历所有的img，并添加onclick函数，函数的功能是在图片点击的时候调用本地java接口并传递url过去
+        webView.loadUrl("javascript:(function(){" +
+                "var objs = document.getElementsByTagName(\"img\"); " +
+                "for(var i=0;i<objs.length;i++)  " +
+                "{" +
+                "  window.listener.collectImage(objs[i].src); " +
+                "  objs[i].onclick=function()  " +
+                "  {  " +
+                "    window.listener.onImageClicked(this.src);  " +
+                "  }  " +
+                "}" +
+                "})()");
+    }
+
 
     //--- html 链接打开方式 -----------------------------------------------------------------------
 
@@ -85,14 +118,27 @@ public class GcsMarkdownViewClient extends WebViewClient {
      * @param url 超链接
      */
     private boolean handleLink(String url) {
-        // 优先处理图片，其次判断是否从本地打开，最后判断是否从浏览器打开
-        if (mImageActivity != null && (isImageSuffix(url) || isGifSuffix(url))) {
+        Logger.e("handleLink" + url);
+        // 如果已经设置了图片监听器，则默认使用图片监听器打开链接
+        if (mImageActivity != null && mWebImageListener != null && mWebImageListener.getImages().contains(url)) {
+            Logger.e("handleLink：" + url);
             Intent intent = new Intent(mContext, mImageActivity);
-            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
+            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mWebImageListener.getImages());
             intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
             mContext.startActivity(intent);
             return true;
         }
+        /*
+        if (mImageActivity != null && mImages.contains(url)) {
+            Logger.e("handleLink 图片");
+            /*
+            Intent intent = new Intent(mContext, mImageActivity);
+            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
+            intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
+            mContext.startActivity(intent);
+
+            return true;
+        }*/
         if (null != mWebActivity) {
             Intent intent = new Intent(mContext, mWebActivity);
             intent.putExtra(URL, url);
@@ -111,6 +157,8 @@ public class GcsMarkdownViewClient extends WebViewClient {
 
     @Override
     public void onLoadResource(WebView view, final String url) {
+        Logger.e("加载资源：" + url);
+        // 是图片就缓存
         if (isImageSuffix(url)) {
             Glide.with(mContext).load(url).asBitmap().into(new SimpleTarget<Bitmap>() {
                 @Override
@@ -134,41 +182,51 @@ public class GcsMarkdownViewClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         String url = request.getUrl().toString();
-        try {
-            // 如果是图片且本地有缓存
-            if (isImageSuffix(url) || isGifSuffix(url)) {
-                mImages.add(url);
-                FileInputStream inputStream = mCache.getStream(url);
-                if (null != inputStream) {
-                    WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
-                    return response;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        WebResourceResponse response = getWebResourceResponse(url);
+        if (response != null) return response;
         return super.shouldInterceptRequest(view, request);
     }
 
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+        WebResourceResponse response = getWebResourceResponse(url);
+        if (response != null) return response;
+        return super.shouldInterceptRequest(view, url);
+    }
+
+    /**
+     * 获取本地资源
+     */
+    @Nullable
+    private WebResourceResponse getWebResourceResponse(String url) {
         try {
             // 如果是图片且本地有缓存
             if (isImageSuffix(url) || isGifSuffix(url)) {
-                mImages.add(url);
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
-                    WebResourceResponse response = new WebResourceResponse(getMimeType(url), "base64", inputStream);
-                    return response;
+                    return new WebResourceResponse(getMimeType(url), "base64", inputStream);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return super.shouldInterceptRequest(view, url);
+        return null;
     }
 
     //--- 设置 -----------------------------------------------------------------------------------
+
+    /**
+     * 设置图片监听，用于解决带链接图片的点击冲突
+     *
+     * @param webImageListener
+     */
+    public void setWebImageListener(WebImageListener webImageListener) {
+        mWebImageListener = webImageListener;
+    }
+
+    public void setImageActivity(Class<? extends BaseImageActivity> imageActivity) {
+        mImageActivity = imageActivity;
+    }
 
     /**
      * 设置链接在哪个 Activity 打开
@@ -177,13 +235,6 @@ public class GcsMarkdownViewClient extends WebViewClient {
      */
     public void setWebActivity(Class<? extends Activity> webActivity) {
         this.mWebActivity = webActivity;
-    }
-
-    /**
-     * 设置打开图片的 Activity
-     */
-    public void setImageActivity(Class<? extends BaseImageActivity> imageActivity) {
-        mImageActivity = imageActivity;
     }
 
     /**

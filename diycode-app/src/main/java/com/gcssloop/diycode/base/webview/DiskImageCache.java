@@ -161,6 +161,17 @@ public class DiskImageCache {
     }
 
     /**
+     * 是否有缓存
+     *
+     * @param key url
+     * @return 是否有缓存
+     */
+    public boolean hasCache(String key) {
+        File file = new File(getCachePath(key));
+        return file.exists();
+    }
+
+    /**
      * 计算存储目录下的文件大小，
      * 当文件总大小大于规定的CACHE_SIZE或者sdcard剩余空间小于FREE_SD_SPACE_NEEDED_TO_CACHE的规定
      * 那么删除40%最近没有被使用的文件

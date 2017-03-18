@@ -34,8 +34,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.gcssloop.diycode_sdk.log.Logger;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,7 +54,6 @@ public class MarkdownView extends WebView {
     private static final String IMAGE_REPLACE = "<a href=\"$2\" ><img src=\"$2\" /></a>";
 
     private String mPreviewText;
-    private boolean mIsOpenUrlInBrowser;
 
     public MarkdownView(Context context) {
         this(context, null);
@@ -66,19 +63,21 @@ public class MarkdownView extends WebView {
         this(context, attrs, 0);
     }
 
+    @SuppressLint({"AddJavascriptInterface", "SetJavaScriptEnabled"})
     public MarkdownView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         if (isInEditMode()) {
             return;
         }
+        WebSettings settings = getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
         initialize();
-        getSettings().setAppCacheEnabled(false); // 关闭缓存
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private void initialize() {
         loadUrl("file:///android_asset/html/preview.html");
-        getSettings().setJavaScriptEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             getSettings().setAllowUniversalAccessFromFileURLs(true);
         }
