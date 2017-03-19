@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity
 
     //--- menu -------------------------------------------------------------------------------------
 
-    // 初始化菜单(包括侧边栏菜单，和顶部菜单选项)
+    // 初始化菜单(包括侧边栏菜单和顶部菜单选项)
     private void initMenu(ViewHolder holder) {
         Toolbar toolbar = holder.get(R.id.toolbar);
         DrawerLayout drawer = holder.get(R.id.drawer_layout);
@@ -113,6 +113,13 @@ public class MainActivity extends BaseActivity
                         .setAction("Action", null).show();
             }
         }, R.id.fab);
+        View headerView = navigationView.getHeaderView(0);
+        headerView.findViewById(R.id.nav_header_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(LoginActivity.class);
+            }
+        });
     }
 
     @Override
@@ -153,7 +160,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_post) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_collect) {
 
         } else if (id == R.id.nav_comment) {

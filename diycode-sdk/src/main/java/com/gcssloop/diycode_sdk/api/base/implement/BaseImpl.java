@@ -152,15 +152,16 @@ public class BaseImpl<Service> {
         return !(null == token || token.isEmpty() || originalRequest.url().toString().contains(Constant.OAUTH_URL));
     }
 
+    interface TokenService {
+        /**
+         * 刷新 token
+         */
+        @POST(Constant.OAUTH_URL)
+        @FormUrlEncoded
+        Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
+                                 @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
+    }
 }
 
 
-interface TokenService {
-    /**
-     * 刷新 token
-     */
-    @POST(Constant.OAUTH_URL)
-    @FormUrlEncoded
-    Call<Token> refreshToken(@Field("client_id") String client_id, @Field("client_secret") String client_secret,
-                             @Field("grant_type") String grant_type, @Field("refresh_token") String refresh_token);
-}
+
