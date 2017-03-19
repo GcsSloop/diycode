@@ -22,11 +22,15 @@
 
 package com.gcssloop.diycode.activity;
 
+import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 public class LoginActivity extends BaseActivity {
 
@@ -38,5 +42,53 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViews(ViewHolder holder, View root) {
 
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        regidterKeyboardListener();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unRegidterKeyboardListener();
+    }
+
+    private boolean mKeyboardUp;
+
+    private void regidterKeyboardListener() {
+        final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Logger.e("onGlobalLayout");
+                if (isKeyboardShown(rootView)) {
+                    Logger.e("软键盘弹起");
+                    getViewHolder().get(R.id.span).setVisibility(View.GONE);
+                } else {
+                    Logger.e("软键盘未弹起");
+                    getViewHolder().get(R.id.span).setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+    }
+
+
+    private void unRegidterKeyboardListener() {
+        final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(null);
+    }
+
+    private boolean isKeyboardShown(View rootView) {
+        final int softKeyboardHeight = 100;
+        Rect r = new Rect();
+        rootView.getWindowVisibleDisplayFrame(r);
+        DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
+        int heightDiff = rootView.getBottom() - r.bottom;
+        return heightDiff > softKeyboardHeight * dm.density;
     }
 }

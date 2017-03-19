@@ -20,78 +20,97 @@
   ~ Website: http://www.gcssloop.com
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
-
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.gcssloop.diycode.activity.LoginActivity">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="14dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_close"/>
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_logo"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="120dp"
-        app:cardElevation="10dp">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 
-        <LinearLayout
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_logo"/>
+
+        <View
+            android:id="@+id/span"
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_height="80dp"/>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:layout_marginTop="10dp"
             >
 
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                >
+                android:layout_height="36dp"
+                android:layout_marginLeft="6dp"
+                android:background="@null"
+                android:hint="用户名"
+                android:inputType="text"
+                android:textSize="16sp"/>
 
-                <EditText
-                    android:id="@+id/text_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="6dp"
-                    android:background="@null"
-                    android:hint="type"
-                    android:inputType="number"
-                    android:textSize="16sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/text_type"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/horizontal_line"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <ImageButton
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:src="@color/diy_red"/>
-        </LinearLayout>
+                android:layout_height="1dp"
+                android:layout_below="@id/username"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/horizontal_line"/>
+        </android.support.design.widget.TextInputLayout>
 
-    </android.support.v7.widget.CardView>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginLeft="6dp"
+                android:background="@null"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/password"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/horizontal_line"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="26sp"
+            android:background="@drawable/bg_longin_btn"
+            android:text="登  录"
+            android:textColor="@color/diy_white"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</ScrollView>
