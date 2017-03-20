@@ -23,6 +23,7 @@
 package com.gcssloop.diycode.activity;
 
 import android.graphics.Rect;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -41,7 +42,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-
+        Toolbar toolbar = holder.get(R.id.toolbar);
+        if (toolbar != null)
+            setSupportActionBar(toolbar);
 
     }
 
@@ -49,18 +52,18 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        regidterKeyboardListener();
+        registerKeyboardListener();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        unRegidterKeyboardListener();
+        unRegisterKeyboardListener();
     }
 
     private boolean mKeyboardUp;
 
-    private void regidterKeyboardListener() {
+    private void registerKeyboardListener() {
         final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -78,7 +81,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    private void unRegidterKeyboardListener() {
+    private void unRegisterKeyboardListener() {
         final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(null);
     }
