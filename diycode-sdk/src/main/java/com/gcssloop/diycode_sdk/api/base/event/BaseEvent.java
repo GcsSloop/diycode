@@ -25,8 +25,6 @@ package com.gcssloop.diycode_sdk.api.base.event;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.gcssloop.diycode_sdk.api.base.bean.Error;
-
 /**
  * 所有 Event 的基类
  * <p>
@@ -46,7 +44,6 @@ public class BaseEvent<T> {
     protected boolean ok = false;       // 是否获取实体数据(T)成功
     protected Integer code = -1;        // 状态码
     protected T t;                      // 实体类
-    private Error error;                // 错误信息
 
     /**
      * @param uuid 唯一识别码
@@ -68,7 +65,6 @@ public class BaseEvent<T> {
         this.t = t;
     }
 
-
     /**
      * @param code 网络返回码
      * @param t    实体数据
@@ -78,27 +74,6 @@ public class BaseEvent<T> {
         this.code = code;
         this.t = t;
         return this;
-    }
-
-    /**
-     * 设置错误信息
-     *
-     * @param code
-     * @param error
-     */
-    public BaseEvent setError(@NonNull Integer code, @Nullable Error error) {
-        this.ok = false;
-        this.code = code;
-        this.error = error;
-        return this;
-    }
-
-    /**
-     * 获取错误信息
-     * @return 错误信息
-     */
-    public Error getError() {
-        return error;
     }
 
     /**
