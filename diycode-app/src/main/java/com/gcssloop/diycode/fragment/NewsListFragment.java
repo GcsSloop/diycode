@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -114,7 +115,11 @@ public class NewsListFragment extends BaseFragment {
             mFooter.setText(FOOTER_NORMAL);
             mRefreshLayout.setEnabled(true);
             mRefreshLayout.setRefreshing(true);
-            refresh();
+            new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
+                public void run() {
+                    refresh();
+                }
+            }, 1000);
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
