@@ -113,6 +113,8 @@ public class NewsListFragment extends BaseFragment {
             mAdapter.addDatas(news);
             mFooter.setText(FOOTER_NORMAL);
             mRefreshLayout.setEnabled(true);
+            mRefreshLayout.setRefreshing(true);
+            refresh();
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);

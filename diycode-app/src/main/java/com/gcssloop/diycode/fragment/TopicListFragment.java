@@ -113,6 +113,8 @@ public class TopicListFragment extends BaseFragment {
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
             mRefreshLayout.setEnabled(true);
+            mRefreshLayout.setRefreshing(true); // 自动刷新一次
+            refresh();
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
