@@ -64,9 +64,11 @@
         </activity>
         <activity android:name=".activity.WebActivity">
         </activity>
-        <activity android:name=".activity.LoginActivity"
-                  android:windowSoftInputMode="adjustPan"
-            >
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+        <activity android:name=".activity.SettingActivity">
         </activity>
     </application>
 
