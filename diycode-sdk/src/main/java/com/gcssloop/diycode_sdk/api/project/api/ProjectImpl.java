@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.bean.State;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
+import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
 import com.gcssloop.diycode_sdk.api.project.event.CreateProjectReplyEvent;
 import com.gcssloop.diycode_sdk.api.project.event.DeleteProjectReplyEvent;
 import com.gcssloop.diycode_sdk.api.project.event.GetProjectRepliesListEvent;

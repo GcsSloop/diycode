@@ -28,7 +28,7 @@ import android.support.annotation.NonNull;
 import com.gcssloop.diycode_sdk.api.base.bean.OAuth;
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.callback.TokenCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
+import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.DeleteDevicesEvent;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;

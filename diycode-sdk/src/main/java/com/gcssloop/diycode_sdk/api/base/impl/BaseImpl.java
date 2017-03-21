@@ -20,7 +20,7 @@
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode_sdk.api.base.implement;
+package com.gcssloop.diycode_sdk.api.base.impl;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

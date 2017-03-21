@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
+import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
 import com.gcssloop.diycode_sdk.api.topic.event.BanTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CollectionTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicEvent;

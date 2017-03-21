@@ -26,7 +26,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
-import com.gcssloop.diycode_sdk.api.base.implement.BaseImpl;
+import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
 import com.gcssloop.diycode_sdk.api.notifications.event.DeleteAllNotificationEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.DeleteNotificationEvent;
 import com.gcssloop.diycode_sdk.api.notifications.event.GetNotificationUnReadCountEvent;
