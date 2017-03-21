@@ -29,6 +29,7 @@ import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
+import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.utils.ACache;
 
 import java.io.File;
@@ -60,6 +61,10 @@ public class DataCache {
 
     public <T extends Serializable> T getData(String key) {
         return (T) cache.getAsObject(key);
+    }
+
+    public void removeDate(String key) {
+        cache.remove(key);
     }
 
     public void saveTopicContent(TopicContent content) {
@@ -115,5 +120,17 @@ public class DataCache {
 
     public List<New> getNewsList() {
         return getData("news_list_");
+    }
+
+    public void saveMe(UserDetail user) {
+        saveData("Gcs_Me_", user);
+    }
+
+    public UserDetail getMe() {
+        return getData("Gcs_Me_");
+    }
+
+    public void removeMe() {
+        removeDate("Gcs_Me_");
     }
 }

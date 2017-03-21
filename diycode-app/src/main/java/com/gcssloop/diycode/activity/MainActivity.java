@@ -35,16 +35,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
+import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
+import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    DataCache mCache;
 
     @Override
     public int getLayoutId() {
@@ -53,6 +65,8 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void initViews(ViewHolder holder, View root) {
+        EventBus.getDefault().register(this);
+        mCache = new DataCache(this);
         initMenu(holder);
         initViewPager(holder);
     }
@@ -61,8 +75,6 @@ public class MainActivity extends BaseActivity
 
     private void initViewPager(ViewHolder holder) {
         // TODO 此处使用的是测试账号，登录页面完成后移除
-        mDiycode.login("diytest", "slooptest");
-
         ViewPager mViewPager = holder.get(R.id.view_pager);
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setOffscreenPageLimit(2); // 防止滑动到第三个页面时，第一个页面被销毁
@@ -91,6 +103,16 @@ public class MainActivity extends BaseActivity
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    // 如果收到此状态说明用户已经登录成功了
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogin(GetMeEvent event) {
+        if (event.isOk()) {
+            //TODO 更新状态
+            UserDetail me = event.getBean();
+            mCache.saveMe(me);
+            loadMenuData(); // 加载菜单数据
+        }
+    }
 
     //--- menu -------------------------------------------------------------------------------------
 
@@ -113,13 +135,46 @@ public class MainActivity extends BaseActivity
                         .setAction("Action", null).show();
             }
         }, R.id.fab);
+
+        loadMenuData();
+    }
+
+    private void loadMenuData() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
-        headerView.findViewById(R.id.nav_header_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity(LoginActivity.class);
+        ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_header_image);
+        TextView username = (TextView) headerView.findViewById(R.id.nav_header_name);
+        TextView bio = (TextView) headerView.findViewById(R.id.nav_header_bio);
+
+        if (mDiycode.isLogin()) {
+            UserDetail me = mCache.getMe();
+            if (me == null) {
+                Logger.e("获取自己缓存失效");
+                mDiycode.getMe();   // 重新加载缓存
+                return;
             }
-        });
+
+            username.setText(me.getLogin());
+            bio.setText(me.getBio());
+            Glide.with(this).load(me.getAvatar_url()).into(avatar);
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO 打开自己详情页
+                }
+            });
+        } else {
+            mCache.removeMe();
+            username.setText("(未登录)");
+            bio.setText("");
+            avatar.setImageResource(R.mipmap.ic_launcher);
+            avatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openActivity(LoginActivity.class);
+                }
+            });
+        }
     }
 
     @Override
@@ -171,10 +226,19 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_setting) {
 
+        } else if (id == R.id.nav_logout) {
+            mDiycode.logout();  // 用户登出
+            loadMenuData();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

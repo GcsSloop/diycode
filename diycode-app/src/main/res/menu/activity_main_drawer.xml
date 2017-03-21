@@ -52,6 +52,10 @@
                 android:id="@+id/nav_setting"
                 android:icon="@drawable/nav_menu_setting"
                 android:title="软件设置"/>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/nav_menu_logout"
+                android:title="用户登出"/>
         </menu>
     </item>
 

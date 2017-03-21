@@ -36,6 +36,7 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -70,9 +71,21 @@ public class LoginActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(LoginEvent event) {
         if (event.isOk()) {
-            // TODO
+            toastShort("登录成功");
+            mDiycode.getMe();   // 获取个人信息，交给 MainActivity 处理
+            finish();
         } else {
-            toastShort("登录失败：" + event.getCodeDescribe());
+            String msg = "请重试";
+            switch (event.getCode()) {
+                case -1:
+                    msg = "请检查网络连接";
+                    break;
+                case 400:
+                case 401:
+                    msg = "请检查用户名和密码是否正确";
+                    break;
+            }
+            toastShort("登录失败：" + msg);
         }
     }
 
@@ -93,12 +106,14 @@ public class LoginActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         registerKeyboardListener();
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         unRegisterKeyboardListener();
+        EventBus.getDefault().unregister(this);
     }
 
     private void registerKeyboardListener() {
