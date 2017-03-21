@@ -38,10 +38,10 @@
 
     <ImageView
         android:id="@+id/nav_header_image"
-        android:scaleType="fitStart"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:scaleType="fitStart"
         android:src="@mipmap/ic_launcher"
         />
 
@@ -54,10 +54,10 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-        android:id="@+id/nav_header_bio"
+        android:id="@+id/nav_header_tagline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        tools:text="一个生活在2.5次元的魔法师。"/>
+        android:text="点击头像登录"/>
 
 </LinearLayout>

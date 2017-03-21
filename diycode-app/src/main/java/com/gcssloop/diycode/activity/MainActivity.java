@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity
         View headerView = navigationView.getHeaderView(0);
         ImageView avatar = (ImageView) headerView.findViewById(R.id.nav_header_image);
         TextView username = (TextView) headerView.findViewById(R.id.nav_header_name);
-        TextView bio = (TextView) headerView.findViewById(R.id.nav_header_bio);
+        TextView tagline = (TextView) headerView.findViewById(R.id.nav_header_tagline);
 
         if (mDiycode.isLogin()) {
             UserDetail me = mCache.getMe();
@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity
             }
 
             username.setText(me.getLogin());
-            bio.setText(me.getBio());
+            tagline.setText(me.getTagline());
             Glide.with(this).load(me.getAvatar_url()).into(avatar);
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity
         } else {
             mCache.removeMe();
             username.setText("(未登录)");
-            bio.setText("");
+            tagline.setText("点击头像登录");
             avatar.setImageResource(R.mipmap.ic_launcher);
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
