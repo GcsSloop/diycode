@@ -23,15 +23,21 @@
 package com.gcssloop.diycode.activity;
 
 import android.graphics.Rect;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginActivity extends BaseActivity {
 
@@ -42,10 +48,44 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        initActionBar(holder);
+        final EditText username = holder.get(R.id.username);
+        final EditText password = holder.get(R.id.password);
+
+        holder.get(R.id.login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = username.getText().toString();
+                String pswd = password.getText().toString();
+                if (name.isEmpty() || pswd.isEmpty()) {
+                    toastShort("Email/用户名或密码不能为空");
+                    return;
+                }
+                mDiycode.login(name, pswd);
+            }
+        });
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogin(LoginEvent event) {
+        if (event.isOk()) {
+            // TODO
+        } else {
+            toastShort("登录失败：" + event.getCodeDescribe());
+        }
+    }
+
+
+    private void initActionBar(ViewHolder holder) {
         Toolbar toolbar = holder.get(R.id.toolbar);
         if (toolbar != null)
             setSupportActionBar(toolbar);
-
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            setTitle("");
+        }
     }
 
 
@@ -61,8 +101,6 @@ public class LoginActivity extends BaseActivity {
         unRegisterKeyboardListener();
     }
 
-    private boolean mKeyboardUp;
-
     private void registerKeyboardListener() {
         final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -71,15 +109,16 @@ public class LoginActivity extends BaseActivity {
                 Logger.e("onGlobalLayout");
                 if (isKeyboardShown(rootView)) {
                     Logger.e("软键盘弹起");
-                    getViewHolder().get(R.id.span).setVisibility(View.GONE);
+                    getViewHolder().get(R.id.span1).setVisibility(View.GONE);
+                    getViewHolder().get(R.id.span2).setVisibility(View.GONE);
                 } else {
                     Logger.e("软键盘未弹起");
-                    getViewHolder().get(R.id.span).setVisibility(View.INVISIBLE);
+                    getViewHolder().get(R.id.span1).setVisibility(View.INVISIBLE);
+                    getViewHolder().get(R.id.span2).setVisibility(View.INVISIBLE);
                 }
             }
         });
     }
-
 
     private void unRegisterKeyboardListener() {
         final View rootView = getWindow().getDecorView().findViewById(android.R.id.content);

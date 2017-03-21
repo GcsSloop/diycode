@@ -20,14 +20,20 @@
   ~ Website: http://www.gcssloop.com
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.gcssloop.diycode.activity.LoginActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,24 +42,24 @@
         android:paddingLeft="14dp"
         android:paddingRight="14dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <View
+            android:id="@+id/span1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:visibility="invisible"/>
 
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_logo"/>
 
         <View
-            android:id="@+id/span"
-            android:visibility="invisible"
+            android:id="@+id/span2"
             android:layout_width="0dp"
-            android:layout_height="80dp"/>
+            android:layout_height="80dp"
+            android:visibility="invisible"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -67,7 +73,7 @@
                 android:layout_height="36dp"
                 android:layout_marginLeft="6dp"
                 android:background="@null"
-                android:hint="用户名"
+                android:hint="Email / 用户名"
                 android:inputType="text"
                 android:textSize="16sp"/>
 
@@ -103,14 +109,20 @@
                 android:background="@drawable/horizontal_line"/>
         </android.support.design.widget.TextInputLayout>
 
+        <View
+            android:id="@+id/span3"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:visibility="invisible"/>
+
         <Button
+            android:id="@+id/login"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="26sp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/bg_longin_btn"
             android:text="登  录"
             android:textColor="@color/diy_white"
             android:textSize="18sp"/>
-
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
