@@ -70,6 +70,8 @@
         </activity>
         <activity android:name=".activity.SettingActivity">
         </activity>
+        <activity android:name=".activity.MyTopicActivity">
+        </activity>
     </application>
 
 </manifest>
