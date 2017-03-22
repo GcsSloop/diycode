@@ -46,6 +46,7 @@ import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode_sdk.api.login.event.LogoutEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
@@ -114,6 +115,12 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    // 如果收到此状态说明用户登出了
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogout(LogoutEvent event) {
+        loadMenuData(); // 加载菜单数据
+    }
+
     //--- menu -------------------------------------------------------------------------------------
 
     // 初始化菜单(包括侧边栏菜单和顶部菜单选项)
@@ -139,6 +146,7 @@ public class MainActivity extends BaseActivity
         loadMenuData();
     }
 
+    // 加载侧边栏菜单数据(与用户相关的)
     private void loadMenuData() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -150,7 +158,7 @@ public class MainActivity extends BaseActivity
             UserDetail me = mCache.getMe();
             if (me == null) {
                 Logger.e("获取自己缓存失效");
-                mDiycode.getMe();   // 重新加载缓存
+                mDiycode.getMe();   // 重新加载
                 return;
             }
 
@@ -228,7 +236,6 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_logout) {
             mDiycode.logout();  // 用户登出
-            loadMenuData();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

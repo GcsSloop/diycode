@@ -32,6 +32,7 @@ import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
 import com.gcssloop.diycode_sdk.api.login.bean.Token;
 import com.gcssloop.diycode_sdk.api.login.event.DeleteDevicesEvent;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
+import com.gcssloop.diycode_sdk.api.login.event.LogoutEvent;
 import com.gcssloop.diycode_sdk.api.login.event.RefreshTokenEvent;
 import com.gcssloop.diycode_sdk.api.login.event.UpdateDevicesEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
@@ -67,8 +68,9 @@ public class LoginImpl extends BaseImpl<LoginService> implements LoginAPI {
      */
     @Override
     public void logout() {
-        // 清除token
-        mCacheUtil.clearToken();
+        String uuid = UUIDGenerator.getUUID();
+        mCacheUtil.clearToken();    // 清除token
+        EventBus.getDefault().post(new LogoutEvent(uuid, 0, "用户登出"));
     }
 
     /**
