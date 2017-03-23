@@ -52,6 +52,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyTopicActivity extends BaseActivity {
+    private static final String key = "MyTopicActivity";
     // 底部状态显示
     private static final String FOOTER_LOADING = "loading...";
     private static final String FOOTER_NORMAL = "-- end --";
@@ -207,7 +208,6 @@ public class MyTopicActivity extends BaseActivity {
         mRefreshLayout.setRefreshing(false);
         mAdapter.clearDatas();
         mAdapter.addDatas(topics);
-        mDataCache.saveTopicsList(mAdapter.getDatas());
         toastShort("数据刷新成功");
         if (topics.size() == 0) {
             mFooter.setText(FOOTER_NO_DATA);
@@ -253,7 +253,6 @@ public class MyTopicActivity extends BaseActivity {
             mFooter.setText(FOOTER_NORMAL);
         }
         mAdapter.addDatas(topics);
-        mDataCache.saveTopicsList(mAdapter.getDatas());
         mRefreshLayout.setEnabled(true);
     }
 
