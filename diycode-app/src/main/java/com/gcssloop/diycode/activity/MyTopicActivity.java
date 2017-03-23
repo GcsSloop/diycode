@@ -57,6 +57,7 @@ public class MyTopicActivity extends BaseActivity {
     private static final String FOOTER_NORMAL = "-- end --";
     private static final String FOOTER_ERROR = "-- 获取失败 --";
     private static final String FOOTER_NOT_LOGIN = "-- 未登录 --";
+    private static final String FOOTER_NO_DATA = "-- 没有数据 --";
     private TextView mFooter;
 
     // 请求状态 - 下拉刷新 还是 加载更多
@@ -98,7 +99,7 @@ public class MyTopicActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_my_info;
+        return R.layout.activity_my_topic;
     }
 
     @Override
@@ -208,6 +209,9 @@ public class MyTopicActivity extends BaseActivity {
         mAdapter.addDatas(topics);
         mDataCache.saveTopicsList(mAdapter.getDatas());
         toastShort("数据刷新成功");
+        if (topics.size() == 0) {
+            mFooter.setText(FOOTER_NO_DATA);
+        }
     }
 
     // 加载更多
@@ -237,7 +241,11 @@ public class MyTopicActivity extends BaseActivity {
     }
 
     private void onLoadMore(List<Topic> topics) {
-        if (topics.size() < pageCount) {
+        if (topics.size() == 0) {
+            mState = STATE_NORMAL;
+            mFooter.setText(FOOTER_NO_DATA);
+            return;
+        } else if (topics.size() < pageCount) {
             mState = STATE_NO_MORE;
             mFooter.setText(FOOTER_NORMAL);
         } else {

@@ -227,9 +227,12 @@ public class MainActivity extends BaseActivity
                 return true;
             }
             MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_TOPIC);
-
         } else if (id == R.id.nav_collect) {
-
+            if (!mDiycode.isLogin()) {
+                openActivity(LoginActivity.class);
+                return true;
+            }
+            MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_COLLECT);
         } else if (id == R.id.nav_comment) {
 
         } else if (id == R.id.nav_share) {
