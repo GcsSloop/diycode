@@ -146,6 +146,4 @@ public class ImageActivity extends BaseImageActivity {
     public void loadImage(String url, PhotoView photoView) {
         Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(photoView);
     }
-
-
 }

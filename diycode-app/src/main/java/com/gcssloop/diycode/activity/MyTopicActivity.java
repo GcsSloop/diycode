@@ -52,7 +52,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MyTopicActivity extends BaseActivity {
-    private static final String key = "MyTopicActivity";
     // 底部状态显示
     private static final String FOOTER_LOADING = "loading...";
     private static final String FOOTER_NORMAL = "-- end --";
@@ -182,11 +181,24 @@ public class MyTopicActivity extends BaseActivity {
         if (!mDiycode.isLogin())
             return;
         pageIndex = 0;
+        String uuid = getData();
+        mPostTypes.put(uuid, POST_REFRESH);
+        mState = STATE_REFRESH;
+    }
+
+    // 加载更多
+    private void loadMore() {
+        if (!mDiycode.isLogin())
+            return;
+        String uuid = getData();
+        mPostTypes.put(uuid, POST_LOAD_MORE);
+        mState = STATE_LOADING;
+        mFooter.setText(FOOTER_LOADING);
+    }
+
+    private String getData() {
         String uuid = "uuid";
         String username = mDataCache.getMe().getLogin();
-        if (username.isEmpty()) {
-            return;
-        }
         switch (current_type) {
             case MY_TOPIC:
                 uuid = mDiycode.getUserCreateTopicList(username, null, pageIndex * pageCount, pageCount);
@@ -196,11 +208,9 @@ public class MyTopicActivity extends BaseActivity {
                 break;
             default:
                 toastShort("类型错误");
-                return;
         }
-        mPostTypes.put(uuid, POST_REFRESH);
         pageIndex++;
-        mState = STATE_REFRESH;
+        return uuid;
     }
 
     private void onRefresh(List<Topic> topics) {
@@ -212,32 +222,6 @@ public class MyTopicActivity extends BaseActivity {
         if (topics.size() == 0) {
             mFooter.setText(FOOTER_NO_DATA);
         }
-    }
-
-    // 加载更多
-    private void loadMore() {
-        if (!mDiycode.isLogin())
-            return;
-        String uuid = "uuid";
-        String username = mDataCache.getMe().getLogin();
-        if (username.isEmpty()) {
-            return;
-        }
-        switch (current_type) {
-            case MY_TOPIC:
-                uuid = mDiycode.getUserCreateTopicList(username, null, pageIndex * pageCount, pageCount);
-                break;
-            case MY_COLLECT:
-                uuid = mDiycode.getUserCollectionTopicList(username, pageIndex * pageCount, pageCount);
-                break;
-            default:
-                toastShort("类型错误");
-                return;
-        }
-        mPostTypes.put(uuid, POST_LOAD_MORE);
-        pageIndex++;
-        mState = STATE_LOADING;
-        mFooter.setText(FOOTER_LOADING);
     }
 
     private void onLoadMore(List<Topic> topics) {

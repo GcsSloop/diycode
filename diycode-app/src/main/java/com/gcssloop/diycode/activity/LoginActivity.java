@@ -68,7 +68,6 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(LoginEvent event) {
         if (event.isOk()) {
@@ -89,7 +88,6 @@ public class LoginActivity extends BaseActivity {
             toastShort("登录失败：" + msg);
         }
     }
-
 
     private void initActionBar(ViewHolder holder) {
         Toolbar toolbar = holder.get(R.id.toolbar);
