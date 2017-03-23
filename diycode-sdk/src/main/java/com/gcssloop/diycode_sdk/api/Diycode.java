@@ -83,6 +83,7 @@ import com.gcssloop.diycode_sdk.api.topic.event.UpdateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.WatchTopicEvent;
 import com.gcssloop.diycode_sdk.api.user.api.UserAPI;
 import com.gcssloop.diycode_sdk.api.user.api.UserImpl;
+import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
@@ -100,6 +101,7 @@ import com.gcssloop.diycode_sdk.log.Config;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * diycode 实现类，没有回调接口，使用 EventBus 来接收数据
@@ -645,6 +647,16 @@ public class Diycode implements LoginAPI, LikesAPI, TestAPI, TopicAPI, NewsAPI, 
     @Override
     public String getMe() {
         return sUserImpl.getMe();
+    }
+
+    /**
+     * 立即获取获取当前登录者的详细资料
+     *
+     * @return 用户资料
+     */
+    @Override
+    public UserDetail getMeNow() throws IOException {
+        return sUserImpl.getMeNow();
     }
 
     //--- user block -------------------------------------------------------------------------------

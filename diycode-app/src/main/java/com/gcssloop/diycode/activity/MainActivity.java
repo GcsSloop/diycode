@@ -108,7 +108,6 @@ public class MainActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogin(GetMeEvent event) {
         if (event.isOk()) {
-            //TODO 更新状态
             UserDetail me = event.getBean();
             mCache.saveMe(me);
             loadMenuData(); // 加载菜单数据
@@ -223,6 +222,11 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_post) {
+            if (!mDiycode.isLogin()) {
+                openActivity(LoginActivity.class);
+                return true;
+            }
+            MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_TOPIC);
 
         } else if (id == R.id.nav_collect) {
 
@@ -242,6 +246,7 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     protected void onDestroy() {
