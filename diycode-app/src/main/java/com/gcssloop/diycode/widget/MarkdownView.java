@@ -96,7 +96,6 @@ public class MarkdownView extends WebView {
                     } else {
                         evaluateJavascript(mPreviewText, null);
                     }
-
                 }
             }
         });

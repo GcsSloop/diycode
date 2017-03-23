@@ -23,31 +23,24 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.activity.TopicContentActivity;
-import com.gcssloop.diycode.activity.UserActivity;
+import com.gcssloop.diycode.adapter.TopicAdapter;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
-import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -86,7 +79,7 @@ public class TopicListFragment extends BaseFragment {
     private DataCache mDataCache;                   // 缓存(本地)
 
     // View
-    private GcsAdapter<Topic> mAdapter;
+    private TopicAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
 
 
@@ -102,12 +95,19 @@ public class TopicListFragment extends BaseFragment {
         return R.layout.fragment_recycler_refresh;
     }
 
+    @Override
+    protected void initViews(ViewHolder holder, View root) {
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+        mFooter = holder.get(R.id.footer);
+        initRefreshLayout(holder);
+        initRecyclerView(getContext(), holder);
+        initListener(holder);
+    }
+
     // 注意：此处调用位置在 initViews 之后
     @Override
     protected void onFirstTimeLaunched() {
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
-
         // 第一次加载，默认从缓存获取
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
@@ -115,7 +115,7 @@ public class TopicListFragment extends BaseFragment {
             mFooter.setText(FOOTER_NORMAL);
             mRefreshLayout.setEnabled(true);
             mRefreshLayout.setRefreshing(true); // 自动刷新一次
-            new Handler().postDelayed(new Runnable(){   // 延迟 1s，防闪屏
+            new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
                 public void run() {
                     refresh();
                 }
@@ -126,14 +126,6 @@ public class TopicListFragment extends BaseFragment {
         }
     }
 
-    @Override
-    protected void initViews(ViewHolder holder, View root) {
-        mFooter = holder.get(R.id.footer);
-        initRefreshLayout(holder);
-        initRecyclerView(getContext(), holder);
-        initListener(holder);
-    }
-
     private void initRefreshLayout(ViewHolder holder) {
         mRefreshLayout = holder.get(R.id.refresh_layout);
         mRefreshLayout.setProgressViewOffset(false, -20, 80);
@@ -142,46 +134,7 @@ public class TopicListFragment extends BaseFragment {
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
-        mAdapter = new GcsAdapter<Topic>(context, R.layout.item_topic) {
-            @Override
-            public void convert(int position, GcsViewHolder holder, final Topic topic) {
-                final User user = topic.getUser();
-                holder.setText(R.id.username, user.getLogin());
-                holder.setText(R.id.node_name, topic.getNode_name());
-                holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
-                holder.setText(R.id.title, topic.getTitle());
-                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
-
-                TextView preview = holder.get(R.id.preview);
-                String text = mDataCache.getTopicPreview(topic.getId());
-                if (null != text) {
-                    preview.setVisibility(View.VISIBLE);
-                    preview.setText(Html.fromHtml(text));
-                } else {
-                    preview.setVisibility(View.GONE);
-                }
-
-                holder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, UserActivity.class);
-                        intent.putExtra(UserActivity.USER, user);
-                        context.startActivity(intent);
-
-                    }
-                }, R.id.avatar, R.id.username);
-
-                holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, TopicContentActivity.class);
-                        intent.putExtra(TopicContentActivity.TOPIC, topic);
-                        context.startActivity(intent);
-                    }
-                });
-            }
-        };
-
+        mAdapter = new TopicAdapter(context, mDataCache);
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
         RecyclerViewUtil.init(context, recyclerView, mAdapter);
     }

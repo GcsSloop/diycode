@@ -25,6 +25,7 @@ package com.gcssloop.diycode_sdk.api.user.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
@@ -37,6 +38,8 @@ import com.gcssloop.diycode_sdk.api.user.event.GetUserReplyTopicListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetUsersListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
+
+import java.io.IOException;
 
 public interface UserAPI {
 
@@ -64,6 +67,12 @@ public interface UserAPI {
      * @see GetMeEvent
      */
     String getMe();
+
+    /**
+     * 立即获取获取当前登录者的详细资料
+     * @return 用户资料
+     */
+    UserDetail getMeNow() throws IOException;
 
     //--- user block -------------------------------------------------------------------------------
 

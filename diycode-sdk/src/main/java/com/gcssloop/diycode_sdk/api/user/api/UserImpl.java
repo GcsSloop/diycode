@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 
 import com.gcssloop.diycode_sdk.api.base.callback.BaseCallback;
 import com.gcssloop.diycode_sdk.api.base.impl.BaseImpl;
+import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.BlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.FollowUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
@@ -42,6 +43,8 @@ import com.gcssloop.diycode_sdk.api.user.event.GetUsersListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnBlockUserEvent;
 import com.gcssloop.diycode_sdk.api.user.event.UnFollowUserEvent;
 import com.gcssloop.diycode_sdk.utils.UUIDGenerator;
+
+import java.io.IOException;
 
 public class UserImpl extends BaseImpl<UserService> implements UserAPI {
     public UserImpl(@NonNull Context context) {
@@ -86,6 +89,16 @@ public class UserImpl extends BaseImpl<UserService> implements UserAPI {
         String uuid = UUIDGenerator.getUUID();
         mService.getMe().enqueue(new BaseCallback<>(new GetMeEvent(uuid)));
         return uuid;
+    }
+
+    /**
+     * 立即获取获取当前登录者的详细资料
+     *
+     * @return 用户资料
+     */
+    @Override
+    public UserDetail getMeNow() throws IOException {
+        return mService.getMe().execute().body();
     }
 
     //--- user block -------------------------------------------------------------------------------
