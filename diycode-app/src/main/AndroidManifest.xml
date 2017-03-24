@@ -72,6 +72,8 @@
         </activity>
         <activity android:name=".activity.MyTopicActivity">
         </activity>
+        <activity android:name=".activity.AboutActivity">
+        </activity>
     </application>
 
 </manifest>

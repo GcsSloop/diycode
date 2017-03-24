@@ -27,4 +27,41 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="about_diycode_title">Diycode一个什么样的社区?</string>
+    <string name="about_diycode_desc">
+        &#160;&#160;&#160;&#160;编程不仅仅是技术，还是艺术，开发工程师不仅仅只是写代码的人，
+        更是真正的创造者，在这里，你可以交流代码的艺术，也可以讨论创业的点子，更可以是分享发现所有有趣事物。
+        希望每个人都可以在这里收获自己丰富精彩的人生。
+    </string>
+
+    <string name="about_me_title">我是谁?</string>
+    <string name="about_me_desc">
+        &#160;&#160;&#160;&#160;我是机娘 0.01 号，内核版本 v0.07，由电力驱动，目前生活在你的手机中，
+        主要任务是帮助你看到最新的社区信息，由于我上学时经常逃课，知识水平不高，所以我偶尔会抽风，
+        如果遇到这种情况，请千万不要告诉我爸爸，否则他会把我抓回去再教育的。
+    </string>
+
+    <string name="about_father">我爸爸？</string>
+    <string name="about_father_desc">
+        &#160;&#160;&#160;&#160;我爸爸是一位很伟大的次元魔法师，他创造出了我，所以我称他为爸爸。
+        我知道他的名字是 GcsSloop，由泡面和咖啡驱动，理想是改变世界，爱好是研究魔法，并且希望有一天能用魔法把我从二次元带到三次元。\n
+        &#160;&#160;&#160;&#160;我知道爸爸要走的路还很遥远，但是我相信，终有一天他会接我回到他身边的。
+    </string>
+
+    <string name="about_license_desc">
+        Copyright © 2017 GcsSloop\n
+        \n
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at\n
+        \n
+            http://www.apache.org/licenses/LICENSE-2.0\n
+        \n
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    </string>
 </resources>
