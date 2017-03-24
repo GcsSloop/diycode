@@ -125,6 +125,8 @@ public class MainActivity extends BaseActivity
     // 初始化菜单(包括侧边栏菜单和顶部菜单选项)
     private void initMenu(ViewHolder holder) {
         Toolbar toolbar = holder.get(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.logo_actionbar);
+        toolbar.setTitle("");
         DrawerLayout drawer = holder.get(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
