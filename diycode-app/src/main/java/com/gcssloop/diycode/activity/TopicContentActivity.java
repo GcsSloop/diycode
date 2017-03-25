@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,18 +35,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.adapter.TopicReplyAdapter;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.glide.GlideImageGetter;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.webview.GcsMarkdownViewClient;
 import com.gcssloop.diycode.base.webview.WebImageListener;
 import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode.utils.NetUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode.widget.MarkdownView;
@@ -72,7 +67,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     public static String TOPIC_ID = "topic_id";
     private Topic topic;
     private DataCache mDataCache;
-    private GcsAdapter<TopicReply> mAdapter;
+    private TopicReplyAdapter mAdapter;
     private MarkdownView mMarkdownView;
     private GcsMarkdownViewClient mWebViewClient;
 
@@ -183,19 +178,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initRecyclerView(ViewHolder holder) {
-        mAdapter = new GcsAdapter<TopicReply>(this, R.layout.item_topic_reply) {
-            @Override
-            public void convert(int position, GcsViewHolder holder, TopicReply bean) {
-                User user = bean.getUser();
-                holder.setText(R.id.username, user.getLogin());
-                holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
-                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
-                TextView content = holder.get(R.id.content);
-                // TODO 评论区代码问题
-                content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));
-            }
-        };
-
+        mAdapter = new TopicReplyAdapter(this);
         RecyclerView recyclerView = holder.get(R.id.reply_list);
         RecyclerViewUtil.init(this, recyclerView, mAdapter);
     }

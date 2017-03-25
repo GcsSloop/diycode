@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-24 02:19:11
+ * Last modified 2017-03-26 05:35:12
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -30,42 +30,32 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
+import com.gcssloop.diycode.base.glide.GlideImageGetter;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
-import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
+import com.gcssloop.diycode.utils.HtmlUtil;
+import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.utils.TimeUtil;
 
-public class TopicAdapter extends GcsAdapter<Topic> {
+public class TopicReplyAdapter extends GcsAdapter<TopicReply> {
     private Context mContext;
-    private DataCache mDataCache;
 
-    public TopicAdapter(@NonNull Context context, DataCache dataCache) {
-        super(context, R.layout.item_topic);
+    public TopicReplyAdapter(@NonNull Context context) {
+        super(context, R.layout.item_topic_reply);
         mContext = context;
-        mDataCache = dataCache;
     }
 
     @Override
-    public void convert(int position, GcsViewHolder holder, final Topic topic) {
-        final User user = topic.getUser();
+    public void convert(int position, GcsViewHolder holder, TopicReply bean) {
+        final User user = bean.getUser();
         holder.setText(R.id.username, user.getLogin());
-        holder.setText(R.id.node_name, topic.getNode_name());
-        holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
-        holder.setText(R.id.title, topic.getTitle());
+        holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
         holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
-
-        TextView preview = holder.get(R.id.preview);
-        String text = mDataCache.getTopicPreview(topic.getId());
-        if (null != text) {
-            preview.setVisibility(View.VISIBLE);
-            preview.setText(Html.fromHtml(text));
-        } else {
-            preview.setVisibility(View.GONE);
-        }
+        TextView content = holder.get(R.id.content);
+        // TODO 评论区代码问题
+        content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +65,5 @@ public class TopicAdapter extends GcsAdapter<Topic> {
                 mContext.startActivity(intent);
             }
         }, R.id.avatar, R.id.username);
-
-        holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, TopicContentActivity.class);
-                intent.putExtra(TopicContentActivity.TOPIC, topic);
-                mContext.startActivity(intent);
-            }
-        });
     }
 }
