@@ -99,7 +99,7 @@ public class MyTopicActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_my_topic;
+        return R.layout.activity_recycler_refresh;
     }
 
     @Override
@@ -122,6 +122,12 @@ public class MyTopicActivity extends BaseActivity {
         initRefreshLayout(holder);
         initRecyclerView(this, holder);
         initListener(holder);
+
+        if (current_type == InfoType.MY_COLLECT){
+            setTitle("我的收藏");
+        } else if (current_type == InfoType.MY_TOPIC){
+            setTitle("我的话题");
+        }
 
         if (!mDiycode.isLogin()) {
             toastShort("用户未登录");
