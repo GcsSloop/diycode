@@ -22,13 +22,19 @@
 
 package com.gcssloop.diycode.activity;
 
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.DataCleanManager;
+import com.gcssloop.diycode.utils.FileUtil;
 
-public class SettingActivity extends BaseActivity {
+import java.io.File;
+
+public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
 
     @Override
@@ -38,6 +44,58 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        initActionBar(holder);
+        showCacheSize(holder);
 
+        if (mDiycode.isLogin()) {
+            holder.get(R.id.user).setVisibility(View.VISIBLE);
+        } else {
+            holder.get(R.id.user).setVisibility(View.GONE);
+        }
+
+        holder.setOnClickListener(this, R.id.clear_cache, R.id.logout);
+    }
+
+    // 显示缓存大小
+    private void showCacheSize(ViewHolder holder) {
+        try {
+            File cacheDir = new File(FileUtil.getExternalCacheDir(this));
+            String cacheSize = DataCleanManager.getCacheSize(cacheDir);
+            if (!cacheSize.isEmpty()) {
+                holder.setText(R.id.cache_size, cacheSize);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initActionBar(ViewHolder holder) {
+        Toolbar toolbar = holder.get(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle("设置");
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.logout:
+                if (!mDiycode.isLogin())
+                    return;
+                mDiycode.logout();
+                toastShort("退出成功");
+                break;
+            case R.id.clear_cache:
+                DataCleanManager.deleteFolderFile(FileUtil.getExternalCacheDir(this), false);
+                showCacheSize(getViewHolder());
+                toastShort("清除缓存成功");
+                break;
+        }
     }
 }

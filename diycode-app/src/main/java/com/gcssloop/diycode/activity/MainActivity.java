@@ -238,7 +238,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_about) {
                 openActivity(AboutActivity.class);
         } else if (id == R.id.nav_setting) {
-
+                openActivity(SettingActivity.class);
         } else if (id == R.id.nav_logout) {
             mDiycode.logout();  // 用户登出
         }
