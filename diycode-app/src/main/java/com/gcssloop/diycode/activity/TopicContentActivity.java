@@ -25,9 +25,7 @@ package com.gcssloop.diycode.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,22 +78,10 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        setTitle("话题");
         mDataCache = new DataCache(this);
-        initActionBar(holder);
         initRecyclerView(holder);
         loadData(holder);
-    }
-
-    private void initActionBar(ViewHolder holder) {
-        Toolbar toolbar = holder.get(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-        setTitle("Topic");
     }
 
     private void initReply(ViewHolder holder) {
@@ -300,9 +286,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
             case R.id.action_share:
                 String mUrl = "https://www.diycode.cc/topics/" + topic.getId();
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
