@@ -28,11 +28,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.hackpatch.IMMLeaks;
 import com.gcssloop.diycode_sdk.api.Diycode;
 
@@ -52,6 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mViewHolder = new ViewHolder(getLayoutInflater(), null, getLayoutId());
         setContentView(mViewHolder.getRootView());
         IMMLeaks.fixFocusedViewLeak(this.getApplication()); // 修复 InputMethodManager 引发的内存泄漏
+        initActionBar(mViewHolder);
         initDatas();
         initViews(mViewHolder, mViewHolder.getRootView());
     }
@@ -70,6 +75,31 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 初始化 View， 调用位置在 initDatas 之后
      */
     protected abstract void initViews(ViewHolder holder, View root);
+
+
+    // 初始化 ActiobBar
+    private void initActionBar(ViewHolder holder) {
+        Toolbar toolbar = holder.get(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    // 默认点击左上角是结束当前 Activity
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public ViewHolder getViewHolder() {
         return mViewHolder;

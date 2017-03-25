@@ -87,7 +87,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initActionBar(ViewHolder holder) {
-        Logger.e("initActionBar");
         Toolbar toolbar = holder.get(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
