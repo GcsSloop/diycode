@@ -25,6 +25,7 @@ package com.gcssloop.diycode.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Message;
 import android.view.KeyEvent;
@@ -32,9 +33,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -61,55 +64,67 @@ public class WebActivity extends BaseActivity {
         return R.layout.activity_web;
     }
 
-    /**
-     * 初始化 View， 调用位置在 initDatas 之后
-     *
-     * @param holder
-     * @param root
-     */
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        progressBar = holder.get(R.id.progress_bar);
+        try {
+            progressBar = holder.get(R.id.progress_bar);
 
-        Intent intent = getIntent();
-        mUrl = intent.getStringExtra(URL);
+            Intent intent = getIntent();
+            mUrl = intent.getStringExtra(URL);
 
-        if (mUrl == null || mUrl.isEmpty()) {
-            return;
+            if (mUrl == null || mUrl.isEmpty()) {
+                return;
+            }
+
+            FrameLayout layout = holder.get(R.id.webview_container);
+            mWebView = new WebView(this.getApplicationContext());
+            mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            layout.addView(mWebView);
+
+            WebSettings settings = mWebView.getSettings();
+            // 基本设置
+            settings.setSupportZoom(true);
+            settings.setLoadWithOverviewMode(true);
+            settings.setUseWideViewPort(true);
+            settings.setDefaultTextEncodingName("utf-8");
+            settings.setLoadsImagesAutomatically(true);
+            settings.setJavaScriptEnabled(true);
+
+            // 缓存数据
+            settings.setDomStorageEnabled(true);
+            settings.setDatabaseEnabled(true);
+            settings.setAppCacheEnabled(true);
+            String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+            settings.setAppCachePath(appCachePath);
+
+            //html中的_bank标签就是新建窗口打开，有时会打不开，需要加以下
+            //然后 复写 WebChromeClient的onCreateWindow方法
+            settings.setSupportMultipleWindows(false);
+            settings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+            mWebView.setWebChromeClient(mWebChromeClient);
+            mWebView.setWebViewClient(mWebViewClient);
+
+            mWebView.loadUrl(mUrl);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    WebViewClient mWebViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
         }
 
-        FrameLayout layout = holder.get(R.id.webview_container);
-        mWebView = new WebView(this.getApplicationContext());
-        mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        layout.addView(mWebView);
-
-        WebSettings settings = mWebView.getSettings();
-        // 基本设置
-        settings.setSupportZoom(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
-        settings.setDefaultTextEncodingName("utf-8");
-        settings.setLoadsImagesAutomatically(true);
-        settings.setJavaScriptEnabled(true);
-
-        // 缓存数据
-        settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
-        settings.setAppCacheEnabled(true);
-        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
-        settings.setAppCachePath(appCachePath);
-
-        //html中的_bank标签就是新建窗口打开，有时会打不开，需要加以下
-        //然后 复写 WebChromeClient的onCreateWindow方法
-        settings.setSupportMultipleWindows(false);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-
-        mWebView.setWebChromeClient(mWebChromeClient);
-
-        mWebView.loadUrl(mUrl);
-    }
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+        }
+    };
 
     WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
@@ -118,15 +133,35 @@ public class WebActivity extends BaseActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 progressBar.setProgress(progress);
             } else if (progress == 100) {
-                progressBar.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
         }
 
+        // 定位 ----------------------------------------------------------
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             setTitle(title);
         }
+
+        @Override
+        public void onReceivedIcon(WebView view, Bitmap icon) {
+            super.onReceivedIcon(view, icon);
+        }
+
+        @Override
+        public void onGeolocationPermissionsHidePrompt() {
+            super.onGeolocationPermissionsHidePrompt();
+        }
+
+        @Override
+        public void onGeolocationPermissionsShowPrompt(final String origin,
+                                                       final GeolocationPermissions.Callback callback) {
+            callback.invoke(origin, false, false);//注意个函数，第二个参数就是是否同意定位权限，第三个是是否希望内核记住
+            super.onGeolocationPermissionsShowPrompt(origin, callback);
+        }
+
+        // 新窗口 ------------------------------------------------------------
 
         @Override
         public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture,
@@ -158,12 +193,14 @@ public class WebActivity extends BaseActivity {
         }
     }
 
-    @Override public void onPause() {
+    @Override
+    public void onPause() {
         super.onPause();
         mWebView.onPause();
     }
 
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         mWebView.onResume();
     }

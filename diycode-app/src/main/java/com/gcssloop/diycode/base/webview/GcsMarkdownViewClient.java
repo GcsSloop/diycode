@@ -41,6 +41,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.gcssloop.diycode.activity.WebActivity;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
@@ -118,9 +119,7 @@ public class GcsMarkdownViewClient extends WebViewClient {
         Logger.e("handleLink" + url);
         // TODO 添加设置选项
         if (null != mWebActivity) {
-            Intent intent = new Intent(mContext, mWebActivity);
-            intent.putExtra(URL, url);
-            mContext.startActivity(intent);
+            WebActivity.newInstance(mContext, url);
             return true;
         }
         if (mIsOpenUrlInBrowser) {
