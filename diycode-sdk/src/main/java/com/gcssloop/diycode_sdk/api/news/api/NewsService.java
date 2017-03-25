@@ -62,8 +62,8 @@ interface NewsService {
      */
     @POST("news.json")
     @FormUrlEncoded
-    Call<New> createNews(@Query("title") Integer title, @Query("address") Integer address,
-                         @Query("node_id") Integer node_id);
+    Call<New> createNews(@Field("title") Integer title, @Field("address") Integer address,
+                         @Field("node_id") Integer node_id);
 
     /**
      * 获取 news 回帖列表
@@ -86,7 +86,7 @@ interface NewsService {
      */
     @Deprecated
     @POST("news/{id}/replies.json")
-    Call<NewReply> createNewsReply(@Path("id") int id, @Query("body") Integer body);
+    Call<NewReply> createNewsReply(@Path("id") int id, @Field("body") Integer body);
 
     /**
      * 获取 news 回帖详情
