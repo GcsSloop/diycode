@@ -212,6 +212,14 @@ public class MainActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            openActivity(SettingActivity.class);
+            return true;
+        } else if (id == R.id.action_notification) {
+            if (!mDiycode.isLogin()) {
+                openActivity(LoginActivity.class);
+            } else {
+                openActivity(NotificationActivity.class);
+            }
             return true;
         }
 
@@ -236,9 +244,9 @@ public class MainActivity extends BaseActivity
             }
             MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_COLLECT);
         } else if (id == R.id.nav_about) {
-                openActivity(AboutActivity.class);
+            openActivity(AboutActivity.class);
         } else if (id == R.id.nav_setting) {
-                openActivity(SettingActivity.class);
+            openActivity(SettingActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

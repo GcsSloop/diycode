@@ -74,6 +74,8 @@
         </activity>
         <activity android:name=".activity.AboutActivity">
         </activity>
+        <activity android:name=".activity.NotificationActivity">
+        </activity>
     </application>
 
 </manifest>
