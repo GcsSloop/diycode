@@ -29,6 +29,7 @@ import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ import com.gcssloop.diycode.widget.MarkdownView;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
+import com.gcssloop.diycode_sdk.api.topic.event.CreateTopicReplyEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
@@ -66,9 +68,10 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     private Topic topic;
     private DataCache mDataCache;
     private GcsAdapter<TopicReply> mAdapter;
-    MarkdownView mMarkdownView;
-    GcsMarkdownViewClient mWebViewClient;
+    private MarkdownView mMarkdownView;
+    private GcsMarkdownViewClient mWebViewClient;
 
+    private EditText myReply;
 
     @Override
     protected int getLayoutId() {
@@ -80,6 +83,19 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         mDataCache = new DataCache(this);
         initRecyclerView(holder);
         loadData(holder);
+    }
+
+    private void initReply(ViewHolder holder) {
+        if (!mDiycode.isLogin()) {
+            holder.get(R.id.need_login).setVisibility(View.VISIBLE);
+            holder.get(R.id.can_reply).setVisibility(View.GONE);
+            holder.setOnClickListener(this, R.id.login);
+        } else {
+            holder.get(R.id.need_login).setVisibility(View.GONE);
+            holder.get(R.id.can_reply).setVisibility(View.VISIBLE);
+            holder.setOnClickListener(this, R.id.send_reply);
+            myReply = holder.get(R.id.my_reply);
+        }
     }
 
     // 初始化 topic 内容面板的数据
@@ -179,10 +195,22 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     public void onTopicRepliesList(GetTopicRepliesListEvent event) {
         if (event.isOk()) {
             Logger.i("topic reply 回复 - 来自网络");
+            mAdapter.clearDatas();
             mAdapter.addDatas(event.getBean());
             mDataCache.saveTopicRepliesList(topic.getId(), event.getBean());
         } else {
-            toastShort("获取回复失败");
+            // toastShort("获取回复失败");
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCreateReply(CreateTopicReplyEvent event) {
+        if (event.isOk()) {
+            Logger.i("回复成功");
+            myReply.setText("");
+            mDiycode.getTopicRepliesList(topic.getId(), null, topic.getReplies_count() + 1);
+        } else {
+            toastShort("回复失败");
         }
     }
 
@@ -219,6 +247,13 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        initReply(getViewHolder());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initReply(getViewHolder());
     }
 
     @Override
@@ -241,6 +276,17 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                 if (null != topic) {
                     openActivity(UserActivity.class, UserActivity.USER, topic.getUser());
                 }
+                break;
+            case R.id.login:
+                openActivity(LoginActivity.class);
+                break;
+            case R.id.send_reply:
+                String reply = myReply.getText().toString();
+                if (reply.isEmpty()) {
+                    toastShort("评论内容不能为空。");
+                    return;
+                }
+                mDiycode.createTopicReply(topic.getId(), reply);
                 break;
         }
     }

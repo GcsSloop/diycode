@@ -35,20 +35,20 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
-                app:layout_scrollFlags="scroll"
                 android:id="@+id/panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/diy_white"
                 android:paddingBottom="@dimen/topic_item_padding_vertical"
                 android:paddingLeft="@dimen/topic_item_padding_horizontal"
                 android:paddingRight="@dimen/topic_item_padding_horizontal"
                 android:paddingTop="@dimen/topic_item_padding_vertical"
-                android:background="@color/diy_white">
+                app:layout_scrollFlags="scroll">
 
                 <ImageView
                     android:id="@+id/avatar"
@@ -110,18 +110,17 @@
                     android:textSize="20sp"/>
 
                 <FrameLayout
-                    android:layout_below="@+id/title"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginLeft="-12dp"
-                    android:layout_marginRight="-12dp"
                     android:id="@+id/webview_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_marginLeft="-12dp"
+                    android:layout_marginRight="-12dp"
+                    android:layout_marginTop="8dp">
 
                 </FrameLayout>
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/collection"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -131,11 +130,11 @@
                     android:layout_marginTop="12dp"
                     android:padding="2dp"
                     android:src="@drawable/ic_collection_default"
+                    android:visibility="gone"
                     />
 
 
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/like"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -145,6 +144,7 @@
                     android:layout_toLeftOf="@+id/collection"
                     android:padding="2dp"
                     android:src="@drawable/ic_like_default"
+                    android:visibility="gone"
                     />
 
             </RelativeLayout>
@@ -154,10 +154,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/panel"
+                android:background="@color/diy_white_bg"
+                android:paddingBottom="8dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="8dp"
                 android:text="共收到 0 条回复"
-                android:background="@color/diy_white_bg"
                 android:textColor="@color/diy_black"/>
 
             <android.support.v7.widget.RecyclerView
@@ -168,11 +169,60 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
             </android.support.v7.widget.RecyclerView>
 
-            <View
-                android:background="@color/diy_white_bg"
-                android:layout_below="@id/reply_list"
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/need_login"
                 android:layout_width="match_parent"
-                android:layout_height="12dp"/>
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="12dp">
+
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_longin_btn"
+                    android:text="登录"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/login"
+                    android:text="后可以评论!"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/can_reply"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp">
+
+                <EditText
+                    android:hint="评论内容"
+                    android:id="@+id/my_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/topic_reply_bg"
+                    android:gravity="start"
+                    android:minHeight="80dp"
+                    android:minLines="2"
+                    android:padding="4dp"/>
+
+                <Button
+                    android:id="@+id/send_reply"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/my_reply"
+                    android:text="发送"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="32dp"/>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

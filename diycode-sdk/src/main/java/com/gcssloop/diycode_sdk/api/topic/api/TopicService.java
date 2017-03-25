@@ -172,7 +172,7 @@ interface TopicService {
      */
     @POST("topics/{id}/replies.json")
     @FormUrlEncoded
-    Call<TopicReply> createTopicReply(@Path("id") int id, @Query("body") String body);
+    Call<TopicReply> createTopicReply(@Path("id") int id, @Field("body") String body);
 
     /**
      * 获取回帖的详细内容（一般用于编辑回帖的时候）
