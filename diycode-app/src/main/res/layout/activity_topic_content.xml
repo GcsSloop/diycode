@@ -163,7 +163,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/panel"
                 android:background="@color/diy_white_bg"
-                android:paddingBottom="8dp"
                 android:paddingLeft="12dp"
                 android:paddingTop="8dp"
                 android:text="共收到 0 条回复"
