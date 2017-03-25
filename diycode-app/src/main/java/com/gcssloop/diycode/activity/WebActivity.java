@@ -26,10 +26,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,9 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -51,7 +45,6 @@ import com.gcssloop.diycode_sdk.log.Logger;
 public class WebActivity extends BaseActivity {
     private final String Sign_Url = "https://www.diycode.cc/account/sign_in";
     public static final String URL = "url";
-    Toolbar toolbar;
 
     private WebView mWebView;
     String mUrl;
@@ -78,14 +71,6 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void initViews(ViewHolder holder, View root) {
         progressBar = holder.get(R.id.progress_bar);
-
-        toolbar = holder.get(R.id.toolbar);
-        if (toolbar != null)
-            setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         Intent intent = getIntent();
         mUrl = intent.getStringExtra(URL);
@@ -140,9 +125,6 @@ public class WebActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
             case R.id.action_browser:
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(mUrl));
@@ -150,7 +132,7 @@ public class WebActivity extends BaseActivity {
                 break;
             case R.id.action_share:
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_SUBJECT, toolbar.getTitle());
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getTitle());
                 shareIntent.putExtra(Intent.EXTRA_TEXT, mUrl);
                 shareIntent.setType("text/plain");
                 startActivity(shareIntent);
@@ -158,34 +140,6 @@ public class WebActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /*
-    WebViewClient mWebViewClient = new WebViewClient() {
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            String url = request.getUrl().toString();
-            Logger.e("shouldOverrideUrlLoading: "+url);
-            if (url.equals(Sign_Url)) {
-                openActivity(LoginActivity.class);
-                finish();
-                return true;
-            }
-            return super.shouldOverrideUrlLoading(view, request);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Logger.e("shouldOverrideUrlLoading: "+url);
-            if (url.equals(Sign_Url)) {
-                openActivity(LoginActivity.class);
-                finish();
-                return true;
-            }
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    };
-    */
 
     WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
@@ -201,7 +155,7 @@ public class WebActivity extends BaseActivity {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            toolbar.setTitle(title);
+            setTitle(title);
         }
     };
 
