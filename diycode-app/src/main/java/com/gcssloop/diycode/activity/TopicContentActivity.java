@@ -23,12 +23,14 @@
 package com.gcssloop.diycode.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +94,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     private void initActionBar(ViewHolder holder) {
         Logger.e("initActionBar");
         Toolbar toolbar = holder.get(R.id.toolbar);
-        if (toolbar != null){
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
         ActionBar actionBar = getSupportActionBar();
@@ -308,10 +310,24 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.topic_content, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_share:
+                String mUrl = "https://www.diycode.cc/topics/" + topic.getId();
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, topic.getTitle());
+                shareIntent.putExtra(Intent.EXTRA_TEXT, mUrl);
+                shareIntent.setType("text/plain");
+                startActivity(shareIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);
