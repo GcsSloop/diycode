@@ -24,9 +24,6 @@ package com.gcssloop.diycode.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
@@ -43,30 +40,8 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        initActionBar(holder);
+        setTitle("关于");
         holder.setOnClickListener(this, R.id.feed_back, R.id.github, R.id.contribute);
-    }
-
-    private void initActionBar(ViewHolder holder) {
-        Toolbar toolbar = holder.get(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            setTitle("关于");
-        }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
