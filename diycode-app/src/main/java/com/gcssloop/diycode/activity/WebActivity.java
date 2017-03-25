@@ -23,8 +23,11 @@
 package com.gcssloop.diycode.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -34,7 +37,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -44,6 +49,7 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 public class WebActivity extends BaseActivity {
+    private final String Sign_Url = "https://www.diycode.cc/account/sign_in";
     public static final String URL = "url";
     Toolbar toolbar;
 
@@ -51,6 +57,11 @@ public class WebActivity extends BaseActivity {
     String mUrl;
     ProgressBar progressBar;
 
+    public static void newInstance(Context context, String url) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra(URL, url);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {
@@ -90,7 +101,7 @@ public class WebActivity extends BaseActivity {
         layout.addView(mWebView);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebChromeClient(webChromeClient);
+        mWebView.setWebChromeClient(mWebChromeClient);
 
         mWebView.loadUrl(mUrl);
     }
@@ -148,7 +159,35 @@ public class WebActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    WebChromeClient webChromeClient = new WebChromeClient() {
+    /*
+    WebViewClient mWebViewClient = new WebViewClient() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            String url = request.getUrl().toString();
+            Logger.e("shouldOverrideUrlLoading: "+url);
+            if (url.equals(Sign_Url)) {
+                openActivity(LoginActivity.class);
+                finish();
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(view, request);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Logger.e("shouldOverrideUrlLoading: "+url);
+            if (url.equals(Sign_Url)) {
+                openActivity(LoginActivity.class);
+                finish();
+                return true;
+            }
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+    };
+    */
+
+    WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onProgressChanged(WebView view, int progress) {
             if (progress < 100) {

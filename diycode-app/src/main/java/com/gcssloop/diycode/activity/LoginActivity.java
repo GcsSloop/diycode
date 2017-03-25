@@ -41,7 +41,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
+    EditText mUsername;
+    EditText mPassword;
 
     @Override
     protected int getLayoutId() {
@@ -51,21 +53,18 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initViews(ViewHolder holder, View root) {
         initActionBar(holder);
-        final EditText username = holder.get(R.id.username);
-        final EditText password = holder.get(R.id.password);
+        mUsername = holder.get(R.id.username);
+        mPassword = holder.get(R.id.password);
+
+        holder.setOnClickListener(this, R.id.login, R.id.sign_up);
 
         holder.get(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString();
-                String pswd = password.getText().toString();
-                if (name.isEmpty() || pswd.isEmpty()) {
-                    toastShort("Email/用户名或密码不能为空");
-                    return;
-                }
-                mDiycode.login(name, pswd);
+
             }
         });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -155,5 +154,24 @@ public class LoginActivity extends BaseActivity {
         DisplayMetrics dm = rootView.getResources().getDisplayMetrics();
         int heightDiff = rootView.getBottom() - r.bottom;
         return heightDiff > softKeyboardHeight * dm.density;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login:
+                String name = mUsername.getText().toString();
+                String pswd = mPassword.getText().toString();
+                if (name.isEmpty() || pswd.isEmpty()) {
+                    toastShort("Email/用户名或密码不能为空");
+                    return;
+                }
+                mDiycode.login(name, pswd);
+                break;
+            case R.id.sign_up:
+                WebActivity.newInstance(this, "https://www.diycode.cc/account/sign_up");
+                break;
+        }
     }
 }
