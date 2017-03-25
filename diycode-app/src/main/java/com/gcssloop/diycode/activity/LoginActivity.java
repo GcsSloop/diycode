@@ -57,14 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mPassword = holder.get(R.id.password);
 
         holder.setOnClickListener(this, R.id.login, R.id.sign_up);
-
-        holder.get(R.id.login).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
