@@ -21,84 +21,95 @@
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
 
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:gcs="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/diy_white_bg">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="240dp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/diy_white_bg">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:src="@color/diy_white"
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:background="@color/diy_black"
-            />
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/diy_white_bg">
 
-            <com.gcssloop.diycode.widget.CircleImageView
-                android:id="@+id/avatar"
-                android:layout_width="86dp"
-                android:layout_height="86dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:src="@mipmap/ic_launcher"
-                gcs:border_width="0dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="diytest(测试账号)"
-                android:textSize="18sp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="240dp"/>
 
-            <Button
-                android:id="@+id/follow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="Follow"
-                android:textColor="@color/diy_white"/>
-        </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/diy_white_bg">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
 
+        </android.support.v4.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@color/diy_black"
+                android:src="@color/diy_white"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.gcssloop.diycode.widget.CircleImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="86dp"
+                    android:layout_height="86dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/ic_launcher"
+                    gcs:border_width="0dp"/>
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:text="diytest(测试账号)"
+                    android:textSize="18sp"/>
+
+                <Button
+                    android:id="@+id/follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:text="Follow"
+                    android:textColor="@color/diy_white"/>
+            </LinearLayout>
+
+        </FrameLayout>
     </FrameLayout>
-</FrameLayout>
+</LinearLayout>
