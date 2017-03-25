@@ -26,13 +26,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -40,7 +41,6 @@ import android.widget.ProgressBar;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 public class WebActivity extends BaseActivity {
     private final String Sign_Url = "https://www.diycode.cc/account/sign_in";
@@ -85,11 +85,60 @@ public class WebActivity extends BaseActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
         layout.addView(mWebView);
 
-        mWebView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = mWebView.getSettings();
+        // 基本设置
+        settings.setSupportZoom(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setDefaultTextEncodingName("utf-8");
+        settings.setLoadsImagesAutomatically(true);
+        settings.setJavaScriptEnabled(true);
+
+        // 缓存数据
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAppCacheEnabled(true);
+        String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
+        settings.setAppCachePath(appCachePath);
+
+        //html中的_bank标签就是新建窗口打开，有时会打不开，需要加以下
+        //然后 复写 WebChromeClient的onCreateWindow方法
+        settings.setSupportMultipleWindows(false);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+
         mWebView.setWebChromeClient(mWebChromeClient);
 
         mWebView.loadUrl(mUrl);
     }
+
+    WebChromeClient mWebChromeClient = new WebChromeClient() {
+        @Override
+        public void onProgressChanged(WebView view, int progress) {
+            if (progress < 100) {
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setProgress(progress);
+            } else if (progress == 100) {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            setTitle(title);
+        }
+
+        @Override
+        public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture,
+                                      Message resultMsg) {
+            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+            transport.setWebView(view);
+            resultMsg.sendToTarget();
+            return true;
+        }
+    };
+
 
     // 防止内存泄漏
     // in android 5.1(sdk:21) we should invoke this to avoid memory leak
@@ -108,6 +157,16 @@ public class WebActivity extends BaseActivity {
             mWebView.destroy();
             mWebView = null;
         }
+    }
+
+    @Override public void onPause() {
+        super.onPause();
+        mWebView.onPause();
+    }
+
+    @Override public void onResume() {
+        super.onResume();
+        mWebView.onResume();
     }
 
     @Override
@@ -141,44 +200,12 @@ public class WebActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    WebChromeClient mWebChromeClient = new WebChromeClient() {
-        @Override
-        public void onProgressChanged(WebView view, int progress) {
-            if (progress < 100) {
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setProgress(progress);
-            } else if (progress == 100) {
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        @Override
-        public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-            setTitle(title);
-        }
-    };
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
             mWebView.goBack();
             return true;
         }
-
         return super.onKeyDown(keyCode, event);
-    }
-
-    class WebImageListenerImpl {
-
-        @JavascriptInterface
-        public void onImageClicked(String url) {
-
-        }
-
-        @JavascriptInterface
-        public void clicked(String url) {
-            Logger.e("clicked：" + url);
-        }
     }
 }

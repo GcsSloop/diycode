@@ -116,6 +116,7 @@ public class GcsMarkdownViewClient extends WebViewClient {
      */
     private boolean handleLink(String url) {
         Logger.e("handleLink" + url);
+        // TODO 添加设置选项
         if (null != mWebActivity) {
             Intent intent = new Intent(mContext, mWebActivity);
             intent.putExtra(URL, url);
