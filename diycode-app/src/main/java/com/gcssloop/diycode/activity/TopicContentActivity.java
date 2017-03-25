@@ -24,9 +24,12 @@ package com.gcssloop.diycode.activity;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -81,8 +84,22 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initViews(ViewHolder holder, View root) {
         mDataCache = new DataCache(this);
+        initActionBar(holder);
         initRecyclerView(holder);
         loadData(holder);
+    }
+
+    private void initActionBar(ViewHolder holder) {
+        Logger.e("initActionBar");
+        Toolbar toolbar = holder.get(R.id.toolbar);
+        if (toolbar != null){
+            setSupportActionBar(toolbar);
+        }
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        setTitle("Topic");
     }
 
     private void initReply(ViewHolder holder) {
@@ -124,7 +141,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             mWebViewClient.setWebActivity(WebActivity.class);
             mWebViewClient.setOpenUrlInBrowser(true);
             mMarkdownView.setWebViewClient(mWebViewClient);
-
 
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
@@ -289,5 +305,15 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                 mDiycode.createTopicReply(topic.getId(), reply);
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

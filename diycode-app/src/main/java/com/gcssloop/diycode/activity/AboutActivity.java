@@ -43,6 +43,11 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        initActionBar(holder);
+        holder.setOnClickListener(this, R.id.feed_back, R.id.github, R.id.contribute);
+    }
+
+    private void initActionBar(ViewHolder holder) {
         Toolbar toolbar = holder.get(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -52,7 +57,6 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        holder.setOnClickListener(this, R.id.feed_back, R.id.github, R.id.contribute);
     }
 
     @Override

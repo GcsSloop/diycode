@@ -66,9 +66,9 @@ public class WebActivity extends BaseActivity {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        toolbar = holder.get(R.id.toolbar);
         progressBar = holder.get(R.id.progress_bar);
 
+        toolbar = holder.get(R.id.toolbar);
         if (toolbar != null)
             setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
