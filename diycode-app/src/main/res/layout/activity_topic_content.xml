@@ -176,6 +176,11 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
             </android.support.v7.widget.RecyclerView>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:background="@color/diy_white_bg"/>
+
             <RelativeLayout
                 android:id="@+id/need_login"
                 android:layout_width="match_parent"
