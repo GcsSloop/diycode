@@ -24,6 +24,7 @@ package com.gcssloop.diycode.activity;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
@@ -81,6 +82,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         setTitle("设置");
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {

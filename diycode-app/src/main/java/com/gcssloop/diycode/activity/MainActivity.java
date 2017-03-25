@@ -239,8 +239,6 @@ public class MainActivity extends BaseActivity
                 openActivity(AboutActivity.class);
         } else if (id == R.id.nav_setting) {
                 openActivity(SettingActivity.class);
-        } else if (id == R.id.nav_logout) {
-            mDiycode.logout();  // 用户登出
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
