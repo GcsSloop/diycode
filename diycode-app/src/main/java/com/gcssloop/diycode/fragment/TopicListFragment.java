@@ -105,10 +105,8 @@ public class TopicListFragment extends BaseFragment {
         initListener(holder);
     }
 
-    // 注意：此处调用位置在 initViews 之后
-    @Override
-    protected void onFirstTimeLaunched() {
-        // 第一次加载，默认从缓存获取
+    // 加载数据，默认从缓存加载
+    private void loadData() {
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
             mAdapter.addDatas(topics);
@@ -232,6 +230,7 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        loadData();
     }
 
     @Override

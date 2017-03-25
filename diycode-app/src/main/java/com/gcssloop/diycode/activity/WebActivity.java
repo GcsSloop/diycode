@@ -106,7 +106,6 @@ public class WebActivity extends BaseActivity {
         settings.setSupportMultipleWindows(false);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 
-
         mWebView.setWebChromeClient(mWebChromeClient);
 
         mWebView.loadUrl(mUrl);
