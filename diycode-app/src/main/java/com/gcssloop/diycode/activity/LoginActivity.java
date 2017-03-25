@@ -23,10 +23,7 @@
 package com.gcssloop.diycode.activity;
 
 import android.graphics.Rect;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -52,7 +49,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        initActionBar(holder);
+        setTitle("");
         mUsername = holder.get(R.id.username);
         mPassword = holder.get(R.id.password);
 
@@ -78,27 +75,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
             toastShort("登录失败：" + msg);
         }
-    }
-
-    private void initActionBar(ViewHolder holder) {
-        Toolbar toolbar = holder.get(R.id.toolbar);
-        if (toolbar != null)
-            setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            setTitle("");
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
