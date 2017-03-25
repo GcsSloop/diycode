@@ -74,7 +74,7 @@
                 android:layout_marginLeft="6dp"
                 android:background="@null"
                 android:hint="Email / 用户名"
-                android:inputType="text"
+                android:inputType="textEmailAddress|text"
                 android:textSize="16sp"/>
 
             <View
