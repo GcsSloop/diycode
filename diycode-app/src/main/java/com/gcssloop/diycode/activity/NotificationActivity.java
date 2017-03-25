@@ -32,7 +32,7 @@ public class NotificationActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_notification;
+        return R.layout.activity_recycler_refresh;
     }
 
     @Override
