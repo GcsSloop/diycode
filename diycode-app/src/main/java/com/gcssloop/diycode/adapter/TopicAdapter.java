@@ -79,9 +79,7 @@ public class TopicAdapter extends GcsAdapter<Topic> {
         holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, TopicContentActivity.class);
-                intent.putExtra(TopicContentActivity.TOPIC, topic);
-                mContext.startActivity(intent);
+                TopicContentActivity.newInstance(mContext, topic);
             }
         });
     }

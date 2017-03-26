@@ -23,6 +23,7 @@
 package com.gcssloop.diycode.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -63,7 +64,10 @@ import java.util.List;
 public class TopicContentActivity extends BaseActivity implements View.OnClickListener {
     public static String TOPIC = "topic";
     public static String TOPIC_ID = "topic_id";
-    private Topic topic;
+    public static String ERROR = "error";
+    public static String TYPE = "type";
+    private int topic_id = -1;
+    private Topic topic = null;
     private DataCache mDataCache;
     private TopicReplyAdapter mAdapter;
     private MarkdownView mMarkdownView;
@@ -71,9 +75,29 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
 
     private EditText myReply;
 
+    public static void newInstance(@NonNull Context context, @NonNull Topic topic) {
+        Intent intent = new Intent(context, TopicContentActivity.class);
+        intent.putExtra(TOPIC, topic);
+        context.startActivity(intent);
+    }
+
+    public static void newInstance(@NonNull Context context, @NonNull int topic_id) {
+        Intent intent = new Intent(context, TopicContentActivity.class);
+        intent.putExtra(TOPIC_ID, topic_id);
+        context.startActivity(intent);
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_topic_content;
+    }
+
+    // 初始化数据
+    @Override
+    protected void initDatas() {
+        Intent intent = getIntent();
+        topic_id = intent.getIntExtra(TOPIC_ID, -1);
+        topic = (Topic) intent.getSerializableExtra(TOPIC);
     }
 
     @Override
@@ -84,6 +108,13 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         loadData(holder);
     }
 
+    private void initRecyclerView(ViewHolder holder) {
+        mAdapter = new TopicReplyAdapter(this);
+        RecyclerView recyclerView = holder.get(R.id.reply_list);
+        RecyclerViewUtil.init(this, recyclerView, mAdapter);
+    }
+
+    // 在 start 和 restart 调用
     private void initReply(ViewHolder holder) {
         if (!mDiycode.isLogin()) {
             holder.get(R.id.need_login).setVisibility(View.VISIBLE);
@@ -100,17 +131,10 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
     // 初始化 topic 内容面板的数据
     @SuppressLint({"AddJavascriptInterface", "JavascriptInterface"})
     private void loadData(ViewHolder holder) {
-        topic = (Topic) getIntent().getSerializableExtra(TOPIC);
         if (null != topic) {
-            User user = topic.getUser();
-            holder.setText(R.id.username, user.getLogin() + "(" + user.getName() + ")");
-            holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
-            holder.setText(R.id.title, topic.getTitle());
-            holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
-            holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
-            holder.setOnClickListener(this, R.id.avatar, R.id.username);
-            //mMarkdownView = holder.get(R.id.content);
+            showPreview(topic);
 
+            // MarkdownView
             FrameLayout layout = holder.get(R.id.webview_container);
             mMarkdownView = new MarkdownView(this.getApplicationContext());
             mMarkdownView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -142,8 +166,16 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
                 Logger.i("回复不变 - 来自缓存");
                 mAdapter.addDatas(replies);
             }
+        } else if (topic_id > 0) {
+            // 若是缓存有内容则读取缓存
+            TopicContent temp = mDataCache.getTopicContent(topic_id);
+            if (temp != null) {
+                showPreview(temp);
+            }
+            mDiycode.getTopic(topic_id);
+            mDiycode.getTopicRepliesList(topic_id, null, 100);
         } else {
-            toastShort("未传递数据");
+            toastShort("参数传递错误");
         }
     }
 
@@ -162,20 +194,44 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         return false;
     }
 
-    private void initRecyclerView(ViewHolder holder) {
-        mAdapter = new TopicReplyAdapter(this);
-        RecyclerView recyclerView = holder.get(R.id.reply_list);
-        RecyclerViewUtil.init(this, recyclerView, mAdapter);
+    // 显示基础数据
+    private void showPreview(Topic topic) {
+        ViewHolder holder = getViewHolder();
+        User user = topic.getUser();
+        holder.setText(R.id.username, user.getLogin() + "(" + user.getName() + ")");
+        holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
+        holder.setText(R.id.title, topic.getTitle());
+        holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
+        holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
+        holder.setOnClickListener(this, R.id.avatar, R.id.username);
+    }
+
+    // 显示基础数据
+    private void showPreview(TopicContent topic) {
+        ViewHolder holder = getViewHolder();
+        User user = topic.getUser();
+        holder.setText(R.id.username, user.getLogin() + "(" + user.getName() + ")");
+        holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
+        holder.setText(R.id.title, topic.getTitle());
+        holder.setText(R.id.reply_count, "共收到 " + topic.getReplies_count() + "条回复");
+        holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
+        holder.setOnClickListener(this, R.id.avatar, R.id.username);
+    }
+
+    // 显示全部数据
+    private void showAll(TopicContent topic) {
+        showPreview(topic);
+        mMarkdownView.setMarkDownText(topic.getBody());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicDetail(GetTopicEvent event) {
         if (event.isOk()) {
-            Logger.i("topic 请求成功 - 来自网络");
-            mMarkdownView.setMarkDownText(event.getBean().getBody());
+            showAll(event.getBean());
             mDataCache.saveTopicContent(event.getBean());
         }
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTopicRepliesList(GetTopicRepliesListEvent event) {
