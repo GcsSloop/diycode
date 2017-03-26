@@ -98,7 +98,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         Intent intent = getIntent();
         topic_id = intent.getIntExtra(TOPIC_ID, -1);
         topic = (Topic) intent.getSerializableExtra(TOPIC);
-        if (topic != null && topic_id <= 0){
+        if (topic != null && topic_id <= 0) {
             topic_id = topic.getId();
         }
     }
@@ -178,12 +178,16 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         if (null != topicContent) {
             Logger.i("数据不变 - 来自缓存");
             mMarkdownView.setMarkDownText(topicContent.getBody());
+        } else {
+            mDiycode.getTopic(topic.getId());
         }
 
         List<TopicReply> replies = mDataCache.getTopicRepliesList(topic.getId());
         if (null != replies) {
             Logger.i("回复不变 - 来自缓存");
             mAdapter.addDatas(replies);
+        } else {
+            mDiycode.getTopicRepliesList(topic.getId(), null, topic.getReplies_count());
         }
     }
 
