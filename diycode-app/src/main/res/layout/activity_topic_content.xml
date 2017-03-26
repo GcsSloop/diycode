@@ -58,7 +58,9 @@
                 android:paddingTop="@dimen/topic_item_padding_vertical"
                 app:layout_scrollFlags="scroll">
 
-                <ImageView
+                <com.gcssloop.diycode.widget.CircleImageView
+                    app:border_width="0dp"
+                    app:border_color="#00000000"
                     android:id="@+id/avatar"
                     android:layout_width="@dimen/panel_space_2"
                     android:layout_height="@dimen/panel_space_2"

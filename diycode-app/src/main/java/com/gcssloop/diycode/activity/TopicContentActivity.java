@@ -98,6 +98,9 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         Intent intent = getIntent();
         topic_id = intent.getIntExtra(TOPIC_ID, -1);
         topic = (Topic) intent.getSerializableExtra(TOPIC);
+        if (topic != null && topic_id <= 0){
+            topic_id = topic.getId();
+        }
     }
 
     @Override
@@ -245,7 +248,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             Logger.i("topic reply 回复 - 来自网络");
             mAdapter.clearDatas();
             mAdapter.addDatas(event.getBean());
-            mDataCache.saveTopicRepliesList(topic.getId(), event.getBean());
+            mDataCache.saveTopicRepliesList(topic_id, event.getBean());
         } else {
             // toastShort("获取回复失败");
         }
