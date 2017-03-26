@@ -36,7 +36,7 @@ public class Notification implements Serializable {
     private Reply mention;          // 提及详情
     private Topic topic;           // topic
     private Reply reply;            // 回复
-    private String node;            // 节点
+    private Node node;            // 节点
     private String created_at;      // 创建时间
     private String updated_at;      // 更新时间
 
@@ -104,11 +104,11 @@ public class Notification implements Serializable {
         return this.reply;
     }
 
-    public void setNode(String node) {
+    public void setNode(Node node) {
         this.node = node;
     }
 
-    public String getNode() {
+    public Node getNode() {
         return this.node;
     }
 

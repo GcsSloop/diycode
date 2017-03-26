@@ -188,6 +188,7 @@ public class NotificationActivity extends BaseActivity {
     // 数据加载出现异常
     private void onError(String postType, String errorType) {
         mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
+
         if (postType.equals(POST_LOAD_MORE)) {
             mFooter.setText(FOOTER_ERROR);
             toastShort("加载更多失败: " + errorType);
