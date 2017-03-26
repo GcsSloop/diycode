@@ -28,11 +28,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="12dp"
-        android:background="@color/diy_white_bg"/>
-
     <RelativeLayout
         android:id="@+id/item"
         android:layout_width="match_parent"
@@ -61,7 +56,7 @@
             tools:text="sloop 回复了话题"/>
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notification_type"
@@ -83,4 +78,12 @@
             tools:text="1分钟前"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/diy_white_bg"/>
+
 </LinearLayout>

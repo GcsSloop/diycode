@@ -24,12 +24,16 @@ package com.gcssloop.diycode.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
+import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
+import com.gcssloop.diycode.utils.HtmlUtil;
 import com.gcssloop.diycode_sdk.api.notifications.bean.Notification;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
@@ -54,18 +58,40 @@ public class NotificationAdapter extends GcsAdapter<Notification> {
     @Override
     public void convert(int position, GcsViewHolder holder, Notification bean) {
         final User actor = bean.getActor();
+        String suffix = "";
+        String desc = "";
+        int topic_id = -1;
+        if (bean.getType().equals(TYPE_TopicReply)) {
+            suffix = "回复了话题：";
+            desc = bean.getReply().getTopic_title();
+            topic_id = bean.getReply().getTopic_id();
+        } else if (bean.getType().equals(TYPE_Mention) && bean.getMention_type().equals(MENTION_TYPE_TopicReply)) {
+            suffix = "提到了你:";
+            desc = bean.getMention().getBody_html();
+            topic_id = bean.getMention().getTopic_id();
+        }
+        String type = actor.getLogin() + " " + suffix;
 
-        String type = actor.getLogin() + " " + "";
-
-        holder.setText(actor.getLogin(), R.id.notification_type);
         holder.loadImage(mContext, actor.getAvatar_url(), R.id.avatar);
+        holder.setText(type, R.id.notification_type);
+
+        Spanned result_desc = Html.fromHtml(HtmlUtil.removeP(desc));
+        TextView text_desc = holder.get(R.id.desc);
+        text_desc.setText(result_desc);
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UserActivity.newInstance(mContext, actor);
             }
-        }, R.id.avatar);
+        }, R.id.avatar, R.id.notification_type);
+
+        holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     /**
