@@ -72,9 +72,7 @@ public class ImageActivity extends BaseImageActivity {
             PhotoView photoView = (PhotoView) item.findViewById(R.id.photo_view);
             photoView.enable();
             final String url = images.get(i);
-            if (null == url || url.isEmpty()) {
-            } else {
-
+            if (!(null == url || url.isEmpty())) {
                 String image_cache_path = mCache.getDiskPath(url);
                 if (image_cache_path == null || image_cache_path.isEmpty()) {
                     loadImage(url, photoView);
@@ -83,7 +81,6 @@ public class ImageActivity extends BaseImageActivity {
                     loadImage(image_cache_path, photoView);
                     Logger.e("从本地加载:" + image_cache_path);
                 }
-
                 mItemViews.add(item);
             }
         }

@@ -34,7 +34,6 @@ import java.io.File;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_setting;
