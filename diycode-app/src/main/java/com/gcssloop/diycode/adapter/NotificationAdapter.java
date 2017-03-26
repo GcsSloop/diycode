@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
@@ -86,10 +87,11 @@ public class NotificationAdapter extends GcsAdapter<Notification> {
             }
         }, R.id.avatar, R.id.notification_type);
 
+        final int final_topic_id = topic_id;
         holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TopicContentActivity.newInstance(mContext, final_topic_id);
             }
         });
     }

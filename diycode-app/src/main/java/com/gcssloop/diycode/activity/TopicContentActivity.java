@@ -105,6 +105,7 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         setTitle("话题");
         mDataCache = new DataCache(this);
         initRecyclerView(holder);
+        initMarkdownView(holder);
         loadData(holder);
     }
 
@@ -112,6 +113,21 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         mAdapter = new TopicReplyAdapter(this);
         RecyclerView recyclerView = holder.get(R.id.reply_list);
         RecyclerViewUtil.init(this, recyclerView, mAdapter);
+    }
+
+    private void initMarkdownView(ViewHolder holder) {
+        FrameLayout layout = holder.get(R.id.webview_container);
+        mMarkdownView = new MarkdownView(this.getApplicationContext());
+        mMarkdownView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        layout.addView(mMarkdownView);
+
+        WebImageListener listener = new WebImageListener(this, ImageActivity.class);
+        mMarkdownView.addJavascriptInterface(listener, "listener");
+        mWebViewClient = new GcsMarkdownViewClient(this);
+        mWebViewClient.setWebActivity(WebActivity.class);
+        mWebViewClient.setOpenUrlInBrowser(true);
+        mMarkdownView.setWebViewClient(mWebViewClient);
     }
 
     // 在 start 和 restart 调用
@@ -134,38 +150,13 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         if (null != topic) {
             showPreview(topic);
 
-            // MarkdownView
-            FrameLayout layout = holder.get(R.id.webview_container);
-            mMarkdownView = new MarkdownView(this.getApplicationContext());
-            mMarkdownView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            layout.addView(mMarkdownView);
-
-            WebImageListener listener = new WebImageListener(this, ImageActivity.class);
-            mMarkdownView.addJavascriptInterface(listener, "listener");
-            mWebViewClient = new GcsMarkdownViewClient(this);
-            mWebViewClient.setWebActivity(WebActivity.class);
-            mWebViewClient.setOpenUrlInBrowser(true);
-            mMarkdownView.setWebViewClient(mWebViewClient);
-
             if (shouldReloadTopic(topic)) {
                 mDiycode.getTopic(topic.getId());
                 mDiycode.getTopicRepliesList(topic.getId(), null, topic.getReplies_count());
-                return;
+            } else {
+                loadCache();
             }
 
-            // 读取缓存
-            TopicContent topicContent = mDataCache.getTopicContent(topic.getId());
-            if (null != topicContent) {
-                Logger.i("数据不变 - 来自缓存");
-                mMarkdownView.setMarkDownText(topicContent.getBody());
-            }
-
-            List<TopicReply> replies = mDataCache.getTopicRepliesList(topic.getId());
-            if (null != replies) {
-                Logger.i("回复不变 - 来自缓存");
-                mAdapter.addDatas(replies);
-            }
         } else if (topic_id > 0) {
             // 若是缓存有内容则读取缓存
             TopicContent temp = mDataCache.getTopicContent(topic_id);
@@ -178,6 +169,21 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
             toastShort("参数传递错误");
         }
     }
+
+    private void loadCache() {
+        TopicContent topicContent = mDataCache.getTopicContent(topic.getId());
+        if (null != topicContent) {
+            Logger.i("数据不变 - 来自缓存");
+            mMarkdownView.setMarkDownText(topicContent.getBody());
+        }
+
+        List<TopicReply> replies = mDataCache.getTopicRepliesList(topic.getId());
+        if (null != replies) {
+            Logger.i("回复不变 - 来自缓存");
+            mAdapter.addDatas(replies);
+        }
+    }
+
 
     // 是否需重新加载 topic 详情
     private boolean shouldReloadTopic(@NonNull Topic topic) {
@@ -256,13 +262,9 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    // 防止内存泄漏
-    // in android 5.1(sdk:21) we should invoke this to avoid memory leak
-    // see (https://coolpers.github.io/webview/memory/leak/2015/07/16/
-    // android-5.1-webview-memory-leak.html)
+    // 防止 WebView 引起的内存泄漏
     public void clearWebViewResource() {
         if (mMarkdownView != null) {
-            Logger.e("清空 webview");
             mMarkdownView.clearHistory();
             ((ViewGroup) mMarkdownView.getParent()).removeView(mMarkdownView);
             mMarkdownView.setTag(null);
