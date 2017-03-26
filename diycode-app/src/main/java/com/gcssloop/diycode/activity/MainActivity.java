@@ -47,6 +47,7 @@ import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.login.event.LogoutEvent;
+import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
 import com.gcssloop.diycode_sdk.api.user.event.GetMeEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
@@ -168,7 +169,23 @@ public class MainActivity extends BaseActivity
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO 打开自己详情页
+                    UserDetail me = mCache.getMe();
+                    if (me == null) {
+                        try {
+                            me = mDiycode.getMeNow();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (me != null) {
+                        User user = new User();
+                        user.setId(me.getId());
+                        user.setName(me.getName());
+                        user.setLogin(me.getLogin());
+                        user.setAvatar_url(me.getAvatar_url());
+                        UserActivity.newInstance(MainActivity.this, user);
+                    }
                 }
             });
         } else {
