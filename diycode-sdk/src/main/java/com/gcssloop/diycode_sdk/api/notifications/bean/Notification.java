@@ -34,9 +34,9 @@ public class Notification implements Serializable {
     private User actor;             // 相关人员
     private String mention_type;    // 提及类型
     private Reply mention;          // 提及详情
-    private Topic topic;           // topic
+    private Topic topic;            // topic
     private Reply reply;            // 回复
-    private Node node;            // 节点
+    private Node node;              // 节点变更
     private String created_at;      // 创建时间
     private String updated_at;      // 更新时间
 
