@@ -53,7 +53,7 @@
 
                 <View
                     android:layout_width="0dp"
-                    android:layout_height="240dp"/>
+                    android:layout_height="160dp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
@@ -72,7 +72,7 @@
             <ImageView
                 android:id="@+id/background"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="160dp"
                 android:background="@color/diy_black"
                 android:src="@color/diy_white"
                 />
@@ -84,8 +84,8 @@
 
                 <com.gcssloop.diycode.widget.CircleImageView
                     android:id="@+id/avatar"
-                    android:layout_width="86dp"
-                    android:layout_height="86dp"
+                    android:layout_width="68dp"
+                    android:layout_height="68dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
                     android:src="@mipmap/ic_launcher"
@@ -99,15 +99,6 @@
                     android:layout_marginTop="16dp"
                     android:text="diytest(测试账号)"
                     android:textSize="18sp"/>
-
-                <Button
-                    android:id="@+id/follow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"
-                    android:text="Follow"
-                    android:textColor="@color/diy_white"/>
             </LinearLayout>
 
         </FrameLayout>

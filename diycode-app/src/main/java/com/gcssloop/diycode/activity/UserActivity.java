@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -34,10 +33,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
+import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
@@ -59,7 +58,6 @@ import static com.gcssloop.diycode.R.id.recycler_view;
 import static com.github.florent37.expectanim.core.Expectations.alpha;
 import static com.github.florent37.expectanim.core.Expectations.height;
 import static com.github.florent37.expectanim.core.Expectations.leftOfParent;
-import static com.github.florent37.expectanim.core.Expectations.rightOfParent;
 import static com.github.florent37.expectanim.core.Expectations.sameCenterVerticalAs;
 import static com.github.florent37.expectanim.core.Expectations.scale;
 import static com.github.florent37.expectanim.core.Expectations.toRightOf;
@@ -101,7 +99,6 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
             setTitle(user.getLogin());
             holder.setText(user.getName(), R.id.username);
             holder.loadImage(this, user.getAvatar_url(), R.id.avatar);
-            holder.setOnClickListener(this, R.id.follow);
             mDiycode.getUser(user.getLogin());
         } else {
         }
@@ -110,13 +107,19 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     private void initRecyclerView(ViewHolder holder) {
         mAdapter = new GcsAdapter<Topic>(this, R.layout.item_topic) {
             @Override
-            public void convert(int position, GcsViewHolder holder, Topic bean) {
+            public void convert(int position, GcsViewHolder holder, final Topic bean) {
                 final User user = bean.getUser();
                 holder.setText(R.id.username, user.getLogin());
                 holder.setText(R.id.node_name, bean.getNode_name());
                 holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
                 holder.setText(R.id.title, bean.getTitle());
                 holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+                holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TopicContentActivity.newInstance(mContext, bean);
+                    }
+                });
             }
         };
 
@@ -128,14 +131,13 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
         NestedScrollView scrollView = holder.get(R.id.scroll_view);
         ImageView avatar = holder.get(R.id.avatar);
         TextView username = holder.get(R.id.username);
-        AppCompatButton follow = holder.get(R.id.follow);
         View backbground = holder.get(R.id.background);
 
         this.expectAnimMove = new ExpectAnim()
                 .expect(avatar)
                 .toBe(
-                        topOfParent().withMarginDp(20),
-                        leftOfParent().withMarginDp(20),
+                        topOfParent().withMarginDp(13),
+                        leftOfParent().withMarginDp(13),
                         scale(0.5f, 0.5f)
                 )
                 .expect(username)
@@ -144,14 +146,9 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                         sameCenterVerticalAs(avatar),
                         alpha(0.5f)
                 )
-                .expect(follow)
-                .toBe(
-                        rightOfParent().withMarginDp(20),
-                        sameCenterVerticalAs(avatar)
-                )
                 .expect(backbground)
                 .toBe(
-                        height(DensityUtils.dip2px(this, 90)).withGravity(Gravity.LEFT, Gravity.TOP)
+                        height(DensityUtils.dip2px(this, 60)).withGravity(Gravity.LEFT, Gravity.TOP)
                 )
                 .toAnimation();
 
@@ -198,10 +195,5 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.follow:
-                Logger.e("follow");
-                break;
-        }
     }
 }
