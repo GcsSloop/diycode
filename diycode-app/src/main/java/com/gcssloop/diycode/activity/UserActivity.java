@@ -22,7 +22,9 @@
 
 package com.gcssloop.diycode.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
@@ -73,6 +75,12 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     public static String USER = "user";
     private ExpectAnim expectAnimMove;
     private GcsAdapter<Topic> mAdapter;
+
+    public static void newInstance(@NonNull Context context, @NonNull User user) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(USER, user);
+        context.startActivity(intent);
+    }
 
     @Override
     protected int getLayoutId() {

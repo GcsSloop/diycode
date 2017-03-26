@@ -22,6 +22,7 @@
 
 package com.gcssloop.diycode_sdk.api.notifications.bean;
 
+import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 
 import java.io.Serializable;
@@ -29,11 +30,11 @@ import java.io.Serializable;
 public class Notification implements Serializable {
     private int id;                 // notification id
     private String type;            // 类型
-    private boolean read;           // 是否已读
+    private Boolean read;           // 是否已读
     private User actor;             // 相关人员
     private String mention_type;    // 提及类型
     private Reply mention;          // 提及详情
-    private String topic;           // topic
+    private Topic topic;           // topic
     private Reply reply;            // 回复
     private String node;            // 节点
     private String created_at;      // 创建时间
@@ -55,11 +56,11 @@ public class Notification implements Serializable {
         return this.type;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(Boolean read) {
         this.read = read;
     }
 
-    public boolean getRead() {
+    public Boolean getRead() {
         return this.read;
     }
 
@@ -87,11 +88,11 @@ public class Notification implements Serializable {
         return this.mention;
     }
 
-    public void setTopic(String topic) {
+    public void setTopic(Topic topic) {
         this.topic = topic;
     }
 
-    public String getTopic() {
+    public Topic getTopic() {
         return this.topic;
     }
 
