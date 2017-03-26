@@ -178,20 +178,12 @@ public class GcsMarkdownViewClient extends WebViewClient {
     private WebResourceResponse getWebResourceResponse(String url) {
         try {
             // 如果是图片且本地有缓存
-            if (mCache.hasCache(url)) {
-                FileInputStream inputStream = mCache.getStream(url);
-                if (null != inputStream) {
-                    return new WebResourceResponse(getMimeType(url), "base64", inputStream);
-                }
-            }
-            /*
             if (isImageSuffix(url) || isGifSuffix(url)) {
                 FileInputStream inputStream = mCache.getStream(url);
                 if (null != inputStream) {
                     return new WebResourceResponse(getMimeType(url), "base64", inputStream);
                 }
             }
-            */
         } catch (Exception e) {
             e.printStackTrace();
         }
