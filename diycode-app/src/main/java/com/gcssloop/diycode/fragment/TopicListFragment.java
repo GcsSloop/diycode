@@ -105,6 +105,11 @@ public class TopicListFragment extends BaseFragment {
         initListener(holder);
     }
 
+    @Override
+    protected void onFirstTimeLaunched() {
+        loadData();
+    }
+
     // 加载数据，默认从缓存加载
     private void loadData() {
         List<Topic> topics = mDataCache.getTopicsList();
@@ -230,7 +235,6 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        loadData();
     }
 
     @Override
