@@ -47,7 +47,7 @@ import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
+import com.gcssloop.diycode.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -37,7 +37,7 @@ import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
+import com.gcssloop.diycode.utils.TimeUtil;
 
 public class TopicAdapter extends GcsAdapter<Topic> {
     private Context mContext;

@@ -53,7 +53,7 @@ import com.gcssloop.diycode_sdk.api.topic.event.GetTopicEvent;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicRepliesListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode_sdk.log.Logger;
-import com.gcssloop.diycode_sdk.utils.TimeUtil;
+import com.gcssloop.diycode.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
