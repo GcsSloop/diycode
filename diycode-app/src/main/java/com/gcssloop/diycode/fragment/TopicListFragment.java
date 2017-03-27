@@ -82,6 +82,8 @@ public class TopicListFragment extends BaseFragment {
     private TopicAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
 
+    private boolean isFirstLaunch = true;             // 是否是第一次加载
+
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -112,12 +114,15 @@ public class TopicListFragment extends BaseFragment {
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
             mRefreshLayout.setEnabled(true);
-            mRefreshLayout.setRefreshing(true); // 自动刷新一次
-            new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
-                public void run() {
-                    refresh();
-                }
-            }, 1000);
+            if (isFirstLaunch) {
+                mRefreshLayout.setRefreshing(true); // 自动刷新一次
+                new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
+                    public void run() {
+                        refresh();
+                    }
+                }, 1000);
+                isFirstLaunch = false;
+            }
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
