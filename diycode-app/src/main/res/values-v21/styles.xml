@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified 2017-03-08 01:01:18
+  ~ Last modified 2017-03-27 18:31:33
   ~
   ~ GitHub:  https://github.com/GcsSloop
   ~ Website: http://www.gcssloop.com
@@ -24,7 +24,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:statusBarColor">@color/diy_white</item>
     </style>
 </resources>
