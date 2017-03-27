@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.LruCache;
 
 import com.gcssloop.diycode_sdk.api.news.bean.New;
+import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
@@ -132,5 +133,13 @@ public class DataCache {
 
     public void removeMe() {
         removeDate("Gcs_Me_");
+    }
+
+    public void saveSites(List<Sites> sitesList) {
+        saveListData("sites_", sitesList);
+    }
+
+    public List<Sites> getSites() {
+        return getData("sites_");
     }
 }

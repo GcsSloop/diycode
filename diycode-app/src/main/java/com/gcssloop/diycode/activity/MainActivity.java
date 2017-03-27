@@ -43,6 +43,7 @@ import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.NewsListFragment;
+import com.gcssloop.diycode.fragment.SitesListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 import com.gcssloop.diycode.utils.DataCache;
@@ -88,6 +89,8 @@ public class MainActivity extends BaseActivity
                     return TopicListFragment.newInstance();
                 if (position == 1)
                     return NewsListFragment.newInstance();
+                if (position == 2)
+                    return SitesListFragment.newInstance();
                 return TextFragment.newInstance(types[position]);
             }
 
