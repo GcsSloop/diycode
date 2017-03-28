@@ -121,7 +121,7 @@ public class BaseEvent<T> {
     public String getCodeDescribe() {
         switch (code) {
             case -1:
-                return "可能是网络未连接";
+                return "可能是网络未连接，或者数据转化失败";
             case 200:
             case 201:
                 return "请求成功，或执行成功。";
