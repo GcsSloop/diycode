@@ -41,6 +41,7 @@ import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -90,9 +91,11 @@ public class SitesListFragment extends BaseFragment {
     private void initRecyclerView(final Context context, ViewHolder holder) {
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
 
+        Logger.e("初始化Adapter");
         mAdapter = new MultiTypeAdapter();
         mAdapter.register(SiteItem.class, new SiteProvider(getContext()));
         mAdapter.register(SitesItem.class, new SitesProvider(getContext()));
+        Logger.e("结束初始化Adapter");
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -113,9 +116,15 @@ public class SitesListFragment extends BaseFragment {
 
     // 加载数据
     private void loadData() {
-        //TODO 默认从缓存加载
-        mDiycode.getSites();
-        mFooter.setText(FOOTER_LOADING);
+        Logger.e("加载数据");
+        List<Sites> sitesList = mDataCache.getSites();
+        if (sitesList != null) {
+            convertData(sitesList);
+            mFooter.setText(FOOTER_NORMAL);
+        } else {
+            mDiycode.getSites();
+            mFooter.setText(FOOTER_LOADING);
+        }
     }
 
 
@@ -123,28 +132,33 @@ public class SitesListFragment extends BaseFragment {
     public void onSitesList(GetSitesEvent event) {
         //TODO 处理数据
         if (event.isOk()) {
-            List<Object> items = new ArrayList<>();
             List<Sites> sitesList = event.getBean();
-            for (Sites sites : sitesList) {
-
-                items.add(new SitesItem(sites.getName()));
-
-                for (Sites.Site site : sites.getSites()) {
-                    items.add(new SiteItem(site.getName(), site.getUrl(), site.getAvatar_url()));
-                }
-
-                if (sites.getSites().size() % 2 == 1) {
-                    items.add(new SiteItem("", "", ""));
-                }
-            }
-
-            mAdapter.addDatas(items);
+            convertData(sitesList);
+            mDataCache.saveSites(event.getBean());
         } else {
             toast("获取 sites 失败");
             mFooter.setText(FOOTER_ERROR);
         }
 
         mFooter.setText(FOOTER_NORMAL);
+    }
+
+    // 转换数据
+    private void convertData(List<Sites> sitesList) {
+        List<Object> items = new ArrayList<>();
+        for (Sites sites : sitesList) {
+
+            items.add(new SitesItem(sites.getName()));
+
+            for (Sites.Site site : sites.getSites()) {
+                items.add(new SiteItem(site.getName(), site.getUrl(), site.getAvatar_url()));
+            }
+
+            if (sites.getSites().size() % 2 == 1) {
+                items.add(new SiteItem("", "", ""));
+            }
+        }
+        mAdapter.addDatas(items);
     }
 
     @Override

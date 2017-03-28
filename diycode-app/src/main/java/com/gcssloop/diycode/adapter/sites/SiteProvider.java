@@ -24,16 +24,21 @@ package com.gcssloop.diycode.adapter.sites;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.multitype.BaseViewProvider;
 import com.gcssloop.diycode.multitype.GcsViewHolder;
-import com.gcssloop.diycode_sdk.log.Logger;
+import com.gcssloop.diycode.utils.IntentUtil;
 
 public class SiteProvider extends BaseViewProvider<SiteItem> {
+    private Context mContext;
 
     public SiteProvider(@NonNull Context context) {
         super(context, R.layout.item_site);
+        mContext = context;
     }
 
     /**
@@ -43,8 +48,17 @@ public class SiteProvider extends BaseViewProvider<SiteItem> {
      * @param bean   数据
      */
     @Override
-    public void onBindView(GcsViewHolder holder, SiteItem bean) {
+    public void onBindView(GcsViewHolder holder, final SiteItem bean) {
+        if (bean.getName().isEmpty()) return;
         holder.setText(R.id.name, bean.getName());
-        Logger.i("Site-onBindView");
+        ImageView icon = holder.get(R.id.icon);
+        Glide.with(mContext).load(bean.getAvatar_url()).into(icon);
+
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtil.openUrl(mContext, bean.getUrl());
+            }
+        }, R.id.icon, R.id.name);
     }
 }
