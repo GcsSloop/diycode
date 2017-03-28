@@ -76,10 +76,11 @@
                     tools:text="1.00M"/>
             </RelativeLayout>
 
-            <View
-                android:background="@color/diy_white_bg"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+            <ImageView
+                android:background="@color/diy_white"
+                android:src="@color/diy_gray"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
 
