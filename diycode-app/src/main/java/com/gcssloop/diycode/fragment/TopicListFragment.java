@@ -24,7 +24,6 @@ package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -109,11 +108,12 @@ public class TopicListFragment extends BaseFragment {
 
     // 加载数据，默认从缓存加载
     private void loadData() {
+        mRefreshLayout.setEnabled(true);
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
-            mRefreshLayout.setEnabled(true);
+            /*
             if (isFirstLaunch) {
                 mRefreshLayout.setRefreshing(true); // 自动刷新一次
                 new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
@@ -122,7 +122,7 @@ public class TopicListFragment extends BaseFragment {
                     }
                 }, 1000);
                 isFirstLaunch = false;
-            }
+            }*/
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);

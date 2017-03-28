@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,12 +41,12 @@ import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
+import com.gcssloop.diycode.utils.TimeUtil;
 import com.gcssloop.diycode.utils.UrlUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode.utils.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -109,6 +108,7 @@ public class NewsListFragment extends BaseFragment {
         if (null != news && news.size() > 0) {
             mAdapter.addDatas(news);
             mFooter.setText(FOOTER_NORMAL);
+            /*
             if (isFirstLunch){
                 mRefreshLayout.setEnabled(true);
                 mRefreshLayout.setRefreshing(true);
@@ -118,7 +118,7 @@ public class NewsListFragment extends BaseFragment {
                     }
                 }, 1000);
                 isFirstLunch = false;
-            }
+            }*/
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);

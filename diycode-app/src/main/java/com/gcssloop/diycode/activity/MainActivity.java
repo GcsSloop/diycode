@@ -79,18 +79,23 @@ public class MainActivity extends BaseActivity
     private void initViewPager(ViewHolder holder) {
         ViewPager mViewPager = holder.get(R.id.view_pager);
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
-        mViewPager.setOffscreenPageLimit(2); // 防止滑动到第三个页面时，第一个页面被销毁
+        mViewPager.setOffscreenPageLimit(1); // 防止滑动到第三个页面时，第一个页面被销毁
+
+        final TopicListFragment mFragment1 = TopicListFragment.newInstance();
+        final NewsListFragment mFragment2 = NewsListFragment.newInstance();
+        final SitesListFragment mFragment3 = SitesListFragment.newInstance();
+
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites"};
 
             @Override
             public Fragment getItem(int position) {
                 if (position == 0)
-                    return TopicListFragment.newInstance();
+                    return mFragment1;
                 if (position == 1)
-                    return NewsListFragment.newInstance();
+                    return mFragment2;
                 if (position == 2)
-                    return SitesListFragment.newInstance();
+                    return mFragment3;
                 return TextFragment.newInstance(types[position]);
             }
 

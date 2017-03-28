@@ -91,11 +91,9 @@ public class SitesListFragment extends BaseFragment {
     private void initRecyclerView(final Context context, ViewHolder holder) {
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
 
-        Logger.e("初始化Adapter");
         mAdapter = new MultiTypeAdapter();
         mAdapter.register(SiteItem.class, new SiteProvider(getContext()));
         mAdapter.register(SitesItem.class, new SitesProvider(getContext()));
-        Logger.e("结束初始化Adapter");
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -116,7 +114,6 @@ public class SitesListFragment extends BaseFragment {
 
     // 加载数据
     private void loadData() {
-        Logger.e("加载数据");
         List<Sites> sitesList = mDataCache.getSites();
         if (sitesList != null) {
             convertData(sitesList);
