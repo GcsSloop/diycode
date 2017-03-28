@@ -34,14 +34,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.webview.DiskImageCache;
 import com.gcssloop.diycode_sdk.log.Logger;
 
-import java.util.ArrayList;
-
 public class ImageActivity extends BaseImageActivity {
-
-    private ArrayList<View> mItemViews = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -64,31 +59,14 @@ public class ImageActivity extends BaseImageActivity {
         // TODO 从浏览器显示，分享，保存
         // 显示正常视图
         ViewPager viewPager = holder.get(R.id.view_pager);
-        final DiskImageCache mCache = new DiskImageCache(this);
 
-        LayoutInflater inflater = getLayoutInflater();
-        for (int i = 0; i < images.size(); i++) {
-            View item = inflater.inflate(R.layout.item_image, null);
-            PhotoView photoView = (PhotoView) item.findViewById(R.id.photo_view);
-            photoView.enable();
-            final String url = images.get(i);
-            if (!(null == url || url.isEmpty())) {
-                String image_cache_path = mCache.getDiskPath(url);
-                if (image_cache_path == null || image_cache_path.isEmpty()) {
-                    loadImage(url, photoView);
-                    Logger.e("从网络加载:" + url);
-                } else {
-                    loadImage(image_cache_path, photoView);
-                    Logger.e("从本地加载:" + image_cache_path);
-                }
-                mItemViews.add(item);
-            }
-        }
+        Logger.e("Size"+images.size());
+        final LayoutInflater inflater = getLayoutInflater();
 
         viewPager.setAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
-                return mItemViews.size();
+                return images.size();
             }
 
             @Override
@@ -98,13 +76,18 @@ public class ImageActivity extends BaseImageActivity {
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
-                container.addView(mItemViews.get(position));
-                return mItemViews.get(position);
+                PhotoView photoView = (PhotoView) inflater.inflate(R.layout.item_image, container, false);
+                photoView.enable();
+                Glide.with(ImageActivity.this).load(images.get(position)).into(photoView);
+                container.addView(photoView);
+                Logger.e("添加Item");
+                return photoView;
             }
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView(mItemViews.get(position));
+                PhotoView photoView = (PhotoView) container.findViewById(R.id.photo_view);
+                container.removeView(photoView);
             }
         });
 

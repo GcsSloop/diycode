@@ -24,8 +24,6 @@ package com.gcssloop.diycode.base.app;
 
 import android.content.Intent;
 
-import com.gcssloop.diycode_sdk.log.Logger;
-
 import java.util.ArrayList;
 
 /**
@@ -56,27 +54,24 @@ public abstract class BaseImageActivity extends BaseActivity {
             toastShort("没有传递图片链接");
             mCurrentMode = MODE_ERROR;
             return;
-        } else {
-            current_image_url = imageUrl;
-            mCurrentMode = MODE_NORMAL;
         }
+        mCurrentMode = MODE_NORMAL;
 
-        // 如果集合为空，不处理，返回
         ArrayList<String> temp = intent.getStringArrayListExtra(ALL_IMAGE_URLS);
         if (temp == null || temp.size() <= 0) {
-            return;
-        }
-
-        // 如果图片集合大于1，而且包括当前图片，记录集合，计算位置
-        if ((temp.size() >= 1) && temp.contains(current_image_url)) {
+            // 记录当前图片，计算位置
+            images.clear();
+            images.add(imageUrl);
+        } else if (temp.size() > 0) {
+            // 如果图片集合大于0
             images = new ArrayList<>(temp);
-            current_image_position = images.indexOf(current_image_url);
-            return;
         }
 
-        // 记录当前图片，计算位置
-        images.clear();
-        images.add(current_image_url);
+        if (!images.contains(imageUrl)) {
+            images.add(imageUrl);
+        }
+
+        current_image_url = imageUrl;
         current_image_position = images.indexOf(current_image_url);
     }
 }

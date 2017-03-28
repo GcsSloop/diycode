@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.webkit.JavascriptInterface;
 
 import com.gcssloop.diycode.base.app.BaseImageActivity;
+import com.gcssloop.diycode.utils.UrlUtil;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.util.ArrayList;
@@ -53,6 +54,9 @@ public class WebImageListener {
     @JavascriptInterface
     public void collectImage(final String url) {
         Logger.e("collect:" + url);
+        if (UrlUtil.isGifSuffix(url)){
+            return;
+        }
         if (!mImages.contains(url))
             mImages.add(url);
     }
@@ -67,8 +71,10 @@ public class WebImageListener {
         Logger.e("clicked:" + url);
         if (mImageActivity != null) {
             Intent intent = new Intent(mContext, mImageActivity);
-            intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
             intent.putExtra(BaseImageActivity.CURRENT_IMAGE_URL, url);
+            if (!UrlUtil.isGifSuffix(url)){
+                intent.putExtra(BaseImageActivity.ALL_IMAGE_URLS, mImages);
+            }
             mContext.startActivity(intent);
         }
     }

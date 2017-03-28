@@ -20,18 +20,10 @@
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
 
-<LinearLayout
+<com.bm.library.PhotoView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/photo_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <com.bm.library.PhotoView
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="fitCenter"
-        android:id="@+id/photo_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+    android:scaleType="fitCenter"
+    android:src="@mipmap/ic_launcher"/>
