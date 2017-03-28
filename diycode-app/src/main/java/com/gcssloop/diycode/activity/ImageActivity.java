@@ -34,9 +34,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseImageActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.base.webview.DiskImageCache;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 public class ImageActivity extends BaseImageActivity {
+
+    DiskImageCache mCache;
 
     @Override
     protected int getLayoutId() {
@@ -52,6 +55,7 @@ public class ImageActivity extends BaseImageActivity {
     @Override
     protected void initViews(ViewHolder holder, View root) {
         setTitle("查看图片");
+        mCache = new DiskImageCache(this);
         if (mCurrentMode == MODE_ERROR) {
             //TODO 显示错误视图
             return;
@@ -78,7 +82,13 @@ public class ImageActivity extends BaseImageActivity {
             public Object instantiateItem(ViewGroup container, int position) {
                 PhotoView photoView = (PhotoView) inflater.inflate(R.layout.item_image, container, false);
                 photoView.enable();
-                Glide.with(ImageActivity.this).load(images.get(position)).into(photoView);
+                String url = images.get(position);
+                if (mCache.hasCache(url)){
+                    String file = mCache.getDiskPath(url);
+                    Glide.with(ImageActivity.this).load(file).into(photoView);
+                } else {
+                    Glide.with(ImageActivity.this).load(images.get(position)).into(photoView);
+                }
                 container.addView(photoView);
                 Logger.e("添加Item");
                 return photoView;
