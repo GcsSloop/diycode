@@ -36,6 +36,7 @@ import com.gcssloop.diycode.utils.FileUtil;
 import java.io.File;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
+    private Config mConfig;
 
     @Override
     protected int getLayoutId() {
@@ -45,16 +46,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews(ViewHolder holder, View root) {
         setTitle("设置");
-        final Config config = Config.getSingleInstance();
+        mConfig = Config.getSingleInstance();
         showCacheSize(holder);
 
-        Boolean isUseInside = config.isUseInsideBrowser();
+        Boolean isUseInside = mConfig.isUseInsideBrowser();
         Switch isUseInsideBrowser = holder.get(R.id.use_inside_browser);
         isUseInsideBrowser.setChecked(isUseInside);
         isUseInsideBrowser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                config.setUesInsideBrowser(isChecked);
+                mConfig.setUesInsideBrowser(isChecked);
             }
         });
 

@@ -24,9 +24,14 @@ package com.gcssloop.diycode.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.LruCache;
 
 import com.gcssloop.diycode_sdk.utils.ACache;
+
+import java.io.Serializable;
+
+import static android.R.attr.value;
 
 /**
  * 用户设置
@@ -56,20 +61,50 @@ public class Config {
         return mConfig;
     }
 
-    private static String Key_Browser = "isUseInsideBrowser_";
+    //--- 基础 -----------------------------------------------------------------------------------
+
+    public <T extends Serializable> void saveData(@NonNull String key, @NonNull T value) {
+        mLruCache.put(key, value);
+        mDiskCache.put(key, value);
+    }
+
+    public <T extends Serializable> T getData(@NonNull String key, @Nullable T defaultValue) {
+        T result = (T) mLruCache.get(key);
+        if (result != null) {
+            return result;
+        }
+        result = (T) mDiskCache.getAsObject(key);
+        if (result != null) {
+            mLruCache.put(key, value);
+            return result;
+        }
+        return defaultValue;
+    }
+
+    //--- 浏览器 ---------------------------------------------------------------------------------
+
+    private static String Key_Browser = "UseInsideBrowser_";
 
     public void setUesInsideBrowser(@NonNull Boolean bool) {
-        mLruCache.put(Key_Browser, bool);
-        mDiskCache.put(Key_Browser, bool);
+        saveData(Key_Browser, bool);
     }
 
     public Boolean isUseInsideBrowser() {
-        Boolean bool = (Boolean) mLruCache.get(Key_Browser);
-        if (bool == null)
-            bool = (Boolean) mDiskCache.getAsObject(Key_Browser);
-        if (bool == null)
-            bool = true;
-        setUesInsideBrowser(bool);
-        return bool;
+        return getData(Key_Browser, true);
     }
+
+
+    //--- 状态 -----------------------------------------------------------------------------------
+
+    private String Key_TopicList_LastScroll = "Key_TopicList_LastScroll";
+
+    public void saveTopicListScroll(Integer scrollY) {
+        mLruCache.put(Key_TopicList_LastScroll, scrollY);
+        mDiskCache.put(Key_TopicList_LastScroll, scrollY);
+    }
+
+    public Integer getTopicLastScroll() {
+        return getData(Key_TopicList_LastScroll, 0);
+    }
+
 }

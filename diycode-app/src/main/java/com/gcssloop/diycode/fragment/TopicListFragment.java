@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -35,11 +36,12 @@ import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.adapter.TopicAdapter;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,9 +82,12 @@ public class TopicListFragment extends BaseFragment {
     // View
     private TopicAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
+    NestedScrollView mScrollView;
+    private LinearLayoutManager mLinearLayoutManager;
 
     private boolean isFirstLaunch = true;             // 是否是第一次加载
 
+    private Config mConfig;
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -98,16 +103,18 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        mConfig = Config.getSingleInstance();
         mDiycode = Diycode.getSingleInstance();
         mDataCache = new DataCache(getContext());
         mFooter = holder.get(R.id.footer);
+        mScrollView = holder.get(R.id.scroll_view);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
         initListener(holder);
     }
 
     // 加载数据，默认从缓存加载
-    private void loadData() {
+    private void initData() {
         mRefreshLayout.setEnabled(true);
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
@@ -137,9 +144,16 @@ public class TopicListFragment extends BaseFragment {
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
-        mAdapter = new TopicAdapter(context, mDataCache);
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
-        RecyclerViewUtil.init(context, recyclerView, mAdapter);
+        mAdapter = new TopicAdapter(context, mDataCache);
+        recyclerView.setAdapter(mAdapter);
+        mLinearLayoutManager = new LinearLayoutManager(context);
+        mLinearLayoutManager.setSmoothScrollbarEnabled(true);
+        mLinearLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+        Logger.e("初始化View");
     }
 
     private void initListener(ViewHolder holder) {
@@ -235,12 +249,32 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        loadData();
+        initData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final int lastScroll = mConfig.getTopicLastScroll();
+        mScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.scrollTo(0, lastScroll);
+            }
+        });
     }
 
     @Override
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // 保存
+        int lastScrollY = mScrollView.getScrollY();
+        mConfig.saveTopicListScroll(lastScrollY);
+        super.onDestroyView();
     }
 }
