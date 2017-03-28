@@ -120,13 +120,16 @@ public class TopicListFragment extends BaseFragment {
         if (null != topics && topics.size() > 0) {
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
-            final int lastScroll = mConfig.getTopicLastScroll();
-            mScrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    mScrollView.scrollTo(0, lastScroll);
-                }
-            });
+            if (isFirstLaunch) {
+                final int lastScroll = mConfig.getTopicLastScroll();
+                mScrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mScrollView.scrollTo(0, lastScroll);
+                    }
+                });
+                isFirstLaunch = false;
+            }
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
