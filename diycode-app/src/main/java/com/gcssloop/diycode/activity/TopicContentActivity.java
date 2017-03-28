@@ -128,8 +128,6 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
         WebImageListener listener = new WebImageListener(this, ImageActivity.class);
         mMarkdownView.addJavascriptInterface(listener, "listener");
         mWebViewClient = new GcsMarkdownViewClient(this);
-        mWebViewClient.setWebActivity(WebActivity.class);
-        mWebViewClient.setOpenUrlInBrowser(true);
         mMarkdownView.setWebViewClient(mWebViewClient);
     }
 

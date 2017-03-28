@@ -23,10 +23,13 @@
 package com.gcssloop.diycode.activity;
 
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCleanManager;
 import com.gcssloop.diycode.utils.FileUtil;
 
@@ -42,7 +45,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initViews(ViewHolder holder, View root) {
         setTitle("设置");
+        final Config config = Config.getSingleInstance();
         showCacheSize(holder);
+
+        Boolean isUseInside = config.isUseInsideBrowser();
+        Switch isUseInsideBrowser = holder.get(R.id.use_inside_browser);
+        isUseInsideBrowser.setChecked(isUseInside);
+        isUseInsideBrowser.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                config.setUesInsideBrowser(isChecked);
+            }
+        });
 
         if (mDiycode.isLogin()) {
             holder.get(R.id.user).setVisibility(View.VISIBLE);

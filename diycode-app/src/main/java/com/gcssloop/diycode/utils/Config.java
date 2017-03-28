@@ -41,7 +41,7 @@ public class Config {
         mDiskCache = ACache.get(context, "config");
     }
 
-    public static Config getSingleInstance(Context context) {
+    public static Config init(Context context) {
         if (null == mConfig) {
             synchronized (Config.class) {
                 if (null == mConfig) {
@@ -52,15 +52,18 @@ public class Config {
         return mConfig;
     }
 
+    public static Config getSingleInstance() {
+        return mConfig;
+    }
 
     private static String Key_Browser = "isUseInsideBrowser_";
 
-    private void setUesInsideBrowser(@NonNull Boolean bool) {
+    public void setUesInsideBrowser(@NonNull Boolean bool) {
         mLruCache.put(Key_Browser, bool);
         mDiskCache.put(Key_Browser, bool);
     }
 
-    private Boolean isUseInsideBrowser() {
+    public Boolean isUseInsideBrowser() {
         Boolean bool = (Boolean) mLruCache.get(Key_Browser);
         if (bool == null)
             bool = (Boolean) mDiskCache.getAsObject(Key_Browser);
@@ -69,5 +72,4 @@ public class Config {
         setUesInsideBrowser(bool);
         return bool;
     }
-
 }

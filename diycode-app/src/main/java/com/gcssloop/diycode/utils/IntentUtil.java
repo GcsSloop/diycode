@@ -23,6 +23,8 @@
 package com.gcssloop.diycode.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.gcssloop.diycode.activity.WebActivity;
 
@@ -30,6 +32,11 @@ public class IntentUtil {
 
     public static void openUrl(Context context, String url) {
         // TODO 根据设置判断是使用内部，还是外部浏览器
-        WebActivity.newInstance(context, url);
+        if (Config.getSingleInstance().isUseInsideBrowser()) {
+            WebActivity.newInstance(context, url);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            context.startActivity(intent);
+        }
     }
 }

@@ -76,6 +76,34 @@
                     tools:text="1.00M"/>
             </RelativeLayout>
 
+            <View
+                android:background="@color/diy_white_bg"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/diy_white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="使用内置浏览器"
+                    android:textSize="16sp"/>
+
+                <Switch
+                    android:textOn="内置"
+                    android:textOff="用户"
+                    android:id="@+id/use_inside_browser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:checked="true"/>
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/user"
@@ -102,7 +130,6 @@
                     android:textColor="@color/diy_red"
                     android:textSize="16sp"/>
             </LinearLayout>
-
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

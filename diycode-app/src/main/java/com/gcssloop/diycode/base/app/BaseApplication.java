@@ -24,6 +24,7 @@ package com.gcssloop.diycode.base.app;
 
 import android.app.Application;
 
+import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.CrashHandler;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.squareup.leakcanary.LeakCanary;
@@ -44,5 +45,7 @@ public class BaseApplication extends Application {
         CrashHandler.getInstance().init(this);
 
         Diycode.init(this, client_id, client_secret);
+
+        Config.init(this);
     }
 }

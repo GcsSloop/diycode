@@ -23,11 +23,8 @@
 package com.gcssloop.diycode.base.webview;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,7 +38,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.gcssloop.diycode.activity.WebActivity;
+import com.gcssloop.diycode.utils.IntentUtil;
 import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.io.FileInputStream;
@@ -55,8 +52,6 @@ import static com.gcssloop.diycode.utils.UrlUtil.isImageSuffix;
  */
 public class GcsMarkdownViewClient extends WebViewClient {
     public static final String URL = "url";
-    private Class<? extends Activity> mWebActivity = null;
-    private boolean mIsOpenUrlInBrowser = false;
     private Context mContext;
     private DiskImageCache mCache;
 
@@ -101,33 +96,15 @@ public class GcsMarkdownViewClient extends WebViewClient {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-        return handleLink(request.getUrl().toString());
+        IntentUtil.openUrl(mContext, request.getUrl().toString());
+        return true;
     }
 
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        return handleLink(url);
-    }
-
-    /**
-     * 处理超链接
-     *
-     * @param url 超链接
-     */
-    private boolean handleLink(String url) {
-        Logger.e("handleLink" + url);
-        // TODO 添加设置选项
-        if (null != mWebActivity) {
-            WebActivity.newInstance(mContext, url);
-            return true;
-        }
-        if (mIsOpenUrlInBrowser) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            mContext.startActivity(intent);
-            return true;
-        }
-        return false;
+        IntentUtil.openUrl(mContext, url);
+        return true;
     }
 
     //--- 监听加载了哪些资源 -----------------------------------------------------------------------
@@ -188,32 +165,5 @@ public class GcsMarkdownViewClient extends WebViewClient {
             e.printStackTrace();
         }
         return null;
-    }
-
-    //--- 设置 -----------------------------------------------------------------------------------
-
-    /**
-     * 设置链接在哪个 Activity 打开
-     *
-     * @param webActivity 包含 WebView 的 Activity
-     */
-    public void setWebActivity(Class<? extends Activity> webActivity) {
-        this.mWebActivity = webActivity;
-    }
-
-    /**
-     * 判断链接是否是使用 浏览器 打开
-     */
-    public boolean isOpenUrlInBrowser() {
-        return mIsOpenUrlInBrowser;
-    }
-
-    /**
-     * 设置链接打开方式
-     *
-     * @param openUrlInBrowser true 使用浏览器打开，false 在当前打开
-     */
-    public void setOpenUrlInBrowser(boolean openUrlInBrowser) {
-        mIsOpenUrlInBrowser = openUrlInBrowser;
     }
 }
