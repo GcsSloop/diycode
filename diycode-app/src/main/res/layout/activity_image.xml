@@ -24,6 +24,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,9 +36,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/pageIndicator"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:piv_viewPager="@id/view_pager"
+            app:piv_animationType="worm"
+            app:piv_autoVisibility="false"
+            app:piv_radius="4dp"
+            app:piv_padding="12dp"
+            app:piv_unselectedColor="@color/diy_gray2"
+            app:piv_selectedColor="@color/diy_red"
+            />
+    </RelativeLayout>
+
 </LinearLayout>
