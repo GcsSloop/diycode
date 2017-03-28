@@ -23,6 +23,7 @@
 package com.gcssloop.diycode.utils;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import com.gcssloop.diycode_sdk.api.news.bean.New;
@@ -42,30 +43,39 @@ import java.util.List;
  * 数据缓存工具
  */
 public class DataCache {
-
-    ACache cache;
-    LruCache<String, String> mLruCache;
+    private static int M = 1024 * 1024;
+    ACache mDiskCache;
+    LruCache<String, Object> mLruCache;
 
     public DataCache(Context context) {
-        cache = ACache.get(new File(FileUtil.getExternalCacheDir(context.getApplicationContext(), "diy-data")));
-        mLruCache = new LruCache<>(3 * 1024);
+        mDiskCache = ACache.get(new File(FileUtil.getExternalCacheDir(context.getApplicationContext(), "diy-data")));
+        mLruCache = new LruCache<>(5 * M);
     }
 
     public <T extends Serializable> void saveListData(String key, List<T> data) {
         ArrayList<T> datas = (ArrayList<T>) data;
-        cache.put(key, datas, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
+        mLruCache.put(key, datas);
+        mDiskCache.put(key, datas, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
     }
 
-    public <T extends Serializable> void saveData(String key, T data) {
-        cache.put(key, data, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
+    public <T extends Serializable> void saveData(@NonNull String key, @NonNull T data) {
+        mLruCache.put(key, data);
+        mDiskCache.put(key, data, ACache.TIME_WEEK);     // 数据缓存时间为 1 周
     }
 
-    public <T extends Serializable> T getData(String key) {
-        return (T) cache.getAsObject(key);
+    public <T extends Serializable> T getData(@NonNull String key) {
+        T result = (T) mLruCache.get(key);
+        if (result == null) {
+            result = (T) mDiskCache.getAsObject(key);
+            if (result != null) {
+                mLruCache.put(key, result);
+            }
+        }
+        return result;
     }
 
     public void removeDate(String key) {
-        cache.remove(key);
+        mDiskCache.remove(key);
     }
 
     public void saveTopicContent(TopicContent content) {
@@ -75,7 +85,6 @@ public class DataCache {
             preview = preview.substring(0, 100);
         }
         saveData("topic_content_preview" + content.getId(), preview);
-        mLruCache.put("topic_content_preview" + content.getId(), preview);
     }
 
     public TopicContent getTopicContent(int id) {
@@ -84,16 +93,7 @@ public class DataCache {
 
     public String getTopicPreview(int id) {
         String key = "topic_content_preview" + id;
-        String result = null;
-        result = mLruCache.get(key);
-        if (null != result) {
-            return result;
-        }
-        result = getData(key);
-        if (null != result) {
-            mLruCache.put(key, result);
-        }
-        return result;
+        return getData(key);
     }
 
     public void saveTopicRepliesList(int topic_id, List<TopicReply> replyList) {

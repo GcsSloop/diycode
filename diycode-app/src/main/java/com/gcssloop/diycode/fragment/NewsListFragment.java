@@ -89,6 +89,7 @@ public class NewsListFragment extends BaseFragment {
     private GcsAdapter<New> mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
 
+    private boolean isFirstLunch = true;
 
     public static NewsListFragment newInstance() {
         Bundle args = new Bundle();
@@ -102,24 +103,22 @@ public class NewsListFragment extends BaseFragment {
         return R.layout.fragment_recycler_refresh;
     }
 
-    // 注意：此处实际调用位置在 initViews 之后
-    @Override
-    protected void onFirstTimeLaunched() {
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
-
+    private void loadData() {
         // 第一次加载，默认从缓存加载
         List<New> news = mDataCache.getNewsList();
         if (null != news && news.size() > 0) {
             mAdapter.addDatas(news);
             mFooter.setText(FOOTER_NORMAL);
-            mRefreshLayout.setEnabled(true);
-            mRefreshLayout.setRefreshing(true);
-            new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
-                public void run() {
-                    refresh();
-                }
-            }, 1000);
+            if (isFirstLunch){
+                mRefreshLayout.setEnabled(true);
+                mRefreshLayout.setRefreshing(true);
+                new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
+                    public void run() {
+                        refresh();
+                    }
+                }, 1000);
+                isFirstLunch = false;
+            }
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
@@ -128,6 +127,8 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
         mFooter = holder.get(R.id.footer);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
@@ -271,6 +272,7 @@ public class NewsListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        loadData();
     }
 
     @Override
