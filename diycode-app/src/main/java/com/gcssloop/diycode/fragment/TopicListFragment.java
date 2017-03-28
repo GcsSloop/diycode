@@ -120,16 +120,13 @@ public class TopicListFragment extends BaseFragment {
         if (null != topics && topics.size() > 0) {
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
-            /*
-            if (isFirstLaunch) {
-                mRefreshLayout.setRefreshing(true); // 自动刷新一次
-                new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
-                    public void run() {
-                        refresh();
-                    }
-                }, 1000);
-                isFirstLaunch = false;
-            }*/
+            final int lastScroll = mConfig.getTopicLastScroll();
+            mScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mScrollView.scrollTo(0, lastScroll);
+                }
+            });
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
@@ -255,13 +252,6 @@ public class TopicListFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        final int lastScroll = mConfig.getTopicLastScroll();
-        mScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                mScrollView.scrollTo(0, lastScroll);
-            }
-        });
     }
 
     @Override

@@ -108,17 +108,6 @@ public class NewsListFragment extends BaseFragment {
         if (null != news && news.size() > 0) {
             mAdapter.addDatas(news);
             mFooter.setText(FOOTER_NORMAL);
-            /*
-            if (isFirstLunch){
-                mRefreshLayout.setEnabled(true);
-                mRefreshLayout.setRefreshing(true);
-                new Handler().postDelayed(new Runnable() {   // 延迟 1s，防闪屏
-                    public void run() {
-                        refresh();
-                    }
-                }, 1000);
-                isFirstLunch = false;
-            }*/
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
