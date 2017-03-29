@@ -289,4 +289,10 @@ public class TopicListFragment extends BaseFragment {
         mConfig.saveTopicListPageIndex(pageIndex);
         super.onDestroyView();
     }
+
+    public void quickToTop() {
+        if (mScrollView != null) {
+            mScrollView.smoothScrollTo(0, 0);
+        }
+    }
 }
