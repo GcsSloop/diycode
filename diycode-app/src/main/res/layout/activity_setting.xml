@@ -77,12 +77,12 @@
             </RelativeLayout>
 
             <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
                 android:background="@color/diy_white"
-                android:src="@color/diy_gray"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:src="@color/diy_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -97,14 +97,80 @@
                     android:textSize="16sp"/>
 
                 <Switch
-                    android:textOn="内置"
-                    android:textOff="用户"
                     android:id="@+id/use_inside_browser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:textOff="用户"
+                    android:textOn="内置"/>
             </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/diy_white"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@color/diy_gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/diy_white"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="当前版本"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:checked="true"
+                    tools:text="v0.0.1"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/diy_white"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@color/diy_gray"/>
+
+
+            <TextView
+                android:id="@+id/about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/diy_white"
+                android:padding="16dp"
+                android:text="关于"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/diy_white"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:src="@color/diy_gray"/>
+
+            <TextView
+                android:id="@+id/contribute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/diy_white"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="¥ 捐赠一杯咖啡"
+                android:textColor="#4AC432"
+                android:textSize="16sp"/>
 
             <LinearLayout
                 android:id="@+id/user"

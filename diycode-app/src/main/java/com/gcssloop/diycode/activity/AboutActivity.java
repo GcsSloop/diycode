@@ -23,15 +23,14 @@
 package com.gcssloop.diycode.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.IntentUtil;
 
 public class AboutActivity extends BaseActivity implements View.OnClickListener {
-    private String QRCode = "HTTPS://QR.ALIPAY.COM/FKX07101FYSJGTNCAPQW39";
 
     @Override
     protected int getLayoutId() {
@@ -56,9 +55,7 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(intent);
                 break;
             case R.id.contribute:
-                Intent intent2 = new Intent(Intent.ACTION_VIEW);
-                intent2.setData(Uri.parse("alipayqr://platformapi/startapp?saId=10000007&qrcode=" + QRCode));
-                startActivity(intent2);
+                IntentUtil.openAlipay(this);
                 break;
         }
     }

@@ -29,9 +29,11 @@ import android.widget.Switch;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.AppUtil;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCleanManager;
 import com.gcssloop.diycode.utils.FileUtil;
+import com.gcssloop.diycode.utils.IntentUtil;
 
 import java.io.File;
 
@@ -59,13 +61,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+        String versionName = AppUtil.getAppVersionName(this);
+        holder.setText(R.id.app_version, versionName);
+
         if (mDiycode.isLogin()) {
             holder.get(R.id.user).setVisibility(View.VISIBLE);
         } else {
             holder.get(R.id.user).setVisibility(View.GONE);
         }
 
-        holder.setOnClickListener(this, R.id.clear_cache, R.id.logout);
+        holder.setOnClickListener(this, R.id.clear_cache, R.id.logout, R.id.about, R.id.contribute);
     }
 
     // 显示缓存大小
@@ -94,6 +99,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 DataCleanManager.deleteFolderFile(FileUtil.getExternalCacheDir(this), false);
                 showCacheSize(getViewHolder());
                 toastShort("清除缓存成功");
+                break;
+            case R.id.about:
+                openActivity(AboutActivity.class);
+                break;
+            case R.id.contribute:
+                IntentUtil.openAlipay(this);
                 break;
         }
     }

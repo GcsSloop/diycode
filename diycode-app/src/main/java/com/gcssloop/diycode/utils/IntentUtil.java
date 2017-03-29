@@ -30,8 +30,15 @@ import com.gcssloop.diycode.activity.WebActivity;
 
 public class IntentUtil {
 
+
+    /**
+     * 打开链接
+     * 根据设置判断是用那种方式打开
+     *
+     * @param context 上下文
+     * @param url     url
+     */
     public static void openUrl(Context context, String url) {
-        // TODO 根据设置判断是使用内部，还是外部浏览器
         if (Config.getSingleInstance().isUseInsideBrowser()) {
             WebActivity.newInstance(context, url);
         } else {
@@ -39,4 +46,15 @@ public class IntentUtil {
             context.startActivity(intent);
         }
     }
+
+    /**
+     * 打开支付宝
+     */
+    public static void openAlipay(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        String QRCode = "HTTPS://QR.ALIPAY.COM/FKX07101FYSJGTNCAPQW39";
+        intent.setData(Uri.parse("alipayqr://platformapi/startapp?saId=10000007&qrcode=" + QRCode));
+        context.startActivity(intent);
+    }
+
 }
