@@ -111,6 +111,7 @@ public class NewsListFragment extends BaseFragment {
     }
 
     private void loadData() {
+        mRefreshLayout.setEnabled(true);
         // 第一次加载，默认从缓存加载
         List<New> news = mDataCache.getNewsList();
         if (null != news && news.size() > 0) {

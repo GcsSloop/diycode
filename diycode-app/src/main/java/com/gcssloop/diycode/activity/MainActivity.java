@@ -62,7 +62,10 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private DataCache mCache;
     private Config mConfig;
-    private int mCurrentPosition = -1;
+    private int mCurrentPosition = 0;
+    TopicListFragment mFragment1;
+    NewsListFragment mFragment2;
+    SitesListFragment mFragment3;
 
     @Override
     public int getLayoutId() {
@@ -85,9 +88,9 @@ public class MainActivity extends BaseActivity
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setOffscreenPageLimit(1); // 防止滑动到第三个页面时，第一个页面被销毁
 
-        final TopicListFragment mFragment1 = TopicListFragment.newInstance();
-        final NewsListFragment mFragment2 = NewsListFragment.newInstance();
-        final SitesListFragment mFragment3 = SitesListFragment.newInstance();
+        mFragment1 = TopicListFragment.newInstance();
+        mFragment2 = NewsListFragment.newInstance();
+        mFragment3 = SitesListFragment.newInstance();
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites"};
@@ -131,8 +134,8 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        int lastPosition = mConfig.getMainViewPagerPosition();
-        mViewPager.setCurrentItem(lastPosition);
+        mCurrentPosition = mConfig.getMainViewPagerPosition();
+        mViewPager.setCurrentItem(mCurrentPosition);
 
         mTabLayout.setupWithViewPager(mViewPager);
     }
@@ -270,6 +273,13 @@ public class MainActivity extends BaseActivity
                 openActivity(NotificationActivity.class);
             }
             return true;
+        } else if (id == R.id.action_quick_to_top){
+            Logger.e("点击返回头部"+mCurrentPosition);
+            switch (mCurrentPosition){
+                case 0:
+                    mFragment1.quickToTop();
+                    break;
+            }
         }
 
         return super.onOptionsItemSelected(item);

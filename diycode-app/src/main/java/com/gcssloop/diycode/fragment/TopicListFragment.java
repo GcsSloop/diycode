@@ -291,6 +291,7 @@ public class TopicListFragment extends BaseFragment {
     }
 
     public void quickToTop() {
+        Logger.e("快速返回");
         if (mScrollView != null) {
             mScrollView.smoothScrollTo(0, 0);
         }
