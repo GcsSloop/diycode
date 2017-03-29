@@ -30,6 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gcssloop.diycode_sdk.log.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +79,16 @@ public abstract class GcsAdapter<T> extends RecyclerView.Adapter<GcsViewHolder> 
     }
 
     public void addDatas(List<T> datas) {
-        this.mDatas.addAll(datas);
+        // 消除重复
+        Logger.e("清除重复数据");
+        for (T data : datas){
+            if (!mDatas.contains(data)){
+                mDatas.add(data);
+            } else {
+                Logger.i("过滤掉一条重复数据");
+            }
+        }
+        // this.mDatas.addAll(datas);
         notifyDataSetChanged();
     }
 

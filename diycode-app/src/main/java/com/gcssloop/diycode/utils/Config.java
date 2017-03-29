@@ -94,17 +94,38 @@ public class Config {
     }
 
 
-    //--- 状态 -----------------------------------------------------------------------------------
+    //--- 首页状态 -------------------------------------------------------------------------------
+
+    private String Key_MainViewPager_Position = "Key_MainViewPager_Position";
+
+    public void saveMainViewPagerPosition(Integer position) {
+        mLruCache.put(Key_MainViewPager_Position, position);
+    }
+
+    public Integer getMainViewPagerPosition() {
+        return getData(Key_MainViewPager_Position, 0);
+    }
+
+    //--- Topic状态 ------------------------------------------------------------------------------
 
     private String Key_TopicList_LastScroll = "Key_TopicList_LastScroll";
 
-    public void saveTopicListScroll(Integer scrollY) {
-        mLruCache.put(Key_TopicList_LastScroll, scrollY);
-        mDiskCache.put(Key_TopicList_LastScroll, scrollY);
+    public void saveTopicListScroll(Integer lastScrollY) {
+        saveData(Key_TopicList_LastScroll, lastScrollY);
     }
 
     public Integer getTopicLastScroll() {
         return getData(Key_TopicList_LastScroll, 0);
+    }
+
+    private String Key_TopicList_PageIndex = "Key_TopicList_PageIndex";
+
+    public void saveTopicListPageIndex(Integer pageIndex){
+        saveData(Key_TopicList_PageIndex, pageIndex);
+    }
+
+    public Integer getTopicListPageIndex(){
+        return getData(Key_TopicList_PageIndex, 0);
     }
 
 }

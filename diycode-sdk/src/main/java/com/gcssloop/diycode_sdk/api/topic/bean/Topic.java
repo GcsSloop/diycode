@@ -157,4 +157,16 @@ public class Topic implements Serializable {
     public Abilities getAbilities() {
         return this.abilities;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Topic)) {
+            return false;
+        }
+        Topic temp = (Topic) obj;
+        if (temp.getId() == getId()) {
+            return true;
+        }
+        return false;
+    }
 }

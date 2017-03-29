@@ -135,6 +135,8 @@ public class TopicListFragment extends BaseFragment {
         mRefreshLayout.setEnabled(true);
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
+            // 缓存模式，取出上一次的pageIndex
+            pageIndex = mConfig.getTopicListPageIndex();
             mAdapter.addDatas(topics);
             mFooter.setText(FOOTER_NORMAL);
             if (isFirstLaunch) {
@@ -284,6 +286,7 @@ public class TopicListFragment extends BaseFragment {
         // 保存
         int lastScrollY = mScrollView.getScrollY();
         mConfig.saveTopicListScroll(lastScrollY);
+        mConfig.saveTopicListPageIndex(pageIndex);
         super.onDestroyView();
     }
 }

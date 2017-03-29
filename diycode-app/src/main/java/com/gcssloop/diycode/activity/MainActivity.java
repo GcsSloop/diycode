@@ -46,6 +46,7 @@ import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.SitesListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
+import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.login.event.LogoutEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
@@ -59,7 +60,9 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    DataCache mCache;
+    private DataCache mCache;
+    private Config mConfig;
+    private int mCurrentPosition = -1;
 
     @Override
     public int getLayoutId() {
@@ -70,6 +73,7 @@ public class MainActivity extends BaseActivity
     public void initViews(ViewHolder holder, View root) {
         EventBus.getDefault().register(this);
         mCache = new DataCache(this);
+        mConfig = Config.getSingleInstance();
         initMenu(holder);
         initViewPager(holder);
     }
@@ -109,6 +113,27 @@ public class MainActivity extends BaseActivity
                 return types[position];
             }
         });
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mCurrentPosition = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        int lastPosition = mConfig.getMainViewPagerPosition();
+        mViewPager.setCurrentItem(lastPosition);
+
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -282,5 +307,6 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        mConfig.saveMainViewPagerPosition(mCurrentPosition);
     }
 }
