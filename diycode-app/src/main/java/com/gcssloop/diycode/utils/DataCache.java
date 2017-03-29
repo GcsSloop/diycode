@@ -143,12 +143,11 @@ public class DataCache {
         return getData("sites_");
     }
 
-    public void saveSitesItems(List<Object> sitesList) {
-        ArrayList<Object> data = new ArrayList<>(sitesList);
-        saveData("sites_item_", data);
+    public <T extends Serializable> void saveSitesItems(List<T> sitesList) {
+        saveListData("sites_item_", sitesList);
     }
 
-    public List<Object> getSitesItems() {
+    public <T extends Serializable> ArrayList<T> getSitesItems() {
         return getData("sites_item_");
     }
 }

@@ -22,7 +22,9 @@
 
 package com.gcssloop.diycode.adapter.sites;
 
-public class SitesItem {
+import java.io.Serializable;
+
+public class SitesItem implements Serializable {
     private String name;
 
     public SitesItem(String name) {

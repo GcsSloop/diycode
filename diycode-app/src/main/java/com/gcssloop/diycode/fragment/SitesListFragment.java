@@ -42,11 +42,13 @@ import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,11 +124,13 @@ public class SitesListFragment extends BaseFragment {
 
     // 加载数据
     private void loadData() {
-        List<Object> sitesList = mDataCache.getSitesItems();
+        List<Serializable> sitesList = mDataCache.getSitesItems();
         if (sitesList != null) {
+            Logger.e("获取sites缓存成功");
             mAdapter.addDatas(sitesList);
             mFooter.setText(FOOTER_NORMAL);
         } else {
+            Logger.e("获取sites缓存失败");
             mDiycode.getSites();
             mFooter.setText(FOOTER_LOADING);
         }
@@ -135,7 +139,6 @@ public class SitesListFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSitesList(GetSitesEvent event) {
-        //TODO 处理数据
         if (event.isOk()) {
             List<Sites> sitesList = event.getBean();
             convertData(sitesList);
@@ -150,7 +153,7 @@ public class SitesListFragment extends BaseFragment {
 
     // 转换数据
     private void convertData(List<Sites> sitesList) {
-        List<Object> items = new ArrayList<>();
+        List<Serializable> items = new ArrayList<>();
         for (Sites sites : sitesList) {
 
             items.add(new SitesItem(sites.getName()));
@@ -164,7 +167,8 @@ public class SitesListFragment extends BaseFragment {
             }
         }
         mAdapter.addDatas(items);
-        mDataCache.saveSitesItems(mAdapter.getDatas());
+        Logger.e("缓存 sites");
+        mDataCache.saveSitesItems(items);
     }
 
     @Override
