@@ -281,6 +281,8 @@ public class MainActivity extends BaseActivity
                     break;
                 case 1:
                     mFragment2.quickToTop();
+                case 2:
+                    mFragment3.quickToTop();
 
             }
         }

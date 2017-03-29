@@ -25,6 +25,7 @@ package com.gcssloop.diycode.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -68,6 +69,7 @@ public class SitesListFragment extends BaseFragment {
 
     // View
     private MultiTypeAdapter mAdapter;
+    private NestedScrollView mScrollView;
 
 
     public static SitesListFragment newInstance() {
@@ -93,6 +95,7 @@ public class SitesListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
+        mScrollView = holder.get(R.id.scroll_view);
         mFooter = holder.get(R.id.footer);
         initRecyclerView(getContext(), holder);
         loadData();
@@ -181,5 +184,12 @@ public class SitesListFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    public void quickToTop() {
+        Logger.e("快速返回");
+        if (mScrollView != null) {
+            mScrollView.smoothScrollTo(0, 0);
+        }
     }
 }
