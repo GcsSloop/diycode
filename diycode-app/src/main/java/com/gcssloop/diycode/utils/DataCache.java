@@ -142,4 +142,13 @@ public class DataCache {
     public List<Sites> getSites() {
         return getData("sites_");
     }
+
+    public void saveSitesItems(List<Object> sitesList) {
+        ArrayList<Object> data = new ArrayList<>(sitesList);
+        saveData("sites_item_", data);
+    }
+
+    public List<Object> getSitesItems() {
+        return getData("sites_item_");
+    }
 }

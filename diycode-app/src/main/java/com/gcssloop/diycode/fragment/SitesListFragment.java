@@ -24,6 +24,7 @@ package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -41,7 +42,6 @@ import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,6 +75,15 @@ public class SitesListFragment extends BaseFragment {
         return fragment;
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+        mDataCache.getSitesItems();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_sites;
@@ -82,10 +91,9 @@ public class SitesListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
         mFooter = holder.get(R.id.footer);
         initRecyclerView(getContext(), holder);
+        loadData();
     }
 
     private void initRecyclerView(final Context context, ViewHolder holder) {
@@ -114,9 +122,9 @@ public class SitesListFragment extends BaseFragment {
 
     // 加载数据
     private void loadData() {
-        List<Sites> sitesList = mDataCache.getSites();
+        List<Object> sitesList = mDataCache.getSitesItems();
         if (sitesList != null) {
-            convertData(sitesList);
+            mAdapter.addDatas(sitesList);
             mFooter.setText(FOOTER_NORMAL);
         } else {
             mDiycode.getSites();
@@ -131,7 +139,7 @@ public class SitesListFragment extends BaseFragment {
         if (event.isOk()) {
             List<Sites> sitesList = event.getBean();
             convertData(sitesList);
-            mDataCache.saveSites(event.getBean());
+            // mDataCache.saveSites(event.getBean());
         } else {
             toast("获取 sites 失败");
             mFooter.setText(FOOTER_ERROR);
@@ -156,13 +164,13 @@ public class SitesListFragment extends BaseFragment {
             }
         }
         mAdapter.addDatas(items);
+        mDataCache.saveSitesItems(mAdapter.getDatas());
     }
 
     @Override
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        loadData();
     }
 
     @Override

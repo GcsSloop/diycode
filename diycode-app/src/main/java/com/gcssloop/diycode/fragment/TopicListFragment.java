@@ -24,6 +24,7 @@ package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -97,20 +98,36 @@ public class TopicListFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mConfig = Config.getSingleInstance();
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+        // 预加载数据, 提前将磁盘数据读取到内存，后续读取更快速
+        List<Topic> topics = mDataCache.getTopicsList();
+        if (topics != null) {
+            for (Topic topic : topics) {
+                mDataCache.getTopicPreview(topic.getId());
+            }
+        }
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_recycler_refresh;
     }
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mConfig = Config.getSingleInstance();
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
+        long time = System.currentTimeMillis();
+        Logger.e("time = " + time);
         mFooter = holder.get(R.id.footer);
         mScrollView = holder.get(R.id.scroll_view);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
         initListener(holder);
+        initData();
+        Logger.e("initViews 耗时 = " + (System.currentTimeMillis() - time) + " ms");
     }
 
     // 加载数据，默认从缓存加载
@@ -249,7 +266,6 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        initData();
     }
 
     @Override

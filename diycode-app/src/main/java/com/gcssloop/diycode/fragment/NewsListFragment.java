@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -98,6 +99,13 @@ public class NewsListFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_recycler_refresh;
     }
@@ -116,12 +124,11 @@ public class NewsListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
         mFooter = holder.get(R.id.footer);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
         initListener(holder);
+        loadData();
     }
 
     private void initRefreshLayout(ViewHolder holder) {
@@ -261,7 +268,6 @@ public class NewsListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        loadData();
     }
 
     @Override
