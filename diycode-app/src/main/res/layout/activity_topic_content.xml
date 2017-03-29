@@ -227,9 +227,11 @@
                     android:textSize="16sp"/>
 
                 <Button
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/topic_reply_btn_bg"
                     android:id="@+id/send_reply"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/my_reply"
                     android:text="发送"/>
