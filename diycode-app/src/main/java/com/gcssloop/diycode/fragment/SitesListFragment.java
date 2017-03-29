@@ -129,11 +129,9 @@ public class SitesListFragment extends BaseFragment {
     private void loadData() {
         List<Serializable> sitesList = mDataCache.getSitesItems();
         if (sitesList != null) {
-            Logger.e("获取sites缓存成功");
             mAdapter.addDatas(sitesList);
             mFooter.setText(FOOTER_NORMAL);
         } else {
-            Logger.e("获取sites缓存失败");
             mDiycode.getSites();
             mFooter.setText(FOOTER_LOADING);
         }
@@ -170,7 +168,6 @@ public class SitesListFragment extends BaseFragment {
             }
         }
         mAdapter.addDatas(items);
-        Logger.e("缓存 sites");
         mDataCache.saveSitesItems(items);
     }
 
@@ -187,7 +184,6 @@ public class SitesListFragment extends BaseFragment {
     }
 
     public void quickToTop() {
-        Logger.e("快速返回");
         if (mScrollView != null) {
             mScrollView.smoothScrollTo(0, 0);
         }
