@@ -128,4 +128,25 @@ public class Config {
         return getData(Key_TopicList_PageIndex, 0);
     }
 
+    //--- News状态 ------------------------------------------------------------------------------
+
+    private String Key_NewsList_LastScroll = "Key_NewsList_LastScroll";
+
+    public void saveNewsListScroll(Integer lastScrollY) {
+        saveData(Key_NewsList_LastScroll, lastScrollY);
+    }
+
+    public Integer getNewsLastScroll() {
+        return getData(Key_NewsList_LastScroll, 0);
+    }
+
+    private String Key_NewsList_PageIndex = "Key_NewsList_PageIndex";
+
+    public void saveNewsListPageIndex(Integer pageIndex){
+        saveData(Key_NewsList_PageIndex, pageIndex);
+    }
+
+    public Integer getNewsListPageIndex(){
+        return getData(Key_NewsList_PageIndex, 0);
+    }
 }

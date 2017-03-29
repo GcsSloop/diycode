@@ -40,6 +40,7 @@ import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
+import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode.utils.TimeUtil;
@@ -48,6 +49,7 @@ import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,13 +85,16 @@ public class NewsListFragment extends BaseFragment {
 
     // 数据
     private Diycode mDiycode;                       // 在线(服务器)
+    private Config mConfig;
     private DataCache mDataCache;                   // 缓存(本地)
 
     // View
     private GcsAdapter<New> mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
 
+    private NestedScrollView mScrollView;
     private boolean isFirstLunch = true;
+    boolean isFirstLaunch = true;
 
     public static NewsListFragment newInstance() {
         Bundle args = new Bundle();
@@ -102,6 +107,7 @@ public class NewsListFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDiycode = Diycode.getSingleInstance();
+        mConfig = Config.getSingleInstance();
         mDataCache = new DataCache(getContext());
     }
 
@@ -110,13 +116,24 @@ public class NewsListFragment extends BaseFragment {
         return R.layout.fragment_recycler_refresh;
     }
 
-    private void loadData() {
+    private void initData() {
         mRefreshLayout.setEnabled(true);
         // 第一次加载，默认从缓存加载
         List<New> news = mDataCache.getNewsList();
         if (null != news && news.size() > 0) {
+            pageIndex = mConfig.getNewsListPageIndex();
             mAdapter.addDatas(news);
             mFooter.setText(FOOTER_NORMAL);
+            if (isFirstLaunch) {
+                final int lastScroll = mConfig.getNewsLastScroll();
+                mScrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mScrollView.scrollTo(0, lastScroll);
+                    }
+                });
+                isFirstLaunch = false;
+            }
         } else {
             loadMore();
             mFooter.setText(FOOTER_LOADING);
@@ -126,10 +143,11 @@ public class NewsListFragment extends BaseFragment {
     @Override
     protected void initViews(ViewHolder holder, View root) {
         mFooter = holder.get(R.id.footer);
+        mScrollView = holder.get(R.id.scroll_view);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
         initListener(holder);
-        loadData();
+        initData();
     }
 
     private void initRefreshLayout(ViewHolder holder) {
@@ -275,5 +293,21 @@ public class NewsListFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // 保存
+        int lastScrollY = mScrollView.getScrollY();
+        mConfig.saveNewsListScroll(lastScrollY);
+        mConfig.saveNewsListPageIndex(pageIndex);
+        super.onDestroyView();
+    }
+
+    public void quickToTop() {
+        Logger.e("快速返回");
+        if (mScrollView != null) {
+            mScrollView.smoothScrollTo(0, 0);
+        }
     }
 }

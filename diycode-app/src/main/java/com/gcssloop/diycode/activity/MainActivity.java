@@ -273,12 +273,15 @@ public class MainActivity extends BaseActivity
                 openActivity(NotificationActivity.class);
             }
             return true;
-        } else if (id == R.id.action_quick_to_top){
-            Logger.e("点击返回头部"+mCurrentPosition);
-            switch (mCurrentPosition){
+        } else if (id == R.id.action_quick_to_top) {
+            Logger.e("点击返回头部" + mCurrentPosition);
+            switch (mCurrentPosition) {
                 case 0:
                     mFragment1.quickToTop();
                     break;
+                case 1:
+                    mFragment2.quickToTop();
+
             }
         }
 
