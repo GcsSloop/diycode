@@ -16,8 +16,6 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 (如果是从微信，微博等打开，请点击右上角在浏览器中打开，之后点击安装)<br/>
 </p>
 
-
-
 ### 应用截图
 
 <img src="http://www.gcssloop.com/diycode_data/screen_shot.png"/>
