@@ -21,6 +21,9 @@
   -->
 
 <resources>
+
+    <string name="scale_down_show_behavior">com.gcssloop.diycode.widget.behavior.ScaleDownShowBehavior</string>
+
     <string name="app_name">Diycode</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

@@ -285,6 +285,7 @@ public class MainActivity extends BaseActivity
 
     // 快速返回顶部
     private void quickToTop() {
+        toastShort("快速返回");
         switch (mCurrentPosition) {
             case 0:
                 mFragment1.quickToTop();
