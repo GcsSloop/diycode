@@ -25,6 +25,7 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 
 /**
  * Created on 2016/7/14.
@@ -33,7 +34,10 @@ import android.view.View;
  */
 public class AnimatorUtil {
 
-    public static final LinearOutSlowInInterpolator FAST_OUT_SLOW_IN_INTERPOLATOR = new LinearOutSlowInInterpolator();
+    private static LinearOutSlowInInterpolator FAST_OUT_SLOW_IN_INTERPOLATOR = new LinearOutSlowInInterpolator();
+
+    private static AccelerateInterpolator LINER_INTERPOLATOR = new AccelerateInterpolator();
+
 
     // 显示view
     public static void scaleShow(View view, ViewPropertyAnimatorListener viewPropertyAnimatorListener) {
@@ -65,7 +69,7 @@ public class AnimatorUtil {
         view.setVisibility(View.VISIBLE);
         ViewCompat.animate(view)
                 .translationY(0)
-                .setDuration(800)
+                .setDuration(400)
                 .setListener(viewPropertyAnimatorListener)
                 .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
                 .start();
@@ -75,8 +79,8 @@ public class AnimatorUtil {
     public static void translateHide(View view, ViewPropertyAnimatorListener viewPropertyAnimatorListener) {
         view.setVisibility(View.VISIBLE);
         ViewCompat.animate(view)
-                .translationY(300)
-                .setDuration(800)
+                .translationY(260)
+                .setDuration(400)
                 .setInterpolator(FAST_OUT_SLOW_IN_INTERPOLATOR)
                 .setListener(viewPropertyAnimatorListener)
                 .start();
