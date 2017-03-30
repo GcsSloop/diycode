@@ -24,11 +24,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_quick_to_top"
-        android:icon="@mipmap/up"
-        android:title="快速返回"
-        app:showAsAction="always"/>
-    <item
         android:id="@+id/action_notification"
         android:icon="@mipmap/notification"
         android:title="通知"

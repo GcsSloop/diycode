@@ -23,7 +23,6 @@
 package com.gcssloop.diycode.activity;
 
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,8 +31,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private DataCache mCache;
     private Config mConfig;
     private int mCurrentPosition = 0;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity
     private void initViewPager(ViewHolder holder) {
         ViewPager mViewPager = holder.get(R.id.view_pager);
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
-        mViewPager.setOffscreenPageLimit(1); // 防止滑动到第三个页面时，第一个页面被销毁
+        mViewPager.setOffscreenPageLimit(3); // 防止滑动到第三个页面时，第一个页面被销毁
 
         mFragment1 = TopicListFragment.newInstance();
         mFragment2 = NewsListFragment.newInstance();
@@ -170,13 +171,26 @@ public class MainActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        holder.setOnClickListener(new View.OnClickListener() {
+        // 双击 666
+        final GestureDetector detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
             @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Diycode", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onDoubleTap(MotionEvent e) {
+                quickToTop();   // 快速返回头部
+                return super.onDoubleTap(e);
             }
-        }, R.id.fab);
+        });
+
+        toolbar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                detector.onTouchEvent(event);
+                return false;
+            }
+        });
+
+        toolbar.setOnClickListener(this);
+
+        holder.setOnClickListener(this, R.id.fab);
 
         loadMenuData();
     }
@@ -265,20 +279,23 @@ public class MainActivity extends BaseActivity
                 openActivity(NotificationActivity.class);
             }
             return true;
-        } else if (id == R.id.action_quick_to_top) {
-            switch (mCurrentPosition) {
-                case 0:
-                    mFragment1.quickToTop();
-                    break;
-                case 1:
-                    mFragment2.quickToTop();
-                case 2:
-                    mFragment3.quickToTop();
-
-            }
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    // 快速返回顶部
+    private void quickToTop() {
+        switch (mCurrentPosition) {
+            case 0:
+                mFragment1.quickToTop();
+                break;
+            case 1:
+                mFragment2.quickToTop();
+                break;
+            case 2:
+                mFragment3.quickToTop();
+                break;
+        }
     }
 
     @Override
@@ -313,5 +330,18 @@ public class MainActivity extends BaseActivity
         super.onDestroy();
         EventBus.getDefault().unregister(this);
         mConfig.saveMainViewPagerPosition(mCurrentPosition);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.toolbar:
+                toastShort("双击标题栏快速返回顶部");
+                break;
+            case R.id.fab:
+                quickToTop();
+                break;
+        }
     }
 }
