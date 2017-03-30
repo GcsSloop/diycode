@@ -87,8 +87,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onStop() {
         super.onStop();
-        unRegisterKeyboardListener();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unRegisterKeyboardListener();
     }
 
     private void registerKeyboardListener() {
