@@ -42,7 +42,7 @@
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="4dp"/>
+        android:layout_height="2dp"/>
 
     <FrameLayout
         android:id="@+id/webview_container"
