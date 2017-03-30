@@ -22,7 +22,6 @@
 
 package com.gcssloop.diycode.activity;
 
-import android.content.Intent;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
@@ -47,12 +46,10 @@ public class AboutActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.feed_back:
-                toastShort("你以为我会告诉你联系方式？天真！");
+                IntentUtil.openUrl(this,"https://github.com/GcsSloop/diycode/issues/1");
                 break;
             case R.id.github:
-                Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra(WebActivity.URL, "https://github.com/GcsSloop");
-                startActivity(intent);
+                IntentUtil.openUrl(this,"https://github.com/GcsSloop");
                 break;
             case R.id.contribute:
                 IntentUtil.openAlipay(this);
