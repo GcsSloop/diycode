@@ -64,9 +64,11 @@ public class MainActivity extends BaseActivity
     private DataCache mCache;
     private Config mConfig;
     private int mCurrentPosition = 0;
-    TopicListFragment mFragment1;
-    NewsListFragment mFragment2;
-    SitesListFragment mFragment3;
+    private TopicListFragment mFragment1;
+    private NewsListFragment mFragment2;
+    private SitesListFragment mFragment3;
+
+    private boolean isToolbarFirstClick = true;
 
     @Override
     public int getLayoutId() {
@@ -172,7 +174,7 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // 双击 666
-        final GestureDetector detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
+        final GestureDetector detector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 quickToTop();   // 快速返回头部
@@ -285,7 +287,6 @@ public class MainActivity extends BaseActivity
 
     // 快速返回顶部
     private void quickToTop() {
-        toastShort("快速返回");
         switch (mCurrentPosition) {
             case 0:
                 mFragment1.quickToTop();
@@ -336,9 +337,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.toolbar:
-                toastShort("双击标题栏快速返回顶部");
+                if (isToolbarFirstClick) {
+                    toastShort("双击标题栏快速返回顶部");
+                    isToolbarFirstClick = false;
+                }
                 break;
             case R.id.fab:
                 quickToTop();
