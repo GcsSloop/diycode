@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gcssloop.diycode.activity.WebActivity;
 import com.gcssloop.diycode_sdk.log.Logger;
@@ -48,7 +49,7 @@ public class IntentUtil {
         Boolean useInside = true;
         try {
             useInside = Config.getSingleInstance().isUseInsideBrowser();
-        } catch (Exception e){
+        } catch (Exception e) {
             Logger.e("类型转换错误");
         }
         if (useInside) {
@@ -63,10 +64,13 @@ public class IntentUtil {
      * 打开支付宝
      */
     public static void openAlipay(Context context) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        String QRCode = "HTTPS://QR.ALIPAY.COM/FKX07101FYSJGTNCAPQW39";
-        intent.setData(Uri.parse("alipayqr://platformapi/startapp?saId=10000007&qrcode=" + QRCode));
-        context.startActivity(intent);
+        if (AppUtil.isAvailable(context, "com.eg.android.AlipayGphone")) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            String QRCode = "HTTPS://QR.ALIPAY.COM/FKX07101FYSJGTNCAPQW39";
+            intent.setData(Uri.parse("alipayqr://platformapi/startapp?saId=10000007&qrcode=" + QRCode));
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, "你没有捐赠的权限", Toast.LENGTH_SHORT).show();
+        }
     }
-
 }

@@ -27,9 +27,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import java.util.List;
+
 public class AppUtil {
     /**
      * 获取当前应用版本名称
+     *
      * @param context 上下文
      * @return 版本名
      */
@@ -51,6 +54,7 @@ public class AppUtil {
 
     /**
      * 获取当前应用版本号
+     *
      * @param context 上下文
      * @return 版本号
      */
@@ -65,5 +69,26 @@ public class AppUtil {
             Log.e("VersionInfo", "Exception", e);
         }
         return versioncode;
+    }
+
+    /**
+     * 判断是否安装某个应用
+     *
+     * @param context     上下文
+     * @param packageName 包名
+     * @return 是否安装
+     */
+    public static boolean isAvailable(Context context, String packageName) {
+        final PackageManager packageManager = context.getPackageManager();//获取packagemanager
+        List<PackageInfo> pInfo = packageManager.getInstalledPackages(0);//获取所有已安装程序的包信息
+        //从pinfo中将包名字逐一取出，压入pName list中
+        if (pInfo != null) {
+            for (int i = 0; i < pInfo.size(); i++) {
+                String pn = pInfo.get(i).packageName;
+                if (pn.equals(packageName))
+                    return true;
+            }
+        }
+        return false;
     }
 }
