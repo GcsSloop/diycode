@@ -1,5 +1,7 @@
 <h1 align="center">diycode</h1>
 
+版本: v0.0.6 (build 4) | 大小：2.7M | 2017-03-31
+
 Diycode 社区客户端，可以更方便的在手机上查看社区信息。应用采用了数据多级缓存，并且实现了离线浏览(访问过一次的页面会被缓存下来，没有网络也可查看)，相比于网页版，在一定程度上可以减少在手机上访问的流量消耗。由于目前功能尚未完善，还存在一些已知或未知的bug，所以当前版本仅为 beta 测试版。
 
 本客户端开发过程是完全开放的，如果你想要改进客户端，或者发现了问题，可以到 [这里提交 Issues](https://github.com/GcsSloop/diycode/issues) 。当然了，你也可以基于该代码修改并开发出属于自己的客户端。
@@ -22,13 +24,23 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 
 ### 更新说明：
 
+1. 修正重复打开链接导致程序异常退出
+
+### 历史版本
+
+#### [diycode-v0.0.5 (2017-03-31)](http://www.gcssloop.com/diycode_data/diycode-v0.0.5.apk)
+
+1. 修复 News 链接打开方式
+2. 调整 Sites 页面条目间距和点击区域大小
+3. 修正评论区图片大小
+
+#### [diycode-v0.0.3 (2017-03-31)](http://www.gcssloop.com/diycode_data/diycode-v0.0.3.apk)
+
 1. 修复首页滑动卡顿问题
 2. 修复登录页面崩溃问题
 3. 移除顶部菜单快速返回按钮
 4. 添加点击FAB快速返回顶部
 5. 添加双击Actionbar(Toolbar)快速返回顶部
-
-### 历史版本
 
 #### [diycode-v0.0.1 (2017-03-29)](www.gcssloop.com/diycode_data/diycode-v0.0.1.apk)
 
