@@ -22,11 +22,11 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 
 <p align="center">
 
-<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6av8luuuj31ay27dx18.jpg" width="300"/>
+<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6av8luuuj31ay27dx18.jpg" width="260"/>
 
-<img src="https://ww1.sinaimg.cn/large/006tNbRwly1fe6avzayilj31ay27d1ar.jpg" width="300"/>
+<img src="https://ww1.sinaimg.cn/large/006tNbRwly1fe6avzayilj31ay27d1ar.jpg" width="260"/>
 
-<img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fe6awl66snj31ay27dnne.jpg" width="300"/>
+<img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fe6awl66snj31ay27dnne.jpg" width="260"/>
 
 
 
@@ -36,11 +36,11 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 
 <p align="center">
 
-<img src="https://ww4.sinaimg.cn/large/006tNbRwly1fe6aylwi4rg308c0epax3.gif" width="300"/>
+<img src="https://ww4.sinaimg.cn/large/006tNbRwly1fe6aylwi4rg308c0epax3.gif" width="260"/>
 
-<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6azfor7xg308c0eptng.gif" width="300"/>
+<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6azfor7xg308c0eptng.gif" width="260"/>
 
-<img src="https://ww2.sinaimg.cn/large/006tNbRwly1fe6b00pp6xg308c0ep4kp.gif" width="300"/>
+<img src="https://ww2.sinaimg.cn/large/006tNbRwly1fe6b00pp6xg308c0ep4kp.gif" width="260"/>
 
 </p>
 
