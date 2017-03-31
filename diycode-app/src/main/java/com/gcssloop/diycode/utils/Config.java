@@ -90,7 +90,7 @@ public class Config {
     }
 
     public Boolean isUseInsideBrowser() {
-        return getData(Key_Browser, true);
+        return getData(Key_Browser, Boolean.TRUE);
     }
 
 
