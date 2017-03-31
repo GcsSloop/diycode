@@ -25,6 +25,7 @@ package com.gcssloop.diycode.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 
 import com.gcssloop.diycode.activity.WebActivity;
 
@@ -39,6 +40,10 @@ public class IntentUtil {
      * @param url     url
      */
     public static void openUrl(Context context, String url) {
+        if (url == null || url.isEmpty()) {
+            Log.i("Diyocde", "Url地址错误");
+            return;
+        }
         if (Config.getSingleInstance().isUseInsideBrowser()) {
             WebActivity.newInstance(context, url);
         } else {
