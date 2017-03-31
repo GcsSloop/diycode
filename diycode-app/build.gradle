@@ -30,8 +30,8 @@ android {
         applicationId "com.gcssloop.diycode"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 3
-        versionName "v0.0.5 beta"
+        versionCode 4
+        versionName "v0.0.6"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
