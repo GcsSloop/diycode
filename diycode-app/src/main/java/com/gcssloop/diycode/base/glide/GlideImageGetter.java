@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-11 22:23:57
+ * Last modified 2017-03-31 14:20:42
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -36,6 +36,7 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,15 +52,6 @@ public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callba
 
     private final Set<ImageGetterViewTarget> mTargets;
 
-    public GlideImageGetter(Context context, TextView textView) {
-        this.mContext = context;
-        this.mTextView = textView;
-
-        clear(); // Cancel all previous request
-        mTargets = new HashSet<>();
-        mTextView.setTag(R.id.drawable_callback_tag, this);
-    }
-
     public static GlideImageGetter get(View view) {
         return (GlideImageGetter) view.getTag(R.id.drawable_callback_tag);
     }
@@ -69,22 +61,32 @@ public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callba
         if (prev == null) return;
 
         for (ImageGetterViewTarget target : prev.mTargets) {
-            System.out.println("Cleared!");
             Glide.clear(target);
         }
+    }
+
+    public GlideImageGetter(Context context, TextView textView) {
+        this.mContext = context;
+        this.mTextView = textView;
+
+        clear();
+        mTargets = new HashSet<>();
+        mTextView.setTag(R.id.drawable_callback_tag, this);
     }
 
     @Override
     public Drawable getDrawable(String url) {
         final UrlDrawable urlDrawable = new UrlDrawable();
 
-       // System.out.println("Downloading from: " + url);
+        Logger.i("Downloading from: " + url);
         Glide.with(mContext)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(new ImageGetterViewTarget(mTextView, urlDrawable));
 
+
         return urlDrawable;
+
     }
 
     @Override
@@ -105,40 +107,44 @@ public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callba
     private class ImageGetterViewTarget extends ViewTarget<TextView, GlideDrawable> {
 
         private final UrlDrawable mDrawable;
-        private Request request;
 
         private ImageGetterViewTarget(TextView view, UrlDrawable drawable) {
             super(view);
-            mTargets.add(this); // Add ViewTarget into Set
+            mTargets.add(this);
             this.mDrawable = drawable;
         }
 
         @Override
         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-            // Resize images - Scale image proportionally to fit TextView width
-            float width;
-            float height;
-            if (resource.getIntrinsicWidth() >= getView().getWidth()) {
-                float downScale = (float) resource.getIntrinsicWidth() / getView().getWidth();
-                width = (float) resource.getIntrinsicWidth() / (float) downScale;
-                height = (float) resource.getIntrinsicHeight() / (float) downScale;
-            } else {
-                float multiplier = (float) getView().getWidth() / resource.getIntrinsicWidth();
-                width = (float) resource.getIntrinsicWidth() * (float) multiplier;
-                height = (float) resource.getIntrinsicHeight() * (float) multiplier;
-            }
-            Rect rect = new Rect(0, 0, Math.round(width), Math.round(height));
+            Rect rect;
+            if (resource.getIntrinsicWidth() > 100) {
+                float width;
+                float height;
+                Logger.i("Image width is " + resource.getIntrinsicWidth());
+                Logger.i("View width is " + view.getWidth());
+                if (resource.getIntrinsicWidth() >= getView().getWidth()) {
+                    float downScale = (float) resource.getIntrinsicWidth() / getView().getWidth();
+                    width = (float) resource.getIntrinsicWidth() / (float) downScale;
+                    height = (float) resource.getIntrinsicHeight() / (float) downScale;
+                } else {
+                    float multiplier = (float) getView().getWidth() / resource.getIntrinsicWidth();
+                    width = (float) resource.getIntrinsicWidth() * (float) multiplier;
+                    height = (float) resource.getIntrinsicHeight() * (float) multiplier;
+                }
+                Logger.i("New Image width is " + width);
 
+
+                rect = new Rect(0, 0, Math.round(width), Math.round(height));
+            } else {
+                rect = new Rect(0, 0, resource.getIntrinsicWidth() * 2, resource.getIntrinsicHeight() * 2);
+            }
             resource.setBounds(rect);
 
             mDrawable.setBounds(rect);
             mDrawable.setDrawable(resource);
 
-            if (resource.isAnimated()) {
-                // set callback to drawable in order to
-                // signal its container to be redrawn
-                // to show the animated GIF
 
+            if (resource.isAnimated()) {
                 mDrawable.setCallback(get(getView()));
                 resource.setLoopCount(GlideDrawable.LOOP_FOREVER);
                 resource.start();
@@ -147,6 +153,8 @@ public final class GlideImageGetter implements Html.ImageGetter, Drawable.Callba
             getView().setText(getView().getText());
             getView().invalidate();
         }
+
+        private Request request;
 
         @Override
         public Request getRequest() {
