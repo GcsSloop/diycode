@@ -31,8 +31,6 @@ import com.gcssloop.diycode_sdk.utils.ACache;
 
 import java.io.Serializable;
 
-import static android.R.attr.value;
-
 /**
  * 用户设置
  */
@@ -75,7 +73,7 @@ public class Config {
         }
         result = (T) mDiskCache.getAsObject(key);
         if (result != null) {
-            mLruCache.put(key, value);
+            mLruCache.put(key, result);
             return result;
         }
         return defaultValue;
