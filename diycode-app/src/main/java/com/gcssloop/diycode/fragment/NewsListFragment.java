@@ -23,8 +23,6 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
@@ -42,6 +40,7 @@ import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode.utils.IntentUtil;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode.utils.TimeUtil;
 import com.gcssloop.diycode.utils.UrlUtil;
@@ -49,7 +48,6 @@ import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode_sdk.log.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -173,18 +171,14 @@ public class NewsListFragment extends BaseFragment {
                 holder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, UserActivity.class);
-                        intent.putExtra(UserActivity.USER, user);
-                        context.startActivity(intent);
-
+                        UserActivity.newInstance(mContext,user);
                     }
                 }, R.id.avatar, R.id.username);
 
                 holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bean.getAddress()));
-                        mContext.startActivity(intent);
+                        IntentUtil.openUrl(mContext, bean.getAddress());
                     }
                 });
             }
