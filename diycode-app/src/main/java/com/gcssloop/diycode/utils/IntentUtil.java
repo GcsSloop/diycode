@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.gcssloop.diycode.activity.WebActivity;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 public class IntentUtil {
 
@@ -40,11 +41,17 @@ public class IntentUtil {
      * @param url     url
      */
     public static void openUrl(Context context, String url) {
-        if (url == null || url.isEmpty()) {
+        if (null == url || url.isEmpty()) {
             Log.i("Diyocde", "Url地址错误");
             return;
         }
-        if (Config.getSingleInstance().isUseInsideBrowser()) {
+        Boolean useInside = true;
+        try {
+            useInside = Config.getSingleInstance().isUseInsideBrowser();
+        } catch (Exception e){
+            Logger.e("类型转换错误");
+        }
+        if (useInside) {
             WebActivity.newInstance(context, url);
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
