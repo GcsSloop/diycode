@@ -9,18 +9,40 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 如果你有兴趣亲自开发一个 diycode 客户端的话，可以试试看 [diycode-sdk](https://github.com/GcsSloop/diycode-sdk)，它可以让你方便的拿到 diycode 社区的数据以及与 diycode 服务器交互，所有信息都会立即同步到社区上。
 
 <p align="center">
-<img src="http://www.gcssloop.com/diycode_data/playstore-icon.png" width="100" />
+<img src="https://ww2.sinaimg.cn/large/006tNbRwly1fe69n67gzfj30e80e8aa6.jpg" width="100" />
 <br/>Diycode 社区客户端，可以离线查看 topic，更方便，更省流量。 <br/><br/>
-<a href="http://www.gcssloop.com/diycode_data/diycode-app-release.apk" ><img src="http://www.gcssloop.com/diycode_data/download.png" width="168" /></a>
+<a href="http://www.gcssloop.com/diycode_data/diycode-app-release.apk" ><img src="https://ww2.sinaimg.cn/large/006tNbRwly1fe69o6avahj308c01omx2.jpg" width="168" /></a>
 <br/>适用于 Android 设备<br/><br/>
 或者用手机扫描下面二维码安装。<br/>
-<img src="http://www.gcssloop.com/diycode_data/page_qrcode.png" width="200"/><br/>
+<img src="https://ww1.sinaimg.cn/large/006tNbRwly1fe69oo2ektj30bo0bo0ss.jpg" width="200"/><br/>
 (如果是从微信，微博等打开，请点击右上角在浏览器中打开，之后点击安装)<br/>
 </p>
 
 ### 应用截图
 
-<img src="http://www.gcssloop.com/diycode_data/screen_shot.png"/>
+<p align="center">
+
+<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6av8luuuj31ay27dx18.jpg" width="300"/>
+
+<img src="https://ww1.sinaimg.cn/large/006tNbRwly1fe6avzayilj31ay27d1ar.jpg" width="300"/>
+
+<img src="https://ww3.sinaimg.cn/large/006tNbRwgy1fe6awl66snj31ay27dnne.jpg" width="300"/>
+
+
+
+</p>
+
+## 动态演示
+
+<p align="center">
+
+<img src="https://ww4.sinaimg.cn/large/006tNbRwly1fe6aylwi4rg308c0epax3.gif" width="300"/>
+
+<img src="https://ww3.sinaimg.cn/large/006tNbRwly1fe6azfor7xg308c0eptng.gif" width="300"/>
+
+<img src="https://ww2.sinaimg.cn/large/006tNbRwly1fe6b00pp6xg308c0ep4kp.gif" width="300"/>
+
+</p>
 
 ### 更新说明：
 
