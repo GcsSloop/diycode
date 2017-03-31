@@ -53,7 +53,7 @@ public class SiteProvider extends BaseViewProvider<SiteItem> {
         holder.setText(R.id.name, bean.getName());
         ImageView icon = holder.get(R.id.icon);
         Glide.with(mContext).load(bean.getAvatar_url()).into(icon);
-        
+
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
