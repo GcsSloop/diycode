@@ -65,6 +65,13 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 10. topic 缓存，可离线查看
 11. 缓存默认为 1 周，过期自动清除，也可手动清除
 
+## 相关日志
+
+- [01 - 整体架构](blog/journal-01.md)
+- [02 - 缓存 WebView 中的图片](blog/journal-02.md)
+- [03 - 点击网页图片查看大图](blog/journal-03.md)
+- [04 - API 的封装哲学](blog/journal-04.md)
+
 ## 作者简介
 
 #### 作者微博: [@GcsSloop](http://weibo.com/GcsSloop)
