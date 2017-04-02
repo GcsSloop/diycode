@@ -125,8 +125,8 @@ public class TopicContentActivity extends BaseActivity implements View.OnClickLi
 
 可以看到，其逻辑结构相当简单，当然了，这些代码都是经过我高度浓缩精炼后的，具体的浓缩精炼方法会在后续开发日志中逐渐教给大家，当然了，直接去看源码也行，本次的 diycode 开发过程是全公开的，如果想关注 diycode 的更多细节，可以到 [GitHub](https://github.com/GcsSloop/diycode) 查看。
 
-本次开发日志就到这里了，如果想要了解我的话，可以关注我的微博和网站，详情见下方。
+如果想要了解我的话，可以关注我的微博和网站，详情见下方。
 
-微博： http://weibo.com/GcsSloop
+微博： http://weibo.com/GcsSloop  
 网站： http://www.gcssloop.com
 

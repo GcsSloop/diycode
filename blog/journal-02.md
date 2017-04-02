@@ -83,9 +83,9 @@ setWebViewClient(new WebViewClient() {
 
 可以看到，图片被成功的替换掉了。使用这种方式所耗费的资源要比上一种方式少很多，目前来说，是一种不错的方法。
 
-本次开发日志就到这里了，以后如果有新奇好玩的东西继续分享给大家。
+
 
 如果想要了解我的话，可以关注我的微博和网站，详情见下方。
 
-微博： http://weibo.com/GcsSloop
+微博： http://weibo.com/GcsSloop  
 网站： http://www.gcssloop.com

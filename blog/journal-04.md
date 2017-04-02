@@ -482,7 +482,9 @@ public String hello(@Nullable Integer limit) {
 2. 如果发现了结构不合理的部分，最好立即重构代码，否则越拖越难修改。
 3. 合理使用范型能大大的提高代码复用率。
 
+
+
 如果想要了解我更多的话，可以关注我的微博和网站，详情见下方。
 
-微博： http://weibo.com/GcsSloop
+微博： http://weibo.com/GcsSloop  
 网站： http://www.gcssloop.com

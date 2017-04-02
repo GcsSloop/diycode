@@ -149,9 +149,9 @@ https://user-gold-cdn.xitu.io/2017/3/16/4e820744d74e0c6e9f5076638d122d29 (这是
 
 最终经过重重磨难，终于比较完美的实现了我想要的效果。
 
-本次开发日志就到这里了，以后如果有新奇好玩的东西继续分享给大家。
+
 
 如果想要了解我的话，可以关注我的微博和网站，详情见下方。
 
-微博： http://weibo.com/GcsSloop
+微博： http://weibo.com/GcsSloop  
 网站： http://www.gcssloop.com
