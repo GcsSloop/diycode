@@ -29,8 +29,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
     <string name="about_diycode_title">Diycode一个什么样的社区?</string>
     <string name="about_diycode_desc">
         &#160;&#160;&#160;&#160;编程不仅仅是技术，还是艺术，开发工程师不仅仅只是写代码的人，
