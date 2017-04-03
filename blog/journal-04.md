@@ -480,6 +480,8 @@ public String hello(@Nullable Integer limit) {
 
 生成实体类的前提条件是我们已经能拿到服务器返回的 Json 数据了，我们可以使用 [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=zh-CN) 在写代码之前获取返回的数据。同时，它也可以方便的帮助我们测试 API。
 
+文章中涉及的核心代码都在这里面： [diycode-sdk/base](https://github.com/GcsSloop/diycode-sdk/tree/master/sdk/src/main/java/com/gcssloop/diycode_sdk/api/base)
+
 ## 5. 总结
 
 **下面是本次设计中个人的一些心得体会：**
