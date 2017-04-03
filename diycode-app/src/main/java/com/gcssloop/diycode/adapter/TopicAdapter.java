@@ -35,9 +35,9 @@ import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
 import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode.utils.TimeUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
-import com.gcssloop.diycode.utils.TimeUtil;
 
 public class TopicAdapter extends GcsAdapter<Topic> {
     private Context mContext;
@@ -57,6 +57,9 @@ public class TopicAdapter extends GcsAdapter<Topic> {
         holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
         holder.setText(R.id.title, topic.getTitle());
         holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+
+        String state = "评论 "+topic.getReplies_count();
+        holder.setText(R.id.state, state);
 
         TextView preview = holder.get(R.id.preview);
         String text = mDataCache.getTopicPreview(topic.getId());

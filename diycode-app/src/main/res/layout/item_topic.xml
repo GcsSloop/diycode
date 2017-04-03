@@ -29,19 +29,19 @@
     android:orientation="vertical">
 
     <View
-        android:background="@color/diy_white_bg"
         android:layout_width="match_parent"
-        android:layout_height="12dp"/>
+        android:layout_height="12dp"
+        android:background="@color/diy_white_bg"/>
 
     <RelativeLayout
         android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/diy_white"
         android:paddingBottom="@dimen/topic_item_padding_vertical"
         android:paddingLeft="@dimen/topic_item_padding_horizontal"
         android:paddingRight="@dimen/topic_item_padding_horizontal"
-        android:paddingTop="@dimen/topic_item_padding_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/diy_white">
+        android:paddingTop="@dimen/topic_item_padding_vertical">
 
         <ImageView
             android:id="@+id/avatar"
@@ -72,74 +72,103 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/node_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/panel_space_1"
-            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/point"
-            android:gravity="center_vertical"
-            android:textColor="@color/diy_gray"
-            android:textSize="@dimen/panel_text_1"
-            tools:text="Android"/>
-
-        <TextView
+            android:layout_marginLeft="8dp"
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/panel_space_1"
-            android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:textColor="@color/diy_gray"
             android:textSize="@dimen/panel_text_1"
             tools:text="1分钟前"/>
 
-        <TextView
-            android:paddingTop="@dimen/topic_item_padding_vertical"
-            android:layout_marginRight="@dimen/topic_item_padding_vertical"
-            android:id="@+id/title"
+        <LinearLayout
+            android:id="@+id/content_wrap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/avatar"
-            android:text="GcsTest(测试节点)"
-            android:textColor="@color/diy_black"
-            android:textSize="16sp"/>
+            android:layout_below="@id/avatar"
+            android:orientation="vertical">
 
-        <TextView
-            android:visibility="gone"
-            android:layout_marginRight="@dimen/topic_item_padding_vertical"
-            android:id="@+id/preview"
-            android:maxLines="3"
-            android:textColor="@color/diy_gray2"
-            android:textSize="12sp"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/avatar"
+                android:layout_marginRight="@dimen/topic_item_padding_vertical"
+                android:paddingTop="@dimen/topic_item_padding_vertical"
+                android:text="GcsTest(测试节点)"
+                android:textColor="@color/diy_black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_marginRight="@dimen/topic_item_padding_vertical"
+                android:layout_marginTop="8dp"
+                android:maxLines="3"
+                android:text="《提问的智慧》就是一个敲门砖，它把黑客间的礼仪和准则明白地写下来。它会让你了解到一个事实，为什么那些看起来很牛的人几乎从不提问，似乎他们一进入这个行业就是牛人了。不是的，他们也有问题，但是通常在提问之前就自己解决了；不是因为他们本来就懂得怎么解决，而是解决问题的经历让他们成为牛人；最终，你只会看到网络上多了一篇文章：关于解决XXX问题的方案。」"
+                android:textColor="@color/diy_gray2"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_marginTop="8dp"
-            android:layout_below="@+id/title"
-            android:text="《提问的智慧》就是一个敲门砖，它把黑客间的礼仪和准则明白地写下来。它会让你了解到一个事实，为什么那些看起来很牛的人几乎从不提问，似乎他们一进入这个行业就是牛人了。不是的，他们也有问题，但是通常在提问之前就自己解决了；不是因为他们本来就懂得怎么解决，而是解决问题的经历让他们成为牛人；最终，你只会看到网络上多了一篇文章：关于解决XXX问题的方案。」"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_below="@+id/content_wrap"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp">
+
+            <TextView
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:background="@drawable/topic_node_name_bg"
+                android:textColor="@color/diy_red2"
+                android:id="@+id/node_name"
+                tools:text="Android"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:layout_marginLeft="4dp"
+                android:textSize="12sp"
+                android:textColor="@color/diy_gray2"
+                android:id="@+id/state"
+                tools:text="阅读100 · 评论0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
         <ImageView
-            android:visibility="gone"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="12dp"
             android:id="@+id/collection"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/preview"
+            android:layout_below="@+id/content_wrap"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
             android:padding="2dp"
-            android:src="@drawable/ic_collection_default"/>
+            android:src="@drawable/ic_collection_default"
+            android:visibility="gone"/>
 
 
         <ImageView
-            android:visibility="gone"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="11dp"
             android:id="@+id/like"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_below="@+id/content_wrap"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="11dp"
             android:layout_toLeftOf="@+id/collection"
-            android:layout_below="@+id/preview"
             android:padding="2dp"
-            android:src="@drawable/ic_like_default"/>
+            android:src="@drawable/ic_like_default"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 </LinearLayout>
