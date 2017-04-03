@@ -22,7 +22,7 @@
   -->
 
 <resources>
-    <dimen name="topic_item_padding_vertical">12dp</dimen>
+    <dimen name="topic_item_padding_vertical">16dp</dimen>
     <dimen name="topic_item_padding_horizontal">20dp</dimen>
 
     <dimen name="panel_space_1">24dp</dimen>
