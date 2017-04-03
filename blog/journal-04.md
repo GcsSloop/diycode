@@ -458,11 +458,11 @@ public class HelloEvent extends BaseEvent<Hello> {
 
 **3. 创建请求代码 (3 行)**
 
-其实我最终手写的就一行，因为 final String uuid = UUIDGenerator.getUUID(); 和 return uuid; 是使用 AS 查找替换功能的正则表达式所有方法添加的，真正纯手写的就中间一行。
+其实我最终手写的就一行，因为 String uuid = UUIDGenerator.getUUID(); 和 return uuid; 是使用 AS 查找替换功能自动添加的，写一遍，之后 Replace All，格式化就行了，真正纯手写的就中间一行。
 
 ```java
 public String hello(@Nullable Integer limit) {
-    final String uuid = UUIDGenerator.getUUID();
+    String uuid = UUIDGenerator.getUUID();
     mService.hello(limit).enqueue(new BaseCallback<>(new HelloEvent(uuid)));
     return uuid;
 }
