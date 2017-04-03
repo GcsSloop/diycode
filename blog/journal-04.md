@@ -430,7 +430,7 @@ public String hello(@Nullable Integer limit) {
 
 是不是瞬间清爽了好多，从最开始的一大坨，变成最后的几行了，到目前为止，封装已经基本完成了，关于唯一识别码，之前考虑过使用 Random 随机数，但随机数再随机也可能会撞上，要生成不会重复的随机数还要自己封装一下，于是干脆使用了系统提供了 UUID 生成器，该 UUID 能保证在同一时间，同一空间内不会重复，具体代码看 [UUIDGenerator.java](https://github.com/GcsSloop/diycode/blob/f9498b827b869f4b430d7fd608462f9587d4b900/diycode-sdk/src/main/java/com/gcssloop/diycode_sdk/utils/UUIDGenerator.java) 
 
-**我们现在统计一下完成一个网络请求需要手写多少代码：**
+**我们现在统计一下封装一个网络请求 API 需要手写多少代码：**
 
 省略实体类的创建，实体类通过工具自动生成，不需要手写代码。
 
@@ -472,9 +472,15 @@ public String hello(@Nullable Integer limit) {
 
 我在创建 BaseEvent 和 BaseCallback 的时候都使用了范型，这个范型不仅能用来提高复用性，还能一定程度防手残。**定义 Service，BaseCallback 和 Event 的范型必须一致才能通过类型检查，否则在编译阶段就会报错。** 合理使用范型能大大的提高编码效率和编码复用性。
 
-## 总结
+## 4. 后记
 
 其实关于 SDK 架构这一部分还有一个小知识：为了方便上层使用，让上层应用只持有 Diycode 一个对象即可获取所有数据，并且保证后期维护的时候查找方便，我使用了聚合类。不过这些都是雕虫小技，并不值得花费太多笔墨去描述，大家明白即可。
+
+可以看到，上面代码都省略了实体类的创建，是因为实体类可以用工具生成，可以使用在线工具 [json2javapojo](http://www.bejson.com/json2javapojo/) 或者 AndroidStudio 插件 [GsonFormat](https://github.com/zzz40500/GsonFormat) 。
+
+生成实体类的前提条件是我们已经能拿到服务器返回的 Json 数据了，我们可以使用 [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=zh-CN) 在写代码之前获取返回的数据。同时，它也可以方便的帮助我们测试 API。
+
+## 5. 总结
 
 **下面是本次设计中个人的一些心得体会：**
 
