@@ -468,7 +468,7 @@ public String hello(@Nullable Integer limit) {
 }
 ```
 
-总共 10 行就完成了一个 API 的封装，不仅更加简洁了，编码效率也是大大的提高。
+总共不到 10 行就完成了一个 API 的封装，不仅更加简洁了，编码效率也是大大的提高。
 
 我在创建 BaseEvent 和 BaseCallback 的时候都使用了范型，这个范型不仅能用来提高复用性，还能一定程度防手残。**定义 Service，BaseCallback 和 Event 的范型必须一致才能通过类型检查，否则在编译阶段就会报错。** 合理使用范型能大大的提高编码效率和编码复用性。
 
