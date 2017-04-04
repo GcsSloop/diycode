@@ -30,7 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * ItemView 的管理View
+ * ItemView 的管理者
  */
 public abstract class BaseViewProvider<T> {
     private GcsViewHolder mViewHolder;

@@ -30,45 +30,49 @@ import android.util.Log;
 import java.util.List;
 
 public class AppUtil {
+
     /**
-     * 获取当前应用版本名称
+     * 获取当前程序包名
      *
      * @param context 上下文
-     * @return 版本名
+     * @return 程序包名
      */
-    public static String getAppVersionName(Context context) {
-        String versionName = "";
+    public static String getPackageName(Context context) {
+        return context.getPackageName();
+    }
+
+    /**
+     * 获取程序版本信息
+     *
+     * @param context 上下文
+     * @return 版本名称
+     */
+    public static String getVersionName(Context context) {
+        String versionName = null;
+        String pkName = context.getPackageName();
         try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versionName = pi.versionName;
-            int versioncode = pi.versionCode;
-            if (versionName == null || versionName.length() <= 0) {
-                return "";
-            }
-        } catch (Exception e) {
+            versionName = context.getPackageManager().getPackageInfo(pkName, 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
             Log.e("VersionInfo", "Exception", e);
         }
         return versionName;
     }
 
     /**
-     * 获取当前应用版本号
+     * 获取程序版本号
      *
      * @param context 上下文
      * @return 版本号
      */
-    public static int getAppVersionCode(Context context) {
-        int versioncode = 0;
-
+    public static int getVersionCode(Context context) {
+        int versionCode = -1;
+        String pkName = context.getPackageName();
         try {
-            PackageManager pm = context.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-            versioncode = pi.versionCode;
-        } catch (Exception e) {
+            versionCode = context.getPackageManager().getPackageInfo(pkName, 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
             Log.e("VersionInfo", "Exception", e);
         }
-        return versioncode;
+        return versionCode;
     }
 
     /**

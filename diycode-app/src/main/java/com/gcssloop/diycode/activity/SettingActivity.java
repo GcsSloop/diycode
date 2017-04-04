@@ -61,7 +61,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
-        String versionName = AppUtil.getAppVersionName(this);
+        String versionName = AppUtil.getVersionName(this);
         holder.setText(R.id.app_version, versionName);
 
         if (mDiycode.isLogin()) {
