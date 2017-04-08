@@ -20,4 +20,4 @@
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-include ':diycode-app', ':diycode-sdk', ':diycode-test', ':expectanim', ':recyclerview'
+include ':diycode-app', ':diycode-sdk', ':expectanim', ':recyclerview'
