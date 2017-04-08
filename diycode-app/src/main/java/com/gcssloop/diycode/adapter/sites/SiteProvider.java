@@ -29,9 +29,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.RecyclerViewHolder;
 import com.gcssloop.diycode.utils.IntentUtil;
+import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 
 public class SiteProvider extends BaseViewProvider<SiteItem> {
     private Context mContext;

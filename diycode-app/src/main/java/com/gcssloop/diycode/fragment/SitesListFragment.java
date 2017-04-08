@@ -38,11 +38,11 @@ import com.gcssloop.diycode.adapter.sites.SitesItem;
 import com.gcssloop.diycode.adapter.sites.SitesProvider;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.multitype.MultiTypeAdapter;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;
+import com.gcssloop.recyclerview.adapter.multitype.MultiTypeAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

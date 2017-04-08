@@ -27,7 +27,7 @@ import android.view.View;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.multitype.MultiTypeAdapter;
+import com.gcssloop.recyclerview.adapter.multitype.MultiTypeAdapter;
 
 public class MultiTypeTopicListFragment extends BaseFragment {
 

@@ -26,8 +26,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 
 public class FooterProvider extends BaseViewProvider<Footer> {
     public FooterProvider(@NonNull Context context) {

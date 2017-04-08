@@ -65,4 +65,12 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    /*
+     * 本地仓库(内容请到 https://github.com/GcsSloop/code-library 查看)
+     * 为了方便管理自己的一些库，防止来回复制修改导致同一个库产生 n 个可能会冲突的版本，
+     * 所以在本地创建了一个仓库，统一进行管理，如果你需要引用这一部分的内容，
+     * 可以到上述地址直接复制对应名称的源码到你的仓库里面。
+     */
+    compile 'com.gcssloop.support:recyclerview:0.0.3'
 }

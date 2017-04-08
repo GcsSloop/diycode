@@ -31,8 +31,8 @@ import android.view.View;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.multitype.HeaderFooterAdapter;
 import com.gcssloop.diycode_sdk.log.Logger;
+import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
