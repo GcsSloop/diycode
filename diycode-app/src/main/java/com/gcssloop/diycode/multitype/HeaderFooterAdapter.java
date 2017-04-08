@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * 带有头部和底部的适配器
  */
-public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
+public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
         implements TypePool {
     private List<Object> mItems = new ArrayList<>();
     private MultiTypePool mTypePool;
@@ -97,13 +97,13 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
     }
 
     @Override
-    public GcsViewHolder onCreateViewHolder(ViewGroup parent, int indexViewType) {
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int indexViewType) {
         BaseViewProvider provider = getProviderByIndex(indexViewType);
         return provider.onCreateViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(GcsViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         assert mItems != null;
         Object item = mItems.get(position);
         BaseViewProvider provider = getProviderByClass(item.getClass());

@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.GcsViewHolder;
+import com.gcssloop.diycode.multitype.RecyclerViewHolder;
 import com.gcssloop.diycode.utils.IntentUtil;
 
 public class SiteProvider extends BaseViewProvider<SiteItem> {
@@ -48,7 +48,7 @@ public class SiteProvider extends BaseViewProvider<SiteItem> {
      * @param bean   数据
      */
     @Override
-    public void onBindView(GcsViewHolder holder, final SiteItem bean) {
+    public void onBindView(RecyclerViewHolder holder, final SiteItem bean) {
         if (bean.getName().isEmpty()) return;
         holder.setText(R.id.name, bean.getName());
         ImageView icon = holder.get(R.id.icon);

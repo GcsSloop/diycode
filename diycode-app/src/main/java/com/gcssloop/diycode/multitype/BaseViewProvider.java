@@ -33,7 +33,7 @@ import android.view.ViewGroup;
  * ItemView 的管理者
  */
 public abstract class BaseViewProvider<T> {
-    private GcsViewHolder mViewHolder;
+    private RecyclerViewHolder mViewHolder;
     private LayoutInflater mInflater;
     private int mLayoutId;
 
@@ -42,9 +42,9 @@ public abstract class BaseViewProvider<T> {
         mLayoutId = layout_id;
     }
 
-    public GcsViewHolder onCreateViewHolder(ViewGroup parent) {
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(mLayoutId, parent, false);
-        mViewHolder = new GcsViewHolder(view);
+        mViewHolder = new RecyclerViewHolder(view);
         return mViewHolder;
     }
 
@@ -54,5 +54,5 @@ public abstract class BaseViewProvider<T> {
      * @param holder ViewHolder
      * @param bean   数据
      */
-    public abstract void onBindView(GcsViewHolder holder, T bean);
+    public abstract void onBindView(RecyclerViewHolder holder, T bean);
 }

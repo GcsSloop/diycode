@@ -31,8 +31,14 @@ import java.util.List;
 
 /**
  * RecyclerView 多类型数据适配器
+ * 使用步骤：
+ * 1. 创建实体类 Bean
+ * 2. 创建对应的 provider 并继承自 BaseViewProvider， 在对应的 provider 的 onBindView 里面处理内容
+ * 3. 使用 adapter.register(bean, provider.class) 来将数据实体和 provider 对应起来
+ * 4. 将数据 data 使用 ArrayList<Object> 类型存储起来， 使用 adapter.addDatas(data) 添加数据
+ * 5. 大功告成
  */
-public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
+public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerViewHolder>
         implements TypePool {
 
     private List<Object> mItems = new ArrayList<>();
@@ -54,13 +60,13 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
     }
 
     @Override
-    public GcsViewHolder onCreateViewHolder(ViewGroup parent, int indexViewType) {
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int indexViewType) {
         BaseViewProvider provider = getProviderByIndex(indexViewType);
         return provider.onCreateViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(GcsViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         assert mItems != null;
         Object item = mItems.get(position);
         BaseViewProvider provider = getProviderByClass(item.getClass());

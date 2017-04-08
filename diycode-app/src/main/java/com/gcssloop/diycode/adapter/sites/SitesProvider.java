@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.GcsViewHolder;
+import com.gcssloop.diycode.multitype.RecyclerViewHolder;
 
 public class SitesProvider extends BaseViewProvider<SitesItem> {
 
@@ -42,7 +42,7 @@ public class SitesProvider extends BaseViewProvider<SitesItem> {
      * @param bean   数据
      */
     @Override
-    public void onBindView(GcsViewHolder holder, SitesItem bean) {
+    public void onBindView(RecyclerViewHolder holder, SitesItem bean) {
         holder.setText(R.id.name, bean.getName());
     }
 }

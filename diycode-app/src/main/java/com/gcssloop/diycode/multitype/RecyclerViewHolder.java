@@ -27,12 +27,12 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
-public class GcsViewHolder extends RecyclerView.ViewHolder {
+public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     private View mRootView;
     private final SparseArray<View> mViews = new SparseArray<View>();
 
-    public GcsViewHolder(View itemView) {
+    public RecyclerViewHolder(View itemView) {
         super(itemView);
         mRootView = itemView;
     }

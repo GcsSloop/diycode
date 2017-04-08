@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.GcsViewHolder;
+import com.gcssloop.diycode.multitype.RecyclerViewHolder;
 
 public class ContentProvider extends BaseViewProvider<Content> {
     public ContentProvider(@NonNull Context context) {
@@ -41,7 +41,7 @@ public class ContentProvider extends BaseViewProvider<Content> {
      * @param bean   数据
      */
     @Override
-    public void onBindView(GcsViewHolder holder, Content bean) {
+    public void onBindView(RecyclerViewHolder holder, Content bean) {
         holder.setText(R.id.test_text, bean.text);
     }
 }

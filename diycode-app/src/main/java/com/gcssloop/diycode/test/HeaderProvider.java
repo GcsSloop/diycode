@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.multitype.BaseViewProvider;
-import com.gcssloop.diycode.multitype.GcsViewHolder;
+import com.gcssloop.diycode.multitype.RecyclerViewHolder;
 
 public class HeaderProvider extends BaseViewProvider<Header> {
     public HeaderProvider(@NonNull Context context) {
@@ -41,7 +41,7 @@ public class HeaderProvider extends BaseViewProvider<Header> {
      * @param bean   数据
      */
     @Override
-    public void onBindView(GcsViewHolder holder, Header bean) {
+    public void onBindView(RecyclerViewHolder holder, Header bean) {
         holder.setText(R.id.test_text, "-- 头部 --");
     }
 }
