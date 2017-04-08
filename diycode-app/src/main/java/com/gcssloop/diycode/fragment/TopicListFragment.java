@@ -25,19 +25,32 @@ package com.gcssloop.diycode.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
+import com.gcssloop.diycode.utils.Config;
+import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
+
+    // RecyclerView 滚动位置保存与恢复
+    private int lastPosition = 0;
+    private int lastOffset = 0;
+
+    private boolean isFirstLaunch = true;
+    // 数据
+    private Config mConfig;         // 配置(状态信息)
+    private Diycode mDiycode;       // 在线(服务器)
+    private DataCache mDataCache;   // 缓存(本地)
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
@@ -47,26 +60,48 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
     }
 
     @Override
-    protected void initViews(ViewHolder holder, View root) {
-        Logger.e("initViews");
-        super.initViews(holder, root);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mConfig = Config.getSingleInstance();
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+    }
+
+    @Override
+    public void initData(HeaderFooterAdapter adapter) {
+        /*
+        List<Topic> topics = mDataCache.getTopicsList();
+        if (null != topics && topics.size() > 0) {
+            // TODO 恢复Index
+            adapter.addDatas(topics);
+            // 设置底部
+            if (isFirstLaunch) {
+                // TODO 滚动到上次到位置
+                isFirstLaunch = false;
+            }
+        } else {
+            loadMore();
+        }*/
         loadMore();
     }
 
     @Override
-    protected void setRecyclerView(Context context, RecyclerView recyclerView,
-                                   HeaderFooterAdapter adapter) {
-        Logger.e("setRecyclerView - start");
-        recyclerView.setLayoutManager(new SpeedyLinearLayoutManager(getContext()));
+    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
+                                          HeaderFooterAdapter adapter) {
         TopicProvider topicProvider = new TopicProvider(getContext(), R.layout.item_topic);
         adapter.register(Topic.class, topicProvider);
-        Logger.e("setRecyclerView - end");
     }
 
     @NonNull
     @Override
+    protected RecyclerView.LayoutManager getRecyclerViewLayoutManager() {
+        return new SpeedyLinearLayoutManager(getContext());
+    }
+
+
+    @NonNull
+    @Override
     protected String request(int offset, int limit) {
-        Logger.e("request - start");
         return mDiycode.getTopicsList(null, null, offset, limit);
     }
 
@@ -90,5 +125,21 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         } else if (postType.equals(POST_REFRESH)) {
             toast("刷新数据失败");
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        saveState();
+    }
+
+    // 保存状态
+    private void saveState() {
+        // 存储 PageIndex
+        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+        View view = layoutManager.getChildAt(0);
+        lastPosition = layoutManager.getPosition(view);
+        lastOffset = view.getTop();
+        Logger.e("onDestroyView", lastPosition + " : " + lastOffset);
     }
 }

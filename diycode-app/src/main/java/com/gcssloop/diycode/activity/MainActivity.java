@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity
     private DataCache mCache;
     private Config mConfig;
     private int mCurrentPosition = 0;
-    private TopicListFragment mFragment0;
+    private TopicListFragment mFragment1;
     private NewsListFragment mFragment2;
     private SitesListFragment mFragment3;
     private TestFragment mFragment4;
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setOffscreenPageLimit(3); // 防止滑动到第三个页面时，第一个页面被销毁
 
-        mFragment0 = TopicListFragment.newInstance();
+        mFragment1 = TopicListFragment.newInstance();
         mFragment2 = NewsListFragment.newInstance();
         mFragment3 = SitesListFragment.newInstance();
         mFragment4 = TestFragment.newInstance();
@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity
             @Override
             public Fragment getItem(int position) {
                 if (position == 0)
-                    return mFragment0;
+                    return mFragment1;
                 if (position == 1)
                     return mFragment2;
                 if (position == 2)
@@ -144,6 +144,21 @@ public class MainActivity extends BaseActivity
         mViewPager.setCurrentItem(mCurrentPosition);
 
         mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    // 快速返回顶部
+    private void quickToTop() {
+        switch (mCurrentPosition) {
+            case 0:
+                mFragment1.quickToTop();
+                break;
+            case 1:
+                mFragment2.quickToTop();
+                break;
+            case 2:
+                mFragment3.quickToTop();
+                break;
+        }
     }
 
     // 如果收到此状态说明用户已经登录成功了
@@ -288,21 +303,6 @@ public class MainActivity extends BaseActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // 快速返回顶部
-    private void quickToTop() {
-        switch (mCurrentPosition) {
-            case 0:
-                mFragment0.quickToTop();
-                break;
-            case 1:
-                mFragment2.quickToTop();
-                break;
-            case 2:
-                mFragment3.quickToTop();
-                break;
-        }
     }
 
     @Override

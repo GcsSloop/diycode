@@ -56,14 +56,17 @@ public class FooterProvider extends BaseViewProvider<Footer> {
     public void needLoadMore() {}
 
     public void setFooterLoading() {
+        if (null == footer) return;
         footer.setText(FOOTER_LOADING);
     }
 
     public void setFooterNormal() {
+        if (null == footer) return;
         footer.setText(FOOTER_NORMAL);
     }
 
     public void setFooterError(View.OnClickListener listener) {
+        if (null == footer) return;
         if (null != listener) {
             footer.setText(FOOTER_ERROR_B);
             footer.setOnClickListener(listener);

@@ -23,9 +23,7 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -36,9 +34,6 @@ import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.provider.Footer;
 import com.gcssloop.diycode.fragment.provider.FooterProvider;
-import com.gcssloop.diycode.utils.Config;
-import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
@@ -71,35 +66,21 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     protected int pageIndex = 0;                      // 当面页码
     protected int pageCount = 20;                     // 每页个数
 
-    // 数据
-    protected Diycode mDiycode;                     // 在线(服务器)
-    protected DataCache mDataCache;                 // 缓存(本地)
-
     // View
     private SwipeRefreshLayout mRefreshLayout;
-    private RecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
 
     // 状态
-    protected Config mConfig;
-    protected boolean isFirstLaunch = true;         // 是否是第一次加载s
     private boolean refreshEnable = true;           // 是否允许刷新
     private boolean loadMoreEnable = true;          // 是否允许加载
 
     // 适配器
-    protected HeaderFooterAdapter mAdapter;
+    private HeaderFooterAdapter mAdapter;
     private FooterProvider mFooterProvider;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_refresh_recycler;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mConfig = Config.getSingleInstance();
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
     }
 
     @Override
@@ -113,6 +94,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
                 loadMore();
             }
         };
+        mFooterProvider.setFooterNormal();
         mAdapter.registerFooter(new Footer(), mFooterProvider);
         // refreshLayout
         mRefreshLayout = holder.get(R.id.refresh_layout);
@@ -123,7 +105,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mRecyclerView = holder.get(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
-        setRecyclerView(getContext(), mRecyclerView, mAdapter);
+        mRecyclerView.setLayoutManager(getRecyclerViewLayoutManager());
+        setRecyclerViewAdapter(getContext(), mRecyclerView, mAdapter);
 
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -134,6 +117,19 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         });
         Logger.e("initViews - end");
     }
+
+    /**
+     * 为 Adapter 注册类型
+     *
+     * @param recyclerView RecyclerView
+     */
+    protected abstract void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
+                                                   HeaderFooterAdapter adapter);
+
+    @NonNull
+    protected abstract RecyclerView.LayoutManager getRecyclerViewLayoutManager();
+
+    public abstract void initData(HeaderFooterAdapter adapter);
 
     protected void refresh() {
         if (!refreshEnable) return;
@@ -156,22 +152,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         } catch (Exception e) {
             Logger.e("loadMore：" + e.toString());
         }
-
         Logger.e("loadMore - end");
     }
-
-
-    //--- 用户处理部分 ----------------------------------------------------------------------------
-
-    /**
-     * 设置 RecyclerView，
-     * 为 Adapter 注册类型
-     * 和设置 LayoutManager
-     *
-     * @param recyclerView RecyclerView
-     */
-    protected abstract void setRecyclerView(Context context, RecyclerView recyclerView,
-                                            HeaderFooterAdapter adapter);
 
     /**
      * 请求数据。
@@ -239,7 +221,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     protected abstract void onError(Event event, String postType);
 
-    //--- 设置 -----------------------------------------------------------------------------------
 
     public void setRefreshEnable(boolean refreshEnable) {
         this.refreshEnable = refreshEnable;
@@ -250,9 +231,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         this.loadMoreEnable = loadMoreEnable;
     }
 
-    /**
-     * 快速返回顶部
-     */
     public void quickToTop() {
         mRecyclerView.smoothScrollToPosition(0);
     }
