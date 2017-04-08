@@ -13,32 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-08 14:05:55
+ * Last modified 2017-04-08 21:53:28
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.fragment;
+package com.gcssloop.diycode.fragment.provider;
 
-import android.view.View;
-
-import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.app.BaseFragment;
-import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.recyclerview.adapter.multitype.MultiTypeAdapter;
-
-public class MultiTypeTopicListFragment extends BaseFragment {
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_refresh_recycler;
-    }
-
-    @Override
-    protected void initViews(ViewHolder holder, View root) {
-        MultiTypeAdapter adapter = new MultiTypeAdapter();
-
-    }
+public class Footer {
 }

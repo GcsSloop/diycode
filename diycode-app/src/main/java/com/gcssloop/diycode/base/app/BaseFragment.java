@@ -50,7 +50,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mViewHolder = new ViewHolder(inflater, container, getLayoutId());
-        initViews(mViewHolder, mViewHolder.getRootView());
         return mViewHolder.getRootView();
     }
 
@@ -59,6 +58,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initViews(mViewHolder, mViewHolder.getRootView());
         // Restore State Here
         if (!restoreStateFromArguments()) {
             // First Time, Initialize something here

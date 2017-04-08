@@ -33,6 +33,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.gcssloop.diycode_sdk.log.Logger;
 
 public class ViewHolder {
 
@@ -57,6 +58,9 @@ public class ViewHolder {
         if (view == null) {
             view = mRootView.findViewById(resId);
             mViews.put(resId, view);
+        }
+        if (view == null){
+            Logger.e("View == null");
         }
         return (T) view;
     }

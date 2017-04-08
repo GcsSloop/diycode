@@ -46,7 +46,17 @@ public abstract class BaseViewProvider<T> {
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {
         View view = mInflater.inflate(mLayoutId, parent, false);
         RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
+        onViewHolderIsCreated(viewHolder);
         return viewHolder;
+    }
+
+    /**
+     * 当 ViewHolder 创建完成时调用
+     *
+     * @param holder ViewHolder
+     */
+    public void onViewHolderIsCreated(RecyclerViewHolder holder) {
+
     }
 
     /**

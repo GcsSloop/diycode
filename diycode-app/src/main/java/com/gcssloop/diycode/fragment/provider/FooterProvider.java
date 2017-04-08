@@ -13,37 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-08 15:07:17
+ * Last modified 2017-04-08 21:51:56
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.test;
+package com.gcssloop.diycode.fragment.provider;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
 import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 
 public class FooterProvider extends BaseViewProvider<Footer> {
+    private static final String FOOTER_LOADING = "loading...";
+    private static final String FOOTER_NORMAL = "-- end --";
+    private static final String FOOTER_ERROR_A = "-- 获取失败 --";
+    private static final String FOOTER_ERROR_B = "-- 失败，点击重试 --";
+    private TextView footer;
+
     public FooterProvider(@NonNull Context context) {
-        super(context, R.layout.item_test);
+        super(context, R.layout.item_footer);
     }
 
-    /**
-     * 在绑定数据时调用，需要用户自己处理
-     *
-     * @param holder ViewHolder
-     * @param bean   数据
-     */
+    @Override
+    public void onViewHolderIsCreated(RecyclerViewHolder holder) {
+         footer = holder.get(R.id.footer);
+    }
+
     @Override
     public void onBindView(RecyclerViewHolder holder, Footer bean) {
-        holder.setText(R.id.test_text, "-- 底部 --");
-        Logger.e("Footer Binder");
+        //footer= holder.get(R.id.footer);
+        needLoadMore();
+    }
+
+    public void needLoadMore() {}
+
+    public void setFooterLoading() {
+        footer.setText(FOOTER_LOADING);
+    }
+
+    public void setFooterNormal() {
+        footer.setText(FOOTER_NORMAL);
+    }
+
+    public void setFooterError(View.OnClickListener listener) {
+        if (null != listener) {
+            footer.setText(FOOTER_ERROR_B);
+            footer.setOnClickListener(listener);
+            return;
+        }
+        footer.setText(FOOTER_ERROR_A);
     }
 }

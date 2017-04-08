@@ -27,19 +27,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.fragment.provider.Footer;
+import com.gcssloop.diycode.fragment.provider.FooterProvider;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
+import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,15 +50,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 /**
- * 具有下拉刷新和上拉加载功能的 Fregment
+ * 具有下拉刷新和上拉加载的 Fragment
  */
 public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>>> extends
         BaseFragment {
-    // 底部状态显示
-    protected static final String FOOTER_LOADING = "loading...";
-    protected static final String FOOTER_NORMAL = "-- end --";
-    protected static final String FOOTER_ERROR = "-- 获取失败 --";
-    protected TextView mFooter;
 
     // 请求状态 - 下拉刷新 还是 加载更多
     private static final String POST_LOAD_MORE = "load_more";
@@ -87,6 +84,9 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     private boolean refreshEnable = true;           // 是否允许刷新
     private boolean loadMoreEnable = true;          // 是否允许加载
 
+    // 适配器
+    protected HeaderFooterAdapter mAdapter;
+    protected FooterProvider mFooterProvider;
 
     @Override
     protected int getLayoutId() {
@@ -103,7 +103,16 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        mFooter = holder.get(R.id.footer);
+        // 适配器
+        mAdapter = new HeaderFooterAdapter();
+        mFooterProvider = new FooterProvider(getContext()){
+            @Override
+            public void needLoadMore() {
+                super.needLoadMore();
+                loadMore();
+            }
+        };
+        mAdapter.registerFooter(new Footer(), mFooterProvider);
         // refreshLayout
         mRefreshLayout = holder.get(R.id.refresh_layout);
         mRefreshLayout.setProgressViewOffset(false, -20, 80);
@@ -112,8 +121,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         // RecyclerView
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
-        setRecyclerView(getContext(), recyclerView);
+        recyclerView.setAdapter(mAdapter);
+        setRecyclerView(getContext(), recyclerView, mAdapter);
 
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -122,19 +131,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
                 refresh();
             }
         });
-        // 监听 scrollView 加载更多
-        NestedScrollView scrollView = holder.get(R.id.scroll_view);
-        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int
-                    oldScrollX, int oldScrollY) {
-                View childView = v.getChildAt(0);
-                if (scrollY == (childView.getHeight() - v.getHeight()) && mState == STATE_NORMAL)
-                { //滑动到底部 && 正常模式
-                    loadMore();
-                }
-            }
-        });
+        Logger.e("initViews - end");
     }
 
     protected void refresh() {
@@ -147,23 +144,32 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     }
 
     protected void loadMore() {
-        if (!loadMoreEnable) return;
-        String uuid = request(pageIndex * pageCount, pageCount);
-        mPostTypes.put(uuid, POST_LOAD_MORE);
-        pageIndex++;
-        mState = STATE_LOADING;
-        mFooter.setText(FOOTER_LOADING);
+        Logger.e("loadMore - start");
+        try {
+            if (!loadMoreEnable) return;
+            String uuid = request(pageIndex * pageCount, pageCount);
+            mPostTypes.put(uuid, POST_LOAD_MORE);
+            pageIndex++;
+            mState = STATE_LOADING;
+            mFooterProvider.setFooterLoading();
+        } catch (Exception e) {
+            Logger.e("loadMore："+e.toString());
+        }
+
+        Logger.e("loadMore - end");
     }
 
 
     //--- 用户处理部分 ----------------------------------------------------------------------------
 
     /**
-     * 设置 RecyclerView，为其添加 Adapter 和 LayoutManager
+     * 设置 RecyclerView，
+     * 为 Adapter 注册类型
+     * 和设置 LayoutManager
      *
      * @param recyclerView RecyclerView
      */
-    protected abstract void setRecyclerView(Context context, RecyclerView recyclerView);
+    protected abstract void setRecyclerView(Context context, RecyclerView recyclerView, HeaderFooterAdapter adapter);
 
     /**
      * 请求数据。
@@ -174,25 +180,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
      */
     @NonNull
     protected abstract String request(int offset, int limit);
-
-
-    /**
-     * 出现错误
-     *
-     * @param postType  请求类型
-     * @param errorCode 错误代码
-     * @param errorDesc 错误描述
-     */
-    protected void onError(String postType, int errorCode, String errorDesc) {
-        mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
-        if (postType.equals(POST_LOAD_MORE)) {
-            mFooter.setText(FOOTER_ERROR);
-            toast("加载更多失败");
-        } else if (postType.equals(POST_REFRESH)) {
-            mRefreshLayout.setRefreshing(false);
-            toast("刷新数据失败");
-        }
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultEvent(Event event) {
@@ -209,31 +196,45 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mPostTypes.remove(event.getUUID());
     }
 
-
     protected void onRefresh(Event event) {
         mState = STATE_NORMAL;
         mRefreshLayout.setRefreshing(false);
+        mAdapter.clearDatas();
+        mAdapter.addDatas(event.getBean());
     }
 
     protected void onLoadMore(Event event) {
         if (event.getBean().size() < pageCount) {
             mState = STATE_NO_MORE;
-            mFooter.setText(FOOTER_NORMAL);
+            mFooterProvider.setFooterNormal();
         } else {
             mState = STATE_NORMAL;
-            mFooter.setText(FOOTER_NORMAL);
+            mFooterProvider.setFooterNormal();
         }
+        mAdapter.addDatas(event.getBean());
     }
 
     protected void onError(Event event) {
         mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
         String postType = mPostTypes.get(event.getUUID());
         if (postType.equals(POST_LOAD_MORE)) {
-            mFooter.setText(FOOTER_ERROR);
             toast("加载更多失败");
+            mFooterProvider.setFooterError(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pageIndex--;
+                    loadMore();
+                }
+            });
         } else if (postType.equals(POST_REFRESH)) {
             mRefreshLayout.setRefreshing(false);
             toast("刷新数据失败");
+            mFooterProvider.setFooterError(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refresh();
+                }
+            });
         }
     }
 
@@ -241,6 +242,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     public void setRefreshEnable(boolean refreshEnable) {
         this.refreshEnable = refreshEnable;
+        mRefreshLayout.setEnabled(refreshEnable);
     }
 
     public void setLoadMoreEnable(boolean loadMoreEnable) {
