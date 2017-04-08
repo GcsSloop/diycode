@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-25 19:50:55
+ * Last modified 2017-04-08 14:10:20
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -30,16 +30,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecyclerView 多类型数据适配器
+ * 带有头部和底部的适配器
  */
-public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
+public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
         implements TypePool {
-
     private List<Object> mItems = new ArrayList<>();
-    @NonNull private MultiTypePool mTypePool;
+    private MultiTypePool mTypePool;
 
-    public MultiTypeAdapter() {
+    private boolean hasHeader = false;
+    private boolean hasFooter = false;
+
+    public HeaderFooterAdapter() {
         mTypePool = new MultiTypePool();
+    }
+
+    @Override
+    public int getItemCount() {
+        assert mItems != null;
+        return mItems.size();
     }
 
     @Override
@@ -54,6 +62,25 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
     }
 
     @Override
+    public void register(@NonNull Class<?> clazz, @NonNull BaseViewProvider provider) {
+        mTypePool.register(clazz, provider);
+    }
+
+    public void registerHeader(@NonNull Object object, @NonNull BaseViewProvider provider) {
+        if (hasHeader) return;
+        mTypePool.register(object.getClass(), provider);
+        mItems.add(0, object);
+        hasHeader = true;
+    }
+
+    public void registerFooter(@NonNull Object object, @NonNull BaseViewProvider provider) {
+        if (hasFooter) return;
+        mTypePool.register(object.getClass(), provider);
+        mItems.add(object);
+        hasFooter = true;
+    }
+
+    @Override
     public GcsViewHolder onCreateViewHolder(ViewGroup parent, int indexViewType) {
         BaseViewProvider provider = getProviderByIndex(indexViewType);
         return provider.onCreateViewHolder(parent);
@@ -65,18 +92,6 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
         Object item = mItems.get(position);
         BaseViewProvider provider = getProviderByClass(item.getClass());
         provider.onBindView(holder, item);
-    }
-
-    @Override
-    public int getItemCount() {
-        assert mItems != null;
-        // Logger.e("getItemCount" + mItems.size());
-        return mItems.size();
-    }
-
-    @Override
-    public void register(@NonNull Class<?> clazz, @NonNull BaseViewProvider provider) {
-        mTypePool.register(clazz, provider);
     }
 
     @Override
@@ -100,16 +115,28 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<GcsViewHolder>
     }
 
     public void addDatas(List<?> items) {
-        mItems.addAll(items);
+        if (hasFooter) {
+            mItems.addAll(mItems.size() - 1, items);
+        } else {
+            mItems.addAll(items);
+        }
         notifyDataSetChanged();
     }
 
     public List<Object> getDatas() {
-        return mItems;
+        int startIndex = 0;
+        int endIndex = mItems.size();
+        if (hasHeader) {
+            startIndex++;
+        }
+        if (hasFooter) {
+            endIndex--;
+        }
+        return mItems.subList(startIndex, endIndex);
     }
 
     public void clearDatas() {
-        this.mItems.clear();
+        mItems.removeAll(getDatas());
         notifyDataSetChanged();
     }
 }
