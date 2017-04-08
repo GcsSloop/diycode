@@ -73,11 +73,23 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
         hasHeader = true;
     }
 
+    public void unRegisterHeader() {
+        if (!hasHeader) return;
+        mItems.remove(0);
+        hasHeader = false;
+    }
+
     public void registerFooter(@NonNull Object object, @NonNull BaseViewProvider provider) {
         if (hasFooter) return;
         mTypePool.register(object.getClass(), provider);
         mItems.add(object);
         hasFooter = true;
+    }
+
+    public void unRegisterFooter() {
+        if (!hasFooter) return;
+        mItems.remove(mItems.size() - 1);
+        hasFooter = false;
     }
 
     @Override
