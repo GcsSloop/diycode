@@ -25,9 +25,7 @@ package com.gcssloop.diycode.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.text.Html;
 import android.view.View;
-import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.TopicContentActivity;
@@ -61,6 +59,7 @@ public class TopicAdapter extends GcsAdapter<Topic> {
         String state = "评论 "+topic.getReplies_count();
         holder.setText(R.id.state, state);
 
+        /*
         TextView preview = holder.get(R.id.preview);
         String text = mDataCache.getTopicPreview(topic.getId());
         if (null != text) {
@@ -68,7 +67,7 @@ public class TopicAdapter extends GcsAdapter<Topic> {
             preview.setText(Html.fromHtml(text));
         } else {
             preview.setVisibility(View.GONE);
-        }
+        }*/
 
         holder.setOnClickListener(new View.OnClickListener() {
             @Override

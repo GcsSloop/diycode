@@ -84,7 +84,6 @@ public class TopicListFragment extends BaseFragment {
     private TopicAdapter mAdapter;
     private SwipeRefreshLayout mRefreshLayout;
     NestedScrollView mScrollView;
-    private LinearLayoutManager mLinearLayoutManager;
 
     private boolean isFirstLaunch = true;             // 是否是第一次加载
 
@@ -119,15 +118,12 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected void initViews(ViewHolder holder, View root) {
-        long time = System.currentTimeMillis();
-        Logger.e("time = " + time);
         mFooter = holder.get(R.id.footer);
         mScrollView = holder.get(R.id.scroll_view);
         initRefreshLayout(holder);
         initRecyclerView(getContext(), holder);
         initListener(holder);
         initData();
-        Logger.e("initViews 耗时 = " + (System.currentTimeMillis() - time) + " ms");
     }
 
     // 加载数据，默认从缓存加载
@@ -166,10 +162,10 @@ public class TopicListFragment extends BaseFragment {
         RecyclerView recyclerView = holder.get(R.id.recycler_view);
         mAdapter = new TopicAdapter(context, mDataCache);
         recyclerView.setAdapter(mAdapter);
-        mLinearLayoutManager = new LinearLayoutManager(context);
-        mLinearLayoutManager.setSmoothScrollbarEnabled(true);
-        mLinearLayoutManager.setAutoMeasureEnabled(true);
-        recyclerView.setLayoutManager(mLinearLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         Logger.e("初始化View");
@@ -268,11 +264,6 @@ public class TopicListFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     @Override
