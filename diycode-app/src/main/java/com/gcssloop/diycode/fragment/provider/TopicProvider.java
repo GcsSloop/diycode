@@ -24,7 +24,6 @@ package com.gcssloop.diycode.fragment.provider;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,8 +42,8 @@ import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 public class TopicProvider extends BaseViewProvider<Topic> {
     private Context mContext;
 
-    public TopicProvider(@NonNull Context context, @NonNull @LayoutRes int layout_id) {
-        super(context, layout_id);
+    public TopicProvider(@NonNull Context context) {
+        super(context, R.layout.item_topic);
         mContext = context;
     }
 

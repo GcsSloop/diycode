@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
@@ -50,8 +49,7 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         return fragment;
     }
 
-    @Override
-    public void initData(HeaderFooterAdapter adapter) {
+    @Override public void initData(HeaderFooterAdapter adapter) {
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
             Logger.e("topics : " + topics.size());
@@ -68,43 +66,34 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         }
     }
 
-    @Override
-    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                          HeaderFooterAdapter adapter) {
-        TopicProvider topicProvider = new TopicProvider(getContext(), R.layout.item_topic);
-        adapter.register(Topic.class, topicProvider);
+    @Override protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
+                                                    HeaderFooterAdapter adapter) {
+        adapter.register(Topic.class, new TopicProvider(getContext()));
     }
 
-    @NonNull
-    @Override
-    protected RecyclerView.LayoutManager getRecyclerViewLayoutManager() {
+    @NonNull @Override protected RecyclerView.LayoutManager getRecyclerViewLayoutManager() {
         return new SpeedyLinearLayoutManager(getContext());
     }
 
-    @NonNull
-    @Override
-    protected String request(int offset, int limit) {
+    @NonNull @Override protected String request(int offset, int limit) {
         return mDiycode.getTopicsList(null, null, offset, limit);
     }
 
-    @Override
-    protected void onRefresh(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
+    @Override protected void onRefresh(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
         adapter.clearDatas();
         adapter.addDatas(event.getBean());
         toast("刷新成功");
         mDataCache.saveTopicsList(convert(adapter.getDatas()));
     }
 
-    @Override
-    protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
+    @Override protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
         // TODO 排除重复数据
         adapter.addDatas(event.getBean());
         toast("加载更多成功");
         mDataCache.saveTopicsList(convert(adapter.getDatas()));
     }
 
-    @Override
-    protected void onError(GetTopicsListEvent event, String postType) {
+    @Override protected void onError(GetTopicsListEvent event, String postType) {
         if (postType.equals(POST_LOAD_MORE)) {
             toast("加载更多失败");
         } else if (postType.equals(POST_REFRESH)) {
@@ -121,8 +110,7 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         return topics;
     }
 
-    @Override
-    public void onDestroyView() {
+    @Override public void onDestroyView() {
         super.onDestroyView();
         saveState();
     }
