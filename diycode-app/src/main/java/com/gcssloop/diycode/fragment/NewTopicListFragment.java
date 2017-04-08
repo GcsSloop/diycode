@@ -25,12 +25,12 @@ package com.gcssloop.diycode.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
@@ -57,7 +57,7 @@ public class NewTopicListFragment extends RefreshRecyclerFragment<Topic, GetTopi
     protected void setRecyclerView(Context context, RecyclerView recyclerView,
                                    HeaderFooterAdapter adapter) {
         Logger.e("setRecyclerView - start");
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new SpeedyLinearLayoutManager(getContext()));
         TopicProvider topicProvider = new TopicProvider(getContext(), R.layout.item_topic);
         adapter.register(Topic.class, topicProvider);
         Logger.e("setRecyclerView - end");
@@ -73,12 +73,15 @@ public class NewTopicListFragment extends RefreshRecyclerFragment<Topic, GetTopi
     @Override
     protected void onRefresh(GetTopicsListEvent event) {
         super.onRefresh(event);
+        mAdapter.clearDatas();
+        mAdapter.addDatas(event.getBean());
         toast("刷新成功");
     }
 
     @Override
     protected void onLoadMore(GetTopicsListEvent event) {
         super.onLoadMore(event);
+        mAdapter.addDatas(event.getBean());
         toast("加载更多成功");
     }
 }

@@ -76,7 +76,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     protected DataCache mDataCache;                 // 缓存(本地)
 
     // View
-    protected SwipeRefreshLayout mRefreshLayout;
+    private SwipeRefreshLayout mRefreshLayout;
+    private RecyclerView mRecyclerView;
 
     // 状态
     protected Config mConfig;
@@ -105,7 +106,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     protected void initViews(ViewHolder holder, View root) {
         // 适配器
         mAdapter = new HeaderFooterAdapter();
-        mFooterProvider = new FooterProvider(getContext()){
+        mFooterProvider = new FooterProvider(getContext()) {
             @Override
             public void needLoadMore() {
                 super.needLoadMore();
@@ -119,10 +120,10 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.diy_red));
         mRefreshLayout.setEnabled(true);
         // RecyclerView
-        RecyclerView recyclerView = holder.get(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(mAdapter);
-        setRecyclerView(getContext(), recyclerView, mAdapter);
+        mRecyclerView = holder.get(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mAdapter);
+        setRecyclerView(getContext(), mRecyclerView, mAdapter);
 
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -153,7 +154,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
             mState = STATE_LOADING;
             mFooterProvider.setFooterLoading();
         } catch (Exception e) {
-            Logger.e("loadMore："+e.toString());
+            Logger.e("loadMore：" + e.toString());
         }
 
         Logger.e("loadMore - end");
@@ -169,7 +170,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
      *
      * @param recyclerView RecyclerView
      */
-    protected abstract void setRecyclerView(Context context, RecyclerView recyclerView, HeaderFooterAdapter adapter);
+    protected abstract void setRecyclerView(Context context, RecyclerView recyclerView,
+                                            HeaderFooterAdapter adapter);
 
     /**
      * 请求数据。
@@ -199,8 +201,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     protected void onRefresh(Event event) {
         mState = STATE_NORMAL;
         mRefreshLayout.setRefreshing(false);
-        mAdapter.clearDatas();
-        mAdapter.addDatas(event.getBean());
     }
 
     protected void onLoadMore(Event event) {
@@ -211,7 +211,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
             mState = STATE_NORMAL;
             mFooterProvider.setFooterNormal();
         }
-        mAdapter.addDatas(event.getBean());
     }
 
     protected void onError(Event event) {
@@ -253,7 +252,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
      * 快速返回顶部
      */
     public void quickToTop() {
-        // TODO 快速返回
+        mRecyclerView.smoothScrollToPosition(0);
     }
 
     @Override

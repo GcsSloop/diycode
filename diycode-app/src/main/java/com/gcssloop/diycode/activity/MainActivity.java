@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity
     private void quickToTop() {
         switch (mCurrentPosition) {
             case 0:
-                mFragment1.quickToTop();
+                mFragment0.quickToTop();
                 break;
             case 1:
                 mFragment2.quickToTop();
