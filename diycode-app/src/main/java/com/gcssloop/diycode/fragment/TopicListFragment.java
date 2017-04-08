@@ -113,7 +113,7 @@ public class TopicListFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_recycler_refresh;
+        return R.layout.fragment_refresh_scroll_recycler;
     }
 
     @Override

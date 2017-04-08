@@ -43,10 +43,10 @@ import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.fragment.GcsTopicListFragment;
 import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.SitesListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
+import com.gcssloop.diycode.fragment.TopicListFragment;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.login.event.LogoutEvent;
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity
     private DataCache mCache;
     private Config mConfig;
     private int mCurrentPosition = 0;
-    private GcsTopicListFragment mFragment1;
+    private TopicListFragment mFragment1;
     private NewsListFragment mFragment2;
     private SitesListFragment mFragment3;
 
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity
         TabLayout mTabLayout = holder.get(R.id.tab_layout);
         mViewPager.setOffscreenPageLimit(3); // 防止滑动到第三个页面时，第一个页面被销毁
 
-        mFragment1 = GcsTopicListFragment.newInstance();
+        mFragment1 = TopicListFragment.newInstance();
         mFragment2 = NewsListFragment.newInstance();
         mFragment3 = SitesListFragment.newInstance();
 

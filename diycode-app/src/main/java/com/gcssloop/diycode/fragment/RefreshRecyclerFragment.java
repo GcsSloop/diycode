@@ -50,7 +50,7 @@ import java.util.List;
 /**
  * 具有下拉刷新和上拉加载功能的 Fregment
  */
-public abstract class RecyclerRefreshFragment<T, Event extends BaseEvent<List<T>>> extends
+public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>>> extends
         BaseFragment {
     // 底部状态显示
     protected static final String FOOTER_LOADING = "loading...";
@@ -80,7 +80,6 @@ public abstract class RecyclerRefreshFragment<T, Event extends BaseEvent<List<T>
 
     // View
     protected SwipeRefreshLayout mRefreshLayout;
-    protected NestedScrollView mScrollView;
 
     // 状态
     protected Config mConfig;
@@ -91,7 +90,7 @@ public abstract class RecyclerRefreshFragment<T, Event extends BaseEvent<List<T>
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_recycler_refresh;
+        return R.layout.fragment_refresh_recycler;
     }
 
     @Override
@@ -105,7 +104,6 @@ public abstract class RecyclerRefreshFragment<T, Event extends BaseEvent<List<T>
     @Override
     protected void initViews(ViewHolder holder, View root) {
         mFooter = holder.get(R.id.footer);
-        mScrollView = holder.get(R.id.scroll_view);
         // refreshLayout
         mRefreshLayout = holder.get(R.id.refresh_layout);
         mRefreshLayout.setProgressViewOffset(false, -20, 80);
@@ -253,9 +251,7 @@ public abstract class RecyclerRefreshFragment<T, Event extends BaseEvent<List<T>
      * 快速返回顶部
      */
     public void quickToTop() {
-        if (mScrollView != null) {
-            mScrollView.smoothScrollTo(0, 0);
-        }
+        // TODO 快速返回
     }
 
     @Override

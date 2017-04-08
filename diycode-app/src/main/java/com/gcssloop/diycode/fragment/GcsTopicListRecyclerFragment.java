@@ -37,13 +37,13 @@ import com.gcssloop.diycode_sdk.log.Logger;
 
 import java.util.List;
 
-public class GcsTopicListFragment extends RecyclerRefreshFragment<Topic, GetTopicsListEvent> {
+public class GcsTopicListRecyclerFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
 
     private TopicAdapter mAdapter;      // 适配器
 
-    public static GcsTopicListFragment newInstance() {
+    public static GcsTopicListRecyclerFragment newInstance() {
         Bundle args = new Bundle();
-        GcsTopicListFragment fragment = new GcsTopicListFragment();
+        GcsTopicListRecyclerFragment fragment = new GcsTopicListRecyclerFragment();
         fragment.setArguments(args);
         return fragment;
     }
