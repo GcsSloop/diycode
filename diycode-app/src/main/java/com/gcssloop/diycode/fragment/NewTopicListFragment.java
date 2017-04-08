@@ -71,17 +71,24 @@ public class NewTopicListFragment extends RefreshRecyclerFragment<Topic, GetTopi
     }
 
     @Override
-    protected void onRefresh(GetTopicsListEvent event) {
-        super.onRefresh(event);
-        mAdapter.clearDatas();
-        mAdapter.addDatas(event.getBean());
+    protected void onRefresh(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
+        adapter.clearDatas();
+        adapter.addDatas(event.getBean());
         toast("刷新成功");
     }
 
     @Override
-    protected void onLoadMore(GetTopicsListEvent event) {
-        super.onLoadMore(event);
-        mAdapter.addDatas(event.getBean());
+    protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
+        adapter.addDatas(event.getBean());
         toast("加载更多成功");
+    }
+
+    @Override
+    protected void onError(GetTopicsListEvent event, String postType) {
+        if (postType.equals(POST_LOAD_MORE)) {
+            toast("加载更多失败");
+        } else if (postType.equals(POST_REFRESH)) {
+            toast("刷新数据失败");
+        }
     }
 }

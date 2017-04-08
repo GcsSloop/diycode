@@ -56,8 +56,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         BaseFragment {
 
     // 请求状态 - 下拉刷新 还是 加载更多
-    private static final String POST_LOAD_MORE = "load_more";
-    private static final String POST_REFRESH = "refresh";
+    public static final String POST_LOAD_MORE = "load_more";
+    public static final String POST_REFRESH = "refresh";
     private ArrayMap<String, String> mPostTypes = new ArrayMap<>();    // 请求类型
 
     // 当前状态
@@ -87,7 +87,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     // 适配器
     protected HeaderFooterAdapter mAdapter;
-    protected FooterProvider mFooterProvider;
+    private FooterProvider mFooterProvider;
 
     @Override
     protected int getLayoutId() {
@@ -201,7 +201,10 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     protected void onRefresh(Event event) {
         mState = STATE_NORMAL;
         mRefreshLayout.setRefreshing(false);
+        onRefresh(event, mAdapter);
     }
+
+    protected abstract void onRefresh(Event event, HeaderFooterAdapter adapter);
 
     protected void onLoadMore(Event event) {
         if (event.getBean().size() < pageCount) {
@@ -211,13 +214,15 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
             mState = STATE_NORMAL;
             mFooterProvider.setFooterNormal();
         }
+        onLoadMore(event, mAdapter);
     }
+
+    protected abstract void onLoadMore(Event event, HeaderFooterAdapter adapter);
 
     protected void onError(Event event) {
         mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
         String postType = mPostTypes.get(event.getUUID());
         if (postType.equals(POST_LOAD_MORE)) {
-            toast("加载更多失败");
             mFooterProvider.setFooterError(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -227,15 +232,12 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
             });
         } else if (postType.equals(POST_REFRESH)) {
             mRefreshLayout.setRefreshing(false);
-            toast("刷新数据失败");
-            mFooterProvider.setFooterError(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    refresh();
-                }
-            });
+            mFooterProvider.setFooterNormal();
         }
+        onError(event, postType);
     }
+
+    protected abstract void onError(Event event, String postType);
 
     //--- 设置 -----------------------------------------------------------------------------------
 
