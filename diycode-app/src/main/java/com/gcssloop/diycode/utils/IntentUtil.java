@@ -42,6 +42,7 @@ public class IntentUtil {
      * @param url     url
      */
     public static void openUrl(Context context, String url) {
+        // TODO Chrome Custom Tabs
         if (null == url || url.isEmpty()) {
             Log.i("Diyocde", "Url地址错误");
             return;

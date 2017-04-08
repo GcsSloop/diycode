@@ -117,6 +117,7 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
 
     @Override
     protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
+        // TODO 排除重复数据
         adapter.addDatas(event.getBean());
         toast("加载更多成功");
         mDataCache.saveTopicsList(convert(adapter.getDatas()));
