@@ -35,7 +35,6 @@ import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.provider.Footer;
 import com.gcssloop.diycode.fragment.provider.FooterProvider;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
-import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,7 +48,6 @@ import java.util.List;
  */
 public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>>> extends
         BaseFragment {
-
     // 请求状态 - 下拉刷新 还是 加载更多
     public static final String POST_LOAD_MORE = "load_more";
     public static final String POST_REFRESH = "refresh";
@@ -107,7 +105,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(getRecyclerViewLayoutManager());
         setRecyclerViewAdapter(getContext(), mRecyclerView, mAdapter);
-
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -115,21 +112,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
                 refresh();
             }
         });
-        Logger.e("initViews - end");
     }
-
-    /**
-     * 为 Adapter 注册类型
-     *
-     * @param recyclerView RecyclerView
-     */
-    protected abstract void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                                   HeaderFooterAdapter adapter);
-
-    @NonNull
-    protected abstract RecyclerView.LayoutManager getRecyclerViewLayoutManager();
-
-    public abstract void initData(HeaderFooterAdapter adapter);
 
     protected void refresh() {
         if (!refreshEnable) return;
@@ -141,7 +124,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     }
 
     protected void loadMore() {
-        Logger.e("loadMore - start");
         try {
             if (!loadMoreEnable) return;
             String uuid = request(pageIndex * pageCount, pageCount);
@@ -150,20 +132,9 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
             mState = STATE_LOADING;
             mFooterProvider.setFooterLoading();
         } catch (Exception e) {
-            Logger.e("loadMore：" + e.toString());
+            e.printStackTrace();
         }
-        Logger.e("loadMore - end");
     }
-
-    /**
-     * 请求数据。
-     *
-     * @param offset 偏移量
-     * @param limit  数量
-     * @return uuid
-     */
-    @NonNull
-    protected abstract String request(int offset, int limit);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onResultEvent(Event event) {
@@ -186,8 +157,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         onRefresh(event, mAdapter);
     }
 
-    protected abstract void onRefresh(Event event, HeaderFooterAdapter adapter);
-
     protected void onLoadMore(Event event) {
         if (event.getBean().size() < pageCount) {
             mState = STATE_NO_MORE;
@@ -198,8 +167,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         }
         onLoadMore(event, mAdapter);
     }
-
-    protected abstract void onLoadMore(Event event, HeaderFooterAdapter adapter);
 
     protected void onError(Event event) {
         mState = STATE_NORMAL;  // 状态重置为正常，以便可以重试，否则进入异常状态后无法再变为正常状态
@@ -218,9 +185,6 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         }
         onError(event, postType);
     }
-
-    protected abstract void onError(Event event, String postType);
-
 
     public void setRefreshEnable(boolean refreshEnable) {
         this.refreshEnable = refreshEnable;
@@ -246,4 +210,21 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+    //--- 需要继承类处理的部分 ----------------------------------------------------------------------
+
+    public abstract void initData(HeaderFooterAdapter adapter);
+
+    protected abstract void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
+                                                   HeaderFooterAdapter adapter);
+
+    @NonNull protected abstract RecyclerView.LayoutManager getRecyclerViewLayoutManager();
+
+    @NonNull protected abstract String request(int offset, int limit);
+
+    protected abstract void onRefresh(Event event, HeaderFooterAdapter adapter);
+
+    protected abstract void onLoadMore(Event event, HeaderFooterAdapter adapter);
+
+    protected abstract void onError(Event event, String postType);
 }
