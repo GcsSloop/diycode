@@ -40,11 +40,10 @@ import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
-public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
+import java.util.ArrayList;
+import java.util.List;
 
-    // RecyclerView 滚动位置保存与恢复
-    private int lastPosition = 0;
-    private int lastOffset = 0;
+public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
 
     private boolean isFirstLaunch = true;
     // 数据
@@ -69,20 +68,23 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
 
     @Override
     public void initData(HeaderFooterAdapter adapter) {
-        /*
         List<Topic> topics = mDataCache.getTopicsList();
         if (null != topics && topics.size() > 0) {
-            // TODO 恢复Index
+            Logger.e("topics : " + topics.size());
+            pageIndex = mConfig.getTopicListPageIndex();
             adapter.addDatas(topics);
-            // 设置底部
             if (isFirstLaunch) {
-                // TODO 滚动到上次到位置
+                int lastPosition = mConfig.getTopicListLastPosition();
+                int lastOffset = mConfig.getTopicListLastOffset();
+                if (lastPosition != 0) {
+                    mRecyclerView.getLayoutManager().scrollToPosition(lastPosition);
+                }
+                isFirstAddFooter = false;
                 isFirstLaunch = false;
             }
         } else {
             loadMore();
-        }*/
-        loadMore();
+        }
     }
 
     @Override
@@ -110,12 +112,14 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         adapter.clearDatas();
         adapter.addDatas(event.getBean());
         toast("刷新成功");
+        mDataCache.saveTopicsList(convert(adapter.getDatas()));
     }
 
     @Override
     protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
         adapter.addDatas(event.getBean());
         toast("加载更多成功");
+        mDataCache.saveTopicsList(convert(adapter.getDatas()));
     }
 
     @Override
@@ -127,6 +131,16 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public ArrayList<Topic> convert(List<Object> objects) {
+        ArrayList<Topic> topics = new ArrayList<>();
+        for (Object obj : objects) {
+            if (obj instanceof Topic)
+                topics.add((Topic) obj);
+        }
+        return topics;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -136,10 +150,13 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
     // 保存状态
     private void saveState() {
         // 存储 PageIndex
+        mConfig.saveTopicListPageIndex(pageIndex);
+        // 存储 RecyclerView 滚动位置
         RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
         View view = layoutManager.getChildAt(0);
-        lastPosition = layoutManager.getPosition(view);
-        lastOffset = view.getTop();
+        int lastPosition = layoutManager.getPosition(view);
+        int lastOffset = view.getTop();
+        mConfig.saveTopicListState(lastPosition, lastOffset);
         Logger.e("onDestroyView", lastPosition + " : " + lastOffset);
     }
 }

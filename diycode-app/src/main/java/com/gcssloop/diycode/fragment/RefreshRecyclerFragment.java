@@ -76,6 +76,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     private HeaderFooterAdapter mAdapter;
     private FooterProvider mFooterProvider;
 
+    protected boolean isFirstAddFooter = true;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_refresh_recycler;
@@ -88,7 +90,10 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mFooterProvider = new FooterProvider(getContext()) {
             @Override
             public void needLoadMore() {
-                super.needLoadMore();
+                if (isFirstAddFooter){
+                    isFirstAddFooter = false;
+                    return;
+                }
                 loadMore();
             }
         };
@@ -112,6 +117,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
                 refresh();
             }
         });
+        initData(mAdapter);
     }
 
     protected void refresh() {

@@ -106,23 +106,29 @@ public class Config {
 
     //--- Topic状态 ------------------------------------------------------------------------------
 
-    private String Key_TopicList_LastScroll = "Key_TopicList_LastScroll";
+    private String Key_TopicList_LastPosition = "Key_TopicList_LastPosition";
+    private String Key_TopicList_LastOffset = "Key_TopicList_LastOffset";
 
-    public void saveTopicListScroll(Integer lastScrollY) {
-        saveData(Key_TopicList_LastScroll, lastScrollY);
+    public void saveTopicListState(Integer lastPosition, Integer lastOffset) {
+        saveData(Key_TopicList_LastPosition, lastPosition);
+        saveData(Key_TopicList_LastOffset, lastOffset);
     }
 
-    public Integer getTopicLastScroll() {
-        return getData(Key_TopicList_LastScroll, 0);
+    public Integer getTopicListLastPosition() {
+        return getData(Key_TopicList_LastPosition, 0);
+    }
+
+    public Integer getTopicListLastOffset() {
+        return getData(Key_TopicList_LastOffset, 0);
     }
 
     private String Key_TopicList_PageIndex = "Key_TopicList_PageIndex";
 
-    public void saveTopicListPageIndex(Integer pageIndex){
+    public void saveTopicListPageIndex(Integer pageIndex) {
         saveData(Key_TopicList_PageIndex, pageIndex);
     }
 
-    public Integer getTopicListPageIndex(){
+    public Integer getTopicListPageIndex() {
         return getData(Key_TopicList_PageIndex, 0);
     }
 
@@ -140,11 +146,11 @@ public class Config {
 
     private String Key_NewsList_PageIndex = "Key_NewsList_PageIndex";
 
-    public void saveNewsListPageIndex(Integer pageIndex){
+    public void saveNewsListPageIndex(Integer pageIndex) {
         saveData(Key_NewsList_PageIndex, pageIndex);
     }
 
-    public Integer getNewsListPageIndex(){
+    public Integer getNewsListPageIndex() {
         return getData(Key_NewsList_PageIndex, 0);
     }
 }
