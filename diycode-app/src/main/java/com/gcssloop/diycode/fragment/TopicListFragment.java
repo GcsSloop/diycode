@@ -25,16 +25,12 @@ package com.gcssloop.diycode.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
-import com.gcssloop.diycode.utils.Config;
-import com.gcssloop.diycode.utils.DataCache;
-import com.gcssloop.diycode_sdk.api.Diycode;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
@@ -46,24 +42,12 @@ import java.util.List;
 public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
 
     private boolean isFirstLaunch = true;
-    // 数据
-    private Config mConfig;         // 配置(状态信息)
-    private Diycode mDiycode;       // 在线(服务器)
-    private DataCache mDataCache;   // 缓存(本地)
 
     public static TopicListFragment newInstance() {
         Bundle args = new Bundle();
         TopicListFragment fragment = new TopicListFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mConfig = Config.getSingleInstance();
-        mDiycode = Diycode.getSingleInstance();
-        mDataCache = new DataCache(getContext());
     }
 
     @Override
@@ -75,10 +59,7 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
             adapter.addDatas(topics);
             if (isFirstLaunch) {
                 int lastPosition = mConfig.getTopicListLastPosition();
-                int lastOffset = mConfig.getTopicListLastOffset();
-                if (lastPosition != 0) {
-                    mRecyclerView.getLayoutManager().scrollToPosition(lastPosition);
-                }
+                mRecyclerView.getLayoutManager().scrollToPosition(lastPosition);
                 isFirstAddFooter = false;
                 isFirstLaunch = false;
             }
@@ -99,7 +80,6 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
     protected RecyclerView.LayoutManager getRecyclerViewLayoutManager() {
         return new SpeedyLinearLayoutManager(getContext());
     }
-
 
     @NonNull
     @Override
@@ -132,7 +112,6 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         }
     }
 
-    @SuppressWarnings("unchecked")
     public ArrayList<Topic> convert(List<Object> objects) {
         ArrayList<Topic> topics = new ArrayList<>();
         for (Object obj : objects) {
@@ -153,11 +132,8 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         // 存储 PageIndex
         mConfig.saveTopicListPageIndex(pageIndex);
         // 存储 RecyclerView 滚动位置
-        RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-        View view = layoutManager.getChildAt(0);
-        int lastPosition = layoutManager.getPosition(view);
-        int lastOffset = view.getTop();
-        mConfig.saveTopicListState(lastPosition, lastOffset);
-        Logger.e("onDestroyView", lastPosition + " : " + lastOffset);
+        View view = mRecyclerView.getLayoutManager().getChildAt(0);
+        int lastPosition = mRecyclerView.getLayoutManager().getPosition(view);
+        mConfig.saveTopicListState(lastPosition, 0);
     }
 }

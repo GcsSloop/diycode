@@ -31,6 +31,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gcssloop.diycode.utils.Config;
+import com.gcssloop.diycode.utils.DataCache;
+import com.gcssloop.diycode_sdk.api.Diycode;
+
 /**
  * 提供基础内容和生命周期控制
  */
@@ -38,6 +42,18 @@ public abstract class BaseFragment extends Fragment {
     private static final String BUNDLE_KEY = "GcsSaveStateBundle0x6675636b";
     private Bundle mSavedState;         // 存储状态信息
     private ViewHolder mViewHolder;     // View 管理
+
+    // 数据
+    protected Config mConfig;         // 配置(状态信息)
+    protected Diycode mDiycode;       // 在线(服务器)
+    protected DataCache mDataCache;   // 缓存(本地)
+
+    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mConfig = Config.getSingleInstance();
+        mDiycode = Diycode.getSingleInstance();
+        mDataCache = new DataCache(getContext());
+    }
 
     @LayoutRes
     protected abstract int getLayoutId();
