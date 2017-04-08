@@ -71,12 +71,14 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
         mTypePool.register(object.getClass(), provider);
         mItems.add(0, object);
         hasHeader = true;
+        notifyDataSetChanged();
     }
 
     public void unRegisterHeader() {
         if (!hasHeader) return;
         mItems.remove(0);
         hasHeader = false;
+        notifyDataSetChanged();
     }
 
     public void registerFooter(@NonNull Object object, @NonNull BaseViewProvider provider) {
@@ -84,12 +86,14 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
         mTypePool.register(object.getClass(), provider);
         mItems.add(object);
         hasFooter = true;
+        notifyDataSetChanged();
     }
 
     public void unRegisterFooter() {
         if (!hasFooter) return;
         mItems.remove(mItems.size() - 1);
         hasFooter = false;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -148,7 +152,17 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<GcsViewHolder>
     }
 
     public void clearDatas() {
-        mItems.removeAll(getDatas());
+        int startIndex = 0;
+        int endIndex = mItems.size();
+        if (hasHeader) {
+            startIndex++;
+        }
+        if (hasFooter) {
+            endIndex--;
+        }
+        for (int i = endIndex - 1; i >= startIndex; i--) {
+            mItems.remove(i);
+        }
         notifyDataSetChanged();
     }
 }
