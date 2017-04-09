@@ -148,6 +148,9 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         notifyDataSetChanged();
     }
 
+    /**
+     * 获取纯数据 (不包含 Header 和 Footer)
+     */
     public List<Object> getDatas() {
         int startIndex = 0;
         int endIndex = mItems.size();
@@ -158,6 +161,13 @@ public class HeaderFooterAdapter extends RecyclerView.Adapter<RecyclerViewHolder
             endIndex--;
         }
         return mItems.subList(startIndex, endIndex);
+    }
+
+    /**
+     * 获取全部数据 (包含 Header 和 Footer)
+     */
+    public List<Object> getFullDatas() {
+        return mItems;
     }
 
     public void clearDatas() {

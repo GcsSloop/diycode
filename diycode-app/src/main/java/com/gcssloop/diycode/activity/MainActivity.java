@@ -44,9 +44,8 @@ import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.NewsListFragment;
-import com.gcssloop.diycode.fragment.SitesListFragment;
+import com.gcssloop.diycode.fragment.SitesListFragment2;
 import com.gcssloop.diycode.fragment.TopicListFragment;
-import com.gcssloop.diycode.test.TestFragment;
 import com.gcssloop.diycode.test.TextFragment;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
@@ -67,8 +66,7 @@ public class MainActivity extends BaseActivity
     private int mCurrentPosition = 0;
     private TopicListFragment mFragment1;
     private NewsListFragment mFragment2;
-    private SitesListFragment mFragment3;
-    private TestFragment mFragment4;
+    private SitesListFragment2 mFragment3;
 
     private boolean isToolbarFirstClick = true;
 
@@ -95,8 +93,7 @@ public class MainActivity extends BaseActivity
 
         mFragment1 = TopicListFragment.newInstance();
         mFragment2 = NewsListFragment.newInstance();
-        mFragment3 = SitesListFragment.newInstance();
-        mFragment4 = TestFragment.newInstance();
+        mFragment3 = SitesListFragment2.newInstance();
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites", "Test"};
@@ -109,14 +106,12 @@ public class MainActivity extends BaseActivity
                     return mFragment2;
                 if (position == 2)
                     return mFragment3;
-                if (position == 3)
-                    return mFragment4;
                 return TextFragment.newInstance(types[position]);
             }
 
             @Override
             public int getCount() {
-                return 4;
+                return 3;
             }
 
             @Override

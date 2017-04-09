@@ -88,7 +88,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mFooterProvider = new FooterProvider(getContext()) {
             @Override
             public void needLoadMore() {
-                if (isFirstAddFooter){
+                if (isFirstAddFooter) {
                     isFirstAddFooter = false;
                     return;
                 }
@@ -128,16 +128,12 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     }
 
     protected void loadMore() {
-        try {
-            if (!loadMoreEnable) return;
-            String uuid = request(pageIndex * pageCount, pageCount);
-            mPostTypes.put(uuid, POST_LOAD_MORE);
-            pageIndex++;
-            mState = STATE_LOADING;
-            mFooterProvider.setFooterLoading();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (!loadMoreEnable) return;
+        String uuid = request(pageIndex * pageCount, pageCount);
+        mPostTypes.put(uuid, POST_LOAD_MORE);
+        pageIndex++;
+        mState = STATE_LOADING;
+        mFooterProvider.setFooterLoading();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
