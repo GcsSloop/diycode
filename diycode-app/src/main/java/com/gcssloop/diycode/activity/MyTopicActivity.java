@@ -57,7 +57,7 @@ public class MyTopicActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_topic;
+        return R.layout.activity_fragment;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class TopicActivity extends BaseActivity {
     }
 
     @Override protected int getLayoutId() {
-        return R.layout.activity_topic;
+        return R.layout.activity_fragment;
     }
 
     @Override protected void initViews(ViewHolder holder, View root) {
