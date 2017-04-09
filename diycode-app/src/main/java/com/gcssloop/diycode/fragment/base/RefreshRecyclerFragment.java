@@ -31,7 +31,7 @@ import android.view.View;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.fragment.provider.Footer;
+import com.gcssloop.diycode.fragment.bean.Footer;
 import com.gcssloop.diycode.fragment.provider.FooterProvider;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;

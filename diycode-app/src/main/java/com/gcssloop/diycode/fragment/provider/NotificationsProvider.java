@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-08 21:53:28
+ * Last modified 2017-04-09 21:22:01
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
@@ -22,5 +22,20 @@
 
 package com.gcssloop.diycode.fragment.provider;
 
-public class Footer {
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.gcssloop.diycode.R;
+import com.gcssloop.diycode_sdk.api.notifications.bean.Notification;
+import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
+
+public class NotificationsProvider extends BaseViewProvider<Notification> {
+    public NotificationsProvider(@NonNull Context context) {
+        super(context, R.layout.item_notification);
+    }
+
+    @Override public void onBindView(RecyclerViewHolder holder, Notification bean) {
+
+    }
 }

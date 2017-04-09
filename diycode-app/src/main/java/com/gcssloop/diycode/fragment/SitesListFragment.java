@@ -29,9 +29,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.gcssloop.diycode.fragment.base.RefreshRecyclerFragment;
-import com.gcssloop.diycode.fragment.provider.SiteItem;
+import com.gcssloop.diycode.fragment.bean.SiteItem;
 import com.gcssloop.diycode.fragment.provider.SiteProvider;
-import com.gcssloop.diycode.fragment.provider.SitesItem;
+import com.gcssloop.diycode.fragment.bean.SitesItem;
 import com.gcssloop.diycode.fragment.provider.SitesProvider;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
 import com.gcssloop.diycode_sdk.api.sites.event.GetSitesEvent;

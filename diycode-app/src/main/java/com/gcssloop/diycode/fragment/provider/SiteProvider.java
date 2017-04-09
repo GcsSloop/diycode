@@ -29,6 +29,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.fragment.bean.SiteItem;
 import com.gcssloop.diycode.utils.IntentUtil;
 import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
 import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;

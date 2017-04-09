@@ -13,29 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-09 14:31:47
+ * Last modified 2017-04-09 21:22:33
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.fragment.provider;
+package com.gcssloop.diycode.fragment.bean;
 
-import java.io.Serializable;
-
-public class SitesItem implements Serializable {
-    private String name;
-
-    public SitesItem(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+public class Footer {
 }

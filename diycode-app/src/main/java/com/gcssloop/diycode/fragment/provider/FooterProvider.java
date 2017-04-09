@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.fragment.bean.Footer;
 import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
 import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 
