@@ -32,10 +32,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.adapter.sites.SiteItem;
-import com.gcssloop.diycode.adapter.sites.SiteProvider;
-import com.gcssloop.diycode.adapter.sites.SitesItem;
-import com.gcssloop.diycode.adapter.sites.SitesProvider;
+import com.gcssloop.diycode.fragment.provider.SiteItem;
+import com.gcssloop.diycode.fragment.provider.SiteProvider;
+import com.gcssloop.diycode.fragment.provider.SitesItem;
+import com.gcssloop.diycode.fragment.provider.SitesProvider;
 import com.gcssloop.diycode.base.app.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.utils.DataCache;

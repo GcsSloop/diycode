@@ -71,8 +71,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
     private boolean loadMoreEnable = true;          // 是否允许加载
 
     // 适配器
-    private HeaderFooterAdapter mAdapter;
-    private FooterProvider mFooterProvider;
+    protected HeaderFooterAdapter mAdapter;
+    protected FooterProvider mFooterProvider;
 
     protected boolean isFirstAddFooter = true;
 

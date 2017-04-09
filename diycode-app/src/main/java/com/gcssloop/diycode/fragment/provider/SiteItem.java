@@ -13,22 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-28 03:28:11
+ * Last modified 2017-04-09 14:31:47
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.adapter.sites;
+package com.gcssloop.diycode.fragment.provider;
 
 import java.io.Serializable;
 
-public class SitesItem implements Serializable {
+public class SiteItem implements Serializable{
     private String name;
+    private String url;
+    private String avatar_url;
 
-    public SitesItem(String name) {
+    public SiteItem(String name, String url, String avatar_url) {
         this.name = name;
+        this.url = url;
+        this.avatar_url = avatar_url;
     }
 
     public String getName() {
@@ -37,5 +41,21 @@ public class SitesItem implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getAvatar_url() {
+        return avatar_url;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
     }
 }

@@ -24,6 +24,8 @@ package com.gcssloop.diycode.utils;
 
 import android.content.Context;
 
+import com.gcssloop.diycode_sdk.log.Logger;
+
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static CrashHandler instance;
 
@@ -45,6 +47,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread arg0, Throwable arg1) {
         arg1.printStackTrace();
         android.os.Process.killProcess(android.os.Process.myPid());
+        Logger.e("Crash：" + arg1.toString());
     }
 }
 
