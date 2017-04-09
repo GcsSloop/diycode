@@ -53,6 +53,7 @@ public class TopicActivity extends BaseActivity {
         int NodeId = intent.getIntExtra(Key_Node_ID, 0);
         String NodeName = intent.getStringExtra(Key_Node_Name);
         setTitle(NodeName);
+
         NodeTopicListFragment fragment = NodeTopicListFragment.newInstance(NodeId);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

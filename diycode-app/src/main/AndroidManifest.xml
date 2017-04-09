@@ -80,6 +80,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".activity.MyTopicActivity2"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name=".activity.AboutActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
