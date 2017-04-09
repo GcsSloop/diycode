@@ -120,6 +120,11 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
                         TopicContentActivity.newInstance(mContext, bean);
                     }
                 });
+                holder.get(R.id.node_name).setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
+                        TopicActivity.newInstance(mContext, bean.getNode_id(), bean.getNode_name());
+                    }
+                });
             }
         };
 
@@ -154,7 +159,8 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int
+                    oldScrollX, int oldScrollY) {
                 final float percent = (scrollY * 1f) / v.getMaxScrollAmount();
                 expectAnimMove.setPercent(percent);
             }
