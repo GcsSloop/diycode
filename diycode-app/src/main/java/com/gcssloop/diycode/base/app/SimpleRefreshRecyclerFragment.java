@@ -49,6 +49,10 @@ public abstract class SimpleRefreshRecyclerFragment<T, Event extends BaseEvent<L
     }
 
     @Override protected void onError(Event event, String postType) {
-        toast("加载失败");
+        if (postType.equals(POST_LOAD_MORE)) {
+            toast("加载更多失败");
+        } else if (postType.equals(POST_REFRESH)) {
+            toast("刷新数据失败");
+        }
     }
 }

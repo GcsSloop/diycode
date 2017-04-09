@@ -28,8 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gcssloop.diycode.base.app.RefreshRecyclerFragment;
-import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
+import com.gcssloop.diycode.base.app.SimpleRefreshRecyclerFragment;
 import com.gcssloop.diycode.fragment.provider.NewsProvider;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
@@ -38,7 +37,7 @@ import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import java.util.List;
 
-public class NewsListFragment extends RefreshRecyclerFragment<New, GetNewsListEvent> {
+public class NewsListFragment extends SimpleRefreshRecyclerFragment<New, GetNewsListEvent> {
 
     private boolean isFirstLaunch = true;
 
@@ -71,34 +70,19 @@ public class NewsListFragment extends RefreshRecyclerFragment<New, GetNewsListEv
         adapter.register(New.class, new NewsProvider(getContext()));
     }
 
-    @NonNull @Override protected RecyclerView.LayoutManager getRecyclerViewLayoutManager() {
-        return new SpeedyLinearLayoutManager(getContext());
-    }
-
     @NonNull @Override protected String request(int offset, int limit) {
         return mDiycode.getNewsList(null, offset,limit);
     }
 
     @Override protected void onRefresh(GetNewsListEvent event, HeaderFooterAdapter adapter) {
-        adapter.clearDatas();
-        adapter.addDatas(event.getBean());
-        toast("下拉刷新成功");
+        super.onRefresh(event, adapter);
         mDataCache.saveNewsListObj(adapter.getDatas());
     }
 
     @Override protected void onLoadMore(GetNewsListEvent event, HeaderFooterAdapter adapter) {
         // TODO 排除重复数据
-        adapter.addDatas(event.getBean());
-        toast("加载更多成功");
+        super.onLoadMore(event, adapter);
         mDataCache.saveNewsListObj(adapter.getDatas());
-    }
-
-    @Override protected void onError(GetNewsListEvent event, String postType) {
-        if (postType.equals(POST_LOAD_MORE)) {
-            toast("加载更多失败");
-        } else if (postType.equals(POST_REFRESH)) {
-            toast("刷新数据失败");
-        }
     }
 
     @Override public void onDestroyView() {
