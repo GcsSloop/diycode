@@ -43,7 +43,7 @@ import com.bumptech.glide.Glide;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.fragment.NewsListFragment2;
+import com.gcssloop.diycode.fragment.NewsListFragment;
 import com.gcssloop.diycode.fragment.SitesListFragment;
 import com.gcssloop.diycode.fragment.TextFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity
     private Config mConfig;
     private int mCurrentPosition = 0;
     private TopicListFragment mFragment1;
-    private NewsListFragment2 mFragment2;
+    private NewsListFragment mFragment2;
     private SitesListFragment mFragment3;
     private TestFragment mFragment4;
 
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity
         mViewPager.setOffscreenPageLimit(3); // 防止滑动到第三个页面时，第一个页面被销毁
 
         mFragment1 = TopicListFragment.newInstance();
-        mFragment2 = NewsListFragment2.newInstance();
+        mFragment2 = NewsListFragment.newInstance();
         mFragment3 = SitesListFragment.newInstance();
         mFragment4 = TestFragment.newInstance();
 

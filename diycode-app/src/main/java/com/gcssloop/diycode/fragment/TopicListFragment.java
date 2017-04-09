@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.gcssloop.diycode.base.app.RefreshRecyclerFragment;
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;

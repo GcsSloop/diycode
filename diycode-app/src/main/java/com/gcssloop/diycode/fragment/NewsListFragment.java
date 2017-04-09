@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.gcssloop.diycode.base.app.RefreshRecyclerFragment;
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.NewsProvider;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
@@ -37,13 +38,13 @@ import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import java.util.List;
 
-public class NewsListFragment2 extends RefreshRecyclerFragment<New, GetNewsListEvent> {
+public class NewsListFragment extends RefreshRecyclerFragment<New, GetNewsListEvent> {
 
     private boolean isFirstLaunch = true;
 
-    public static NewsListFragment2 newInstance() {
+    public static NewsListFragment newInstance() {
         Bundle args = new Bundle();
-        NewsListFragment2 fragment = new NewsListFragment2();
+        NewsListFragment fragment = new NewsListFragment();
         fragment.setArguments(args);
         return fragment;
     }

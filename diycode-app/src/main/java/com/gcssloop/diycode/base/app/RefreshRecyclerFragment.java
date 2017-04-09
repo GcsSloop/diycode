@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-07 17:39:46
+ * Last modified 2017-04-09 14:14:10
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.fragment;
+package com.gcssloop.diycode.base.app;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -30,8 +30,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.app.BaseFragment;
-import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.provider.Footer;
 import com.gcssloop.diycode.fragment.provider.FooterProvider;
 import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
