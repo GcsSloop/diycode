@@ -31,6 +31,7 @@ import android.widget.EditText;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
+import com.gcssloop.diycode.utils.IntentUtil;
 import com.gcssloop.diycode_sdk.api.login.event.LoginEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 
@@ -143,7 +144,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 mDiycode.login(name, pswd);
                 break;
             case R.id.sign_up:
-                WebActivity.newInstance(this, "https://www.diycode.cc/account/sign_up");
+                IntentUtil.openUrl(this, "https://www.diycode.cc/account/sign_up");
                 break;
         }
     }

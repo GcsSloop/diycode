@@ -47,19 +47,6 @@ public class IntentUtil {
             return;
         }
         CustomTabsHelper.openUrl(context, url);
-        /*
-        Boolean useInside = true;
-        try {
-            useInside = Config.getSingleInstance().isUseInsideBrowser();
-        } catch (Exception e) {
-            Logger.e("类型转换错误");
-        }
-        if (useInside) {
-            WebActivity.newInstance(context, url);
-        } else {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            context.startActivity(intent);
-        }*/
     }
 
     /**

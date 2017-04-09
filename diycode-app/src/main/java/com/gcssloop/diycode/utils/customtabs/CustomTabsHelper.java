@@ -36,7 +36,9 @@ public class CustomTabsHelper {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.setToolbarColor(Color.WHITE);
         builder.setShowTitle(true);
-        builder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_arrow_back));
+        builder.setCloseButtonIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable
+                .ic_arrow_back_black_24dp));
+        builder.addDefaultShareMenuItem();
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(context, Uri.parse(url));
     }
