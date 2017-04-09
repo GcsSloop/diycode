@@ -33,6 +33,9 @@ import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.NodeTopicListFragment;
 
+/**
+ * 查看不同分类的 Topic
+ */
 public class TopicActivity extends BaseActivity {
     private static String Key_Node_ID = "Key_Node_ID";
     private static String Key_Node_Name = "Key_Node_Name";

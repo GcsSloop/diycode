@@ -309,13 +309,13 @@ public class MainActivity extends BaseActivity
                 openActivity(LoginActivity.class);
                 return true;
             }
-            MyTopicActivity2.newInstance(this, MyTopicActivity2.InfoType.MY_TOPIC);
+            MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_TOPIC);
         } else if (id == R.id.nav_collect) {
             if (!mDiycode.isLogin()) {
                 openActivity(LoginActivity.class);
                 return true;
             }
-            MyTopicActivity2.newInstance(this, MyTopicActivity2.InfoType.MY_COLLECT);
+            MyTopicActivity.newInstance(this, MyTopicActivity.InfoType.MY_COLLECT);
         } else if (id == R.id.nav_about) {
             openActivity(AboutActivity.class);
         } else if (id == R.id.nav_setting) {
