@@ -23,6 +23,7 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
@@ -45,6 +46,13 @@ public class NotificationsFragment extends SimpleRefreshRecyclerFragment<Notific
     private static String MENTION_TYPE_NewReply = "HacknewsReply";      // - News  回复中提及
     private static String MENTION_TYPE_ProjectReply = "ProjectReply";   // - 项目   回复中提及
 
+    public static NotificationsFragment newInstance() {
+        Bundle args = new Bundle();
+        NotificationsFragment fragment = new NotificationsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override public void initData(HeaderFooterAdapter adapter) {
         loadMore();
     }
@@ -64,6 +72,7 @@ public class NotificationsFragment extends SimpleRefreshRecyclerFragment<Notific
         List<Notification> data = clearData(event.getBean());
         adapter.clearDatas();
         adapter.addDatas(data);
+        toast("刷新成功");
     }
 
     @Override
