@@ -33,6 +33,9 @@ import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
+/**
+ * 分类 topic 列表
+ */
 public class NodeTopicListFragment extends SimpleRefreshRecyclerFragment<Topic, GetTopicsListEvent> {
     private static String Key_Node_ID = "Key_Node_ID";
     private int mNodeId = 0;
@@ -51,8 +54,8 @@ public class NodeTopicListFragment extends SimpleRefreshRecyclerFragment<Topic, 
     }
 
     @Override
-    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                          HeaderFooterAdapter adapter) {
+    protected void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                      HeaderFooterAdapter adapter) {
         adapter.register(Topic.class, new TopicProvider(getContext()));
     }
 

@@ -108,7 +108,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(getRecyclerViewLayoutManager());
-        setRecyclerViewAdapter(getContext(), mRecyclerView, mAdapter);
+        setAdapterRegister(getContext(), mRecyclerView, mAdapter);
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -217,8 +217,8 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     public abstract void initData(HeaderFooterAdapter adapter);
 
-    protected abstract void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                                   HeaderFooterAdapter adapter);
+    protected abstract void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                               HeaderFooterAdapter adapter);
 
     @NonNull protected abstract RecyclerView.LayoutManager getRecyclerViewLayoutManager();
 

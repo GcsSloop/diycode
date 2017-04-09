@@ -36,6 +36,9 @@ import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 通知列表
+ */
 public class NotificationsFragment extends SimpleRefreshRecyclerFragment<Notification,
         GetNotificationsListEvent> {
     private static String TYPE_NodeChanged = "NodeChanged";             // 节点变更
@@ -58,8 +61,8 @@ public class NotificationsFragment extends SimpleRefreshRecyclerFragment<Notific
     }
 
     @Override
-    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                          HeaderFooterAdapter adapter) {
+    protected void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                      HeaderFooterAdapter adapter) {
         adapter.register(Notification.class, new NotificationsProvider(getContext()));
     }
 

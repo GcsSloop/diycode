@@ -33,6 +33,9 @@ import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
+/**
+ * 用户创建的 topic 列表
+ */
 public class UserCreateTopicFragment extends SimpleRefreshRecyclerFragment<Topic,
         GetUserCreateTopicListEvent> {
     private static String Key_User_Login_Name = "Key_User_Login_Name";
@@ -53,8 +56,8 @@ public class UserCreateTopicFragment extends SimpleRefreshRecyclerFragment<Topic
     }
 
     @Override
-    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                          HeaderFooterAdapter adapter) {
+    protected void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                      HeaderFooterAdapter adapter) {
         adapter.register(Topic.class, new TopicProvider(context));
     }
 

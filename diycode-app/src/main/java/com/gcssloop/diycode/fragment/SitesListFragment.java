@@ -42,6 +42,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 首页 sites 列表
+ */
 public class SitesListFragment extends RefreshRecyclerFragment<Sites, GetSitesEvent> {
 
     public static SitesListFragment newInstance() {
@@ -64,8 +67,8 @@ public class SitesListFragment extends RefreshRecyclerFragment<Sites, GetSitesEv
     }
 
     @Override
-    protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                          HeaderFooterAdapter adapter) {
+    protected void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                      HeaderFooterAdapter adapter) {
         mAdapter.register(SiteItem.class, new SiteProvider(getContext()));
         mAdapter.register(SitesItem.class, new SitesProvider(getContext()));
     }

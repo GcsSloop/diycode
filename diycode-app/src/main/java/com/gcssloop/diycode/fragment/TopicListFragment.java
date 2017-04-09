@@ -37,6 +37,9 @@ import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
 import java.util.List;
 
+/**
+ * 首页 topic 列表
+ */
 public class TopicListFragment extends SimpleRefreshRecyclerFragment<Topic, GetTopicsListEvent> {
 
     private boolean isFirstLaunch = true;
@@ -65,8 +68,8 @@ public class TopicListFragment extends SimpleRefreshRecyclerFragment<Topic, GetT
         }
     }
 
-    @Override protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
-                                                    HeaderFooterAdapter adapter) {
+    @Override protected void setAdapterRegister(Context context, RecyclerView recyclerView,
+                                                HeaderFooterAdapter adapter) {
         adapter.register(Topic.class, new TopicProvider(getContext()));
     }
 
