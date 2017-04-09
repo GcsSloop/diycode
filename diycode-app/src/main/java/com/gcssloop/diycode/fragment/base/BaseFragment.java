@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-03-11 22:24:54
+ * Last modified 2017-04-09 21:16:47
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.base.app;
+package com.gcssloop.diycode.fragment.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.utils.Config;
 import com.gcssloop.diycode.utils.DataCache;
 import com.gcssloop.diycode_sdk.api.Diycode;
@@ -39,10 +40,7 @@ import com.gcssloop.diycode_sdk.api.Diycode;
  * 提供基础内容和生命周期控制
  */
 public abstract class BaseFragment extends Fragment {
-    private static final String BUNDLE_KEY = "GcsSaveStateBundle0x6675636b";
-    private Bundle mSavedState;         // 存储状态信息
     private ViewHolder mViewHolder;     // View 管理
-
     // 数据
     protected Config mConfig;         // 配置(状态信息)
     protected Diycode mDiycode;       // 在线(服务器)
@@ -75,88 +73,6 @@ public abstract class BaseFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews(mViewHolder, mViewHolder.getRootView());
-        // Restore State Here
-        if (!restoreStateFromArguments()) {
-            // First Time, Initialize something here
-            onFirstTimeLaunched();
-        }
-    }
-
-    protected void onFirstTimeLaunched() {
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save State Here
-        saveStateToArguments();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Save State Here
-        saveStateToArguments();
-    }
-
-    ////////////////////
-    // Don't Touch !!
-    ////////////////////
-
-    private void saveStateToArguments() {
-        if (getView() != null)
-            mSavedState = saveState();
-        if (mSavedState != null) {
-            Bundle b = getArguments();
-            b.putBundle(BUNDLE_KEY, mSavedState);
-        }
-    }
-
-    ////////////////////
-    // Don't Touch !!
-    ////////////////////
-
-    private boolean restoreStateFromArguments() {
-        Bundle b = getArguments();
-        mSavedState = b.getBundle(BUNDLE_KEY);
-        if (mSavedState != null) {
-            restoreState();
-            return true;
-        }
-        return false;
-    }
-
-    /////////////////////////////////
-    // Restore Instance State Here
-    /////////////////////////////////
-
-    private void restoreState() {
-        if (mSavedState != null) {
-            // For Example
-            //tv1.setText(savedState.getString("text"));
-            onRestoreState(mSavedState);
-        }
-    }
-
-    protected void onRestoreState(Bundle savedInstanceState) {
-
-    }
-
-    //////////////////////////////
-    // Save Instance State Here
-    //////////////////////////////
-
-    private Bundle saveState() {
-        Bundle state = new Bundle();
-        // For Example
-        //state.putString("text", tv1.getText().toString());
-        onSaveState(state);
-        return state;
-    }
-
-    protected void onSaveState(Bundle outState) {
-
     }
 
     protected void toast(String text) {

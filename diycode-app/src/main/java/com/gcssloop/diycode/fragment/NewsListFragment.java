@@ -28,7 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gcssloop.diycode.base.app.SimpleRefreshRecyclerFragment;
+import com.gcssloop.diycode.fragment.base.SimpleRefreshRecyclerFragment;
 import com.gcssloop.diycode.fragment.provider.NewsProvider;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;

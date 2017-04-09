@@ -27,7 +27,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
-import com.gcssloop.diycode.base.app.SimpleRefreshRecyclerFragment;
+import com.gcssloop.diycode.fragment.base.SimpleRefreshRecyclerFragment;
 import com.gcssloop.diycode.fragment.provider.TopicProvider;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;

@@ -27,7 +27,7 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.gcssloop.diycode.R;
-import com.gcssloop.diycode.base.app.BaseFragment;
+import com.gcssloop.diycode.fragment.base.BaseFragment;
 import com.gcssloop.diycode.base.app.ViewHolder;
 
 public class TextFragment extends BaseFragment {

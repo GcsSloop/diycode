@@ -28,7 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.gcssloop.diycode.base.app.RefreshRecyclerFragment;
+import com.gcssloop.diycode.fragment.base.RefreshRecyclerFragment;
 import com.gcssloop.diycode.fragment.provider.SiteItem;
 import com.gcssloop.diycode.fragment.provider.SiteProvider;
 import com.gcssloop.diycode.fragment.provider.SitesItem;
