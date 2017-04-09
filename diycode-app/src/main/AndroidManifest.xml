@@ -87,7 +87,10 @@
             android:name=".activity.NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.TopicActivity">
+        <activity
+            android:name=".activity.TopicActivity"
+            android:launchMode="singleTop"
+            >
         </activity>
     </application>
 
