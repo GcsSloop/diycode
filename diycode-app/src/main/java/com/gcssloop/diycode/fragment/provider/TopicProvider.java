@@ -51,15 +51,15 @@ public class TopicProvider extends BaseViewProvider<Topic> {
      * 在绑定数据时调用，需要用户自己处理
      *
      * @param holder ViewHolder
-     * @param topic   数据
+     * @param bean   数据
      */
     @Override
-    public void onBindView(RecyclerViewHolder holder, final Topic topic) {
-        final User user = topic.getUser();
+    public void onBindView(RecyclerViewHolder holder, final Topic bean) {
+        final User user = bean.getUser();
         holder.setText(R.id.username, user.getLogin());
-        holder.setText(R.id.node_name, topic.getNode_name());
-        holder.setText(R.id.time, TimeUtil.computePastTime(topic.getUpdated_at()));
-        holder.setText(R.id.title, topic.getTitle());
+        holder.setText(R.id.node_name, bean.getNode_name());
+        holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
+        holder.setText(R.id.title, bean.getTitle());
 
         // 加载头像
         ImageView imageView = holder.get(R.id.avatar);
@@ -69,7 +69,7 @@ public class TopicProvider extends BaseViewProvider<Topic> {
             url2 = url.replace("large_avatar", "avatar");
         Glide.with(mContext).load(url2).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
 
-        String state = "评论 "+topic.getReplies_count();
+        String state = "评论 "+bean.getReplies_count();
         holder.setText(R.id.state, state);
 
         holder.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +84,7 @@ public class TopicProvider extends BaseViewProvider<Topic> {
         holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TopicContentActivity.newInstance(mContext, topic);
+                TopicContentActivity.newInstance(mContext, bean);
             }
         });
     }

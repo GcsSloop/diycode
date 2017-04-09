@@ -35,7 +35,6 @@ import com.gcssloop.diycode_sdk.api.topic.event.GetTopicsListEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsListEvent> {
@@ -50,7 +49,7 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
     }
 
     @Override public void initData(HeaderFooterAdapter adapter) {
-        List<Topic> topics = mDataCache.getTopicsList();
+        List<Object> topics = mDataCache.getTopicsListObj();
         if (null != topics && topics.size() > 0) {
             Logger.e("topics : " + topics.size());
             pageIndex = mConfig.getTopicListPageIndex();
@@ -83,14 +82,14 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         adapter.clearDatas();
         adapter.addDatas(event.getBean());
         toast("刷新成功");
-        mDataCache.saveTopicsList(convert(adapter.getDatas()));
+        mDataCache.saveTopicsListObj(adapter.getDatas());
     }
 
     @Override protected void onLoadMore(GetTopicsListEvent event, HeaderFooterAdapter adapter) {
         // TODO 排除重复数据
         adapter.addDatas(event.getBean());
         toast("加载更多成功");
-        mDataCache.saveTopicsList(convert(adapter.getDatas()));
+        mDataCache.saveTopicsListObj(adapter.getDatas());
     }
 
     @Override protected void onError(GetTopicsListEvent event, String postType) {
@@ -101,22 +100,8 @@ public class TopicListFragment extends RefreshRecyclerFragment<Topic, GetTopicsL
         }
     }
 
-    public ArrayList<Topic> convert(List<Object> objects) {
-        ArrayList<Topic> topics = new ArrayList<>();
-        for (Object obj : objects) {
-            if (obj instanceof Topic)
-                topics.add((Topic) obj);
-        }
-        return topics;
-    }
-
     @Override public void onDestroyView() {
         super.onDestroyView();
-        saveState();
-    }
-
-    // 保存状态
-    private void saveState() {
         // 存储 PageIndex
         mConfig.saveTopicListPageIndex(pageIndex);
         // 存储 RecyclerView 滚动位置

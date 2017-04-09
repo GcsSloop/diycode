@@ -23,19 +23,46 @@
 package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.gcssloop.diycode.base.recyclerview.SpeedyLinearLayoutManager;
 import com.gcssloop.diycode.fragment.provider.NewsProvider;
-import com.gcssloop.diycode_sdk.api.base.event.BaseEvent;
 import com.gcssloop.diycode_sdk.api.news.bean.New;
+import com.gcssloop.diycode_sdk.api.news.event.GetNewsListEvent;
+import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.recyclerview.adapter.multitype.HeaderFooterAdapter;
 
-public class NewsListFragment2 extends RefreshRecyclerFragment {
+import java.util.List;
+
+public class NewsListFragment2 extends RefreshRecyclerFragment<New, GetNewsListEvent> {
+
+    private boolean isFirstLaunch = true;
+
+    public static NewsListFragment2 newInstance() {
+        Bundle args = new Bundle();
+        NewsListFragment2 fragment = new NewsListFragment2();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override public void initData(HeaderFooterAdapter adapter) {
-
+        List<Object> news = mDataCache.getNewsListObj();
+        if (null != news && news.size() > 0) {
+            Logger.e("news : " + news.size());
+            pageIndex = mConfig.getNewsListPageIndex();
+            adapter.addDatas(news);
+            if (isFirstLaunch) {
+                int lastPosition = mConfig.getNewsListLastPosition();
+                mRecyclerView.getLayoutManager().scrollToPosition(lastPosition);
+                isFirstAddFooter = false;
+                isFirstLaunch = false;
+            }
+        } else {
+            loadMore();
+        }
     }
 
     @Override protected void setRecyclerViewAdapter(Context context, RecyclerView recyclerView,
@@ -51,15 +78,35 @@ public class NewsListFragment2 extends RefreshRecyclerFragment {
         return mDiycode.getNewsList(null, offset,limit);
     }
 
-    @Override protected void onLoadMore(BaseEvent event, HeaderFooterAdapter adapter) {
-
+    @Override protected void onRefresh(GetNewsListEvent event, HeaderFooterAdapter adapter) {
+        adapter.clearDatas();
+        adapter.addDatas(event.getBean());
+        toast("下拉刷新成功");
+        mDataCache.saveNewsListObj(adapter.getDatas());
     }
 
-    @Override protected void onRefresh(BaseEvent event, HeaderFooterAdapter adapter) {
-
+    @Override protected void onLoadMore(GetNewsListEvent event, HeaderFooterAdapter adapter) {
+        // TODO 排除重复数据
+        adapter.addDatas(event.getBean());
+        toast("加载更多成功");
+        mDataCache.saveNewsListObj(adapter.getDatas());
     }
 
-    @Override protected void onError(BaseEvent event, String postType) {
+    @Override protected void onError(GetNewsListEvent event, String postType) {
+        if (postType.equals(POST_LOAD_MORE)) {
+            toast("加载更多失败");
+        } else if (postType.equals(POST_REFRESH)) {
+            toast("刷新数据失败");
+        }
+    }
 
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        // 存储 PageIndex
+        mConfig.saveNewsListPageIndex(pageIndex);
+        // 存储 RecyclerView 滚动位置
+        View view = mRecyclerView.getLayoutManager().getChildAt(0);
+        int lastPosition = mRecyclerView.getLayoutManager().getPosition(view);
+        mConfig.saveNewsListPosition(lastPosition);
     }
 }

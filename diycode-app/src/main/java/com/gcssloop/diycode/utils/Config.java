@@ -144,6 +144,17 @@ public class Config {
         return getData(Key_NewsList_LastScroll, 0);
     }
 
+    private String Key_NewsList_LastPosition = "Key_NewsList_LastPosition";
+
+    public void saveNewsListPosition(Integer lastPosition) {
+        saveData(Key_NewsList_LastPosition, lastPosition);
+    }
+
+    public Integer getNewsListLastPosition() {
+        return getData(Key_NewsList_LastPosition, 0);
+    }
+
+
     private String Key_NewsList_PageIndex = "Key_NewsList_PageIndex";
 
     public void saveNewsListPageIndex(Integer pageIndex) {

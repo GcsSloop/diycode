@@ -37,10 +37,12 @@ import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
 public abstract class BaseViewProvider<T> {
     private LayoutInflater mInflater;
     private int mLayoutId;
+    protected Context mContext;
 
     public BaseViewProvider(@NonNull Context context, @NonNull @LayoutRes int layout_id) {
         mInflater = LayoutInflater.from(context);
         mLayoutId = layout_id;
+        mContext = context;
     }
 
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent) {

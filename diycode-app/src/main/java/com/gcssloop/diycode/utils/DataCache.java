@@ -28,7 +28,6 @@ import android.util.LruCache;
 
 import com.gcssloop.diycode_sdk.api.news.bean.New;
 import com.gcssloop.diycode_sdk.api.sites.bean.Sites;
-import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicContent;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.user.bean.UserDetail;
@@ -105,13 +104,13 @@ public class DataCache {
         return getData("topic_reply_" + topic_id);
     }
 
-    public void saveTopicsList(List<Topic> topicList) {
-        ArrayList<Topic> topics = new ArrayList<>(topicList);
-        saveData("topic_list_", topics);
+    public void saveTopicsListObj(List<Object> topicList) {
+        ArrayList<Object> topics = new ArrayList<>(topicList);
+        saveData("topic_list_obj_", topics);
     }
 
-    public List<Topic> getTopicsList() {
-        return getData("topic_list_");
+    public List<Object> getTopicsListObj() {
+        return getData("topic_list_obj_");
     }
 
     public void saveNewsList(List<New> newList) {
@@ -121,6 +120,15 @@ public class DataCache {
 
     public List<New> getNewsList() {
         return getData("news_list_");
+    }
+
+    public void saveNewsListObj(List<Object> newList) {
+        ArrayList<Object> news = new ArrayList<>(newList);
+        saveData("news_list_obj_", news);
+    }
+
+    public List<Object> getNewsListObj() {
+        return getData("news_list_obj_");
     }
 
     public void saveMe(UserDetail user) {
