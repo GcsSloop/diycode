@@ -23,7 +23,6 @@
 package com.gcssloop.diycode.fragment.provider;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +30,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gcssloop.diycode.R;
+import com.gcssloop.diycode.activity.TopicActivity;
 import com.gcssloop.diycode.activity.TopicContentActivity;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.utils.TimeUtil;
@@ -40,11 +40,9 @@ import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
 import com.gcssloop.recyclerview.adapter.multitype.BaseViewProvider;
 
 public class TopicProvider extends BaseViewProvider<Topic> {
-    private Context mContext;
 
     public TopicProvider(@NonNull Context context) {
         super(context, R.layout.item_topic);
-        mContext = context;
     }
 
     /**
@@ -69,23 +67,26 @@ public class TopicProvider extends BaseViewProvider<Topic> {
             url2 = url.replace("large_avatar", "avatar");
         Glide.with(mContext).load(url2).diskCacheStrategy(DiskCacheStrategy.RESULT).into(imageView);
 
-        String state = "评论 "+bean.getReplies_count();
+        String state = "评论 " + bean.getReplies_count();
         holder.setText(R.id.state, state);
 
-        holder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, UserActivity.class);
-                intent.putExtra(UserActivity.USER, user);
-                mContext.startActivity(intent);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.avatar:
+                    case R.id.username:
+                        UserActivity.newInstance(mContext, user);
+                        break;
+                    case R.id.item:
+                        TopicContentActivity.newInstance(mContext, bean);
+                        break;
+                    case R.id.node_name:
+                        TopicActivity.newInstance(mContext, bean.getNode_id(), bean.getNode_name());
+                        break;
+                }
             }
-        }, R.id.avatar, R.id.username);
+        };
 
-        holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TopicContentActivity.newInstance(mContext, bean);
-            }
-        });
+        holder.setOnClickListener(listener, R.id.avatar, R.id.username, R.id.item, R.id.node_name);
     }
 }

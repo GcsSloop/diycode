@@ -129,6 +129,7 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     protected void loadMore() {
         if (!loadMoreEnable) return;
+        if (mState == STATE_NO_MORE) return;
         String uuid = request(pageIndex * pageCount, pageCount);
         mPostTypes.put(uuid, POST_LOAD_MORE);
         pageIndex++;

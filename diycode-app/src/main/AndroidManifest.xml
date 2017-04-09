@@ -63,29 +63,31 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.WebActivity">
+            android:name=".activity.WebActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activity.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.SettingActivity">
+            android:name=".activity.SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.MyTopicActivity">
+            android:name=".activity.MyTopicActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.AboutActivity">
+            android:name=".activity.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.NotificationActivity">
+            android:name=".activity.NotificationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".activity.TopicActivity">
         </activity>
     </application>
 
