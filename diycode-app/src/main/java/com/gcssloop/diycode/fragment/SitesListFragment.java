@@ -24,8 +24,6 @@ package com.gcssloop.diycode.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,11 +42,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SitesListFragment2 extends RefreshRecyclerFragment<Sites, GetSitesEvent> {
+public class SitesListFragment extends RefreshRecyclerFragment<Sites, GetSitesEvent> {
 
-    public static SitesListFragment2 newInstance() {
+    public static SitesListFragment newInstance() {
         Bundle args = new Bundle();
-        SitesListFragment2 fragment = new SitesListFragment2();
+        SitesListFragment fragment = new SitesListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,7 +57,6 @@ public class SitesListFragment2 extends RefreshRecyclerFragment<Sites, GetSitesE
         if (sitesList != null) {
             Logger.e("sites : " + sitesList.size());
             mAdapter.addDatas(sitesList);
-            setRefreshEnable(false);
             setLoadMoreEnable(false);
         } else {
             loadMore();
@@ -104,40 +101,23 @@ public class SitesListFragment2 extends RefreshRecyclerFragment<Sites, GetSitesE
 
     // 转换数据
     private void convertData(final List<Sites> sitesList) {
-        final Handler handler = new Handler(new Handler.Callback() {
-            @Override public boolean handleMessage(Message msg) {
-                Bundle bundle = msg.getData();
-                ArrayList<Serializable> items = (ArrayList<Serializable>) bundle.get("Items");
-                mAdapter.clearDatas();
-                mAdapter.addDatas(items);
-                mDataCache.saveSitesItems(items);
-                return false;
+        ArrayList<Serializable> items = new ArrayList<>();
+        for (Sites sites : sitesList) {
+
+            items.add(new SitesItem(sites.getName()));
+
+            for (Sites.Site site : sites.getSites()) {
+                items.add(new SiteItem(site.getName(), site.getUrl(), site.getAvatar_url()));
             }
-        });
-        new Thread(new Runnable() {
-            @Override public void run() {
-                ArrayList<Serializable> items = new ArrayList<>();
-                for (Sites sites : sitesList) {
 
-                    items.add(new SitesItem(sites.getName()));
-
-                    for (Sites.Site site : sites.getSites()) {
-                        items.add(new SiteItem(site.getName(), site.getUrl(), site.getAvatar_url()));
-                    }
-
-                    if (sites.getSites().size() % 2 == 1) {
-                        items.add(new SiteItem("", "", ""));
-                    }
-                }
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Items", items);
-                Message msg = new Message();
-                msg.obj = bundle;
-                handler.sendMessage(msg);
+            if (sites.getSites().size() % 2 == 1) {
+                items.add(new SiteItem("", "", ""));
             }
-        });
+        }
+
+        mAdapter.clearDatas();
+        mAdapter.addDatas(items);
+        mDataCache.saveSitesItems(items);
         setLoadMoreEnable(false);
-        setRefreshEnable(false);
     }
 }

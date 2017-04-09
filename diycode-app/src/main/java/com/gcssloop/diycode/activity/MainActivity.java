@@ -44,7 +44,7 @@ import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
 import com.gcssloop.diycode.fragment.NewsListFragment;
-import com.gcssloop.diycode.fragment.SitesListFragment2;
+import com.gcssloop.diycode.fragment.SitesListFragment;
 import com.gcssloop.diycode.fragment.TopicListFragment;
 import com.gcssloop.diycode.test.TextFragment;
 import com.gcssloop.diycode.utils.Config;
@@ -66,7 +66,7 @@ public class MainActivity extends BaseActivity
     private int mCurrentPosition = 0;
     private TopicListFragment mFragment1;
     private NewsListFragment mFragment2;
-    private SitesListFragment2 mFragment3;
+    private SitesListFragment mFragment3;
 
     private boolean isToolbarFirstClick = true;
 
@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity
 
         mFragment1 = TopicListFragment.newInstance();
         mFragment2 = NewsListFragment.newInstance();
-        mFragment3 = SitesListFragment2.newInstance();
+        mFragment3 = SitesListFragment.newInstance();
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] types = {"Topics", "News", "Sites", "Test"};
