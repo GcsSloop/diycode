@@ -93,36 +93,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="使用内置浏览器"
-                    android:textSize="16sp"/>
-
-                <Switch
-                    android:id="@+id/use_inside_browser"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:checked="true"
-                    android:textOff="用户"
-                    android:textOn="内置"/>
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/diy_white"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:src="@color/diy_gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/diy_white"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:text="当前版本"
                     android:textSize="16sp"/>
 
@@ -143,6 +113,15 @@
                 android:paddingRight="16dp"
                 android:src="@color/diy_gray"/>
 
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/check_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/diy_white"
+                android:padding="16dp"
+                android:text="检测更新"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/about"
