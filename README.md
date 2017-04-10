@@ -82,7 +82,7 @@ Diycode 社区客户端，可以更方便的在手机上查看社区信息。应
 - [02 - 缓存 WebView 中的图片](blog/journal-02.md)
 - [03 - 点击网页图片查看大图](blog/journal-03.md)
 - [04 - API 的封装哲学](blog/journal-04.md)
-- [04 - 使用抽象类节省 1000 行代码](blog/journal-04.md)
+- [05 - 使用抽象类节省 1000 行代码](blog/journal-05.md)
 
 ## 作者简介
 
