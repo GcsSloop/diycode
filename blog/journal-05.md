@@ -1,4 +1,4 @@
-# 05 - 使用抽象类来节省 1000 行代码
+# 05 - 使用抽象类节省 1000 行代码
 
 diycode v0.1.0 发布了，你可以到这里 [查看更新](http://www.gcssloop.com/diycode/) ，[查看源码](https://github.com/GcsSloop/diycode) 。
 
