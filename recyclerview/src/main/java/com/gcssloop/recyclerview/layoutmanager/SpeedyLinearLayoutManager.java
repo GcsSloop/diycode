@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified 2017-04-09 01:38:32
+ * Last modified 2017-04-10 20:16:42
  *
  * GitHub:  https://github.com/GcsSloop
  * Website: http://www.gcssloop.com
  * Weibo:   http://weibo.com/GcsSloop
  */
 
-package com.gcssloop.diycode.base.recyclerview;
+package com.gcssloop.recyclerview.layoutmanager;
 
 import android.content.Context;
 import android.graphics.PointF;

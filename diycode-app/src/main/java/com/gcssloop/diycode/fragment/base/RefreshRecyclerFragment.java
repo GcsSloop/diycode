@@ -215,18 +215,73 @@ public abstract class RefreshRecyclerFragment<T, Event extends BaseEvent<List<T>
 
     //--- 需要继承类处理的部分 ----------------------------------------------------------------------
 
+    /**
+     * 加载数初始化数据，可以从缓存或者其他地方加载，
+     * 如果没有初始数据，一般调用 loadMore() 即可。
+     *
+     * @param adapter 适配器
+     */
     public abstract void initData(HeaderFooterAdapter adapter);
 
+    /**
+     * 为 RecyclerView 的 Adapter 注册数据类型
+     * 例如： adapter.register(Bean.class, new BeanProvider(getContext()));
+     *
+     * @param context      上下文
+     * @param recyclerView RecyclerView
+     * @param adapter      Adapter
+     */
     protected abstract void setAdapterRegister(Context context, RecyclerView recyclerView,
                                                HeaderFooterAdapter adapter);
 
+    /**
+     * 获取 RecyclerView 的 LayoutManager
+     * 例如： return new LinerLayoutManager(context);
+     *
+     * @return LayoutManager
+     */
     @NonNull protected abstract RecyclerView.LayoutManager getRecyclerViewLayoutManager();
 
+    /**
+     * 请求数据，并返回请求的 uuid
+     * 例如：return mDiycode.getTopicsList(null, mNodeId, offset, limit);
+     *
+     * @param offset 偏移量
+     * @param limit  请求数量
+     * @return uuid
+     */
     @NonNull protected abstract String request(int offset, int limit);
 
+    /**
+     * 数据刷新成功的回调，由于不同页面可能要对数据进行处理，例如重新排序，清理掉一些无效数据等，所以由子类自己实现，
+     * 如果不需要特殊处理，一般像下面这样写就行:
+     * adapter.clearDatas();
+     * adapter.addDatas(event.geiBean());
+     *
+     * @param event   Event
+     * @param adapter Adapter
+     */
     protected abstract void onRefresh(Event event, HeaderFooterAdapter adapter);
 
+    /**
+     * 数据加载成功时调用，如果不需要对数据进行特殊处理，这样写就行：
+     * adapter.addDatas(event.getBean());
+     *
+     * @param event   Event
+     * @param adapter Adapter
+     */
     protected abstract void onLoadMore(Event event, HeaderFooterAdapter adapter);
 
+    /**
+     * 数据加载错误时调用，你可以在这里获取错误类型并进行处理，如果不需要特殊处理，弹出一个 toast 提醒用户即可。
+     * if (postType.equals(POST_LOAD_MORE)) {
+     * toast("加载更多失败");
+     * } else if (postType.equals(POST_REFRESH)) {
+     * toast("刷新数据失败");
+     * }
+     *
+     * @param event
+     * @param postType
+     */
     protected abstract void onError(Event event, String postType);
 }
