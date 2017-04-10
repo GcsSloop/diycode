@@ -27,19 +27,21 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.activity.UserActivity;
 import com.gcssloop.diycode.base.glide.GlideImageGetter;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
 import com.gcssloop.diycode.utils.HtmlUtil;
+import com.gcssloop.diycode.utils.ImageUtils;
 import com.gcssloop.diycode_sdk.api.topic.bean.TopicReply;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
 import com.gcssloop.diycode.utils.TimeUtil;
+import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.singletype.SingleTypeAdapter;
 
-public class TopicReplyAdapter extends GcsAdapter<TopicReply> {
+public class TopicReplyAdapter extends SingleTypeAdapter<TopicReply> {
     private Context mContext;
 
     public TopicReplyAdapter(@NonNull Context context) {
@@ -47,12 +49,20 @@ public class TopicReplyAdapter extends GcsAdapter<TopicReply> {
         mContext = context;
     }
 
-    @Override
-    public void convert(int position, GcsViewHolder holder, TopicReply bean) {
+    /**
+     * 在此处处理数据
+     *
+     * @param position 位置
+     * @param holder   view holder
+     * @param bean     数据
+     */
+    @Override public void convert(int position, RecyclerViewHolder holder, TopicReply bean) {
         final User user = bean.getUser();
         holder.setText(R.id.username, user.getLogin());
         holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
-        holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+
+        ImageView avatar = holder.get(R.id.avatar);
+        ImageUtils.loadImage(mContext, user.getAvatar_url(), avatar);
         TextView content = holder.get(R.id.content);
         // TODO 评论区代码问题
         content.setText(Html.fromHtml(HtmlUtil.removeP(bean.getBody_html()), new GlideImageGetter(mContext, content), null));

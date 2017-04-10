@@ -35,8 +35,7 @@ import android.widget.TextView;
 import com.gcssloop.diycode.R;
 import com.gcssloop.diycode.base.app.BaseActivity;
 import com.gcssloop.diycode.base.app.ViewHolder;
-import com.gcssloop.diycode.base.recyclerview.GcsAdapter;
-import com.gcssloop.diycode.base.recyclerview.GcsViewHolder;
+import com.gcssloop.diycode.utils.ImageUtils;
 import com.gcssloop.diycode.utils.RecyclerViewUtil;
 import com.gcssloop.diycode_sdk.api.topic.bean.Topic;
 import com.gcssloop.diycode_sdk.api.user.bean.User;
@@ -45,6 +44,8 @@ import com.gcssloop.diycode_sdk.api.user.event.GetUserCreateTopicListEvent;
 import com.gcssloop.diycode_sdk.api.user.event.GetUserEvent;
 import com.gcssloop.diycode_sdk.log.Logger;
 import com.gcssloop.diycode.utils.TimeUtil;
+import com.gcssloop.recyclerview.adapter.base.RecyclerViewHolder;
+import com.gcssloop.recyclerview.adapter.singletype.SingleTypeAdapter;
 import com.gcssloop.view.utils.DensityUtils;
 import com.github.florent37.expectanim.ExpectAnim;
 
@@ -72,7 +73,7 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     public static String TYPE_USER_REPLY = "user_reply";
     public static String USER = "user";
     private ExpectAnim expectAnimMove;
-    private GcsAdapter<Topic> mAdapter;
+    private SingleTypeAdapter<Topic> mAdapter;
 
     public static void newInstance(@NonNull Context context, @NonNull User user) {
         Intent intent = new Intent(context, UserActivity.class);
@@ -105,15 +106,22 @@ public class UserActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initRecyclerView(ViewHolder holder) {
-        mAdapter = new GcsAdapter<Topic>(this, R.layout.item_topic) {
-            @Override
-            public void convert(int position, GcsViewHolder holder, final Topic bean) {
+        mAdapter = new SingleTypeAdapter<Topic>(this, R.layout.item_topic) {
+            /**
+             * 在此处处理数据
+             *
+             * @param position 位置
+             * @param holder   view holder
+             * @param bean     数据
+             */
+            @Override public void convert(int position, RecyclerViewHolder holder, final Topic bean) {
                 final User user = bean.getUser();
                 holder.setText(R.id.username, user.getLogin());
                 holder.setText(R.id.node_name, bean.getNode_name());
                 holder.setText(R.id.time, TimeUtil.computePastTime(bean.getUpdated_at()));
                 holder.setText(R.id.title, bean.getTitle());
-                holder.loadImage(mContext, user.getAvatar_url(), R.id.avatar);
+                ImageView avatar = holder.get(R.id.avatar);
+                ImageUtils.loadImage(mContext, user.getAvatar_url(), avatar);
                 holder.get(R.id.item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
