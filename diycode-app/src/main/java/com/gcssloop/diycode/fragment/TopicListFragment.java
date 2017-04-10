@@ -52,6 +52,7 @@ public class TopicListFragment extends SimpleRefreshRecyclerFragment<Topic, GetT
     }
 
     @Override public void initData(HeaderFooterAdapter adapter) {
+        // 优先从缓存中获取数据，如果是第一次加载则恢复滚动位置，如果没有缓存则从网络加载
         List<Object> topics = mDataCache.getTopicsListObj();
         if (null != topics && topics.size() > 0) {
             Logger.e("topics : " + topics.size());

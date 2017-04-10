@@ -52,6 +52,7 @@ public class NewsListFragment extends SimpleRefreshRecyclerFragment<New, GetNews
     }
 
     @Override public void initData(HeaderFooterAdapter adapter) {
+        // 优先从缓存中获取数据，如果是第一次加载则恢复滚动位置，如果没有缓存则从网络加载
         List<Object> news = mDataCache.getNewsListObj();
         if (null != news && news.size() > 0) {
             Logger.e("news : " + news.size());
