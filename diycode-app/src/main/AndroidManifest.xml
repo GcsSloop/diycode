@@ -85,8 +85,9 @@
         </activity>
         <activity
             android:name=".activity.TopicActivity"
-            android:launchMode="singleTop"
-            >
+            android:launchMode="singleTop">
+        </activity>
+        <activity android:name=".activity.NodeListActivity">
         </activity>
     </application>
 
