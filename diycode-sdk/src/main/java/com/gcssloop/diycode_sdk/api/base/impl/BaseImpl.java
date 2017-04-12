@@ -129,6 +129,7 @@ public class BaseImpl<Service> {
                 .addInterceptor(interceptor)                // 设置拦截器
                 .retryOnConnectionFailure(true)             // 是否重试
                 .connectTimeout(5, TimeUnit.SECONDS)        // 连接超时事件
+                .readTimeout(5, TimeUnit.SECONDS)           // 读取超时时间
                 .addNetworkInterceptor(mTokenInterceptor)   // 自动附加 token
                 .authenticator(mAuthenticator)              // 认证失败自动刷新token
                 .build();
