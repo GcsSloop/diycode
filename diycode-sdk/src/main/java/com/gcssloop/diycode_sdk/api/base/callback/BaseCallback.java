@@ -45,8 +45,8 @@ public class BaseCallback<T> implements Callback<T> {
      * Note: An HTTP response may still indicate an application-level failure such as a 404 or 500.
      * Call {@link Response#isSuccessful()} to determine if the response indicates success.
      *
-     * @param call
-     * @param response
+     * @param call     回调
+     * @param response 请求
      */
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
@@ -61,8 +61,8 @@ public class BaseCallback<T> implements Callback<T> {
      * Invoked when a network exception occurred talking to the server or when an unexpected
      * exception occurred creating the request or processing the response.
      *
-     * @param call
-     * @param t
+     * @param call 回调
+     * @param t    抛出的异常
      */
     @Override
     public void onFailure(Call<T> call, Throwable t) {
