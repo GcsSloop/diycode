@@ -23,9 +23,11 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!--正常-->
     <item android:drawable="@drawable/bg_login_nomal" android:state_enabled="true" android:state_window_focused="false"/>
     <item android:drawable="@drawable/bg_login_nomal" android:state_enabled="false"/>
-    <item android:drawable="@drawable/bg_login_click" android:state_pressed="true"/>
     <item android:drawable="@drawable/bg_login_nomal" android:state_focused="true"/>
+    <!--按压-->
+    <item android:drawable="@drawable/bg_login_click" android:state_pressed="true"/>
 
 </selector>
