@@ -153,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 打开 Avtivity 的同时传递一个数据
+     * 打开 Activity 的同时传递一个数据
      */
     protected <V extends Serializable> void openActivity(Class<?> cls, String key, V value) {
         openActivity(this, cls, key, value);
@@ -161,7 +161,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     /**
-     * 打开 Avtivity 的同时传递一个数据
+     * 打开 Activity 的同时传递一个数据
      */
     public <V extends Serializable> void openActivity(Context context, Class<?> cls, String key, V value) {
         Intent intent = new Intent(context, cls);
