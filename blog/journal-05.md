@@ -395,8 +395,6 @@ public class TopicListFragment extends BaseFragment {
 }
 ```
 
-
-
 如果想要了解我更多的话，可以关注我的微博和网站，详情见下方。
 
 微博： http://weibo.com/GcsSloop  
