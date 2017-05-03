@@ -42,6 +42,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import static android.support.v7.recyclerview.R.styleable.RecyclerView;
+
 /**
  * 具有下拉刷新和上拉加载的 Fragment
  */
