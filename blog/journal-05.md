@@ -106,7 +106,7 @@ Fragment(系统)
   +- BaseFragment
  	   +- RefreshRecyclerFragment
  	   	    +- SimpleRefreshRecyclerFragment
- 	   	    	+- NodeTopicListFragment
+ 	   	    	+- NodeTopicListFragment(最终页面)
 ```
 
 先说明一下其中各个 Fragment 的作用:
