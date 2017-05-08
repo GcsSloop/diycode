@@ -38,7 +38,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="theme_splash" parent="@android:style/Theme.NoTitleBar">
+    <style name="theme_splash" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowAnimationStyle">@null</item>
     </style>
