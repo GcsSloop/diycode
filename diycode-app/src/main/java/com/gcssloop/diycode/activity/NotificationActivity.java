@@ -41,6 +41,7 @@ public class NotificationActivity extends BaseActivity {
     }
 
     @Override protected void initViews(ViewHolder holder, View root) {
+        setTitle("通知");
         NotificationsFragment fragment = NotificationsFragment.newInstance();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
